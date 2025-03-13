@@ -337,106 +337,110 @@
         </div>
     </div>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script>
-        // Инициализация Telegram Web App
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
+<script>
+    // Инициализация Telegram Web App
+    window.Telegram.WebApp.ready();
+    window.Telegram.WebApp.expand();
 
-        // Глобальные переменные
-        let balance = 0;
-        let orderCount = 0;
-        let referralCount = 0;
-        let referralDeposits = 0;
-        let orderHistory = [];
-        let selectedCity = 'all';
-        let selectedDistrict = 'all';
-        let currentUser = null;
-        let mailMessages = [];
-        let pendingPayments = {};
-        let BTC_RATE = 2000000;
+    // Глобальные переменные
+    let balance = 0;
+    let orderCount = 0;
+    let referralCount = 0;
+    let referralDeposits = 0;
+    let orderHistory = [];
+    let selectedCity = 'all';
+    let selectedDistrict = 'all';
+    let currentUser = null;
+    let mailMessages = [];
+    let pendingPayments = {};
+    let BTC_RATE = 2000000;
+    let products = null; // Пока null, чтобы явно показать, что не инициализировано
 
-        const BOT_B_TOKEN = '7589545725:AAHoedAqoGh_k0WWdUs1rcBN1yddUtBFhsk';
-        const ADMIN_CHAT_ID = '5956080955';
+    const BOT_B_TOKEN = '7589545725:AAHoedAqoGh_k0WWdUs1rcBN1yddUtBFhsk';
+    const ADMIN_CHAT_ID = '5956080955';
 
-        const testAddresses = {
-            BTC: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
-            ETH: "0x32Be343B94f860124dC4fEe278FDCBD38C102D88",
-            USDT: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-            SOL: "5yK7e5a8j9k2m3n4p5q6r7s8t9u0v1w2x3y4z5A6B7C8D9E0F1G2H",
-            TON: "EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c"
-        };
+    const testAddresses = {
+        BTC: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+        ETH: "0x32Be343B94f860124dC4fEe278FDCBD38C102D88",
+        USDT: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+        SOL: "5yK7e5a8j9k2m3n4p5q6r7s8t9u0v1w2x3y4z5A6B7C8D9E0F1G2H",
+        TON: "EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c"
+    };
 
-        // Данные продуктов (перенесено выше функций)
-        const cities = {
-            "phuket": {
-                "Патонг": { lat: "7.891", lon: "98.298", desc: "Под пальмой у третьего шезлонга, закопано в песке, чёрный пакет." },
-                "Карон": { lat: "7.846", lon: "98.295", desc: "Под камнем у забора, магнит в синей изоленте." },
-                "Пхукет-таун": { lat: "7.883", lon: "98.391", desc: "В кустах за старым ларьком, завёрнуто в зелёную плёнку." },
-                "Ката": { lat: "7.820", lon: "98.299", desc: "Под скамейкой у пляжа, завёрнуто в чёрную плёнку." }
-            },
-            "pattaya": {
-                "Центральная Паттайя": { lat: "12.935", lon: "100.887", desc: "В щели стены у бара, магнит в красной изоленте." },
-                "Джомтьен": { lat: "12.903", lon: "100.869", desc: "Под кустом у дороги, завёрнуто в серую ткань." },
-                "Наклуа": { lat: "12.970", lon: "100.900", desc: "За мусоркой у рынка, чёрный пакет." },
-                "Южная Паттайя": { lat: "12.923", lon: "100.882", desc: "Под камнем у пирса, завёрнуто в зелёную плёнку." }
-            },
-            "bangkok": {
-                "Сукхумвит": { lat: "13.736", lon: "100.561", desc: "В щели стены у метро, магнит в жёлтой изоленте." },
-                "Каосан": { lat: "13.759", lon: "100.497", desc: "Под скамейкой у хостела, завёрнуто в чёрную плёнку." },
-                "Силом": { lat: "13.723", lon: "100.535", desc: "За вывеской у бара, магнит в синей изоленте." },
-                "Чатучак": { lat: "13.799", lon: "100.548", desc: "В кустах у рынка, завёрнуто в серую ткань." }
-            },
-            "samui": {
-                "Чавенг": { lat: "9.520", lon: "100.057", desc: "Под шезлонгом у бара, завёрнуто в чёрный пакет." },
-                "Ламай": { lat: "9.470", lon: "100.047", desc: "В кустах у дороги, магнит в зелёной изоленте." },
-                "Бо Пхут": { lat: "9.560", lon: "100.031", desc: "Под камнем у пирса, завёрнуто в серую ткань." },
-                "Маенам": { lat: "9.573", lon: "100.000", desc: "За мусоркой у пляжа, чёрный пакет." }
-            }
-        };
-
-        const weights = {
-            default: [1, 2, 3, 5, 10, 15, 20],
-            cokeMeph: [0.5, 1, 2, 3, 5, 10, 15, 20]
-        };
-
-        const basePrices = {
-            hash: { 1: 900, 2: 700, 3: 500, 4: 400, 5: 1000 },
-            coke: { 1: 4000, 2: 3600, 3: 3000, 4: 2400, 5: 2000 },
-            amph: { 1: 1300, 2: 1000, 3: 900, 4: 700, 5: 1500 },
-            meth: { 1: 1500, 2: 1200, 3: 1000, 4: 800, 5: 1800 },
-            meph: { 1: 1400, 2: 1100, 3: 900, 4: 700, 5: 1600 },
-            heroin: { 1: 2000, 2: 1800, 3: 1500, 4: 1200, 5: 2500 }
-        };
-
-        function generatePositions(category, productId) {
-            const isCokeOrMeph = category === 'coke' || category === 'meph';
-            const applicableWeights = isCokeOrMeph ? weights.cokeMeph : weights.default;
-            const positions = [];
-            let id = 1;
-
-            for (const city in cities) {
-                for (const district in cities[city]) {
-                    applicableWeights.forEach(weight => {
-                        const basePricePerGram = basePrices[category][productId];
-                        const price = Math.round(basePricePerGram * weight * (city === 'samui' ? 1.5 : 1));
-                        const cryptoPrice = (price / BTC_RATE).toFixed(5);
-                        const inStock = (isCokeOrMeph && weight === 0.5) || Math.random() > 0.2;
-                        positions.push({
-                            id: id++,
-                            weight,
-                            price,
-                            cryptoPrice,
-                            city,
-                            district,
-                            inStock
-                        });
-                    });
-                }
-            }
-            return positions;
+    // Данные (объявляем сразу)
+    const cities = {
+        "phuket": {
+            "Патонг": { lat: "7.891", lon: "98.298", desc: "Под пальмой у третьего шезлонга, закопано в песке, чёрный пакет." },
+            "Карон": { lat: "7.846", lon: "98.295", desc: "Под камнем у забора, магнит в синей изоленте." },
+            "Пхукет-таун": { lat: "7.883", lon: "98.391", desc: "В кустах за старым ларьком, завёрнуто в зелёную плёнку." },
+            "Ката": { lat: "7.820", lon: "98.299", desc: "Под скамейкой у пляжа, завёрнуто в чёрную плёнку." }
+        },
+        "pattaya": {
+            "Центральная Паттайя": { lat: "12.935", lon: "100.887", desc: "В щели стены у бара, магнит в красной изоленте." },
+            "Джомтьен": { lat: "12.903", lon: "100.869", desc: "Под кустом у дороги, завёрнуто в серую ткань." },
+            "Наклуа": { lat: "12.970", lon: "100.900", desc: "За мусоркой у рынка, чёрный пакет." },
+            "Южная Паттайя": { lat: "12.923", lon: "100.882", desc: "Под камнем у пирса, завёрнуто в зелёную плёнку." }
+        },
+        "bangkok": {
+            "Сукхумвит": { lat: "13.736", lon: "100.561", desc: "В щели стены у метро, магнит в жёлтой изоленте." },
+            "Каосан": { lat: "13.759", lon: "100.497", desc: "Под скамейкой у хостела, завёрнуто в чёрную плёнку." },
+            "Силом": { lat: "13.723", lon: "100.535", desc: "За вывеской у бара, магнит в синей изоленте." },
+            "Чатучак": { lat: "13.799", lon: "100.548", desc: "В кустах у рынка, завёрнуто в серую ткань." }
+        },
+        "samui": {
+            "Чавенг": { lat: "9.520", lon: "100.057", desc: "Под шезлонгом у бара, завёрнуто в чёрный пакет." },
+            "Ламай": { lat: "9.470", lon: "100.047", desc: "В кустах у дороги, магнит в зелёной изоленте." },
+            "Бо Пхут": { lat: "9.560", lon: "100.031", desc: "Под камнем у пирса, завёрнуто в серую ткань." },
+            "Маенам": { lat: "9.573", lon: "100.000", desc: "За мусоркой у пляжа, чёрный пакет." }
         }
+    };
 
-        const products = {
+    const weights = {
+        default: [1, 2, 3, 5, 10, 15, 20],
+        cokeMeph: [0.5, 1, 2, 3, 5, 10, 15, 20]
+    };
+
+    const basePrices = {
+        hash: { 1: 900, 2: 700, 3: 500, 4: 400, 5: 1000 },
+        coke: { 1: 4000, 2: 3600, 3: 3000, 4: 2400, 5: 2000 },
+        amph: { 1: 1300, 2: 1000, 3: 900, 4: 700, 5: 1500 },
+        meth: { 1: 1500, 2: 1200, 3: 1000, 4: 800, 5: 1800 },
+        meph: { 1: 1400, 2: 1100, 3: 900, 4: 700, 5: 1600 },
+        heroin: { 1: 2000, 2: 1800, 3: 1500, 4: 1200, 5: 2500 }
+    };
+
+    // Функция генерации позиций
+    function generatePositions(category, productId) {
+        const isCokeOrMeph = category === 'coke' || category === 'meph';
+        const applicableWeights = isCokeOrMeph ? weights.cokeMeph : weights.default;
+        const positions = [];
+        let id = 1;
+
+        for (const city in cities) {
+            for (const district in cities[city]) {
+                applicableWeights.forEach(weight => {
+                    const basePricePerGram = basePrices[category][productId];
+                    const price = Math.round(basePricePerGram * weight * (city === 'samui' ? 1.5 : 1));
+                    const cryptoPrice = (price / BTC_RATE).toFixed(5);
+                    const inStock = (isCokeOrMeph && weight === 0.5) || Math.random() > 0.2;
+                    positions.push({
+                        id: id++,
+                        weight,
+                        price,
+                        cryptoPrice,
+                        city,
+                        district,
+                        inStock
+                    });
+                });
+            }
+        }
+        return positions;
+    }
+
+    // Инициализация данных
+    function initializeData() {
+        products = {
             hash: {
                 1: { name: "Чёрный Афган (VHQ)", positions: generatePositions('hash', 1), reviews: [{ text: "Чёрный Афган — это просто космос! Мягкий и мощный, топ за свои деньги! — Аноним", mod: `Рады, что вам понравился Чёрный Афган! Заходите ещё, активировал вам промокод на ${getRandomPromoGood()} за крутой отзыв! — Модератор Dark Thailand` }] },
                 2: { name: "Зелёный Марокко (HQ)", positions: generatePositions('hash', 2), reviews: [] },
@@ -480,551 +484,559 @@
                 5: { name: "Чёрный Дракон (VHQ)", positions: generatePositions('heroin', 5), reviews: [] }
             }
         };
+    }
 
-        // Функции
-        async function fetchBTCRate() {
-            try {
-                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=thb');
-                const data = await response.json();
-                BTC_RATE = data.bitcoin.thb;
-                console.log(`Актуальный курс BTC/THB: ${BTC_RATE}`);
-            } catch (error) {
-                console.error('Ошибка получения курса BTC:', error);
-                BTC_RATE = 2000000;
-            }
+    // Функции
+    async function fetchBTCRate() {
+        try {
+            const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=thb');
+            const data = await response.json();
+            BTC_RATE = data.bitcoin.thb;
+            console.log(`Актуальный курс BTC/THB: ${BTC_RATE}`);
+        } catch (error) {
+            console.error('Ошибка получения курса BTC:', error);
+            BTC_RATE = 2000000;
         }
+    }
 
-        function getRandomDate() {
-            const day = Math.floor(Math.random() * 12) + 1;
-            return `0${day}.03.2025`.slice(-10);
+    function getRandomDate() {
+        const day = Math.floor(Math.random() * 12) + 1;
+        return `0${day}.03.2025`.slice(-10);
+    }
+
+    function getRandomPromoGood() {
+        const promos = ["5%", "10%", "15%"];
+        return promos[Math.floor(Math.random() * promos.length)];
+    }
+
+    function getRandomCoordinates(city, district) {
+        const baseLat = parseFloat(cities[city][district].lat);
+        const baseLon = parseFloat(cities[city][district].lon);
+        const offset = 0.005;
+        const randomLat = (baseLat + (Math.random() * offset * 2 - offset)).toFixed(3);
+        const randomLon = (baseLon + (Math.random() * offset * 2 - offset)).toFixed(3);
+        return { lat: randomLat, lon: randomLon };
+    }
+
+    function toggleCatalog() {
+        if (!products) {
+            window.Telegram.WebApp.showAlert('Данные ещё загружаются, подождите!');
+            return;
         }
-
-        function getRandomPromoGood() {
-            const promos = ["5%", "10%", "15%"];
-            return promos[Math.floor(Math.random() * promos.length)];
+        const catalog = document.getElementById('catalogMenu');
+        const profile = document.getElementById('profileMenu');
+        const vacancies = document.getElementById('vacancyMenu');
+        const mail = document.getElementById('mailMenu');
+        catalog.style.display = catalog.style.display === 'block' ? 'none' : 'block';
+        profile.style.display = 'none';
+        vacancies.style.display = 'none';
+        mail.style.display = 'none';
+        if (catalog.style.display === 'block') {
+            showTab('hash');
         }
+    }
 
-        function getRandomCoordinates(city, district) {
-            const baseLat = parseFloat(cities[city][district].lat);
-            const baseLon = parseFloat(cities[city][district].lon);
-            const offset = 0.005;
-            const randomLat = (baseLat + (Math.random() * offset * 2 - offset)).toFixed(3);
-            const randomLon = (baseLon + (Math.random() * offset * 2 - offset)).toFixed(3);
-            return { lat: randomLat, lon: randomLon };
-        }
+    function toggleVacancies() {
+        const catalog = document.getElementById('catalogMenu');
+        const profile = document.getElementById('profileMenu');
+        const vacancies = document.getElementById('vacancyMenu');
+        const mail = document.getElementById('mailMenu');
+        vacancies.style.display = vacancies.style.display === 'block' ? 'none' : 'block';
+        catalog.style.display = 'none';
+        profile.style.display = 'none';
+        mail.style.display = 'none';
+    }
 
-        function toggleCatalog() {
-            const catalog = document.getElementById('catalogMenu');
-            const profile = document.getElementById('profileMenu');
-            const vacancies = document.getElementById('vacancyMenu');
-            const mail = document.getElementById('mailMenu');
-            catalog.style.display = catalog.style.display === 'block' ? 'none' : 'block';
-            profile.style.display = 'none';
-            vacancies.style.display = 'none';
-            mail.style.display = 'none';
-            if (catalog.style.display === 'block') {
-                showTab('hash');
-            }
-        }
+    function toggleMail() {
+        const catalog = document.getElementById('catalogMenu');
+        const profile = document.getElementById('profileMenu');
+        const vacancies = document.getElementById('vacancyMenu');
+        const mail = document.getElementById('mailMenu');
+        mail.style.display = mail.style.display === 'block' ? 'none' : 'block';
+        catalog.style.display = 'none';
+        profile.style.display = 'none';
+        vacancies.style.display = 'none';
+        updateMail();
+    }
 
-        function toggleVacancies() {
-            const catalog = document.getElementById('catalogMenu');
-            const profile = document.getElementById('profileMenu');
-            const vacancies = document.getElementById('vacancyMenu');
-            const mail = document.getElementById('mailMenu');
-            vacancies.style.display = vacancies.style.display === 'block' ? 'none' : 'block';
-            catalog.style.display = 'none';
-            profile.style.display = 'none';
-            mail.style.display = 'none';
-        }
+    function toggleProfile() {
+        const catalog = document.getElementById('catalogMenu');
+        const profile = document.getElementById('profileMenu');
+        const vacancies = document.getElementById('vacancyMenu');
+        const mail = document.getElementById('mailMenu');
+        profile.style.display = profile.style.display === 'block' ? 'none' : 'block';
+        catalog.style.display = 'none';
+        vacancies.style.display = 'none';
+        mail.style.display = 'none';
+        updateProfile();
+    }
 
-        function toggleMail() {
-            const catalog = document.getElementById('catalogMenu');
-            const profile = document.getElementById('profileMenu');
-            const vacancies = document.getElementById('vacancyMenu');
-            const mail = document.getElementById('mailMenu');
-            mail.style.display = mail.style.display === 'block' ? 'none' : 'block';
-            catalog.style.display = 'none';
-            profile.style.display = 'none';
-            vacancies.style.display = 'none';
-            updateMail();
-        }
+    function updateProfile() {
+        if (!currentUser) return;
+        document.getElementById('userName').textContent = currentUser;
+        document.getElementById('balance').textContent = `${balance} ฿`;
+        document.getElementById('orderCount').textContent = orderCount;
+        document.getElementById('referralCount').textContent = referralCount;
+        const orderList = document.getElementById('orderList');
+        orderList.innerHTML = orderHistory.length > 0 ? orderHistory.map(order => `<p>${order.date}: ${order.product} - ${order.price} ฿</p>`).join('') : 'Пока пусто, делай заказы!';
+        checkReferralBonus();
+    }
 
-        function toggleProfile() {
-            const catalog = document.getElementById('catalogMenu');
-            const profile = document.getElementById('profileMenu');
-            const vacancies = document.getElementById('vacancyMenu');
-            const mail = document.getElementById('mailMenu');
-            profile.style.display = profile.style.display === 'block' ? 'none' : 'block';
-            catalog.style.display = 'none';
-            vacancies.style.display = 'none';
-            mail.style.display = 'none';
-            updateProfile();
-        }
-
-        function updateProfile() {
-            if (!currentUser) return;
-            document.getElementById('userName').textContent = currentUser;
-            document.getElementById('balance').textContent = `${balance} ฿`;
-            document.getElementById('orderCount').textContent = orderCount;
-            document.getElementById('referralCount').textContent = referralCount;
-            const orderList = document.getElementById('orderList');
-            orderList.innerHTML = orderHistory.length > 0 ? orderHistory.map(order => `<p>${order.date}: ${order.product} - ${order.price} ฿</p>`).join('') : 'Пока пусто, делай заказы!';
-            checkReferralBonus();
-        }
-
-        function sendToTelegramBot(message, paymentId, amount) {
-            const chatId = window.Telegram.WebApp.initDataUnsafe.user?.id || 'unknown';
-            const fullMessage = `${message}\nchat_id: ${chatId}`;
-            const keyboard = paymentId ? {
-                inline_keyboard: [
-                    [
-                        { text: '✅ Подтвердить', callback_data: `confirm_${paymentId}_${amount}_${chatId}` },
-                        { text: '❌ Отклонить', callback_data: `reject_${paymentId}_${chatId}` }
-                    ]
+    function sendToTelegramBot(message, paymentId, amount) {
+        const chatId = window.Telegram.WebApp.initDataUnsafe.user?.id || 'unknown';
+        const fullMessage = `${message}\nchat_id: ${chatId}`;
+        const keyboard = paymentId ? {
+            inline_keyboard: [
+                [
+                    { text: '✅ Подтвердить', callback_data: `confirm_${paymentId}_${amount}_${chatId}` },
+                    { text: '❌ Отклонить', callback_data: `reject_${paymentId}_${chatId}` }
                 ]
-            } : null;
-            fetch(`https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: ADMIN_CHAT_ID,
-                    text: fullMessage,
-                    reply_markup: keyboard
-                })
+            ]
+        } : null;
+        fetch(`https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: ADMIN_CHAT_ID,
+                text: fullMessage,
+                reply_markup: keyboard
             })
-                .then(response => response.json())
-                .then(data => console.log('Уведомление отправлено:', data))
-                .catch(error => console.error('Ошибка:', error));
-        }
+        })
+            .then(response => response.json())
+            .then(data => console.log('Уведомление отправлено:', data))
+            .catch(error => console.error('Ошибка:', error));
+    }
 
-        function confirmPayment(crypto, address, amount) {
-            const paymentId = `${currentUser}_${Date.now()}`;
-            pendingPayments[paymentId] = { user: currentUser, amount: parseInt(amount) };
-            sendToTelegramBot(`💸 Запрос на оплату:\nПользователь: ${currentUser}\nКрипта: ${crypto}\nАдрес: ${address}\nСумма: ${amount} ฿`, paymentId, amount);
-            const modal = document.getElementById('confirmModal');
-            const content = document.getElementById('confirmContent');
-            content.innerHTML = `
-                <h2>Ожидание подтверждения</h2>
-                <p>Запрос на пополнение баланса на ${amount} ฿ (~${(amount / BTC_RATE).toFixed(5)} BTC) отправлен.</p>
-                <p>Ожидайте начисления после проверки администратором.</p>
-                <button class="buy-button" onclick="document.getElementById('confirmModal').style.display='none';">Закрыть</button>
-            `;
-            modal.style.display = 'flex';
-            document.getElementById('depositModal').style.display = 'none';
-            modal.onclick = (e) => {
-                if (e.target === modal) modal.style.display = 'none';
-            };
-        }
+    function confirmPayment(crypto, address, amount) {
+        const paymentId = `${currentUser}_${Date.now()}`;
+        pendingPayments[paymentId] = { user: currentUser, amount: parseInt(amount) };
+        sendToTelegramBot(`💸 Запрос на оплату:\nПользователь: ${currentUser}\nКрипта: ${crypto}\nАдрес: ${address}\nСумма: ${amount} ฿`, paymentId, amount);
+        const modal = document.getElementById('confirmModal');
+        const content = document.getElementById('confirmContent');
+        content.innerHTML = `
+            <h2>Ожидание подтверждения</h2>
+            <p>Запрос на пополнение баланса на ${amount} ฿ (~${(amount / BTC_RATE).toFixed(5)} BTC) отправлен.</p>
+            <p>Ожидайте начисления после проверки администратором.</p>
+            <button class="buy-button" onclick="document.getElementById('confirmModal').style.display='none';">Закрыть</button>
+        `;
+        modal.style.display = 'flex';
+        document.getElementById('depositModal').style.display = 'none';
+        modal.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        };
+    }
 
-        function checkPendingPayment(paymentId, amount) {
-            if (pendingPayments[paymentId]) {
-                balance += amount;
-                referralDeposits += amount;
-                delete pendingPayments[paymentId];
-                updateProfile();
-                addMailMessage(`💰 Баланс пополнен на ${amount} ฿`);
-                window.Telegram.WebApp.showAlert(`Баланс пополнен на ${amount} ฿!`);
+    function checkPendingPayment(paymentId, amount) {
+        if (pendingPayments[paymentId]) {
+            balance += amount;
+            referralDeposits += amount;
+            delete pendingPayments[paymentId];
+            updateProfile();
+            addMailMessage(`💰 Баланс пополнен на ${amount} ฿`);
+            window.Telegram.WebApp.showAlert(`Баланс пополнен на ${amount} ฿!`);
+        }
+    }
+
+    window.Telegram.WebApp.onEvent('web_app_data', (event) => {
+        const data = event.data;
+        if (data && typeof data === 'string') {
+            if (data.startsWith('PaymentConfirmed')) {
+                const [_, user, amount] = data.split(':');
+                if (user === window.Telegram.WebApp.initDataUnsafe.user?.id.toString()) {
+                    const paymentId = Object.keys(pendingPayments).find(id => pendingPayments[id].user === currentUser);
+                    if (paymentId) checkPendingPayment(paymentId, parseInt(amount));
+                }
+            } else if (data.startsWith('PaymentRejected')) {
+                const [_, user] = data.split(':');
+                if (user === window.Telegram.WebApp.initDataUnsafe.user?.id.toString()) {
+                    const paymentId = Object.keys(pendingPayments).find(id => pendingPayments[id].user === currentUser);
+                    if (paymentId) delete pendingPayments[paymentId];
+                    window.Telegram.WebApp.showAlert('Запрос на пополнение отклонён администратором.');
+                }
             }
         }
+    });
 
-        window.Telegram.WebApp.onEvent('web_app_data', (event) => {
-            const data = event.data;
-            if (data && typeof data === 'string') {
-                if (data.startsWith('PaymentConfirmed')) {
-                    const [_, user, amount] = data.split(':');
-                    if (user === window.Telegram.WebApp.initDataUnsafe.user?.id.toString()) {
-                        const paymentId = Object.keys(pendingPayments).find(id => pendingPayments[id].user === currentUser);
-                        if (paymentId) checkPendingPayment(paymentId, parseInt(amount));
-                    }
-                } else if (data.startsWith('PaymentRejected')) {
-                    const [_, user] = data.split(':');
-                    if (user === window.Telegram.WebApp.initDataUnsafe.user?.id.toString()) {
-                        const paymentId = Object.keys(pendingPayments).find(id => pendingPayments[id].user === currentUser);
-                        if (paymentId) delete pendingPayments[paymentId];
-                        window.Telegram.WebApp.showAlert('Запрос на пополнение отклонён администратором.');
-                    }
-                }
+    function registerUser() {
+        const nickname = document.getElementById('regNickname').value.trim();
+        if (!nickname) {
+            document.getElementById('regError').textContent = 'Введите никнейм!';
+            return;
+        }
+        currentUser = nickname;
+        sendToTelegramBot(`🆕 Новый пользователь зарегистрирован:\nНикнейм: ${currentUser}`, null, null);
+        document.getElementById('registrationModal').style.display = 'none';
+        updateProfile();
+        addMailMessage('Добро пожаловать в Dark Thailand!');
+    }
+
+    function showReferralDetails() {
+        const modal = document.getElementById('customModal');
+        const content = document.getElementById('customContent');
+        content.innerHTML = `
+            <h2>Реферальная программа</h2>
+            <p>Приглашай друзей и получай бесплатный стафф после того, как они пополнят баланс на сумму от 1000 ฿:</p>
+            <p>- За 5 друзей: 0.5 г Белая Молния (VHQ)</p>
+            <p>- За 10 друзей: 0.5 г Грязный Снег (MQ)</p>
+            <p>- За 25 друзей: 1 г Тропик Бич (Fishscale)</p>
+            <button class="buy-button" onclick="document.getElementById('customModal').style.display='none';">Закрыть</button>
+        `;
+        modal.style.display = 'flex';
+        modal.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        };
+    }
+
+    function checkReferralBonus() {
+        if (referralCount >= 25 && referralDeposits >= 25000 && !orderHistory.some(o => o.product.includes('Тропик Бич'))) {
+            orderHistory.unshift({ date: getRandomDate(), product: "Бонус: Тропик Бич (Fishscale) 1 г", price: 0 });
+            window.Telegram.WebApp.showAlert('Поздравляем! За 25 друзей и их пополнения вы получили 1 г Тропик Бич (Fishscale)!');
+        } else if (referralCount >= 10 && referralDeposits >= 10000 && !orderHistory.some(o => o.product.includes('Грязный Снег'))) {
+            orderHistory.unshift({ date: getRandomDate(), product: "Бонус: Грязный Снег (MQ) 0.5 г", price: 0 });
+            window.Telegram.WebApp.showAlert('Поздравляем! За 10 друзей и их пополнения вы получили 0.5 г Грязный Снег (MQ)!');
+        } else if (referralCount >= 5 && referralDeposits >= 5000 && !orderHistory.some(o => o.product.includes('Белая Молния'))) {
+            orderHistory.unshift({ date: getRandomDate(), product: "Бонус: Белая Молния (VHQ) 0.5 г", price: 0 });
+            window.Telegram.WebApp.showAlert('Поздравляем! За 5 друзей и их пополнения вы получили 0.5 г Белая Молния (VHQ)!');
+        }
+    }
+
+    function updateMail() {
+        const mailList = document.getElementById('mailList');
+        mailList.innerHTML = mailMessages.length > 0 ? mailMessages.map(msg => `<p>${msg.date}: ${msg.text}</p>`).join('') : 'Пока нет сообщений.';
+    }
+
+    function addMailMessage(text) {
+        mailMessages.unshift({ date: getRandomDate(), text });
+        updateMail();
+    }
+
+    function filterByCity() {
+        selectedCity = document.getElementById('citySelect').value;
+        updateDistrictFilter();
+        filterProducts(document.querySelector('.tab.active')?.getAttribute('data-tab') || 'hash');
+    }
+
+    function updateDistrictFilter() {
+        const districtSelect = document.getElementById('districtSelect');
+        districtSelect.innerHTML = '<option value="all">Все районы</option>';
+        if (selectedCity !== 'all') {
+            for (const district in cities[selectedCity]) {
+                const option = document.createElement('option');
+                option.value = district;
+                option.text = district;
+                districtSelect.appendChild(option);
+            }
+        }
+        selectedDistrict = 'all';
+    }
+
+    function filterByDistrict() {
+        selectedDistrict = document.getElementById('districtSelect').value;
+        filterProducts(document.querySelector('.tab.active')?.getAttribute('data-tab') || 'hash');
+    }
+
+    function showTab(category) {
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.style.display = 'none';
+        });
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        const tab = document.querySelector(`.tab[data-tab="${category}"]`);
+        tab.classList.add('active');
+        document.getElementById(category).style.display = 'block';
+        filterProducts(category);
+    }
+
+    function filterProducts(category) {
+        if (!products) return; // Защита от вызова до инициализации
+        const productsInCategory = document.querySelectorAll(`#${category} .product-card`);
+        productsInCategory.forEach(card => {
+            const productId = card.getAttribute('data-product').split('-')[1];
+            const product = products[category][productId];
+            const hasMatch = product.positions.some(pos => 
+                (selectedCity === 'all' || pos.city === selectedCity) &&
+                (selectedDistrict === 'all' || pos.district === selectedDistrict)
+            );
+            card.style.display = hasMatch ? 'block' : 'none';
+        });
+    }
+
+    function showProductModal(category, id) {
+        const product = products[category][id];
+        const modal = document.getElementById('productModal');
+        const content = document.getElementById('productContent');
+        let html = `<h2>${product.name}</h2>`;
+        html += '<h3>Позиции:</h3>';
+        product.positions.forEach(pos => {
+            if ((selectedCity === 'all' || pos.city === selectedCity) && 
+                (selectedDistrict === 'all' || pos.district === selectedDistrict)) {
+                const preorderPrice = Math.round(pos.price * 1.3);
+                const preorderCryptoPrice = (pos.cryptoPrice * 1.3).toFixed(5);
+                html += `<div class="position">
+                    <p>Вес: ${pos.weight} г</p>
+                    <p class="price">${pos.price} ฿ (~${pos.cryptoPrice} BTC)</p>
+                    <p>Город: ${pos.city === 'phuket' ? 'Пхукет' : pos.city === 'pattaya' ? 'Паттайя' : pos.city === 'bangkok' ? 'Бангкок' : 'о. Самуи'}, ${pos.district}</p>
+                    <p>Наличие: ${pos.inStock ? 'В наличии' : 'Нет в наличии'}</p>
+                    ${pos.inStock ? `<button class="buy-button" onclick="buyProduct('${category}', ${id}, ${pos.id})">Купить</button>` : ''}
+                    <button class="preorder-button" onclick="preorderProduct('${category}', ${id}, ${pos.id}, ${preorderPrice}, '${preorderCryptoPrice}')">Предзаказ (+30%)</button>
+                </div>`;
             }
         });
+        html += '<h3>Отзывы:</h3>';
+        product.reviews.forEach(review => {
+            html += `<div class="review">${review.text}</div>`;
+            if (review.mod) html += `<div class="moderator-response">${review.mod}</div>`;
+        });
+        content.innerHTML = html;
+        modal.style.display = 'flex';
+        modal.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        };
+    }
 
-        function registerUser() {
-            const nickname = document.getElementById('regNickname').value.trim();
-            if (!nickname) {
-                document.getElementById('regError').textContent = 'Введите никнейм!';
-                return;
+    function buyProduct(category, productId, positionId) {
+        const product = products[category][productId];
+        const position = product.positions.find(pos => pos.id === positionId);
+        if (!position.inStock) {
+            window.Telegram.WebApp.showAlert('Товара нет в наличии!');
+            return;
+        }
+        if (balance < position.price) {
+            showCustomConfirm('Недостаточно средств на балансе! Пополнить баланс в личном кабинете?', 
+                () => {
+                    toggleProfile();
+                    document.getElementById('productModal').style.display = 'none';
+                }, 
+                () => {}
+            );
+            return;
+        }
+        balance -= position.price;
+        orderCount++;
+        orderHistory.unshift({ date: getRandomDate(), product: `${product.name} (${position.weight} г)`, price: position.price });
+        const modal = document.getElementById('paymentModal');
+        const content = document.getElementById('paymentContent');
+        const coords = getRandomCoordinates(position.city, position.district);
+        const cityInfo = cities[position.city][position.district];
+        content.innerHTML = `
+            <h2>Оплата прошла!</h2>
+            <p>Товар: ${product.name}</p>
+            <p>Вес: ${position.weight} г</p>
+            <p>Сумма: ${position.price} ฿ (~${position.cryptoPrice} BTC)</p>
+            <p>Координаты: ${coords.lat}, ${coords.lon}</p>
+            <p>Описание: ${cityInfo.desc}</p>
+            <button class="buy-button" onclick="document.getElementById('paymentModal').style.display='none';updateProfile();">Закрыть</button>
+        `;
+        modal.style.display = 'flex';
+        document.getElementById('productModal').style.display = 'none';
+        modal.onclick = (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                updateProfile();
             }
-            currentUser = nickname;
-            sendToTelegramBot(`🆕 Новый пользователь зарегистрирован:\nНикнейм: ${currentUser}`, null, null);
-            document.getElementById('registrationModal').style.display = 'none';
-            updateProfile();
-            addMailMessage('Добро пожаловать в Dark Thailand!');
-        }
+        };
+    }
 
-        function showReferralDetails() {
-            const modal = document.getElementById('customModal');
-            const content = document.getElementById('customContent');
-            content.innerHTML = `
-                <h2>Реферальная программа</h2>
-                <p>Приглашай друзей и получай бесплатный стафф после того, как они пополнят баланс на сумму от 1000 ฿:</p>
-                <p>- За 5 друзей: 0.5 г Белая Молния (VHQ)</p>
-                <p>- За 10 друзей: 0.5 г Грязный Снег (MQ)</p>
-                <p>- За 25 друзей: 1 г Тропик Бич (Fishscale)</p>
-                <button class="buy-button" onclick="document.getElementById('customModal').style.display='none';">Закрыть</button>
-            `;
-            modal.style.display = 'flex';
-            modal.onclick = (e) => {
-                if (e.target === modal) modal.style.display = 'none';
-            };
-        }
+    function preorderProduct(category, productId, positionId, preorderPrice, preorderCryptoPrice) {
+        const product = products[category][productId];
+        const position = product.positions.find(pos => pos.id === positionId);
+        const modal = document.getElementById('preorderModal');
+        const content = document.getElementById('preorderContent');
+        content.innerHTML = `
+            <h2>Предзаказ</h2>
+            <p>Товар: ${product.name}</p>
+            <p>Вес: ${position.weight} г</p>
+            <p>Сумма: ${preorderPrice} ฿ (~${preorderCryptoPrice} BTC)</p>
+            <p>Клад будет сделан в желаемой локации, близко к месту, которое вы укажете после оплаты.</p>
+            <button class="buy-button" onclick="confirmPreorder('${category}', ${productId}, ${positionId}, ${preorderPrice}, '${preorderCryptoPrice}')">Сделать предзаказ</button>
+        `;
+        modal.style.display = 'flex';
+        modal.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        };
+    }
 
-        function checkReferralBonus() {
-            if (referralCount >= 25 && referralDeposits >= 25000 && !orderHistory.some(o => o.product.includes('Тропик Бич'))) {
-                orderHistory.unshift({ date: getRandomDate(), product: "Бонус: Тропик Бич (Fishscale) 1 г", price: 0 });
-                window.Telegram.WebApp.showAlert('Поздравляем! За 25 друзей и их пополнения вы получили 1 г Тропик Бич (Fishscale)!');
-            } else if (referralCount >= 10 && referralDeposits >= 10000 && !orderHistory.some(o => o.product.includes('Грязный Снег'))) {
-                orderHistory.unshift({ date: getRandomDate(), product: "Бонус: Грязный Снег (MQ) 0.5 г", price: 0 });
-                window.Telegram.WebApp.showAlert('Поздравляем! За 10 друзей и их пополнения вы получили 0.5 г Грязный Снег (MQ)!');
-            } else if (referralCount >= 5 && referralDeposits >= 5000 && !orderHistory.some(o => o.product.includes('Белая Молния'))) {
-                orderHistory.unshift({ date: getRandomDate(), product: "Бонус: Белая Молния (VHQ) 0.5 г", price: 0 });
-                window.Telegram.WebApp.showAlert('Поздравляем! За 5 друзей и их пополнения вы получили 0.5 г Белая Молния (VHQ)!');
-            }
-        }
-
-        function updateMail() {
-            const mailList = document.getElementById('mailList');
-            mailList.innerHTML = mailMessages.length > 0 ? mailMessages.map(msg => `<p>${msg.date}: ${msg.text}</p>`).join('') : 'Пока нет сообщений.';
-        }
-
-        function addMailMessage(text) {
-            mailMessages.unshift({ date: getRandomDate(), text });
-            updateMail();
-        }
-
-        function filterByCity() {
-            selectedCity = document.getElementById('citySelect').value;
-            updateDistrictFilter();
-            filterProducts(document.querySelector('.tab.active')?.getAttribute('data-tab') || 'hash');
-        }
-
-        function updateDistrictFilter() {
-            const districtSelect = document.getElementById('districtSelect');
-            districtSelect.innerHTML = '<option value="all">Все районы</option>';
-            if (selectedCity !== 'all') {
-                for (const district in cities[selectedCity]) {
-                    const option = document.createElement('option');
-                    option.value = district;
-                    option.text = district;
-                    districtSelect.appendChild(option);
+    function confirmPreorder(category, productId, positionId, preorderPrice, preorderCryptoPrice) {
+        const product = products[category][productId];
+        const position = product.positions.find(pos => pos.id === positionId);
+        if (balance < preorderPrice) {
+            showCustomConfirm('Недостаточно средств на балансе! Пополнить баланс в личном кабинете?', 
+                () => {
+                    toggleProfile();
+                    document.getElementById('preorderModal').style.display = 'none';
+                    document.getElementById('customModal').style.display = 'none';
+                }, 
+                () => {
+                    document.getElementById('preorderModal').style.display = 'none';
                 }
-            }
-            selectedDistrict = 'all';
+            );
+            return;
         }
-
-        function filterByDistrict() {
-            selectedDistrict = document.getElementById('districtSelect').value;
-            filterProducts(document.querySelector('.tab.active')?.getAttribute('data-tab') || 'hash');
-        }
-
-        function showTab(category) {
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.style.display = 'none';
-            });
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            const tab = document.querySelector(`.tab[data-tab="${category}"]`);
-            tab.classList.add('active');
-            document.getElementById(category).style.display = 'block';
-            filterProducts(category);
-        }
-
-        function filterProducts(category) {
-            const productsInCategory = document.querySelectorAll(`#${category} .product-card`);
-            productsInCategory.forEach(card => {
-                const productId = card.getAttribute('data-product').split('-')[1];
-                const product = products[category][productId];
-                const hasMatch = product.positions.some(pos => 
-                    (selectedCity === 'all' || pos.city === selectedCity) &&
-                    (selectedDistrict === 'all' || pos.district === selectedDistrict)
-                );
-                card.style.display = hasMatch ? 'block' : 'none';
-            });
-        }
-
-        function showProductModal(category, id) {
-            const product = products[category][id];
-            const modal = document.getElementById('productModal');
-            const content = document.getElementById('productContent');
-            let html = `<h2>${product.name}</h2>`;
-            html += '<h3>Позиции:</h3>';
-            product.positions.forEach(pos => {
-                if ((selectedCity === 'all' || pos.city === selectedCity) && 
-                    (selectedDistrict === 'all' || pos.district === selectedDistrict)) {
-                    const preorderPrice = Math.round(pos.price * 1.3);
-                    const preorderCryptoPrice = (pos.cryptoPrice * 1.3).toFixed(5);
-                    html += `<div class="position">
-                        <p>Вес: ${pos.weight} г</p>
-                        <p class="price">${pos.price} ฿ (~${pos.cryptoPrice} BTC)</p>
-                        <p>Город: ${pos.city === 'phuket' ? 'Пхукет' : pos.city === 'pattaya' ? 'Паттайя' : pos.city === 'bangkok' ? 'Бангкок' : 'о. Самуи'}, ${pos.district}</p>
-                        <p>Наличие: ${pos.inStock ? 'В наличии' : 'Нет в наличии'}</p>
-                        ${pos.inStock ? `<button class="buy-button" onclick="buyProduct('${category}', ${id}, ${pos.id})">Купить</button>` : ''}
-                        <button class="preorder-button" onclick="preorderProduct('${category}', ${id}, ${pos.id}, ${preorderPrice}, '${preorderCryptoPrice}')">Предзаказ (+30%)</button>
-                    </div>`;
-                }
-            });
-            html += '<h3>Отзывы:</h3>';
-            product.reviews.forEach(review => {
-                html += `<div class="review">${review.text}</div>`;
-                if (review.mod) html += `<div class="moderator-response">${review.mod}</div>`;
-            });
-            content.innerHTML = html;
-            modal.style.display = 'flex';
-            modal.onclick = (e) => {
-                if (e.target === modal) modal.style.display = 'none';
-            };
-        }
-
-        function buyProduct(category, productId, positionId) {
-            const product = products[category][productId];
-            const position = product.positions.find(pos => pos.id === positionId);
-            if (!position.inStock) {
-                window.Telegram.WebApp.showAlert('Товара нет в наличии!');
-                return;
-            }
-            if (balance < position.price) {
-                showCustomConfirm('Недостаточно средств на балансе! Пополнить баланс в личном кабинете?', 
-                    () => {
-                        toggleProfile();
-                        document.getElementById('productModal').style.display = 'none';
-                    }, 
-                    () => {}
-                );
-                return;
-            }
-            balance -= position.price;
-            orderCount++;
-            orderHistory.unshift({ date: getRandomDate(), product: `${product.name} (${position.weight} г)`, price: position.price });
+        balance -= preorderPrice;
+        orderCount++;
+        orderHistory.unshift({ date: getRandomDate(), product: `${product.name} (${position.weight} г, предзаказ)`, price: preorderPrice });
+        showCustomPrompt('Укажите желаемую локацию для клада (например: Пхукет, Патонг, у бара X):', (location) => {
             const modal = document.getElementById('paymentModal');
             const content = document.getElementById('paymentContent');
             const coords = getRandomCoordinates(position.city, position.district);
-            const cityInfo = cities[position.city][position.district];
-            content.innerHTML = `
-                <h2>Оплата прошла!</h2>
-                <p>Товар: ${product.name}</p>
-                <p>Вес: ${position.weight} г</p>
-                <p>Сумма: ${position.price} ฿ (~${position.cryptoPrice} BTC)</p>
-                <p>Координаты: ${coords.lat}, ${coords.lon}</p>
-                <p>Описание: ${cityInfo.desc}</p>
-                <button class="buy-button" onclick="document.getElementById('paymentModal').style.display='none';updateProfile();">Закрыть</button>
-            `;
+            if (!location) {
+                content.innerHTML = `
+                    <h2>Предзаказ оформлен!</h2>
+                    <p>Товар: ${product.name}</p>
+                    <p>Вес: ${position.weight} г</p>
+                    <p>Сумма: ${preorderPrice} ฿ (~${preorderCryptoPrice} BTC)</p>
+                    <p>Координаты: ${coords.lat}, ${coords.lon}</p>
+                    <p>Клад будет сделан в случайной локации в районе ${position.city === 'phuket' ? 'Пхукет' : position.city === 'pattaya' ? 'Паттайя' : position.city === 'bangkok' ? 'Бангкок' : 'о. Самуи'}, ${position.district}.</p>
+                    <p>Ожидайте в течение 2 часов!</p>
+                    <button class="buy-button" onclick="document.getElementById('paymentModal').style.display='none';updateProfile();">Закрыть</button>
+                `;
+            } else {
+                content.innerHTML = `
+                    <h2>Предзаказ оформлен!</h2>
+                    <p>Товар: ${product.name}</p>
+                    <p>Вес: ${position.weight} г</p>
+                    <p>Сумма: ${preorderPrice} ฿ (~${preorderCryptoPrice} BTC)</p>
+                    <p>Координаты: ${coords.lat}, ${coords.lon}</p>
+                    <p>Клад будет сделан рядом с: ${location}</p>
+                    <p>Ожидайте в течение 2 часов!</p>
+                    <button class="buy-button" onclick="document.getElementById('paymentModal').style.display='none';updateProfile();">Закрыть</button>
+                `;
+            }
             modal.style.display = 'flex';
-            document.getElementById('productModal').style.display = 'none';
+            document.getElementById('preorderModal').style.display = 'none';
             modal.onclick = (e) => {
                 if (e.target === modal) {
                     modal.style.display = 'none';
                     updateProfile();
                 }
             };
-        }
-
-        function preorderProduct(category, productId, positionId, preorderPrice, preorderCryptoPrice) {
-            const product = products[category][productId];
-            const position = product.positions.find(pos => pos.id === positionId);
-            const modal = document.getElementById('preorderModal');
-            const content = document.getElementById('preorderContent');
-            content.innerHTML = `
-                <h2>Предзаказ</h2>
-                <p>Товар: ${product.name}</p>
-                <p>Вес: ${position.weight} г</p>
-                <p>Сумма: ${preorderPrice} ฿ (~${preorderCryptoPrice} BTC)</p>
-                <p>Клад будет сделан в желаемой локации, близко к месту, которое вы укажете после оплаты.</p>
-                <button class="buy-button" onclick="confirmPreorder('${category}', ${productId}, ${positionId}, ${preorderPrice}, '${preorderCryptoPrice}')">Сделать предзаказ</button>
-            `;
-            modal.style.display = 'flex';
-            modal.onclick = (e) => {
-                if (e.target === modal) modal.style.display = 'none';
-            };
-        }
-
-        function confirmPreorder(category, productId, positionId, preorderPrice, preorderCryptoPrice) {
-            const product = products[category][productId];
-            const position = product.positions.find(pos => pos.id === positionId);
-            if (balance < preorderPrice) {
-                showCustomConfirm('Недостаточно средств на балансе! Пополнить баланс в личном кабинете?', 
-                    () => {
-                        toggleProfile();
-                        document.getElementById('preorderModal').style.display = 'none';
-                        document.getElementById('customModal').style.display = 'none';
-                    }, 
-                    () => {
-                        document.getElementById('preorderModal').style.display = 'none';
-                    }
-                );
-                return;
-            }
-            balance -= preorderPrice;
-            orderCount++;
-            orderHistory.unshift({ date: getRandomDate(), product: `${product.name} (${position.weight} г, предзаказ)`, price: preorderPrice });
-            showCustomPrompt('Укажите желаемую локацию для клада (например: Пхукет, Патонг, у бара X):', (location) => {
-                const modal = document.getElementById('paymentModal');
-                const content = document.getElementById('paymentContent');
-                const coords = getRandomCoordinates(position.city, position.district);
-                if (!location) {
-                    content.innerHTML = `
-                        <h2>Предзаказ оформлен!</h2>
-                        <p>Товар: ${product.name}</p>
-                        <p>Вес: ${position.weight} г</p>
-                        <p>Сумма: ${preorderPrice} ฿ (~${preorderCryptoPrice} BTC)</p>
-                        <p>Координаты: ${coords.lat}, ${coords.lon}</p>
-                        <p>Клад будет сделан в случайной локации в районе ${position.city === 'phuket' ? 'Пхукет' : position.city === 'pattaya' ? 'Паттайя' : position.city === 'bangkok' ? 'Бангкок' : 'о. Самуи'}, ${position.district}.</p>
-                        <p>Ожидайте в течение 2 часов!</p>
-                        <button class="buy-button" onclick="document.getElementById('paymentModal').style.display='none';updateProfile();">Закрыть</button>
-                    `;
-                } else {
-                    content.innerHTML = `
-                        <h2>Предзаказ оформлен!</h2>
-                        <p>Товар: ${product.name}</p>
-                        <p>Вес: ${position.weight} г</p>
-                        <p>Сумма: ${preorderPrice} ฿ (~${preorderCryptoPrice} BTC)</p>
-                        <p>Координаты: ${coords.lat}, ${coords.lon}</p>
-                        <p>Клад будет сделан рядом с: ${location}</p>
-                        <p>Ожидайте в течение 2 часов!</p>
-                        <button class="buy-button" onclick="document.getElementById('paymentModal').style.display='none';updateProfile();">Закрыть</button>
-                    `;
-                }
-                modal.style.display = 'flex';
-                document.getElementById('preorderModal').style.display = 'none';
-                modal.onclick = (e) => {
-                    if (e.target === modal) {
-                        modal.style.display = 'none';
-                        updateProfile();
-                    }
-                };
-            });
-        }
-
-        function showDepositModal(crypto) {
-            const modal = document.getElementById('depositModal');
-            const content = document.getElementById('depositContent');
-            content.innerHTML = `
-                <h2>Пополнение в ${crypto}</h2>
-                <input type="number" id="depositAmount" min="1000" placeholder="Сумма (мин. 1000 ฿)" class="custom-input" oninput="updateCryptoAmount('${crypto}')">
-                <p id="cryptoAmount">~0 BTC</p>
-                <button class="buy-button" onclick="generateAddress('${crypto}')">Сгенерировать адрес</button>
-                <div id="addressBox"></div>
-            `;
-            modal.style.display = 'flex';
-            modal.onclick = (e) => {
-                if (e.target === modal) modal.style.display = 'none';
-            };
-        }
-
-        function updateCryptoAmount(crypto) {
-            const amount = document.getElementById('depositAmount').value;
-            const cryptoAmount = amount ? (amount / BTC_RATE).toFixed(5) : 0;
-            document.getElementById('cryptoAmount').textContent = `~${cryptoAmount} ${crypto === 'BTC' ? 'BTC' : 'BTC'}`;
-        }
-
-        function generateAddress(crypto) {
-            const amount = document.getElementById('depositAmount').value;
-            if (!amount || amount < 1000) {
-                window.Telegram.WebApp.showAlert('Введите сумму не менее 1000 ฿!');
-                return;
-            }
-            const addressBox = document.getElementById('addressBox');
-            const address = testAddresses[crypto];
-            addressBox.innerHTML = `
-                <p>Адрес: ${address}</p>
-                <p>Сумма к оплате: ${amount} ฿ (~${(amount / BTC_RATE).toFixed(5)} ${crypto})</p>
-                <p>Действителен 30 минут!</p>
-                <button class="buy-button" onclick="confirmPayment('${crypto}', '${address}', ${amount})">Подтвердить оплату</button>
-            `;
-            setTimeout(() => {
-                addressBox.innerHTML = '<p>Адрес истёк!</p>';
-            }, 30 * 60 * 1000);
-        }
-
-        function applyForJob(job) {
-            showCustomTextareaPrompt(`Оставьте заявку на вакансию "${job}". Укажите краткое резюме:`, (resume) => {
-                if (resume) {
-                    sendToTelegramBot(`📋 Заявка на вакансию "${job}" от ${currentUser}:\nРезюме: ${resume}`, null, null);
-                    window.Telegram.WebApp.showAlert(`Заявка на "${job}" отправлена! Ожидайте ответа на почте в приложении.`);
-                }
-            });
-        }
-
-        function showCustomConfirm(message, onConfirm, onCancel) {
-            const modal = document.getElementById('customModal');
-            const content = document.getElementById('customContent');
-            content.innerHTML = `
-                <h2>Подтверждение</h2>
-                <p>${message}</p>
-                <button class="buy-button" onclick="confirmAction()">Да</button>
-                <button class="buy-button" onclick="cancelAction()">Нет</button>
-            `;
-            modal.style.display = 'flex';
-            window.confirmAction = () => {
-                onConfirm();
-                modal.style.display = 'none';
-            };
-            window.cancelAction = () => {
-                onCancel();
-                modal.style.display = 'none';
-            };
-            modal.onclick = (e) => {
-                if (e.target === modal) modal.style.display = 'none';
-            };
-        }
-
-        function showCustomPrompt(message, callback) {
-            const modal = document.getElementById('customModal');
-            const content = document.getElementById('customContent');
-            content.innerHTML = `
-                <h2>Ввод</h2>
-                <p>${message}</p>
-                <input type="text" id="customInput" class="custom-input" placeholder="Введите здесь">
-                <button class="buy-button" onclick="submitPrompt()">Подтвердить</button>
-            `;
-            modal.style.display = 'flex';
-            window.submitPrompt = () => {
-                const value = document.getElementById('customInput').value.trim();
-                callback(value);
-                modal.style.display = 'none';
-            };
-            modal.onclick = (e) => {
-                if (e.target === modal) modal.style.display = 'none';
-            };
-        }
-
-        function showCustomTextareaPrompt(message, callback) {
-            const modal = document.getElementById('customModal');
-            const content = document.getElementById('customContent');
-            content.innerHTML = `
-                <h2>Заявка</h2>
-                <p>${message}</p>
-                <textarea id="customTextarea" class="custom-input" placeholder="Введите здесь"></textarea>
-                <button class="buy-button" onclick="submitTextarea()">Отправить</button>
-            `;
-            modal.style.display = 'flex';
-            window.submitTextarea = () => {
-                const value = document.getElementById('customTextarea').value.trim();
-                callback(value);
-                modal.style.display = 'none';
-            };
-            modal.onclick = (e) => {
-                if (e.target === modal) modal.style.display = 'none';
-            };
-        }
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            await fetchBTCRate();
-            if (!currentUser) {
-                document.getElementById('registrationModal').style.display = 'flex';
-            }
-            document.getElementById('referralCount').addEventListener('click', () => {
-                referralCount++;
-                updateProfile();
-            });
         });
-    </script>
+    }
+
+    function showDepositModal(crypto) {
+        const modal = document.getElementById('depositModal');
+        const content = document.getElementById('depositContent');
+        content.innerHTML = `
+            <h2>Пополнение в ${crypto}</h2>
+            <input type="number" id="depositAmount" min="1000" placeholder="Сумма (мин. 1000 ฿)" class="custom-input" oninput="updateCryptoAmount('${crypto}')">
+            <p id="cryptoAmount">~0 BTC</p>
+            <button class="buy-button" onclick="generateAddress('${crypto}')">Сгенерировать адрес</button>
+            <div id="addressBox"></div>
+        `;
+        modal.style.display = 'flex';
+        modal.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        };
+    }
+
+    function updateCryptoAmount(crypto) {
+        const amount = document.getElementById('depositAmount').value;
+        const cryptoAmount = amount ? (amount / BTC_RATE).toFixed(5) : 0;
+        document.getElementById('cryptoAmount').textContent = `~${cryptoAmount} ${crypto === 'BTC' ? 'BTC' : 'BTC'}`;
+    }
+
+    function generateAddress(crypto) {
+        const amount = document.getElementById('depositAmount').value;
+        if (!amount || amount < 1000) {
+            window.Telegram.WebApp.showAlert('Введите сумму не менее 1000 ฿!');
+            return;
+        }
+        const addressBox = document.getElementById('addressBox');
+        const address = testAddresses[crypto];
+        addressBox.innerHTML = `
+            <p>Адрес: ${address}</p>
+            <p>Сумма к оплате: ${amount} ฿ (~${(amount / BTC_RATE).toFixed(5)} ${crypto})</p>
+            <p>Действителен 30 минут!</p>
+            <button class="buy-button" onclick="confirmPayment('${crypto}', '${address}', ${amount})">Подтвердить оплату</button>
+        `;
+        setTimeout(() => {
+            addressBox.innerHTML = '<p>Адрес истёк!</p>';
+        }, 30 * 60 * 1000);
+    }
+
+    function applyForJob(job) {
+        showCustomTextareaPrompt(`Оставьте заявку на вакансию "${job}". Укажите краткое резюме:`, (resume) => {
+            if (resume) {
+                sendToTelegramBot(`📋 Заявка на вакансию "${job}" от ${currentUser}:\nРезюме: ${resume}`, null, null);
+                window.Telegram.WebApp.showAlert(`Заявка на "${job}" отправлена! Ожидайте ответа на почте в приложении.`);
+            }
+        });
+    }
+
+    function showCustomConfirm(message, onConfirm, onCancel) {
+        const modal = document.getElementById('customModal');
+        const content = document.getElementById('customContent');
+        content.innerHTML = `
+            <h2>Подтверждение</h2>
+            <p>${message}</p>
+            <button class="buy-button" onclick="confirmAction()">Да</button>
+            <button class="buy-button" onclick="cancelAction()">Нет</button>
+        `;
+        modal.style.display = 'flex';
+        window.confirmAction = () => {
+            onConfirm();
+            modal.style.display = 'none';
+        };
+        window.cancelAction = () => {
+            onCancel();
+            modal.style.display = 'none';
+        };
+        modal.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        };
+    }
+
+    function showCustomPrompt(message, callback) {
+        const modal = document.getElementById('customModal');
+        const content = document.getElementById('customContent');
+        content.innerHTML = `
+            <h2>Ввод</h2>
+            <p>${message}</p>
+            <input type="text" id="customInput" class="custom-input" placeholder="Введите здесь">
+            <button class="buy-button" onclick="submitPrompt()">Подтвердить</button>
+        `;
+        modal.style.display = 'flex';
+        window.submitPrompt = () => {
+            const value = document.getElementById('customInput').value.trim();
+            callback(value);
+            modal.style.display = 'none';
+        };
+        modal.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        };
+    }
+
+    function showCustomTextareaPrompt(message, callback) {
+        const modal = document.getElementById('customModal');
+        const content = document.getElementById('customContent');
+        content.innerHTML = `
+            <h2>Заявка</h2>
+            <p>${message}</p>
+            <textarea id="customTextarea" class="custom-input" placeholder="Введите здесь"></textarea>
+            <button class="buy-button" onclick="submitTextarea()">Отправить</button>
+        `;
+        modal.style.display = 'flex';
+        window.submitTextarea = () => {
+            const value = document.getElementById('customTextarea').value.trim();
+            callback(value);
+            modal.style.display = 'none';
+        };
+        modal.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        };
+    }
+
+    // Инициализация при загрузке
+    document.addEventListener('DOMContentLoaded', async () => {
+        await fetchBTCRate(); // Получаем курс BTC
+        initializeData();     // Инициализируем данные
+        if (!currentUser) {
+            document.getElementById('registrationModal').style.display = 'flex';
+        }
+        document.getElementById('referralCount').addEventListener('click', () => {
+            referralCount++;
+            updateProfile();
+        });
+    });
+</script>
 </body>
 </html>
