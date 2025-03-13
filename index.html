@@ -507,6 +507,7 @@
     let currentUser = null;
     let mailMessages = [];
     let pendingPayments = {};
+    let BTC_RATE = 2000000; // Начальное значение, обновится через API
 
     const BOT_B_TOKEN = '7589545725:AAHoedAqoGh_k0WWdUs1rcBN1yddUtBFhsk';
     const ADMIN_CHAT_ID = '5956080955'; // Твой chat_id
@@ -518,6 +519,19 @@
         SOL: "5yK7e5a8j9k2m3n4p5q6r7s8t9u0v1w2x3y4z5A6B7C8D9E0F1G2H",
         TON: "EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c"
     };
+
+    // Получение актуального курса BTC/THB через CoinGecko API
+    async function fetchBTCRate() {
+        try {
+            const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=thb');
+            const data = await response.json();
+            BTC_RATE = data.bitcoin.thb;
+            console.log(`Актуальный курс BTC/THB: ${BTC_RATE}`);
+        } catch (error) {
+            console.error('Ошибка получения курса BTC:', error);
+            BTC_RATE = 2000000; // Резервное значение
+        }
+    }
 
     function getRandomDate() {
         const day = Math.floor(Math.random() * 12) + 1;
@@ -590,7 +604,7 @@
                 applicableWeights.forEach(weight => {
                     const basePricePerGram = basePrices[category][productId];
                     const price = Math.round(basePricePerGram * weight * (city === 'samui' ? 1.5 : 1));
-                    const cryptoPrice = (price / 2000000).toFixed(5);
+                    const cryptoPrice = (price / BTC_RATE).toFixed(5);
                     const inStock = (isCokeOrMeph && weight === 0.5) || Math.random() > 0.2;
                     positions.push({
                         id: id++,
@@ -609,13 +623,7 @@
 
     const products = {
         hash: {
-            1: { 
-                name: "Чёрный Афган (VHQ)", 
-                positions: generatePositions('hash', 1), 
-                reviews: [
-                    { text: "Чёрный Афган — это просто космос! Мягкий и мощный, топ за свои деньги! — Аноним", mod: `Рады, что вам понравился Чёрный Афган! Заходите ещё, активировал вам промокод на ${getRandomPromoGood()} за крутой отзыв! — Модератор Dark Thailand` }
-                ]
-            },
+            1: { name: "Чёрный Афган (VHQ)", positions: generatePositions('hash', 1), reviews: [{ text: "Чёрный Афган — это просто космос! Мягкий и мощный, топ за свои деньги! — Аноним", mod: `Рады, что вам понравился Чёрный Афган! Заходите ещё, активировал вам промокод на ${getRandomPromoGood()} за крутой отзыв! — Модератор Dark Thailand` }] },
             2: { name: "Зелёный Марокко (HQ)", positions: generatePositions('hash', 2), reviews: [] },
             3: { name: "Коричневый Дым (MQ)", positions: generatePositions('hash', 3), reviews: [] },
             4: { name: "Тёмный Песок (LQ)", positions: generatePositions('hash', 4), reviews: [] },
@@ -720,11 +728,27 @@
         checkReferralBonus();
     }
 
-    // Отправка уведомлений в Telegram
-    function sendToTelegramBot(message) {
+    // Отправка уведомлений в Telegram с кнопками
+    function sendToTelegramBot(message, paymentId, amount) {
         const chatId = window.Telegram.WebApp.initDataUnsafe.user?.id || 'unknown';
         const fullMessage = `${message}\nchat_id: ${chatId}`;
-        fetch(`https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(fullMessage)}`)
+        const keyboard = {
+            inline_keyboard: [
+                [
+                    { text: 'Подтвердить', callback_data: `confirm_${paymentId}_${amount}_${chatId}` },
+                    { text: 'Отклонить', callback_data: `reject_${paymentId}_${chatId}` }
+                ]
+            ]
+        };
+        fetch(`https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: ADMIN_CHAT_ID,
+                text: fullMessage,
+                reply_markup: keyboard
+            })
+        })
             .then(response => response.json())
             .then(data => console.log('Уведомление отправлено:', data))
             .catch(error => console.error('Ошибка:', error));
@@ -733,10 +757,21 @@
     // Подтверждение оплаты
     function confirmPayment(crypto, address, amount) {
         const paymentId = `${currentUser}_${Date.now()}`;
-        pendingPayments[paymentId] = { user: currentUser, amount };
-        sendToTelegramBot(`💸 Запрос на оплату:\nПользователь: ${currentUser}\nКрипта: ${crypto}\nАдрес: ${address}\nСумма: ${amount} ฿\nID: ${paymentId}`);
-        window.Telegram.WebApp.showAlert('Запрос на подтверждение оплаты отправлен. Ожидайте начисления на баланс после проверки.');
+        pendingPayments[paymentId] = { user: currentUser, amount: parseInt(amount) };
+        sendToTelegramBot(`💸 Запрос на оплату:\nПользователь: ${currentUser}\nКрипта: ${crypto}\nАдрес: ${address}\nСумма: ${amount} ฿`, paymentId, amount);
+        const modal = document.getElementById('confirmModal');
+        const content = document.getElementById('confirmContent');
+        content.innerHTML = `
+            <h2>Ожидание подтверждения</h2>
+            <p>Запрос на пополнение баланса на ${amount} ฿ (~${(amount / BTC_RATE).toFixed(5)} BTC) отправлен.</p>
+            <p>Ожидайте начисления после проверки администратором.</p>
+            <button class="buy-button" onclick="document.getElementById('confirmModal').style.display='none';">Закрыть</button>
+        `;
+        modal.style.display = 'flex';
         document.getElementById('depositModal').style.display = 'none';
+        modal.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        };
     }
 
     // Проверка оплаты от бота
@@ -750,14 +785,23 @@
         }
     }
 
-    // Слушатель событий от Telegram
+    // Обработка данных от Telegram
     window.Telegram.WebApp.onEvent('web_app_data', (event) => {
         const data = event.data;
-        if (data && typeof data === 'string' && data.startsWith('PaymentConfirmed')) {
-            const [_, user, amount] = data.split(':');
-            if (user === currentUser) {
-                const paymentId = Object.keys(pendingPayments).find(id => pendingPayments[id].user === currentUser);
-                if (paymentId) checkPendingPayment(paymentId, parseInt(amount));
+        if (data && typeof data === 'string') {
+            if (data.startsWith('PaymentConfirmed')) {
+                const [_, user, amount] = data.split(':');
+                if (user === currentUser) {
+                    const paymentId = Object.keys(pendingPayments).find(id => pendingPayments[id].user === currentUser);
+                    if (paymentId) checkPendingPayment(paymentId, parseInt(amount));
+                }
+            } else if (data.startsWith('PaymentRejected')) {
+                const [_, user] = data.split(':');
+                if (user === currentUser) {
+                    const paymentId = Object.keys(pendingPayments).find(id => pendingPayments[id].user === currentUser);
+                    if (paymentId) delete pendingPayments[paymentId];
+                    window.Telegram.WebApp.showAlert('Запрос на пополнение отклонён администратором.');
+                }
             }
         }
     });
@@ -770,7 +814,7 @@
             return;
         }
         currentUser = nickname;
-        sendToTelegramBot(`🆕 Новый пользователь зарегистрирован:\nНикнейм: ${currentUser}`);
+        sendToTelegramBot(`🆕 Новый пользователь зарегистрирован:\nНикнейм: ${currentUser}`, null, null);
         document.getElementById('registrationModal').style.display = 'none';
         updateProfile();
         addMailMessage('Добро пожаловать в Dark Thailand!');
@@ -854,7 +898,7 @@
         });
     }
 
-    // Модальные окна
+    // Модальные окна для товаров
     function showProductModal(category, id) {
         const product = products[category][id];
         const modal = document.getElementById('productModal');
@@ -1012,6 +1056,8 @@
         const content = document.getElementById('depositContent');
         content.innerHTML = `
             <h2>Пополнение в ${crypto}</h2>
+            <input type="number" id="depositAmount" min="1000" placeholder="Сумма (мин. 1000 ฿)" oninput="updateCryptoAmount('${crypto}')">
+            <p id="cryptoAmount">~0 BTC</p>
             <button class="buy-button" onclick="generateAddress('${crypto}')">Сгенерировать адрес</button>
             <div id="addressBox"></div>
         `;
@@ -1021,13 +1067,23 @@
         };
     }
 
+    function updateCryptoAmount(crypto) {
+        const amount = document.getElementById('depositAmount').value;
+        const cryptoAmount = amount ? (amount / BTC_RATE).toFixed(5) : 0;
+        document.getElementById('cryptoAmount').textContent = `~${cryptoAmount} ${crypto === 'BTC' ? 'BTC' : 'BTC'}`;
+    }
+
     function generateAddress(crypto) {
+        const amount = document.getElementById('depositAmount').value;
+        if (!amount || amount < 1000) {
+            window.Telegram.WebApp.showAlert('Введите сумму не менее 1000 ฿!');
+            return;
+        }
         const addressBox = document.getElementById('addressBox');
         const address = testAddresses[crypto];
-        const amount = Math.floor(Math.random() * 10000) + 1000;
         addressBox.innerHTML = `
             <p>Адрес: ${address}</p>
-            <p>Сумма к оплате: ${amount} ฿ (~${(amount / 2000000).toFixed(5)} ${crypto})</p>
+            <p>Сумма к оплате: ${amount} ฿ (~${(amount / BTC_RATE).toFixed(5)} ${crypto})</p>
             <p>Действителен 30 минут!</p>
             <button class="buy-button" onclick="confirmPayment('${crypto}', '${address}', ${amount})">Подтвердить оплату</button>
         `;
@@ -1039,7 +1095,7 @@
     function applyForJob(job) {
         showCustomTextareaPrompt(`Оставьте заявку на вакансию "${job}". Укажите краткое резюме:`, (resume) => {
             if (resume) {
-                sendToTelegramBot(`📋 Заявка на вакансию "${job}" от ${currentUser}:\nРезюме: ${resume}`);
+                sendToTelegramBot(`📋 Заявка на вакансию "${job}" от ${currentUser}:\nРезюме: ${resume}`, null, null);
                 window.Telegram.WebApp.showAlert(`Заявка на "${job}" отправлена! Ожидайте ответа на почте в приложении.`);
             }
         });
@@ -1110,7 +1166,8 @@
     }
 
     // Инициализация
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
+        await fetchBTCRate(); // Получаем актуальный курс при загрузке
         if (!currentUser) {
             document.getElementById('registrationModal').style.display = 'flex';
         }
