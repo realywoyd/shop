@@ -659,203 +659,42 @@
         };
 
         function sendToTelegramBot(message) {
-            fetch(`https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(message)}`)
-                .then(response => response.json())
-                .then(data => console.log('Уведомление отправлено:', data))
-                .catch(error => console.error('Ошибка:', error));
+    const chatId = window.Telegram.WebApp.initDataUnsafe.user?.id || 'unknown';
+    const fullMessage = `${message}\nchat_id: ${chatId}`;
+    fetch(`https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(fullMessage)}`)
+        .then(response => response.json())
+        .then(data => console.log('Уведомление отправлено:', data))
+        .catch(error => console.error('Ошибка:', error));
+}
+
+function confirmPayment(crypto, address, amount) {
+    const paymentId = `${currentUser}_${Date.now()}`;
+    pendingPayments[paymentId] = { user: currentUser, amount };
+    sendToTelegramBot(`💸 Запрос на оплату:\nПользователь: ${currentUser}\nКрипта: ${crypto}\nАдрес: ${address}\nСумма: ${amount} ฿\nID: ${paymentId}`);
+    alert('Запрос на подтверждение оплаты отправлен. Ожидайте начисления на баланс после проверки.');
+    document.getElementById('depositModal').style.display = 'none';
+}
+
+function checkPendingPayment(paymentId, amount) {
+    if (pendingPayments[paymentId]) {
+        balance += amount;
+        delete pendingPayments[paymentId];
+        updateProfile();
+        addMailMessage(`💰 Баланс пополнен на ${amount} ฿`);
+        window.Telegram.WebApp.showAlert(`Баланс пополнен на ${amount} ฿!`);
+    }
+}
+
+window.Telegram.WebApp.onEvent('web_app_data', (event) => {
+    const data = event.data;
+    if (data && typeof data === 'string' && data.startsWith('PaymentConfirmed')) {
+        const [_, user, amount] = data.split(':');
+        if (user === currentUser) {
+            const paymentId = Object.keys(pendingPayments).find(id => pendingPayments[id].user === currentUser);
+            if (paymentId) checkPendingPayment(paymentId, parseInt(amount));
         }
-
-        function showCustomConfirm(message, onYes, onNo) {
-            const modal = document.getElementById('customModal');
-            const content = document.getElementById('customContent');
-            content.innerHTML = `
-                <h2>Подтверждение</h2>
-                <p>${message}</p>
-                <button class="buy-button" id="confirmYes">Да</button>
-                <button class="buy-button" id="confirmNo">Нет</button>
-            `;
-            modal.style.display = 'flex';
-            document.getElementById('confirmYes').onclick = () => { onYes(); modal.style.display = 'none'; };
-            document.getElementById('confirmNo').onclick = () => { onNo(); modal.style.display = 'none'; };
-            modal.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
-        }
-
-        function showCustomPrompt(message, onConfirm) {
-            const modal = document.getElementById('customModal');
-            const content = document.getElementById('customContent');
-            content.innerHTML = `
-                <h2>Ввод</h2>
-                <p>${message}</p>
-                <input type="text" id="customInput" placeholder="Введите данные">
-                <button class="buy-button" id="promptConfirm">Подтвердить</button>
-                <button class="buy-button" id="promptCancel">Отмена</button>
-            `;
-            modal.style.display = 'flex';
-            document.getElementById('promptConfirm').onclick = () => {
-                onConfirm(document.getElementById('customInput').value);
-                modal.style.display = 'none';
-            };
-            document.getElementById('promptCancel').onclick = () => {
-                onConfirm(null);
-                modal.style.display = 'none';
-            };
-            modal.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
-        }
-
-        function showCustomTextareaPrompt(message, onConfirm) {
-            const modal = document.getElementById('customModal');
-            const content = document.getElementById('customContent');
-            content.innerHTML = `
-                <h2>Ввод</h2>
-                <p>${message}</p>
-                <textarea id="customTextarea" placeholder="Введите данные"></textarea>
-                <button class="buy-button" id="promptConfirm">Подтвердить</button>
-                <button class="buy-button" id="promptCancel">Отмена</button>
-            `;
-            modal.style.display = 'flex';
-            document.getElementById('promptConfirm').onclick = () => {
-                onConfirm(document.getElementById('customTextarea').value);
-                modal.style.display = 'none';
-            };
-            document.getElementById('promptCancel').onclick = () => {
-                onConfirm(null);
-                modal.style.display = 'none';
-            };
-            modal.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
-        }
-
-        function showRegistration() {
-            const modal = document.getElementById('registrationModal');
-            modal.style.display = 'flex';
-            document.getElementById('regNickname').value = '';
-            document.getElementById('regError').innerText = '';
-        }
-
-        function registerUser() {
-            const nickname = document.getElementById('regNickname').value.trim();
-            if (!nickname) {
-                document.getElementById('regError').innerText = 'Никнейм не может быть пустым!';
-                return;
-            }
-
-            try {
-                let users = JSON.parse(localStorage.getItem('users')) || [];
-                if (users.includes(nickname)) {
-                    document.getElementById('regError').innerText = 'Этот никнейм уже занят!';
-                    return;
-                }
-                users.push(nickname);
-                localStorage.setItem('users', JSON.stringify(users));
-                localStorage.setItem('currentUser', nickname);
-                currentUser = nickname;
-                document.getElementById('userName').innerText = nickname;
-                document.getElementById('registrationModal').style.display = 'none';
-                document.querySelector('.nav').style.display = 'flex';
-                sendToTelegramBot(`🔔 Новый пользователь зарегистрировался: ${nickname}`);
-            } catch (e) {
-                console.error('Ошибка localStorage:', e);
-                currentUser = nickname;
-                document.getElementById('userName').innerText = nickname;
-                document.getElementById('registrationModal').style.display = 'none';
-                document.querySelector('.nav').style.display = 'flex';
-                sendToTelegramBot(`🔔 Новый пользователь зарегистрировался: ${nickname} (с ошибкой localStorage)`);
-            }
-        }
-
-        window.onload = function() {
-            try {
-                const storedUser = localStorage.getItem('currentUser');
-                if (storedUser) {
-                    currentUser = storedUser;
-                    document.getElementById('userName').innerText = storedUser;
-                    document.querySelector('.nav').style.display = 'flex';
-                } else {
-                    showRegistration();
-                    document.querySelector('.nav').style.display = 'none';
-                }
-            } catch (e) {
-                console.error('Ошибка localStorage при загрузке:', e);
-                showRegistration();
-                document.querySelector('.nav').style.display = 'none';
-            }
-        };
-
-        function toggleCatalog() {
-            const catalog = document.getElementById('catalogMenu');
-            const profile = document.getElementById('profileMenu');
-            const vacancy = document.getElementById('vacancyMenu');
-            const mail = document.getElementById('mailMenu');
-            catalog.style.display = catalog.style.display === 'block' ? 'none' : 'block';
-            profile.style.display = 'none';
-            vacancy.style.display = 'none';
-            mail.style.display = 'none';
-            if (catalog.style.display === 'block') {
-                document.querySelector('.tab').click();
-                updateDistrictFilter();
-            }
-        }
-
-        function toggleProfile() {
-            const catalog = document.getElementById('catalogMenu');
-            const profile = document.getElementById('profileMenu');
-            const vacancy = document.getElementById('vacancyMenu');
-            const mail = document.getElementById('mailMenu');
-            profile.style.display = profile.style.display === 'block' ? 'none' : 'block';
-            catalog.style.display = 'none';
-            vacancy.style.display = 'none';
-            mail.style.display = 'none';
-            if (profile.style.display === 'block') updateProfile();
-        }
-
-        function toggleVacancies() {
-            const catalog = document.getElementById('catalogMenu');
-            const profile = document.getElementById('profileMenu');
-            const vacancy = document.getElementById('vacancyMenu');
-            const mail = document.getElementById('mailMenu');
-            vacancy.style.display = vacancy.style.display === 'block' ? 'none' : 'block';
-            catalog.style.display = 'none';
-            profile.style.display = 'none';
-            mail.style.display = 'none';
-        }
-
-        function toggleMail() {
-            const catalog = document.getElementById('catalogMenu');
-            const profile = document.getElementById('profileMenu');
-            const vacancy = document.getElementById('vacancyMenu');
-            const mail = document.getElementById('mailMenu');
-            mail.style.display = mail.style.display === 'block' ? 'none' : 'block';
-            catalog.style.display = 'none';
-            profile.style.display = 'none';
-            vacancy.style.display = 'none';
-            updateMail();
-        }
-
-        function updateProfile() {
-            document.getElementById('balance').innerText = `${balance} ฿`;
-            document.getElementById('orderCount').innerText = orderCount;
-            document.getElementById('referralCount').innerText = referralCount;
-            const orderList = document.getElementById('orderList');
-            orderList.innerHTML = orderHistory.length > 0 ? orderHistory.map(order => `<p>${order.date}: ${order.product} - ${order.price} ฿</p>`).join('') : 'Пока пусто, делай заказы!';
-            checkReferralBonus();
-        }
-
-        function checkPendingPayment(paymentId, amount) {
-            if (pendingPayments[paymentId]) {
-                balance += amount;
-                delete pendingPayments[paymentId];
-                updateProfile();
-                addMailMessage(`💰 Баланс пополнен на ${amount} ฿`);
-                alert(`Баланс пополнен на ${amount} ฿!`);
-            }
-        }
-
-        window.Telegram.WebApp.onEvent('web_app_data', (event) => {
-            const data = event.data;
-            if (data && data.startsWith('PaymentConfirmed')) {
-                const [_, user, amount] = data.split(':');
-                if (user === currentUser) checkPendingPayment(`${user}_${Date.now()}`, parseInt(amount));
-            }
-        });
+    }
+});
 
         function checkReferralBonus() {
             if (referralCount >= 25 && !orderHistory.some(o => o.product.includes('Тропик Бич'))) {
