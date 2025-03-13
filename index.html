@@ -2,132 +2,179 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dark Thailand</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="sandbox allow-same-origin allow-modals allow-scripts">
+    <title>Dark Thailand - Надёжный шоп</title>
     <style>
-        /* Стили остаются такими же, как в вашем последнем коде */
-        * {
+        body {
+            font-family: 'Courier New', monospace;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-        body {
-            background: #1a1a1a;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2b0000 100%);
             color: #ff4444;
             overflow-x: hidden;
-            font-size: 14px;
-            line-height: 1.5;
         }
         .container {
-            max-width: 100%;
-            padding: 10px;
+            max-width: 600px;
             margin: 0 auto;
+            padding: 15px;
+            position: relative;
         }
         .header {
             text-align: center;
             padding: 15px 0;
+            background-color: #2b2b2b;
+            color: #ff4444;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 2px solid #ff4444;
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+            position: relative;
         }
         .logo {
-            font-size: 28px;
-            color: #ff4444;
-            text-shadow: 0 0 10px #ff4444;
-            animation: glow 2s infinite alternate;
+            font-size: 48px;
+            animation: skullPulse 2s infinite;
+            display: inline-block;
         }
-        @keyframes glow {
-            0% { text-shadow: 0 0 5px #ff4444; }
-            100% { text-shadow: 0 0 15px #ff4444, 0 0 20px #ff0000; }
+        @keyframes skullPulse {
+            0% { transform: scale(1); text-shadow: 0 0 5px #ff4444; }
+            50% { transform: scale(1.1); text-shadow: 0 0 20px #ff4444, 0 0 30px #ff6666; }
+            100% { transform: scale(1); text-shadow: 0 0 5px #ff4444; }
         }
-        .slogan {
+        .header-text {
             font-size: 16px;
-            color: #ff6666;
             margin-top: 5px;
+            animation: textFlicker 3s infinite;
         }
-        .referral-teaser {
-            margin-top: 10px;
-            font-size: 14px;
+        @keyframes textFlicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .nav {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
-        .referral-teaser button {
-            background: #ff4444;
+        .nav-button {
+            background-color: #ff4444;
+            color: #000;
             border: none;
-            padding: 5px 10px;
-            color: #fff;
+            padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
-            transition: background 0.3s;
+            font-size: 16px;
+            animation: neonPulse 1.5s infinite;
         }
-        .referral-teaser button:hover {
-            background: #ff6666;
-        }
-        .menu {
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            background: #2b2b2b;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        .menu button {
-            background: none;
+        .profile-button {
+            background-color: #ff4444;
+            color: #000;
             border: none;
-            color: #ff4444;
-            font-size: 20px;
-            padding: 8px 15px;
+            padding: 0;
+            border-radius: 5px;
             cursor: pointer;
-            transition: transform 0.2s, color 0.2s;
+            font-size: 26px;
+            width: 60px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            animation: neonPulse 1.5s infinite;
         }
-        .menu button:hover {
-            transform: scale(1.1);
-            color: #ff6666;
+        @keyframes neonPulse {
+            0% { box-shadow: 0 0 5px #ff4444; }
+            50% { box-shadow: 0 0 20px #ff4444; }
+            100% { box-shadow: 0 0 5px #ff4444; }
         }
-        .tab-content, .profile-menu, .vacancy-menu, .mail-menu {
+        .catalog-menu, .profile-menu, .vacancy-menu, .mail-menu {
             display: none;
-            background: #2b2b2b;
-            padding: 15px;
+            background-color: #333;
             border-radius: 5px;
-            animation: fadeIn 0.3s ease-in;
+            padding: 15px;
+            box-shadow: 0 0 15px rgba(255, 68, 68, 0.3);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .city-filter {
+            margin-bottom: 15px;
+        }
+        .city-filter select, .district-filter select {
+            width: 100%;
+            padding: 10px;
+            background-color: #2b2b2b;
+            color: #ff4444;
+            border: 1px solid #ff4444;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
         }
         .tabs {
             display: flex;
-            justify-content: space-around;
-            margin-bottom: 15px;
             flex-wrap: wrap;
-            gap: 5px;
+            margin-bottom: 15px;
         }
         .tab {
-            background: #333;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s, box-shadow 0.3s;
             flex: 1;
             text-align: center;
+            padding: 10px;
+            background-color: #2b2b2b;
+            cursor: pointer;
+            margin: 5px;
+            border-radius: 5px;
+            transition: all 0.3s;
         }
-        .tab.active, .tab:hover {
-            background: #ff4444;
-            color: #fff;
+        .tab:hover {
+            background-color: #ff6666;
+        }
+        .tab.active {
+            background-color: #ff4444;
+            color: #000;
             box-shadow: 0 0 10px #ff4444;
         }
+        .tab-content {
+            display: none;
+        }
         .product-card {
-            background: #333;
-            padding: 10px;
-            margin: 5px 0;
+            background-color: #333;
             border-radius: 5px;
-            cursor: pointer;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(255, 68, 68, 0.3);
             transition: transform 0.2s;
         }
         .product-card:hover {
             transform: scale(1.02);
         }
-        .modal {
+        .product-card h3 {
+            margin-top: 0;
+            color: #ff6666;
+            cursor: pointer;
+        }
+        .product-card p {
+            margin: 5px 0;
+        }
+        .price {
+            font-weight: bold;
+            color: #ff9999;
+        }
+        .crypto-price {
+            font-size: 12px;
+            color: #ff6666;
+        }
+        .buy-button, .preorder-button {
+            background-color: #ff4444;
+            color: #000;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px 0;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        .preorder-button {
+            background-color: #ff6666;
+        }
+        .buy-button:hover, .preorder-button:hover {
+            background-color: #ff8888;
+        }
+        .payment-modal, .product-modal, .deposit-modal, .preorder-modal, .registration-modal, .custom-modal, .confirm-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -137,125 +184,89 @@
             background: rgba(0, 0, 0, 0.8);
             justify-content: center;
             align-items: center;
-            animation: fadeIn 0.3s ease-in;
         }
-        .modal-content {
-            background: #2b2b2b;
-            padding: 15px;
+        .payment-content, .product-content, .deposit-content, .preorder-content, .registration-content, .custom-content, .confirm-content {
+            background: #333;
+            padding: 20px;
             border-radius: 5px;
+            text-align: center;
             color: #ff4444;
-            max-width: 90%;
+            max-width: 500px;
             max-height: 80vh;
             overflow-y: auto;
-            box-shadow: 0 0 15px rgba(255, 68, 68, 0.3);
         }
-        .buy-button, .preorder-button {
-            background: #ff4444;
-            border: none;
-            padding: 8px 15px;
-            color: #fff;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s, box-shadow 0.3s;
-            width: 100px;
-            text-align: center;
-        }
-        .buy-button:hover, .preorder-button:hover {
-            background: #ff6666;
-            box-shadow: 0 0 10px #ff4444;
-        }
-        .preorder-button {
-            background: #555;
-        }
-        .preorder-button:hover {
-            background: #777;
-        }
-        .position, .review, .moderator-response {
-            margin: 10px 0;
-        }
-        .custom-select {
-            position: relative;
-            display: inline-block;
-            width: 48%;
-            margin: 5px 1%;
-        }
-        .custom-select select {
-            width: 100%;
-            padding: 8px;
-            background: #333;
-            border: 1px solid #ff4444;
-            color: #fff;
-            border-radius: 5px;
-            appearance: none;
-            cursor: pointer;
-        }
-        .custom-select::after {
-            content: '▼';
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #ff4444;
-            pointer-events: none;
-        }
-        .custom-input {
-            width: 100%;
+        .review {
+            background-color: #2b2b2b;
+            border-left: 4px solid #ff6666;
             padding: 10px;
-            background: #333;
-            border: 1px solid #ff4444;
-            color: #fff;
-            border-radius: 5px;
             margin: 10px 0;
+            font-size: 12px;
+            color: #ff9999;
+            text-align: left;
         }
-        .custom-input:focus {
-            outline: none;
-            box-shadow: 0 0 10px #ff4444;
+        .moderator-response {
+            background-color: #2b2b2b;
+            border-left: 4px solid #ff4444;
+            padding: 10px;
+            margin: 5px 0 10px 20px;
+            font-size: 12px;
+            color: #ff6666;
+            text-align: left;
         }
-        .vacancy-list {
-            list-style: none;
-            padding: 0;
+        .position {
+            margin: 10px 0;
+            text-align: left;
         }
-        .vacancy-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #ff4444;
+        .promo-banner {
+            background-color: #ff4444;
+            color: #000;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-weight: bold;
         }
-        .vacancy-item:last-child {
-            border-bottom: none;
-        }
-        .profile-info {
+        .vacancy {
             margin-bottom: 15px;
         }
-        .profile-info p {
-            margin: 5px 0;
+        .vacancy h3 {
+            color: #ff6666;
         }
-        .profile-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+        input[type="text"], textarea, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #2b2b2b;
+            color: #ff4444;
+            border: 1px solid #ff4444;
+            border-radius: 5px;
+        }
+        textarea {
+            height: 100px;
+            resize: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="promo-banner">
+            <p>Приглашай друзей и получай бонусы! 5 друзей = 0.5 г амфетамина, 10 друзей = 0.5 г кокаина (MQ), 25 друзей = 1 г кокаина (VHQ)!</p>
+        </div>
+
         <div class="header">
-            <h1 class="logo">Dark Thailand</h1>
-            <p class="slogan">Ваш надёжный шоп в Таиланде</p>
-            <div class="referral-teaser">
-                Приглашай друзей и получай бесплатный стафф! 
-                <button onclick="showReferralDetails()">Подробнее...</button>
-            </div>
+            <div class="logo">💀</div>
+            <div class="header-text">Dark Thailand - Твой теневой гид по Таиланду</div>
         </div>
-        <div class="menu">
-            <button onclick="toggleCatalog()">📚</button>
-            <button onclick="toggleVacancies()">💼</button>
-            <button onclick="toggleMail()">✉️</button>
-            <button onclick="toggleProfile()">💀</button>
+        
+        <div class="nav">
+            <button class="nav-button" onclick="toggleCatalog()">Каталог</button>
+            <button class="nav-button" onclick="toggleVacancies()">Вакансии</button>
+            <button class="nav-button" onclick="toggleMail()">Почта</button>
+            <button class="profile-button" onclick="toggleProfile()">💀</button>
         </div>
-        <div id="catalogMenu" class="tab-content">
-            <div class="custom-select">
+        
+        <div class="catalog-menu" id="catalogMenu">
+            <div class="city-filter">
                 <select id="citySelect" onchange="filterByCity()">
                     <option value="all">Все города</option>
                     <option value="phuket">Пхукет</option>
@@ -263,709 +274,1121 @@
                     <option value="bangkok">Бангкок</option>
                     <option value="samui">о. Самуи</option>
                 </select>
-            </div>
-            <div class="custom-select">
                 <select id="districtSelect" onchange="filterByDistrict()">
                     <option value="all">Все районы</option>
                 </select>
             </div>
             <div class="tabs">
-                <div class="tab active" data-tab="hash" onclick="showTab('hash')">Гашиш</div>
-                <div class="tab" data-tab="coke" onclick="showTab('coke')">Кокаин</div>
-                <div class="tab" data-tab="amph" onclick="showTab('amph')">Амфетами</div>
-                <div class="tab" data-tab="meth" onclick="showTab('meth')">Мефедрон</div>
-                <div class="tab" data-tab="meph" onclick="showTab('meph')">Метамфетамин</div>
-                <div class="tab" data-tab="heroin" onclick="showTab('heroin')">Героин</div>
+                <div class="tab" data-tab="weed">Марихуана</div>
+                <div class="tab" data-tab="hash">Гашиш</div>
+                <div class="tab" data-tab="coke">Кокаин</div>
+                <div class="tab" data-tab="amph">Амфетамин</div>
+                <div class="tab" data-tab="meth">Метамфетамин</div>
+                <div class="tab" data-tab="meph">Мефедрон</div>
+                <div class="tab" data-tab="alpha">Alpha-PVP</div>
+                <div class="tab" data-tab="lsd">LSD</div>
+                <div class="tab" data-tab="mdma">MDMA</div>
+                <div class="tab" data-tab="heroin">Героин</div>
             </div>
-            <div id="hash" class="tab-content" style="display: block;">
-                <div class="product-card" data-product="hash-1" onclick="showProductModal('hash', 1)">Чёрный Афган (VHQ)</div>
-                <div class="product-card" data-product="hash-2" onclick="showProductModal('hash', 2)">Зелёный Марокко (HQ)</div>
-                <div class="product-card" data-product="hash-3" onclick="showProductModal('hash', 3)">Коричневый Дым (MQ)</div>
-                <div class="product-card" data-product="hash-4" onclick="showProductModal('hash', 4)">Тёмный Песок (LQ)</div>
-                <div class="product-card" data-product="hash-5" onclick="showProductModal('hash', 5)">Северный Шторм (VHQ)</div>
+
+            <div id="weed" class="tab-content">
+                <div class="product-card" data-product="weed-1">
+                    <h3 onclick="showProductModal('weed', 1)">Jamaican Haze (VHQ)</h3>
+                    <p>Эксклюзивная ямайская сатива, чистейший кайф</p>
+                </div>
             </div>
+
+            <div id="hash" class="tab-content">
+                <div class="product-card" data-product="hash-1">
+                    <h3 onclick="showProductModal('hash', 1)">Afghan Black Gold (VHQ)</h3>
+                    <p>Премиальный афганский гашиш, бархатный эффект</p>
+                </div>
+                <div class="product-card" data-product="hash-2">
+                    <h3 onclick="showProductModal('hash', 2)">Moroccan Spice (HQ)</h3>
+                    <p>Марокканский гашиш с пряным ароматом</p>
+                </div>
+                <div class="product-card" data-product="hash-3">
+                    <h3 onclick="showProductModal('hash', 3)">Nepal Temple (MQ)</h3>
+                    <p>Непальский гашиш, сбалансированный стоун</p>
+                </div>
+                <div class="product-card" data-product="hash-4">
+                    <h3 onclick="showProductModal('hash', 4)">Local Dust (LQ)</h3>
+                    <p>Местный бюджетный гашиш</p>
+                </div>
+                <div class="product-card" data-product="hash-5">
+                    <h3 onclick="showProductModal('hash', 5)">Himalayan Storm (VHQ)</h3>
+                    <p>Гималайский шторм, мощный и чистый</p>
+                </div>
+            </div>
+
             <div id="coke" class="tab-content">
-                <div class="product-card" data-product="coke-1" onclick="showProductModal('coke', 1)">Тропик Бич (Fishscale)</div>
-                <div class="product-card" data-product="coke-2" onclick="showProductModal('coke', 2)">Белый Прах (VHQ)</div>
-                <div class="product-card" data-product="coke-3" onclick="showProductModal('coke', 3)">Снежный Ветер (HQ)</div>
-                <div class="product-card" data-product="coke-4" onclick="showProductModal('coke', 4)">Грязный Снег (MQ)</div>
-                <div class="product-card" data-product="coke-5" onclick="showProductModal('coke', 5)">Уличная Пыль (LQ)</div>
+                <div class="product-card" data-product="coke-1">
+                    <h3 onclick="showProductModal('coke', 1)">Bolivian Fishscale (VHQ)</h3>
+                    <p>Боливийский кокаин высшей пробы, 95%+</p>
+                </div>
+                <div class="product-card" data-product="coke-2">
+                    <h3 onclick="showProductModal('coke', 2)">Colombian Snow (HQ)</h3>
+                    <p>Колумбийский снег, чистый и мощный</p>
+                </div>
+                <div class="product-card" data-product="coke-3">
+                    <h3 onclick="showProductModal('coke', 3)">Peruvian Dust (MQ)</h3>
+                    <p>Перуанская пыль, средний кайф</p>
+                </div>
+                <div class="product-card" data-product="coke-4">
+                    <h3 onclick="showProductModal('coke', 4)">Street Mix (LQ)</h3>
+                    <p>Уличный микс, бюджетный вариант</p>
+                </div>
+                <div class="product-card" data-product="coke-5">
+                    <h3 onclick="showProductModal('coke', 5)">Cartel Gold (VHQ)</h3>
+                    <p>Золотой стандарт картеля, элита</p>
+                </div>
             </div>
+
             <div id="amph" class="tab-content">
-                <div class="product-card" data-product="amph-1" onclick="showProductModal('amph', 1)">Белая Молния (VHQ)</div>
-                <div class="product-card" data-product="amph-2" onclick="showProductModal('amph', 2)">Красный Шторм (HQ)</div>
-                <div class="product-card" data-product="amph-3" onclick="showProductModal('amph', 3)">Жёлтый Пепел (MQ)</div>
-                <div class="product-card" data-product="amph-4" onclick="showProductModal('amph', 4)">Серый Дым (LQ)</div>
-                <div class="product-card" data-product="amph-5" onclick="showProductModal('amph', 5)">Синий Удар (VHQ)</div>
+                <div class="product-card" data-product="amph-1">
+                    <h3 onclick="showProductModal('amph', 1)">Crystal Surge (VHQ)</h3>
+                    <p>Кристальный амфетамин, чистейшая энергия</p>
+                </div>
+                <div class="product-card" data-product="amph-2">
+                    <h3 onclick="showProductModal('amph', 2)">Red Rush (HQ)</h3>
+                    <p>Красный заряд, стабильный драйв</p>
+                </div>
+                <div class="product-card" data-product="amph-3">
+                    <h3 onclick="showProductModal('amph', 3)">Yellow Spark (MQ)</h3>
+                    <p>Жёлтая искра, средний подъём</p>
+                </div>
+                <div class="product-card" data-product="amph-4">
+                    <h3 onclick="showProductModal('amph', 4)">Grey Haze (LQ)</h3>
+                    <p>Серый туман, базовый вариант</p>
+                </div>
+                <div class="product-card" data-product="amph-5">
+                    <h3 onclick="showProductModal('amph', 5)">Blue Blitz (VHQ)</h3>
+                    <p>Синий удар, элитный амф</p>
+                </div>
             </div>
+
             <div id="meth" class="tab-content">
-                <div class="product-card" data-product="meth-1" onclick="showProductModal('meth', 1)">Кристалл Горы (VHQ)</div>
-                <div class="product-card" data-product="meth-2" onclick="showProductModal('meth', 2)">Синий Лёд (HQ)</div>
-                <div class="product-card" data-product="meth-3" onclick="showProductModal('meth', 3)">Белый Кристалл (MQ)</div>
-                <div class="product-card" data-product="meth-4" onclick="showProductModal('meth', 4)">Грязный Лёд (LQ)</div>
-                <div class="product-card" data-product="meth-5" onclick="showProductModal('meth', 5)">Жёлтый Кристалл (VHQ)</div>
+                <div class="product-card" data-product="meth-1">
+                    <h3 onclick="showProductModal('meth', 1)">Mountain Ice (VHQ)</h3>
+                    <p>Горный лёд, кристальная чистота</p>
+                </div>
+                <div class="product-card" data-product="meth-2">
+                    <h3 onclick="showProductModal('meth', 2)">Blue Flame (HQ)</h3>
+                    <p>Синее пламя, долгий эффект</p>
+                </div>
+                <div class="product-card" data-product="meth-3">
+                    <h3 onclick="showProductModal('meth', 3)">White Shard (MQ)</h3>
+                    <p>Белый осколок, средний уровень</p>
+                </div>
+                <div class="product-card" data-product="meth-4">
+                    <h3 onclick="showProductModal('meth', 4)">Dirty Crystal (LQ)</h3>
+                    <p>Грязный кристалл, эконом-класс</p>
+                </div>
+                <div class="product-card" data-product="meth-5">
+                    <h3 onclick="showProductModal('meth', 5)">Golden Shard (VHQ)</h3>
+                    <p>Золотой осколок, топовый мет</p>
+                </div>
             </div>
+
             <div id="meph" class="tab-content">
-                <div class="product-card" data-product="meph-1" onclick="showProductModal('meph', 1)">Розовый Кайф (VHQ)</div>
-                <div class="product-card" data-product="meph-2" onclick="showProductModal('meph', 2)">Белый Взрыв (HQ)</div>
-                <div class="product-card" data-product="meph-3" onclick="showProductModal('meph', 3)">Серый Порошок (MQ)</div>
-                <div class="product-card" data-product="meph-4" onclick="showProductModal('meph', 4)">Мутный Кайф (LQ)</div>
-                <div class="product-card" data-product="meph-5" onclick="showProductModal('meph', 5)">Красный Взрыв (VHQ)</div>
+                <div class="product-card" data-product="meph-1">
+                    <h3 onclick="showProductModal('meph', 1)">Pink Bliss (VHQ)</h3>
+                    <p>Розовое блаженство, чистейший кайф</p>
+                </div>
+                <div class="product-card" data-product="meph-2">
+                    <h3 onclick="showProductModal('meph', 2)">White Surge (HQ)</h3>
+                    <p>Белый всплеск, стабильный эффект</p>
+                </div>
+                <div class="product-card" data-product="meph-3">
+                    <h3 onclick="showProductModal('meph', 3)">Grey Mist (MQ)</h3>
+                    <p>Серый туман, средний уровень</p>
+                </div>
+                <div class="product-card" data-product="meph-4">
+                    <h3 onclick="showProductModal('meph', 4)">Dusty High (LQ)</h3>
+                    <p>Пыльный кайф, бюджетный меф</p>
+                </div>
+                <div class="product-card" data-product="meph-5">
+                    <h3 onclick="showProductModal('meph', 5)">Red Pulse (VHQ)</h3>
+                    <p>Красный пульс, элитный приход</p>
+                </div>
             </div>
+
+            <div id="alpha" class="tab-content">
+                <div class="product-card" data-product="alpha-1">
+                    <h3 onclick="showProductModal('alpha', 1)">Flakka Fire (VHQ)</h3>
+                    <p>Огненная флакка, чистейший Alpha-PVP</p>
+                </div>
+                <div class="product-card" data-product="alpha-2">
+                    <h3 onclick="showProductModal('alpha', 2)">Purple Haze (HQ)</h3>
+                    <p>Пурпурный туман, мощный заряд</p>
+                </div>
+                <div class="product-card" data-product="alpha-3">
+                    <h3 onclick="showProductModal('alpha', 3)">Green Dust (MQ)</h3>
+                    <p>Зелёная пыль, средний эффект</p>
+                </div>
+                <div class="product-card" data-product="alpha-4">
+                    <h3 onclick="showProductModal('alpha', 4)">Street Gravel (LQ)</h3>
+                    <p>Уличный гравий, бюджетный Alpha</p>
+                </div>
+                <div class="product-card" data-product="alpha-5">
+                    <h3 onclick="showProductModal('alpha', 5)">Crystal Fury (VHQ)</h3>
+                    <p>Кристальная ярость, топовый PVP</p>
+                </div>
+            </div>
+
+            <div id="lsd" class="tab-content">
+                <div class="product-card" data-product="lsd-1">
+                    <h3 onclick="showProductModal('lsd', 1)">Cosmic Tabs (VHQ)</h3>
+                    <p>Космические марки, чистейший трип</p>
+                </div>
+                <div class="product-card" data-product="lsd-2">
+                    <h3 onclick="showProductModal('lsd', 2)">Neon Drops (HQ)</h3>
+                    <p>Неоновые капли, яркий опыт</p>
+                </div>
+                <div class="product-card" data-product="lsd-3">
+                    <h3 onclick="showProductModal('lsd', 3)">Acid Rain (MQ)</h3>
+                    <p>Кислотный дождь, средний трип</p>
+                </div>
+                <div class="product-card" data-product="lsd-4">
+                    <h3 onclick="showProductModal('lsd', 4)">Street Blotters (LQ)</h3>
+                    <p>Уличные блоттеры, базовый LSD</p>
+                </div>
+                <div class="product-card" data-product="lsd-5">
+                    <h3 onclick="showProductModal('lsd', 5)">Galactic Hits (VHQ)</h3>
+                    <p>Галактические хиты, элитный кислый</p>
+                </div>
+            </div>
+
+            <div id="mdma" class="tab-content">
+                <div class="product-card" data-product="mdma-1">
+                    <h3 onclick="showProductModal('mdma', 1)">Crystal Love (VHQ)</h3>
+                    <p>Кристальная любовь, чистейший MDMA</p>
+                </div>
+                <div class="product-card" data-product="mdma-2">
+                    <h3 onclick="showProductModal('mdma', 2)">Pink Rocks (HQ)</h3>
+                    <p>Розовые камни, стабильный кайф</p>
+                </div>
+                <div class="product-card" data-product="mdma-3">
+                    <h3 onclick="showProductModal('mdma', 3)">Ecstasy Blue (VHQ Tabs)</h3>
+                    <p>Синий экстази, топовые таблетки</p>
+                </div>
+                <div class="product-card" data-product="mdma-4">
+                    <h3 onclick="showProductModal('mdma', 4)">Molly Dust (MQ)</h3>
+                    <p>Пыль Молли, средний MDMA</p>
+                </div>
+                <div class="product-card" data-product="mdma-5">
+                    <h3 onclick="showProductModal('mdma', 5)">Street Pills (LQ Tabs)</h3>
+                    <p>Уличные пилсы, бюджетный экстази</p>
+                </div>
+            </div>
+
             <div id="heroin" class="tab-content">
-                <div class="product-card" data-product="heroin-1" onclick="showProductModal('heroin', 1)">Коричневый Сон (VHQ)</div>
-                <div class="product-card" data-product="heroin-2" onclick="showProductModal('heroin', 2)">Белый Дракон (HQ)</div>
-                <div class="product-card" data-product="heroin-3" onclick="showProductModal('heroin', 3)">Тёмный Порошок (MQ)</div>
-                <div class="product-card" data-product="heroin-4" onclick="showProductModal('heroin', 4)">Грязный Сон (LQ)</div>
-                <div class="product-card" data-product="heroin-5" onclick="showProductModal('heroin', 5)">Чёрный Дракон (VHQ)</div>
+                <div class="product-card" data-product="heroin-1">
+                    <h3 onclick="showProductModal('heroin', 1)">Afghan Silk (VHQ)</h3>
+                    <p>Афганский шёлк, глубокий стоун</p>
+                </div>
+                <div class="product-card" data-product="heroin-2">
+                    <h3 onclick="showProductModal('heroin', 2)">White Lotus (HQ)</h3>
+                    <p>Белый лотос, чистый эффект</p>
+                </div>
+                <div class="product-card" data-product="heroin-3">
+                    <h3 onclick="showProductModal('heroin', 3)">Brown Sugar (MQ)</h3>
+                    <p>Коричневый сахар, средний героин</p>
+                </div>
+                <div class="product-card" data-product="heroin-4">
+                    <h3 onclick="showProductModal('heroin', 4)">Dirty Tar (LQ)</h3>
+                    <p>Грязная смола, бюджетный вариант</p>
+                </div>
+                <div class="product-card" data-product="heroin-5">
+                    <h3 onclick="showProductModal('heroin', 5)">Black Pearl (VHQ)</h3>
+                    <p>Чёрная жемчужина, элитный героин</p>
+                </div>
             </div>
         </div>
-        <div id="profileMenu" class="profile-menu">
-            <h2 id="userName"></h2>
+
+        <div class="profile-menu" id="profileMenu">
             <div class="profile-info">
+                <h3>💀</h3>
+                <p>Имя: <span id="userName">Аноним</span></p>
                 <p>Баланс: <span id="balance">0 ฿</span></p>
                 <p>Заказов: <span id="orderCount">0</span></p>
                 <p>Приглашено друзей: <span id="referralCount">0</span></p>
+                <p>Реферальная ссылка: <span id="referralLink">darkthailand.com/ref123</span></p>
             </div>
-            <div class="profile-buttons">
-                <button class="buy-button" onclick="showReferralDetails()">Рефералы</button>
-                <button class="buy-button" onclick="showDepositModal('BTC')">Пополнить</button>
+            <div class="deposit-options">
+                <h3>Пополнить баланс</h3>
+                <button class="nav-button" onclick="showDepositModal('BTC')">Bitcoin (BTC)</button>
+                <button class="nav-button" onclick="showDepositModal('ETH')">Ethereum (ETH)</button>
+                <button class="nav-button" onclick="showDepositModal('USDT')">Tether (USDT)</button>
+                <button class="nav-button" onclick="showDepositModal('SOL')">Solana (SOL)</button>
+                <button class="nav-button" onclick="showDepositModal('TON')">Toncoin (TON)</button>
             </div>
-            <h3>История заказов:</h3>
-            <div id="orderList"></div>
+            <div class="order-history">
+                <h3>Последние заказы</h3>
+                <div id="orderList">Пока пусто, делай заказы!</div>
+            </div>
         </div>
-        <div id="vacancyMenu" class="vacancy-menu">
-            <h2>Вакансии</h2>
-            <ul class="vacancy-list">
-                <li class="vacancy-item">
-                    <span>Курьер - от 50,000 ฿/мес</span>
-                    <button class="buy-button" onclick="applyForJob('Курьер')">Заявка</button>
-                </li>
-                <li class="vacancy-item">
-                    <span>Кладмен - от 80,000 ฿/мес</span>
-                    <button class="buy-button" onclick="applyForJob('Кладмен')">Заявка</button>
-                </li>
-                <li class="vacancy-item">
-                    <span>Перевозчик - от 120,000 ฿/мес</span>
-                    <button class="buy-button" onclick="applyForJob('Перевозчик')">Заявка</button>
-                </li>
-                <li class="vacancy-item">
-                    <span>SMM-щик - от 40,000 ฿/мес</span>
-                    <button class="buy-button" onclick="applyForJob('SMM-щик')">Заявка</button>
-                </li>
-            </ul>
+
+        <div class="vacancy-menu" id="vacancyMenu">
+            <h2>Вакансии в Dark Thailand</h2>
+            <div class="vacancy">
+                <h3>Кладмен</h3>
+                <p>Обязанности: Доставка и закладка товара по координатам.</p>
+                <p>Оплата: 500-1000 ฿ за клад (зависит от объёма).</p>
+                <button class="buy-button" onclick="applyForJob('Кладмен')">Оставить заявку</button>
+            </div>
+            <div class="vacancy">
+                <h3>Складмен</h3>
+                <p>Обязанности: Упаковка и подготовка товара к отправке.</p>
+                <p>Оплата: 2000-3000 ฿ за смену.</p>
+                <button class="buy-button" onclick="applyForJob('Складмен')">Оставить заявку</button>
+            </div>
+            <div class="vacancy">
+                <h3>Перевозчик</h3>
+                <p>Обязанности: Перевозка товара между городами Таиланда.</p>
+                <p>Оплата: 5000-10000 ฿ за рейс.</p>
+                <button class="buy-button" onclick="applyForJob('Перевозчик')">Оставить заявку</button>
+            </div>
+            <div class="vacancy">
+                <h3>SMMщик</h3>
+                <p>Обязанности: Продвижение шопа в соцсетях и форумах.</p>
+                <p>Оплата: 3000-5000 ฿ в неделю + бонусы за активность.</p>
+                <button class="buy-button" onclick="applyForJob('SMMщик')">Оставить заявку</button>
+            </div>
         </div>
-        <div id="mailMenu" class="mail-menu">
+
+        <div class="mail-menu" id="mailMenu">
             <h2>Почта</h2>
-            <div id="mailList"></div>
+            <div id="mailList">Пока нет сообщений.</div>
         </div>
-        <div class="modal" id="registrationModal">
-            <div class="modal-content">
+
+        <div class="product-modal" id="productModal">
+            <div class="product-content" id="productContent"></div>
+        </div>
+
+        <div class="payment-modal" id="paymentModal">
+            <div class="payment-content" id="paymentContent"></div>
+        </div>
+
+        <div class="deposit-modal" id="depositModal">
+            <div class="deposit-content" id="depositContent"></div>
+        </div>
+
+        <div class="preorder-modal" id="preorderModal">
+            <div class="preorder-content" id="preorderContent"></div>
+        </div>
+
+        <div class="registration-modal" id="registrationModal">
+            <div class="registration-content" id="registrationContent">
                 <h2>Регистрация</h2>
-                <input type="text" id="regNickname" class="custom-input" placeholder="Введите никнейм">
+                <p>Введите желаемый никнейм:</p>
+                <input type="text" id="regNickname" placeholder="Ваш никнейм">
                 <button class="buy-button" onclick="registerUser()">Зарегистрироваться</button>
-                <p id="regError" style="color: #ff6666;"></p>
+                <p id="regError" style="color: #ff9999;"></p>
             </div>
         </div>
-        <div class="modal" id="productModal">
-            <div class="modal-content" id="productContent"></div>
+
+        <div class="custom-modal" id="customModal">
+            <div class="custom-content" id="customContent"></div>
         </div>
-        <div class="modal" id="paymentModal">
-            <div class="modal-content" id="paymentContent"></div>
-        </div>
-        <div class="modal" id="preorderModal">
-            <div class="modal-content" id="preorderContent"></div>
-        </div>
-        <div class="modal" id="depositModal">
-            <div class="modal-content" id="depositContent"></div>
-        </div>
-        <div class="modal" id="customModal">
-            <div class="modal-content" id="customContent"></div>
-        </div>
-        <div class="modal" id="confirmModal">
-            <div class="modal-content" id="confirmContent"></div>
+
+        <div class="confirm-modal" id="confirmModal">
+            <div class="confirm-content" id="confirmContent"></div>
         </div>
     </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-    // Глобальные переменные
-    var balance = 0;
-    var orderCount = 0;
-    var referralCount = 0;
-    var referralDeposits = 0;
-    var orderHistory = [];
-    var selectedCity = 'all';
-    var selectedDistrict = 'all';
-    var currentUser = null;
-    var mailMessages = [];
-    var pendingPayments = {};
-    var BTC_RATE = 2000000;
-
-    const BOT_B_TOKEN = '7589545725:AAHoedAqoGh_k0WWdUs1rcBN1yddUtBFhsk';
-    const ADMIN_CHAT_ID = '5956080955';
-
-    const testAddresses = {
-        BTC: "1A1zP1eP5QGefi2DMPTfTL5SLmvVISA: https://t.me/DarkThailandBot",
-        ETH: "0x32Be343B94f860124dC4fEe278FDCBD38C102D88",
-        USDT: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        SOL: "5yK7e5a8j9k2m3n4p5q6r7s8t9u0v1w2x3y4z5A6B7C8D9E0F1G2H",
-        TON: "EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c"
-    };
-
-    const cities = {
-        "phuket": {
-            "Патонг": { lat: "7.891", lon: "98.298", desc: "Под пальмой у третьего шезлонга, закопано в песке, чёрный пакет." },
-            "Карон": { lat: "7.846", lon: "98.295", desc: "Под камнем у забора, магнит в синей изоленте." },
-            "Пхукет-таун": { lat: "7.883", lon: "98.391", desc: "В кустах за старым ларьком, завёрнуто в зелёную плёнку." },
-            "Ката": { lat: "7.820", lon: "98.299", desc: "Под скамейкой у пляжа, завёрнуто в чёрную плёнку." }
-        },
-        "pattaya": {
-            "Центральная Паттайя": { lat: "12.935", lon: "100.887", desc: "В щели стены у бара, магнит в красной изоленте." },
-            "Джомтьен": { lat: "12.903", lon: "100.869", desc: "Под кустом у дороги, завёрнуто в серую ткань." },
-            "Наклуа": { lat: "12.970", lon: "100.900", desc: "За мусоркой у рынка, чёрный пакет." },
-            "Южная Паттайя": { lat: "12.923", lon: "100.882", desc: "Под камнем у пирса, завёрнуто в зелёную плёнку." }
-        },
-        "bangkok": {
-            "Сукхумвит": { lat: "13.736", lon: "100.561", desc: "В щели стены у метро, магнит в жёлтой изоленте." },
-            "Каосан": { lat: "13.759", lon: "100.497", desc: "Под скамейкой у хостела, завёрнуто в чёрную плёнку." },
-            "Силом": { lat: "13.723", lon: "100.535", desc: "За вывеской у бара, магнит в синей изоленте." },
-            "Чатучак": { lat: "13.799", lon: "100.548", desc: "В кустах у рынка, завёрнуто в серую ткань." }
-        },
-        "samui": {
-            "Чавенг": { lat: "9.520", lon: "100.057", desc: "Под шезлонгом у бара, завёрнуто в чёрный пакет." },
-            "Ламай": { lat: "9.470", lon: "100.047", desc: "В кустах у дороги, магнит в зелёной изоленте." },
-            "Бо Пхут": { lat: "9.560", lon: "100.031", desc: "Под камнем у пирса, завёрнуто в серую ткань." },
-            "Маенам": { lat: "9.573", lon: "100.000", desc: "За мусоркой у пляжа, чёрный пакет." }
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.expand();
+        } else {
+            console.warn('Telegram Web App not available, running in offline mode');
         }
-    };
 
-    const weights = {
-        default: [1, 2, 3, 5, 10, 15, 20],
-        cokeMeph: [0.5, 1, 2, 3, 5, 10, 15, 20]
-    };
+        let balance = 0;
+        let orderCount = 0;
+        let referralCount = 0;
+        let referralDeposits = 0;
+        let orderHistory = [];
+        let selectedCity = 'all';
+        let selectedDistrict = 'all';
+        let currentUser = null;
+        let mailMessages = [];
+        let pendingPayments = {};
+        let BTC_RATE = 2000000;
+        const MIN_DEPOSIT = 1000;
 
-    const basePrices = {
-        hash: { 1: 900, 2: 700, 3: 500, 4: 400, 5: 1000 },
-        coke: { 1: 4000, 2: 3600, 3: 3000, 4: 2400, 5: 2000 },
-        amph: { 1: 1300, 2: 1000, 3: 900, 4: 700, 5: 1500 },
-        meth: { 1: 1500, 2: 1200, 3: 1000, 4: 800, 5: 1800 },
-        meph: { 1: 1400, 2: 1100, 3: 900, 4: 700, 5: 1600 },
-        heroin: { 1: 2000, 2: 1800, 3: 1500, 4: 1200, 5: 2500 }
-    };
+        const BOT_B_TOKEN = '7589545725:AAHoedAqoGh_k0WWdUs1rcBN1yddUtBFhsk';
+        const ADMIN_CHAT_ID = '5956080955'; // Замените на ваш chat_id
 
-    const products = {
-        hash: {
-            1: { name: "Чёрный Афган (VHQ)", positions: generatePositions('hash', 1), reviews: [{ text: "Чёрный Афган — это просто космос! Мягкий и мощный, топ за свои деньги! — Аноним", mod: `Рады, что вам понравился Чёрный Афган! Заходите ещё, активировал вам промокод на ${getRandomPromoGood()} за крутой отзыв! — Модератор Dark Thailand` }] },
-            2: { name: "Зелёный Марокко (HQ)", positions: generatePositions('hash', 2), reviews: [] },
-            3: { name: "Коричневый Дым (MQ)", positions: generatePositions('hash', 3), reviews: [] },
-            4: { name: "Тёмный Песок (LQ)", positions: generatePositions('hash', 4), reviews: [] },
-            5: { name: "Северный Шторм (VHQ)", positions: generatePositions('hash', 5), reviews: [] }
-        },
-        coke: {
-            1: { name: "Тропик Бич (Fishscale)", positions: generatePositions('coke', 1), reviews: [] },
-            2: { name: "Белый Прах (VHQ)", positions: generatePositions('coke', 2), reviews: [] },
-            3: { name: "Снежный Ветер (HQ)", positions: generatePositions('coke', 3), reviews: [] },
-            4: { name: "Грязный Снег (MQ)", positions: generatePositions('coke', 4), reviews: [] },
-            5: { name: "Уличная Пыль (LQ)", positions: generatePositions('coke', 5), reviews: [] }
-        },
-        amph: {
-            1: { name: "Белая Молния (VHQ)", positions: generatePositions('amph', 1), reviews: [] },
-            2: { name: "Красный Шторм (HQ)", positions: generatePositions('amph', 2), reviews: [] },
-            3: { name: "Жёлтый Пепел (MQ)", positions: generatePositions('amph', 3), reviews: [] },
-            4: { name: "Серый Дым (LQ)", positions: generatePositions('amph', 4), reviews: [] },
-            5: { name: "Синий Удар (VHQ)", positions: generatePositions('amph', 5), reviews: [] }
-        },
-        meth: {
-            1: { name: "Кристалл Горы (VHQ)", positions: generatePositions('meth', 1), reviews: [] },
-            2: { name: "Синий Лёд (HQ)", positions: generatePositions('meth', 2), reviews: [] },
-            3: { name: "Белый Кристалл (MQ)", positions: generatePositions('meth', 3), reviews: [] },
-            4: { name: "Грязный Лёд (LQ)", positions: generatePositions('meth', 4), reviews: [] },
-            5: { name: "Жёлтый Кристалл (VHQ)", positions: generatePositions('meth', 5), reviews: [] }
-        },
-        meph: {
-            1: { name: "Розовый Кайф (VHQ)", positions: generatePositions('meph', 1), reviews: [] },
-            2: { name: "Белый Взрыв (HQ)", positions: generatePositions('meph', 2), reviews: [] },
-            3: { name: "Серый Порошок (MQ)", positions: generatePositions('meph', 3), reviews: [] },
-            4: { name: "Мутный Кайф (LQ)", positions: generatePositions('meph', 4), reviews: [] },
-            5: { name: "Красный Взрыв (VHQ)", positions: generatePositions('meph', 5), reviews: [] }
-        },
-        heroin: {
-            1: { name: "Коричневый Сон (VHQ)", positions: generatePositions('heroin', 1), reviews: [] },
-            2: { name: "Белый Дракон (HQ)", positions: generatePositions('heroin', 2), reviews: [] },
-            3: { name: "Тёмный Порошок (MQ)", positions: generatePositions('heroin', 3), reviews: [] },
-            4: { name: "Грязный Сон (LQ)", positions: generatePositions('heroin', 4), reviews: [] },
-            5: { name: "Чёрный Дракон (VHQ)", positions: generatePositions('heroin', 5), reviews: [] }
-        }
-    };
-
-    // Telegram Web App инициализация
-    if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
-    } else {
-        console.warn('Telegram Web App not available, running in offline mode');
-    }
-
-    function generatePositions(category, productId) {
-        const isCokeOrMeph = category === 'coke' || category === 'meph';
-        const applicableWeights = isCokeOrMeph ? weights.cokeMeph : weights.default;
-        const positions = [];
-        let id = 1;
-
-        for (const city in cities) {
-            for (const district in cities[city]) {
-                applicableWeights.forEach(weight => {
-                    const basePricePerGram = basePrices[category][productId];
-                    const price = Math.round(basePricePerGram * weight * (city === 'samui' ? 1.5 : 1));
-                    const cryptoPrice = (price / BTC_RATE).toFixed(5);
-                    const inStock = (isCokeOrMeph && weight === 0.5) || Math.random() > 0.2;
-                    positions.push({
-                        id: id++,
-                        weight,
-                        price,
-                        cryptoPrice,
-                        city,
-                        district,
-                        inStock
-                    });
-                });
-            }
-        }
-        return positions;
-    }
-
-    function fetchBTCRate() {
-        fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=thb')
-            .then(response => response.json())
-            .then(data => {
-                BTC_RATE = data.bitcoin.thb;
-                console.log(`Актуальный курс BTC/THB: ${BTC_RATE}`);
-            })
-            .catch(error => {
-                console.error('Ошибка получения курса BTC:', error);
-                BTC_RATE = 2000000; // Фиксированный курс по умолчанию
-            });
-    }
-
-    function getRandomDate() {
-        const day = Math.floor(Math.random() * 12) + 1;
-        return `0${day}.03.2025`.slice(-10);
-    }
-
-    function getRandomPromoGood() {
-        const promos = ["5%", "10%", "15%"];
-        return promos[Math.floor(Math.random() * promos.length)];
-    }
-
-    function getRandomCoordinates(city, district) {
-        const baseLat = parseFloat(cities[city][district].lat);
-        const baseLon = parseFloat(cities[city][district].lon);
-        const offset = 0.005;
-        const randomLat = (baseLat + (Math.random() * offset * 2 - offset)).toFixed(3);
-        const randomLon = (baseLon + (Math.random() * offset * 2 - offset)).toFixed(3);
-        return { lat: randomLat, lon: randomLon };
-    }
-
-    // Явное определение функций в глобальной области
-    window.toggleCatalog = function() {
-        const catalog = document.getElementById('catalogMenu');
-        const profile = document.getElementById('profileMenu');
-        const vacancies = document.getElementById('vacancyMenu');
-        const mail = document.getElementById('mailMenu');
-        catalog.style.display = catalog.style.display === 'block' ? 'none' : 'block';
-        profile.style.display = 'none';
-        vacancies.style.display = 'none';
-        mail.style.display = 'none';
-        if (catalog.style.display === 'block') {
-            showTab('hash'); // Показываем вкладку по умолчанию
-            updateDistrictSelect(); // Обновляем фильтр районов
-        }
-    };
-
-    window.toggleVacancies = function() {
-        const catalog = document.getElementById('catalogMenu');
-        const profile = document.getElementById('profileMenu');
-        const vacancies = document.getElementById('vacancyMenu');
-        const mail = document.getElementById('mailMenu');
-        vacancies.style.display = vacancies.style.display === 'block' ? 'none' : 'block';
-        catalog.style.display = 'none';
-        profile.style.display = 'none';
-        mail.style.display = 'none';
-    };
-
-    window.toggleMail = function() {
-        const catalog = document.getElementById('catalogMenu');
-        const profile = document.getElementById('profileMenu');
-        const vacancies = document.getElementById('vacancyMenu');
-        const mail = document.getElementById('mailMenu');
-        mail.style.display = mail.style.display === 'block' ? 'none' : 'block';
-        catalog.style.display = 'none';
-        profile.style.display = 'none';
-        vacancies.style.display = 'none';
-        updateMail();
-    };
-
-    window.toggleProfile = function() {
-        const catalog = document.getElementById('catalogMenu');
-        const profile = document.getElementById('profileMenu');
-        const vacancies = document.getElementById('vacancyMenu');
-        const mail = document.getElementById('mailMenu');
-        profile.style.display = profile.style.display === 'block' ? 'none' : 'block';
-        catalog.style.display = 'none';
-        vacancies.style.display = 'none';
-        mail.style.display = 'none';
-        updateProfile();
-    };
-
-    function updateProfile() {
-        if (!currentUser) return;
-        document.getElementById('userName').textContent = currentUser;
-        document.getElementById('balance').textContent = `${balance} ฿`;
-        document.getElementById('orderCount').textContent = orderCount;
-        document.getElementById('referralCount').textContent = referralCount;
-        const orderList = document.getElementById('orderList');
-        orderList.innerHTML = orderHistory.length > 0 ? orderHistory.map(order => `<p>${order.date}: ${order.product} - ${order.price} ฿</p>`).join('') : 'Пока пусто, делай заказы!';
-        checkReferralBonus();
-    }
-
-    function sendToTelegramBot(message, paymentId, amount) {
-        if (!window.Telegram || !window.Telegram.WebApp) {
-            console.log('Telegram not available, skipping send:', message);
-            return;
-        }
-        const chatId = window.Telegram.WebApp.initDataUnsafe.user?.id || 'unknown';
-        const fullMessage = `${message}\nchat_id: ${chatId}`;
-        const keyboard = paymentId ? {
-            inline_keyboard: [
-                [
-                    { text: '✅ Подтвердить', callback_data: `confirm_${paymentId}_${amount}_${chatId}` },
-                    { text: '❌ Отклонить', callback_data: `reject_${paymentId}_${chatId}` }
-                ]
-            ]
-        } : null;
-        fetch(`https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: ADMIN_CHAT_ID,
-                text: fullMessage,
-                reply_markup: keyboard
-            })
-        })
-            .then(response => response.json())
-            .then(data => console.log('Уведомление отправлено:', data))
-            .catch(error => console.error('Ошибка:', error));
-    }
-
-    function confirmPayment(crypto, address, amount) {
-        const paymentId = `${currentUser}_${Date.now()}`;
-        pendingPayments[paymentId] = { user: currentUser, amount: parseInt(amount) };
-        sendToTelegramBot(`💸 Запрос на оплату:\nПользователь: ${currentUser}\nКрипта: ${crypto}\nАдрес: ${address}\nСумма: ${amount} ฿`, paymentId, amount);
-        const modal = document.getElementById('confirmModal');
-        const content = document.getElementById('confirmContent');
-        content.innerHTML = `
-            <h2>Ожидание подтверждения</h2>
-            <p>Запрос на пополнение баланса на ${amount} ฿ (~${(amount / BTC_RATE).toFixed(5)} BTC) отправлен.</p>
-            <p>Ожидайте начисления после проверки администратором.</p>
-            <button class="buy-button" onclick="document.getElementById('confirmModal').style.display='none';">Закрыть</button>
-        `;
-        modal.style.display = 'flex';
-        document.getElementById('depositModal').style.display = 'none';
-        modal.onclick = (e) => {
-            if (e.target === modal) modal.style.display = 'none';
+        const testAddresses = {
+            BTC: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+            ETH: "0x32Be343B94f860124dC4fEe278FDCBD38C102D88",
+            USDT: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+            SOL: "5yK7e5a8j9k2m3n4p5q6r7s8t9u0v1w2x3y4z5A6B7C8D9E0F1G2H",
+            TON: "EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c"
         };
-    }
 
-    function checkPendingPayment(paymentId, amount) {
-        if (pendingPayments[paymentId]) {
-            balance += amount;
-            referralDeposits += amount;
-            delete pendingPayments[paymentId];
-            updateProfile();
-            addMailMessage(`💰 Баланс пополнен на ${amount} ฿`);
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.showAlert(`Баланс пополнен на ${amount} ฿!`);
-            } else {
-                alert(`Баланс пополнен на ${amount} ฿!`);
+        const cities = {
+            "phuket": {
+                "Патонг": { lat: "7.891", lon: "98.298", desc: "Под пальмой у третьего шезлонга, закопано в песке, чёрный пакет." },
+                "Карон": { lat: "7.846", lon: "98.295", desc: "Под камнем у забора, магнит в синей изоленте." },
+                "Пхукет-таун": { lat: "7.883", lon: "98.391", desc: "В кустах за старым ларьком, завёрнуто в зелёную плёнку." },
+                "Ката": { lat: "7.820", lon: "98.299", desc: "Под скамейкой у пляжа, завёрнуто в чёрную плёнку." },
+                "Чалонг": { lat: "7.831", lon: "98.339", desc: "За вывеской у пирса, магнит в красной изоленте." },
+                "Камала": { lat: "7.952", lon: "98.284", desc: "Под кустом у дороги, завёрнуто в серую ткань." },
+                "Май Кхао": { lat: "8.130", lon: "98.298", desc: "В песке у заброшенного ларька, чёрный пакет." }
+            },
+            "pattaya": {
+                "Центральная Паттайя": { lat: "12.935", lon: "100.887", desc: "В щели стены у бара, магнит в красной изоленте." },
+                "Джомтьен": { lat: "12.903", lon: "100.869", desc: "Под кустом у дороги, завёрнуто в серую ткань." },
+                "Наклуа": { lat: "12.970", lon: "100.900", desc: "За мусоркой у рынка, чёрный пакет." },
+                "Южная Паттайя": { lat: "12.923", lon: "100.882", desc: "Под камнем у пирса, завёрнуто в зелёную плёнку." },
+                "Вонг Амат": { lat: "12.963", lon: "100.885", desc: "Под скамейкой у пляжа, магнит в жёлтой изоленте." },
+                "Пратамнак": { lat: "12.918", lon: "100.865", desc: "В кустах у холма, завёрнуто в чёрную плёнку." }
+            },
+            "bangkok": {
+                "Сукхумвит": { lat: "13.736", lon: "100.561", desc: "В щели стены у метро, магнит в жёлтой изоленте." },
+                "Каосан": { lat: "13.759", lon: "100.497", desc: "Под скамейкой у хостела, завёрнуто в чёрную плёнку." },
+                "Силом": { lat: "13.723", lon: "100.535", desc: "За вывеской у бара, магнит в синей изоленте." },
+                "Чатучак": { lat: "13.799", lon: "100.548", desc: "В кустах у рынка, завёрнуто в серую ткань." },
+                "Ратчада": { lat: "13.779", lon: "100.573", desc: "Под мостом у метро, магнит в зелёной изоленте." },
+                "Банглампху": { lat: "13.760", lon: "100.501", desc: "За ларьком у канала, чёрный пакет." }
+            },
+            "samui": {
+                "Чавенг": { lat: "9.520", lon: "100.057", desc: "Под шезлонгом у бара, завёрнуто в чёрный пакет." },
+                "Ламай": { lat: "9.470", lon: "100.047", desc: "В кустах у дороги, магнит в зелёной изоленте." },
+                "Бо Пхут": { lat: "9.560", lon: "100.031", desc: "Под камнем у пирса, завёрнуто в серую ткань." },
+                "Маенам": { lat: "9.573", lon: "100.000", desc: "За мусоркой у пляжа, чёрный пакет." },
+                "Липа Ной": { lat: "9.498", lon: "99.935", desc: "Под пальмой у берега, магнит в синей изоленте." },
+                "Банг По": { lat: "9.580", lon: "99.970", desc: "В песке у забора, завёрнуто в зелёную плёнку." }
+            }
+        };
+
+        const weights = {
+            default: [1, 2, 3, 5, 10, 15, 20],
+            cokeMephAlphaMdma: [0.5, 1, 2, 3, 5, 10, 15, 20],
+            lsd: [1, 2, 5, 10], // Количество марок
+            mdmaTabs: [1, 2, 5] // Количество таблеток
+        };
+
+        const basePrices = {
+            weed: { 1: 1500 },
+            hash: { 1: 900, 2: 700, 3: 500, 4: 400, 5: 1000 },
+            coke: { 1: 4000, 2: 3600, 3: 3000, 4: 2400, 5: 4500 },
+            amph: { 1: 1300, 2: 1000, 3: 900, 4: 700, 5: 1500 },
+            meth: { 1: 1500, 2: 1200, 3: 1000, 4: 800, 5: 1800 },
+            meph: { 1: 1400, 2: 1100, 3: 900, 4: 700, 5: 1600 },
+            alpha: { 1: 1200, 2: 1000, 3: 800, 4: 600, 5: 1400 },
+            lsd: { 1: 500, 2: 450, 3: 400, 4: 350, 5: 600 }, // Цена за марку
+            mdma: { 1: 1500, 2: 1200, 3: 600, 4: 1000, 5: 400 }, // 3 и 5 - таблетки
+            heroin: { 1: 2000, 2: 1800, 3: 1500, 4: 1200, 5: 2500 }
+        };
+
+        const products = {
+            weed: {
+                1: { name: "Jamaican Haze (VHQ)", positions: generatePositions('weed', 1, 'default'), reviews: [] }
+            },
+            hash: {
+                1: { name: "Afghan Black Gold (VHQ)", positions: generatePositions('hash', 1, 'default'), reviews: [{ text: "Чёрное золото — это бомба! Мягкий и мощный, топ за свои деньги! — Аноним", mod: `Рады, что вам зашло! Промокод на ${getRandomPromoGood()} активирован за отзыв! — Dark Thailand` }] },
+                2: { name: "Moroccan Spice (HQ)", positions: generatePositions('hash', 2, 'default'), reviews: [] },
+                3: { name: "Nepal Temple (MQ)", positions: generatePositions('hash', 3, 'default'), reviews: [] },
+                4: { name: "Local Dust (LQ)", positions: generatePositions('hash', 4, 'default'), reviews: [] },
+                5: { name: "Himalayan Storm (VHQ)", positions: generatePositions('hash', 5, 'default'), reviews: [] }
+            },
+            coke: {
+                1: { name: "Bolivian Fishscale (VHQ)", positions: generatePositions('coke', 1, 'cokeMephAlphaMdma'), reviews: [] },
+                2: { name: "Colombian Snow (HQ)", positions: generatePositions('coke', 2, 'cokeMephAlphaMdma'), reviews: [] },
+                3: { name: "Peruvian Dust (MQ)", positions: generatePositions('coke', 3, 'cokeMephAlphaMdma'), reviews: [] },
+                4: { name: "Street Mix (LQ)", positions: generatePositions('coke', 4, 'cokeMephAlphaMdma'), reviews: [] },
+                5: { name: "Cartel Gold (VHQ)", positions: generatePositions('coke', 5, 'cokeMephAlphaMdma'), reviews: [] }
+            },
+            amph: {
+                1: { name: "Crystal Surge (VHQ)", positions: generatePositions('amph', 1, 'default'), reviews: [] },
+                2: { name: "Red Rush (HQ)", positions: generatePositions('amph', 2, 'default'), reviews: [] },
+                3: { name: "Yellow Spark (MQ)", positions: generatePositions('amph', 3, 'default'), reviews: [] },
+                4: { name: "Grey Haze (LQ)", positions: generatePositions('amph', 4, 'default'), reviews: [] },
+                5: { name: "Blue Blitz (VHQ)", positions: generatePositions('amph', 5, 'default'), reviews: [] }
+            },
+            meth: {
+                1: { name: "Mountain Ice (VHQ)", positions: generatePositions('meth', 1, 'default'), reviews: [] },
+                2: { name: "Blue Flame (HQ)", positions: generatePositions('meth', 2, 'default'), reviews: [] },
+                3: { name: "White Shard (MQ)", positions: generatePositions('meth', 3, 'default'), reviews: [] },
+                4: { name: "Dirty Crystal (LQ)", positions: generatePositions('meth', 4, 'default'), reviews: [] },
+                5: { name: "Golden Shard (VHQ)", positions: generatePositions('meth', 5, 'default'), reviews: [] }
+            },
+            meph: {
+                1: { name: "Pink Bliss (VHQ)", positions: generatePositions('meph', 1, 'cokeMephAlphaMdma'), reviews: [] },
+                2: { name: "White Surge (HQ)", positions: generatePositions('meph', 2, 'cokeMephAlphaMdma'), reviews: [] },
+                3: { name: "Grey Mist (MQ)", positions: generatePositions('meph', 3, 'cokeMephAlphaMdma'), reviews: [] },
+                4: { name: "Dusty High (LQ)", positions: generatePositions('meph', 4, 'cokeMephAlphaMdma'), reviews: [] },
+                5: { name: "Red Pulse (VHQ)", positions: generatePositions('meph', 5, 'cokeMephAlphaMdma'), reviews: [] }
+            },
+            alpha: {
+                1: { name: "Flakka Fire (VHQ)", positions: generatePositions('alpha', 1, 'cokeMephAlphaMdma'), reviews: [] },
+                2: { name: "Purple Haze (HQ)", positions: generatePositions('alpha', 2, 'cokeMephAlphaMdma'), reviews: [] },
+                3: { name: "Green Dust (MQ)", positions: generatePositions('alpha', 3, 'cokeMephAlphaMdma'), reviews: [] },
+                4: { name: "Street Gravel (LQ)", positions: generatePositions('alpha', 4, 'cokeMephAlphaMdma'), reviews: [] },
+                5: { name: "Crystal Fury (VHQ)", positions: generatePositions('alpha', 5, 'cokeMephAlphaMdma'), reviews: [] }
+            },
+            lsd: {
+                1: { name: "Cosmic Tabs (VHQ)", positions: generatePositions('lsd', 1, 'lsd'), reviews: [] },
+                2: { name: "Neon Drops (HQ)", positions: generatePositions('lsd', 2, 'lsd'), reviews: [] },
+                3: { name: "Acid Rain (MQ)", positions: generatePositions('lsd', 3, 'lsd'), reviews: [] },
+                4: { name: "Street Blotters (LQ)", positions: generatePositions('lsd', 4, 'lsd'), reviews: [] },
+                5: { name: "Galactic Hits (VHQ)", positions: generatePositions('lsd', 5, 'lsd'), reviews: [] }
+            },
+            mdma: {
+                1: { name: "Crystal Love (VHQ)", positions: generatePositions('mdma', 1, 'cokeMephAlphaMdma'), reviews: [] },
+                2: { name: "Pink Rocks (HQ)", positions: generatePositions('mdma', 2, 'cokeMephAlphaMdma'), reviews: [] },
+                3: { name: "Ecstasy Blue (VHQ Tabs)", positions: generatePositions('mdma', 3, 'mdmaTabs'), reviews: [] },
+                4: { name: "Molly Dust (MQ)", positions: generatePositions('mdma', 4, 'cokeMephAlphaMdma'), reviews: [] },
+                5: { name: "Street Pills (LQ Tabs)", positions: generatePositions('mdma', 5, 'mdmaTabs'), reviews: [] }
+            },
+            heroin: {
+                1: { name: "Afghan Silk (VHQ)", positions: generatePositions('heroin', 1, 'default'), reviews: [] },
+                2: { name: "White Lotus (HQ)", positions: generatePositions('heroin', 2, 'default'), reviews: [] },
+                3: { name: "Brown Sugar (MQ)", positions: generatePositions('heroin', 3, 'default'), reviews: [] },
+                4: { name: "Dirty Tar (LQ)", positions: generatePositions('heroin', 4, 'default'), reviews: [] },
+                5: { name: "Black Pearl (VHQ)", positions: generatePositions('heroin', 5, 'default'), reviews: [] }
+            }
+        };
+
+        function generatePositions(category, productId, weightType) {
+            const applicableWeights = weights[weightType];
+            const positions = [];
+            let id = 1;
+
+            for (const city in cities) {
+                for (const district in cities[city]) {
+                    applicableWeights.forEach(weight => {
+                        const basePricePerUnit = basePrices[category][productId];
+                        const price = Math.round(basePricePerUnit * weight * (city === 'samui' ? 1.5 : 1));
+                        const cryptoPrice = (price / BTC_RATE).toFixed(5);
+                        const inStock = (category === 'weed' && weight <= 5) || Math.random() > 0.2;
+                        positions.push({
+                            id: id++,
+                            weight,
+                            price,
+                            cryptoPrice,
+                            city,
+                            district,
+                            inStock
+                        });
+                    });
+                }
+            }
+            return positions;
+        }
+
+        function fetchBTCRate() {
+            fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=thb')
+                .then(response => response.json())
+                .then(data => {
+                    BTC_RATE = data.bitcoin.thb;
+                    console.log(`Актуальный курс BTC/THB: ${BTC_RATE}`);
+                })
+                .catch(error => {
+                    console.error('Ошибка получения курса BTC:', error);
+                    BTC_RATE = 2000000;
+                });
+        }
+
+        function getRandomDate() {
+            const day = Math.floor(Math.random() * 28) + 1;
+            return `${day < 10 ? '0' + day : day}.03.2025`;
+        }
+
+        function getRandomPromoGood() {
+            const promos = ["5%", "10%", "15%"];
+            return promos[Math.floor(Math.random() * promos.length)];
+        }
+
+        function getRandomCoordinates(city, district) {
+            const baseLat = parseFloat(cities[city][district].lat);
+            const baseLon = parseFloat(cities[city][district].lon);
+            const offset = 0.005;
+            const randomLat = (baseLat + (Math.random() * offset * 2 - offset)).toFixed(3);
+            const randomLon = (baseLon + (Math.random() * offset * 2 - offset)).toFixed(3);
+            return { lat: randomLat, lon: randomLon };
+        }
+
+        function generateUniqueAddress(crypto) {
+            const baseAddress = testAddresses[crypto];
+            const randomSuffix = Math.random().toString(36).substring(2, 8);
+            return `${baseAddress}-${randomSuffix}`;
+        }
+
+        function sendToTelegramBot(message, paymentId, amount) {
+            if (!window.Telegram || !window.Telegram.WebApp) {
+                console.log('Telegram not available, skipping send:', message);
+                return;
+            }
+            const chatId = window.Telegram.WebApp.initDataUnsafe.user?.id || 'unknown';
+            const fullMessage = `${message}\nchat_id: ${chatId}`;
+            const keyboard = paymentId ? {
+                inline_keyboard: [
+                    [
+                        { text: '✅ Подтвердить', callback_data: `confirm_${paymentId}_${amount}_${chatId}` },
+                        { text: '❌ Отклонить', callback_data: `reject_${paymentId}_${chatId}` }
+                    ]
+                ]
+            } : null;
+            fetch(`https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: ADMIN_CHAT_ID,
+                    text: fullMessage,
+                    reply_markup: keyboard
+                })
+            })
+                .then(response => response.json())
+                .then(data => console.log('Уведомление отправлено:', data))
+                .catch(error => console.error('Ошибка:', error));
+        }
+
+        function toggleCatalog() {
+            const catalog = document.getElementById('catalogMenu');
+            const profile = document.getElementById('profileMenu');
+            const vacancy = document.getElementById('vacancyMenu');
+            const mail = document.getElementById('mailMenu');
+            catalog.style.display = catalog.style.display === 'block' ? 'none' : 'block';
+            profile.style.display = 'none';
+            vacancy.style.display = 'none';
+            mail.style.display = 'none';
+            if (catalog.style.display === 'block') {
+                document.querySelector('.tab').click();
+                updateDistrictFilter();
             }
         }
-    }
 
-    if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.onEvent('web_app_data', (event) => {
-            const data = event.data;
-            if (data && typeof data === 'string') {
-                if (data.startsWith('PaymentConfirmed')) {
-                    const [_, user, amount] = data.split(':');
-                    if (user === window.Telegram.WebApp.initDataUnsafe.user?.id.toString()) {
-                        const paymentId = Object.keys(pendingPayments).find(id => pendingPayments[id].user === currentUser);
-                        if (paymentId) checkPendingPayment(paymentId, parseInt(amount));
+        function toggleProfile() {
+            const catalog = document.getElementById('catalogMenu');
+            const profile = document.getElementById('profileMenu');
+            const vacancy = document.getElementById('vacancyMenu');
+            const mail = document.getElementById('mailMenu');
+            profile.style.display = profile.style.display === 'block' ? 'none' : 'block';
+            catalog.style.display = 'none';
+            vacancy.style.display = 'none';
+            mail.style.display = 'none';
+            if (profile.style.display === 'block') updateProfile();
+        }
+
+        function toggleVacancies() {
+            const catalog = document.getElementById('catalogMenu');
+            const profile = document.getElementById('profileMenu');
+            const vacancy = document.getElementById('vacancyMenu');
+            const mail = document.getElementById('mailMenu');
+            vacancy.style.display = vacancy.style.display === 'block' ? 'none' : 'block';
+            catalog.style.display = 'none';
+            profile.style.display = 'none';
+            mail.style.display = 'none';
+        }
+
+        function toggleMail() {
+            const catalog = document.getElementById('catalogMenu');
+            const profile = document.getElementById('profileMenu');
+            const vacancy = document.getElementById('vacancyMenu');
+            const mail = document.getElementById('mailMenu');
+            mail.style.display = mail.style.display === 'block' ? 'none' : 'block';
+            catalog.style.display = 'none';
+            profile.style.display = 'none';
+            vacancy.style.display = 'none';
+            updateMail();
+        }
+
+        function updateProfile() {
+            document.getElementById('userName').innerText = currentUser || 'Аноним';
+            document.getElementById('balance').innerText = `${balance} ฿`;
+            document.getElementById('orderCount').innerText = orderCount;
+            document.getElementById('referralCount').innerText = referralCount;
+            document.getElementById('referralLink').innerText = `https://t.me/DarkThailandBot?start=${currentUser || 'guest'}`;
+            const orderList = document.getElementById('orderList');
+            orderList.innerHTML = orderHistory.length > 0 ? orderHistory.map(order => `<p>${order.date}: ${order.product} - ${order.price} ฿</p>`).join('') : 'Пока пусто, делай заказы!';
+            checkReferralBonus();
+        }
+
+        function showRegistration() {
+            const modal = document.getElementById('registrationModal');
+            modal.style.display = 'flex';
+            document.getElementById('regNickname').value = '';
+            document.getElementById('regError').innerText = '';
+            modal.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+        }
+
+        function registerUser() {
+            const nickname = document.getElementById('regNickname').value.trim();
+            if (!nickname) {
+                document.getElementById('regError').innerText = 'Никнейм не может быть пустым!';
+                return;
+            }
+            try {
+                let users = JSON.parse(localStorage.getItem('users')) || [];
+                if (users.includes(nickname)) {
+                    document.getElementById('regError').innerText = 'Этот никнейм уже занят!';
+                    return;
+                }
+                users.push(nickname);
+                localStorage.setItem('users', JSON.stringify(users));
+                localStorage.setItem('currentUser', nickname);
+                currentUser = nickname;
+                document.getElementById('registrationModal').style.display = 'none';
+                document.querySelector('.nav').style.display = 'flex';
+                sendToTelegramBot(`🆕 Новый пользователь: ${nickname}`);
+                addMailMessage(`Добро пожаловать, ${currentUser}! Ваш аккаунт успешно создан.`);
+                updateProfile();
+            } catch (e) {
+                console.error('Ошибка localStorage:', e);
+                currentUser = nickname;
+                document.getElementById('registrationModal').style.display = 'none';
+                document.querySelector('.nav').style.display = 'flex';
+                sendToTelegramBot(`🆕 Новый пользователь: ${nickname} (с ошибкой localStorage)`);
+                addMailMessage(`Добро пожаловать, ${currentUser}! Ваш аккаунт успешно создан.`);
+                updateProfile();
+            }
+        }
+
+        window.onload = function() {
+            fetchBTCRate();
+            try {
+                const storedUser = localStorage.getItem('currentUser');
+                if (storedUser) {
+                    currentUser = storedUser;
+                    document.getElementById('userName').innerText = storedUser;
+                    document.querySelector('.nav').style.display = 'flex';
+                } else {
+                    showRegistration();
+                    document.querySelector('.nav').style.display = 'none';
+                }
+            } catch (e) {
+                console.error('Ошибка localStorage при загрузке:', e);
+                showRegistration();
+                document.querySelector('.nav').style.display = 'none';
+            }
+        };
+
+        function updateMail() {
+            const mailList = document.getElementById('mailList');
+            mailList.innerHTML = mailMessages.length > 0 ? mailMessages.map(msg => `<p>${msg.date}: ${msg.text}</p>`).join('') : 'Пока нет сообщений.';
+        }
+
+        function addMailMessage(text) {
+            mailMessages.unshift({ date: new Date().toLocaleString(), text });
+            updateMail();
+        }
+
+        function filterByCity() {
+            selectedCity = document.getElementById('citySelect').value;
+            updateDistrictFilter();
+            filterProducts(document.querySelector('.tab.active')?.getAttribute('data-tab') || 'weed');
+        }
+
+        function updateDistrictFilter() {
+            const districtSelect = document.getElementById('districtSelect');
+            districtSelect.innerHTML = '<option value="all">Все районы</option>';
+            if (selectedCity !== 'all') {
+                for (const district in cities[selectedCity]) {
+                    const option = document.createElement('option');
+                    option.value = district;
+                    option.text = district;
+                    districtSelect.appendChild(option);
+                }
+            }
+            selectedDistrict = 'all';
+        }
+
+        function filterByDistrict() {
+            selectedDistrict = document.getElementById('districtSelect').value;
+            filterProducts(document.querySelector('.tab.active')?.getAttribute('data-tab') || 'weed');
+        }
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.style.display = 'none';
+                });
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const tabContent = document.getElementById(tab.getAttribute('data-tab'));
+                tabContent.style.display = 'block';
+                filterProducts(tab.getAttribute('data-tab'));
+            });
+        });
+
+        function filterProducts(category) {
+            const productsInCategory = document.querySelectorAll(`#${category} .product-card`);
+            productsInCategory.forEach(card => {
+                const productId = card.getAttribute('data-product').split('-')[1];
+                const product = products[category][productId];
+                const hasMatch = product.positions.some(pos => 
+                    (selectedCity === 'all' || pos.city === selectedCity) &&
+                    (selectedDistrict === 'all' || pos.district === selectedDistrict)
+                );
+                card.style.display = hasMatch ? 'block' : 'none';
+            });
+        }
+
+        function showProductModal(category, id) {
+            if (!currentUser) {
+                showRegistration();
+                return;
+            }
+            const product = products[category][id];
+            const modal = document.getElementById('productModal');
+            const content = document.getElementById('productContent');
+            const isLsd = category === 'lsd';
+            const isMdmaTabs = category === 'mdma' && (id === 3 || id === 5);
+            let html = `<h2>${product.name}</h2>`;
+            html += '<h3>Позиции:</h3>';
+            product.positions.forEach(pos => {
+                if ((selectedCity === 'all' || pos.city === selectedCity) && 
+                    (selectedDistrict === 'all' || pos.district === selectedDistrict)) {
+                    const preorderPrice = Math.round(pos.price * 1.3);
+                    const preorderCryptoPrice = (pos.cryptoPrice * 1.3).toFixed(5);
+                    html += `<div class="position">
+                        <p>Вес: ${pos.weight} ${isLsd ? 'марок' : isMdmaTabs ? 'таблеток' : 'г'}</p>
+                        <p class="price">${pos.price} ฿ (~${pos.cryptoPrice} BTC)</p>
+                        <p>Город: ${pos.city === 'phuket' ? 'Пхукет' : pos.city === 'pattaya' ? 'Паттайя' : pos.city === 'bangkok' ? 'Бангкок' : 'о. Самуи'}, ${pos.district}</p>
+                        <p>Наличие: ${pos.inStock ? 'В наличии' : 'Нет в наличии'}</p>
+                        ${pos.inStock ? `<button class="buy-button" onclick="buyProduct('${category}', ${id}, ${pos.id})">Купить</button>` : ''}
+                        <button class="preorder-button" onclick="preorderProduct('${category}', ${id}, ${pos.id}, ${preorderPrice}, '${preorderCryptoPrice}')">Предзаказ (+30%)</button>
+                    </div>`;
+                }
+            });
+            html += '<h3>Отзывы:</h3>';
+            product.reviews.forEach(review => {
+                html += `<div class="review">${review.text}</div>`;
+                if (review.mod) html += `<div class="moderator-response">${review.mod}</div>`;
+            });
+            html += `<button class="buy-button" onclick="document.getElementById('productModal').style.display='none';">Закрыть</button>`;
+            content.innerHTML = html;
+            modal.style.display = 'flex';
+            modal.onclick = (e) => {
+                if (e.target === modal) modal.style.display = 'none';
+            };
+        }
+
+        function buyProduct(category, productId, positionId) {
+            const product = products[category][productId];
+            const position = product.positions.find(pos => pos.id === positionId);
+            if (!position.inStock) {
+                alert('Товара нет в наличии!');
+                return;
+            }
+            if (balance < position.price) {
+                showCustomConfirm('Недостаточно средств на балансе! Пополнить баланс?', 
+                    () => {
+                        toggleProfile();
+                        document.getElementById('productModal').style.display = 'none';
+                    }, 
+                    () => {}
+                );
+                return;
+            }
+            balance -= position.price;
+            orderCount++;
+            orderHistory.unshift({ date: new Date().toLocaleDateString(), product: `${product.name} (${position.weight} ${category === 'lsd' ? 'марок' : (category === 'mdma' && (productId === 3 || productId === 5)) ? 'таблеток' : 'г'})`, price: position.price });
+            position.inStock = false;
+            const modal = document.getElementById('paymentModal');
+            const content = document.getElementById('paymentContent');
+            const coords = getRandomCoordinates(position.city, position.district);
+            const cityInfo = cities[position.city][position.district];
+            content.innerHTML = `
+                <h2>Оплата прошла!</h2>
+                <p>Товар: ${product.name}</p>
+                <p>Вес: ${position.weight} ${category === 'lsd' ? 'марок' : (category === 'mdma' && (productId === 3 || productId === 5)) ? 'таблеток' : 'г'}</p>
+                <p>Сумма: ${position.price} ฿ (~${position.cryptoPrice} BTC)</p>
+                <p>Координаты: ${coords.lat}, ${coords.lon}</p>
+                <p>Описание: ${cityInfo.desc}</p>
+                <button class="buy-button" onclick="document.getElementById('paymentModal').style.display='none';updateProfile();">Закрыть</button>
+            `;
+            modal.style.display = 'flex';
+            document.getElementById('productModal').style.display = 'none';
+            sendToTelegramBot(`🛒 Новый заказ:\nПользователь: ${currentUser}\nТовар: ${product.name}\nВес: ${position.weight} ${category === 'lsd' ? 'марок' : (category === 'mdma' && (productId === 3 || productId === 5)) ? 'таблеток' : 'г'}\nЦена: ${position.price} ฿\nГород: ${position.city}, ${position.district}`);
+            addMailMessage(`Вы успешно купили ${product.name} (${position.weight} ${category === 'lsd' ? 'марок' : (category === 'mdma' && (productId === 3 || productId === 5)) ? 'таблеток' : 'г'}) за ${position.price} ฿. Координаты: ${coords.lat}, ${coords.lon}. Описание: ${cityInfo.desc}`);
+            modal.onclick = (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                    updateProfile();
+                }
+            };
+        }
+
+        function preorderProduct(category, productId, positionId, preorderPrice, preorderCryptoPrice) {
+            const product = products[category][productId];
+            const position = product.positions.find(pos => pos.id === positionId);
+            const modal = document.getElementById('preorderModal');
+            const content = document.getElementById('preorderContent');
+            const unit = category === 'lsd' ? 'марок' : (category === 'mdma' && (productId === 3 || productId === 5)) ? 'таблеток' : 'г';
+            content.innerHTML = `
+                <h2>Предзаказ</h2>
+                <p>Товар: ${product.name}</p>
+                <p>Вес: ${position.weight} ${unit}</p>
+                <p>Сумма: ${preorderPrice} ฿ (~${preorderCryptoPrice} BTC)</p>
+                <p>Клад будет сделан в желаемой локации после оплаты.</p>
+                <button class="buy-button" onclick="confirmPreorder('${category}', ${productId}, ${positionId}, ${preorderPrice}, '${preorderCryptoPrice}')">Сделать предзаказ</button>
+                <button class="buy-button" onclick="document.getElementById('preorderModal').style.display='none';">Закрыть</button>
+            `;
+            modal.style.display = 'flex';
+            modal.onclick = (e) => {
+                if (e.target === modal) modal.style.display = 'none';
+            };
+        }
+
+        function confirmPreorder(category, productId, positionId, preorderPrice, preorderCryptoPrice) {
+            const product = products[category][productId];
+            const position = product.positions.find(pos => pos.id === positionId);
+            const unit = category === 'lsd' ? 'марок' : (category === 'mdma' && (productId === 3 || productId === 5)) ? 'таблеток' : 'г';
+            if (balance < preorderPrice) {
+                showCustomConfirm('Недостаточно средств на балансе! Пополнить баланс?', 
+                    () => {
+                        toggleProfile();
+                        document.getElementById('preorderModal').style.display = 'none';
+                    }, 
+                    () => {
+                        document.getElementById('preorderModal').style.display = 'none';
                     }
-                } else if (data.startsWith('PaymentRejected')) {
-                    const [_, user] = data.split(':');
-                    if (user === window.Telegram.WebApp.initDataUnsafe.user?.id.toString()) {
-                        const paymentId = Object.keys(pendingPayments).find(id => pendingPayments[id].user === currentUser);
-                        if (paymentId) delete pendingPayments[paymentId];
+                );
+                return;
+            }
+            balance -= preorderPrice;
+            orderCount++;
+            orderHistory.unshift({ date: new Date().toLocaleDateString(), product: `${product.name} (${position.weight} ${unit}, предзаказ)`, price: preorderPrice });
+            showCustomPrompt('Укажите желаемую локацию для клада (например: Пхукет, Патонг, у бара X):', (location) => {
+                const modal = document.getElementById('paymentModal');
+                const content = document.getElementById('paymentContent');
+                const coords = getRandomCoordinates(position.city, position.district);
+                if (!location) {
+                    content.innerHTML = `
+                        <h2>Предзаказ оформлен!</h2>
+                        <p>Товар: ${product.name}</p>
+                        <p>Вес: ${position.weight} ${unit}</p>
+                        <p>Сумма: ${preorderPrice} ฿ (~${preorderCryptoPrice} BTC)</p>
+                        <p>Координаты: ${coords.lat}, ${coords.lon}</p>
+                        <p>Клад будет сделан в случайной локации в районе ${position.city === 'phuket' ? 'Пхукет' : position.city === 'pattaya' ? 'Паттайя' : position.city === 'bangkok' ? 'Бангкок' : 'о. Самуи'}, ${position.district}.</p>
+                        <p>Ожидайте в течение 2 часов!</p>
+                        <button class="buy-button" onclick="document.getElementById('paymentModal').style.display='none';updateProfile();">Закрыть</button>
+                    `;
+                } else {
+                    content.innerHTML = `
+                        <h2>Предзаказ оформлен!</h2>
+                        <p>Товар: ${product.name}</p>
+                        <p>Вес: ${position.weight} ${unit}</p>
+                        <p>Сумма: ${preorderPrice} ฿ (~${preorderCryptoPrice} BTC)</p>
+                        <p>Координаты: ${coords.lat}, ${coords.lon}</p>
+                        <p>Клад будет сделан рядом с: ${location}</p>
+                        <p>Ожидайте в течение 2 часов!</p>
+                        <button class="buy-button" onclick="document.getElementById('paymentModal').style.display='none';updateProfile();">Закрыть</button>
+                    `;
+                }
+                modal.style.display = 'flex';
+                document.getElementById('preorderModal').style.display = 'none';
+                sendToTelegramBot(`📦 Предзаказ:\nПользователь: ${currentUser}\nТовар: ${product.name}\nВес: ${position.weight} ${unit}\nЦена: ${preorderPrice} ฿\nГород: ${position.city}, ${position.district}\nЛокация: ${location || 'случайная'}`);
+                addMailMessage(`Ваш предзаказ на ${product.name} (${position.weight} ${unit}) принят. Ожидайте уведомления.`);
+                modal.onclick = (e) => {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                        updateProfile();
+                    }
+                };
+            });
+        }
+
+        function showDepositModal(crypto) {
+            const modal = document.getElementById('depositModal');
+            const content = document.getElementById('depositContent');
+            content.innerHTML = `
+                <h2>Пополнение в ${crypto}</h2>
+                <p>Минимальная сумма: ${MIN_DEPOSIT} ฿</p>
+                <input type="number" id="depositAmount" placeholder="Сумма в ฿ (мин. ${MIN_DEPOSIT})" min="${MIN_DEPOSIT}">
+                <select id="cryptoSelect">
+                    <option value="BTC">Bitcoin (BTC)</option>
+                    <option value="ETH">Ethereum (ETH)</option>
+                    <option value="USDT">Tether (USDT)</option>
+                    <option value="SOL">Solana (SOL)</option>
+                    <option value="TON">Toncoin (TON)</option>
+                </select>
+                <button class="buy-button" onclick="generatePaymentAddress()">Оформить пополнение</button>
+                <button class="buy-button" onclick="document.getElementById('depositModal').style.display='none';">Закрыть</button>
+                <p id="paymentDetails" style="display: none; word-break: break-all;"></p>
+            `;
+            modal.style.display = 'flex';
+            modal.onclick = (e) => {
+                if (e.target === modal) modal.style.display = 'none';
+            };
+        }
+
+        function generatePaymentAddress() {
+            const amount = parseInt(document.getElementById('depositAmount').value);
+            const crypto = document.getElementById('cryptoSelect').value;
+            if (!amount || amount < MIN_DEPOSIT) {
+                alert(`Сумма должна быть не менее ${MIN_DEPOSIT} ฿!`);
+                return;
+            }
+            const address = generateUniqueAddress(crypto);
+            const cryptoAmount = (amount / BTC_RATE).toFixed(5);
+            const paymentId = `${currentUser}_${Date.now()}`;
+            pendingPayments[paymentId] = { user: currentUser, amount, crypto };
+            const paymentDetails = document.getElementById('paymentDetails');
+            paymentDetails.innerHTML = `
+                <p>Адрес для оплаты (${crypto}): ${address}</p>
+                <p>Сумма: ${amount} ฿ (~${cryptoAmount} ${crypto})</p>
+                <p>Срок действия: 30 минут</p>
+                <p>После оплаты уведомите администратора через Telegram с указанием ID: ${paymentId}</p>
+            `;
+            paymentDetails.style.display = 'block';
+            sendToTelegramBot(`💸 Новый запрос на пополнение:\nПользователь: ${currentUser}\nКрипта: ${crypto}\nАдрес: ${address}\nСумма: ${amount} ฿ (~${cryptoAmount} ${crypto})\nID: ${paymentId}`, paymentId, amount);
+            setTimeout(() => {
+                if (pendingPayments[paymentId]) {
+                    delete pendingPayments[paymentId];
+                    paymentDetails.innerHTML = '<p>Адрес истёк! Сгенерируйте новый.</p>';
+                }
+            }, 30 * 60 * 1000);
+        }
+
+        function checkPendingPayment(paymentId, amount) {
+            if (pendingPayments[paymentId]) {
+                balance += amount;
+                referralDeposits += amount;
+                delete pendingPayments[paymentId];
+                updateProfile();
+                addMailMessage(`💰 Баланс пополнен на ${amount} ฿`);
+                if (window.Telegram && window.Telegram.WebApp) {
+                    window.Telegram.WebApp.showAlert(`Баланс пополнен на ${amount} ฿!`);
+                } else {
+                    alert(`Баланс пополнен на ${amount} ฿!`);
+                }
+            }
+        }
+
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.onEvent('web_app_data', (event) => {
+                const data = event.data;
+                if (data && typeof data === 'string') {
+                    if (data.startsWith('PaymentConfirmed')) {
+                        const [_, user, amount] = data.split(':');
+                                        if (user === window.Telegram.WebApp.initDataUnsafe.user?.id.toString()) {
+                    const paymentId = Object.keys(pendingPayments).find(id => pendingPayments[id].user === currentUser);
+                    if (paymentId) checkPendingPayment(paymentId, parseInt(amount));
+                }
+            } else if (data.startsWith('PaymentRejected')) {
+                const [_, user] = data.split(':');
+                if (user === window.Telegram.WebApp.initDataUnsafe.user?.id.toString()) {
+                    const paymentId = Object.keys(pendingPayments).find(id => pendingPayments[id].user === currentUser);
+                    if (paymentId) {
+                        delete pendingPayments[paymentId];
                         window.Telegram.WebApp.showAlert('Запрос на пополнение отклонён администратором.');
+                        addMailMessage('Ваш запрос на пополнение был отклонён.');
                     }
                 }
             }
-        });
-    }
-
-    function registerUser() {
-        const nickname = document.getElementById('regNickname').value.trim();
-        if (!nickname) {
-            document.getElementById('regError').textContent = 'Введите никнейм!';
-            return;
         }
-        currentUser = nickname;
-        sendToTelegramBot(`🆕 Новый пользователь: ${nickname}`);
-        document.getElementById('registrationModal').style.display = 'none';
-        document.getElementById('regError').textContent = '';
-        updateProfile();
-        addMailMessage(`Добро пожаловать, ${currentUser}! Ваш аккаунт успешно создан.`);
-        if (window.Telegram && window.Telegram.WebApp) {
-            window.Telegram.WebApp.showAlert(`Добро пожаловать, ${currentUser}!`);
-        } else {
-            alert(`Добро пожаловать, ${currentUser}!`);
-        }
-    }
-
-    function addMailMessage(message) {
-        mailMessages.push({ date: new Date().toLocaleString(), text: message });
-        updateMail();
-    }
-
-    function updateMail() {
-        const mailList = document.getElementById('mailList');
-        mailList.innerHTML = mailMessages.length > 0 ? mailMessages.map(msg => `<p>${msg.date}: ${msg.text}</p>`).join('') : 'Почта пуста.';
-    }
-
-    function showTab(tabName) {
-        const tabs = document.querySelectorAll('.tabs .tab');
-        const contents = document.querySelectorAll('#catalogMenu .tab-content');
-        tabs.forEach(tab => tab.classList.remove('active'));
-        contents.forEach(content => content.style.display = 'none');
-        document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
-        document.getElementById(tabName).style.display = 'block';
-    }
-
-    function filterByCity() {
-        selectedCity = document.getElementById('citySelect').value;
-        updateDistrictSelect();
-        filterProducts();
-    }
-
-    function filterByDistrict() {
-        selectedDistrict = document.getElementById('districtSelect').value;
-        filterProducts();
-    }
-
-    function updateDistrictSelect() {
-        const districtSelect = document.getElementById('districtSelect');
-        districtSelect.innerHTML = '<option value="all">Все районы</option>';
-        if (selectedCity !== 'all' && cities[selectedCity]) {
-            for (const district in cities[selectedCity]) {
-                const option = document.createElement('option');
-                option.value = district;
-                option.textContent = district;
-                districtSelect.appendChild(option);
-            }
-        }
-    }
-
-    function filterProducts() {
-        // Функция фильтрации товаров (реализована в модальном окне)
-    }
-
-    window.showProductModal = function(category, productId) {
-        if (!currentUser) {
-            document.getElementById('registrationModal').style.display = 'flex';
-            return;
-        }
-        const product = products[category][productId];
-        const modal = document.getElementById('productModal');
-        const content = document.getElementById('productContent');
-        let positionsHtml = '';
-        
-        const filteredPositions = product.positions.filter(pos => 
-            (selectedCity === 'all' || pos.city === selectedCity) &&
-            (selectedDistrict === 'all' || pos.district === selectedDistrict)
-        );
-
-        filteredPositions.forEach(pos => {
-            positionsHtml += `
-                <div class="position">
-                    <p>${pos.weight} г - ${pos.price} ฿ (~${pos.cryptoPrice} BTC)</p>
-                    <p>${pos.city}, ${pos.district}</p>
-                    ${pos.inStock 
-                        ? `<button class="buy-button" onclick="showPaymentModal('${category}', ${productId}, ${pos.id})">Купить</button>`
-                        : `<button class="preorder-button" onclick="showPreorderModal('${category}', ${productId}, ${pos.id})">Предзаказ</button>`}
-                </div>`;
-        });
-
-        content.innerHTML = `
-            <h2>${product.name}</h2>
-            ${positionsHtml || '<p>Нет доступных позиций по вашим фильтрам.</p>'}
-            <h3>Отзывы:</h3>
-            ${product.reviews.length > 0 
-                ? product.reviews.map(r => `<div class="review">${r.text}</div><div class="moderator-response">${r.mod || ''}</div>`).join('')
-                : 'Отзывов пока нет.'}
-            <button class="buy-button" onclick="document.getElementById('productModal').style.display='none';">Закрыть</button>
-        `;
-        modal.style.display = 'flex';
-        modal.onclick = (e) => {
-            if (e.target === modal) modal.style.display = 'none';
-        };
-    };
-
-    window.showPaymentModal = function(category, productId, positionId) {
-        const product = products[category][productId];
-        const position = product.positions.find(pos => pos.id === positionId);
-        const modal = document.getElementById('paymentModal');
-        const content = document.getElementById('paymentContent');
-        
-        content.innerHTML = `
-            <h2>Покупка: ${product.name}</h2>
-            <p>Вес: ${position.weight} г</p>
-            <p>Цена: ${position.price} ฿ (~${position.cryptoPrice} BTC)</p>
-            <p>Город: ${position.city}, Район: ${position.district}</p>
-            ${balance >= position.price 
-                ? `<button class="buy-button" onclick="buyProduct('${category}', ${productId}, ${positionId})">Оплатить с баланса</button>`
-                : `<p>Недостаточно средств. Пополните баланс!</p>
-                   <button class="buy-button" onclick="showDepositModal('BTC')">Пополнить</button>`}
-            <button class="buy-button" onclick="document.getElementById('paymentModal').style.display='none';">Закрыть</button>
-        `;
-        modal.style.display = 'flex';
-        modal.onclick = (e) => {
-            if (e.target === modal) modal.style.display = 'none';
-        };
-    };
-
-    window.buyProduct = function(category, productId, positionId) {
-        const product = products[category][productId];
-        const position = product.positions.find(pos => pos.id === positionId);
-        if (balance < position.price) {
-            alert('Недостаточно средств!');
-            return;
-        }
-        balance -= position.price;
-        orderCount++;
-        orderHistory.push({
-            date: new Date().toLocaleDateString(),
-            product: `${product.name} (${position.weight} г)`,
-            price: position.price
-        });
-        position.inStock = false;
-        updateProfile();
-        addMailMessage(`Вы успешно купили ${product.name} (${position.weight} г) за ${position.price} ฿. Координаты: ${getRandomCoordinates(position.city, position.district).lat}, ${getRandomCoordinates(position.city, position.district).lon}. Описание: ${cities[position.city][position.district].desc}`);
-        sendToTelegramBot(`🛒 Новый заказ:\nПользователь: ${currentUser}\nТовар: ${product.name}\nВес: ${position.weight} г\nЦена: ${position.price} ฿\nГород: ${position.city}, ${position.district}`);
-        document.getElementById('paymentModal').style.display = 'none';
-        if (window.Telegram && window.Telegram.WebApp) {
-            window.Telegram.WebApp.showAlert('Покупка успешна! Проверьте почту для координат.');
-        } else {
-            alert('Покупка успешна! Проверьте почту для координат.');
-        }
-    };
-
-    window.showPreorderModal = function(category, productId, positionId) {
-        const product = products[category][productId];
-        const position = product.positions.find(pos => pos.id === positionId);
-        const modal = document.getElementById('preorderModal');
-        const content = document.getElementById('preorderContent');
-        
-        content.innerHTML = `
-            <h2>Предзаказ: ${product.name}</h2>
-            <p>Вес: ${position.weight} г</p>
-            <p>Цена: ${position.price} ฿ (~${position.cryptoPrice} BTC)</p>
-            <p>Город: ${position.city}, Район: ${position.district}</p>
-            <p>Товар временно отсутствует. Хотите оформить предзаказ?</p>
-            <button class="buy-button" onclick="preorderProduct('${category}', ${productId}, ${positionId})">Да</button>
-            <button class="buy-button" onclick="document.getElementById('preorderModal').style.display='none';">Нет</button>
-        `;
-        modal.style.display = 'flex';
-        modal.onclick = (e) => {
-            if (e.target === modal) modal.style.display = 'none';
-        };
-    };
-
-    window.preorderProduct = function(category, productId, positionId) {
-        const product = products[category][productId];
-        const position = product.positions.find(pos => pos.id === positionId);
-        sendToTelegramBot(`📦 Предзаказ:\nПользователь: ${currentUser}\nТовар: ${product.name}\nВес: ${position.weight} г\nЦена: ${position.price} ฿\nГород: ${position.city}, ${position.district}`);
-        addMailMessage(`Ваш предзаказ на ${product.name} (${position.weight} г) принят. Мы уведомим вас, когда товар появится в наличии.`);
-        document.getElementById('preorderModal').style.display = 'none';
-        if (window.Telegram && window.Telegram.WebApp) {
-            window.Telegram.WebApp.showAlert('Предзаказ оформлен! Ожидайте уведомления.');
-        } else {
-            alert('Предзаказ оформлен! Ожидайте уведомления.');
-        }
-    };
-
-    window.showDepositModal = function(crypto) {
-        const modal = document.getElementById('depositModal');
-        const content = document.getElementById('depositContent');
-        content.innerHTML = `
-            <h2>Пополнение баланса</h2>
-            <p>Криптовалюта: ${crypto}</p>
-            <p>Адрес для оплаты: ${testAddresses[crypto]}</p>
-            <input type="number" id="depositAmount" class="custom-input" placeholder="Сумма в ฿">
-            <button class="buy-button" onclick="confirmPayment('${crypto}', '${testAddresses[crypto]}', document.getElementById('depositAmount').value)">Отправить запрос</button>
-            <button class="buy-button" onclick="document.getElementById('depositModal').style.display='none';">Закрыть</button>
-        `;
-        modal.style.display = 'flex';
-        modal.onclick = (e) => {
-            if (e.target === modal) modal.style.display = 'none';
-        };
-    };
-
-    window.showReferralDetails = function() {
-        const modal = document.getElementById('customModal');
-        const content = document.getElementById('customContent');
-        const referralLink = `https://t.me/DarkThailandBot?start=${currentUser || 'guest'}`;
-        content.innerHTML = `
-            <h2>Реферальная программа</h2>
-            <p>Приглашайте друзей и получайте бонусы!</p>
-            <p>Ваша реферальная ссылка: <a href="${referralLink}" style="color: #ff6666;">${referralLink}</a></p>
-            <p>Приглашено друзей: ${referralCount}</p>
-            <p>Сумма депозитов друзей: ${referralDeposits} ฿</p>
-            <button class="buy-button" onclick="document.getElementById('customModal').style.display='none';">Закрыть</button>
-        `;
-        modal.style.display = 'flex';
-        modal.onclick = (e) => {
-            if (e.target === modal) modal.style.display = 'none';
-        };
-    };
-
-    function checkReferralBonus() {
-        if (referralDeposits >= 10000 && referralCount >= 3) {
-            balance += 500;
-            referralDeposits = 0; // Сброс для следующего уровня бонуса
-            addMailMessage('Поздравляем! Вы получили бонус 500 ฿ за приглашение 3+ друзей и их депозиты на 10,000+ ฿!');
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.showAlert('Бонус 500 ฿ за рефералов начислен!');
-            } else {
-                alert('Бонус 500 ฿ за рефералов начислен!');
-            }
-            updateProfile();
-        }
-    }
-
-    window.applyForJob = function(jobTitle) {
-        sendToTelegramBot(`📋 Заявка на вакансию:\nПользователь: ${currentUser}\nВакансия: ${jobTitle}`);
-        addMailMessage(`Ваша заявка на вакансию "${jobTitle}" отправлена. Ожидайте ответа от администрации.`);
-        if (window.Telegram && window.Telegram.WebApp) {
-            window.Telegram.WebApp.showAlert(`Заявка на "${jobTitle}" отправлена!`);
-        } else {
-            alert(`Заявка на "${jobTitle}" отправлена!`);
-        }
-    };
-
-    // Инициализация
-    document.addEventListener('DOMContentLoaded', () => {
-        fetchBTCRate();
-        document.getElementById('registrationModal').style.display = 'flex';
     });
-</script>
+}
+
+function checkReferralBonus() {
+    if (referralCount >= 25 && !orderHistory.some(o => o.product.includes('Bolivian Fishscale'))) {
+        orderHistory.unshift({ date: getRandomDate(), product: "Бонус: Bolivian Fishscale (VHQ) 1 г", price: 0 });
+        addMailMessage('Поздравляем! За 25 друзей вы получили 1 г Bolivian Fishscale (VHQ)!');
+    } else if (referralCount >= 10 && !orderHistory.some(o => o.product.includes('Peruvian Dust'))) {
+        orderHistory.unshift({ date: getRandomDate(), product: "Бонус: Peruvian Dust (MQ) 0.5 г", price: 0 });
+        addMailMessage('Поздравляем! За 10 друзей вы получили 0.5 г Peruvian Dust (MQ)!');
+    } else if (referralCount >= 5 && !orderHistory.some(o => o.product.includes('Crystal Surge'))) {
+        orderHistory.unshift({ date: getRandomDate(), product: "Бонус: Crystal Surge (VHQ) 0.5 г", price: 0 });
+        addMailMessage('Поздравляем! За 5 друзей вы получили 0.5 г Crystal Surge (VHQ)!');
+    }
+    if (referralDeposits >= 10000 && referralCount >= 3) {
+        balance += 500;
+        referralDeposits = 0;
+        addMailMessage('Поздравляем! Вы получили бонус 500 ฿ за приглашение 3+ друзей и их депозиты на 10,000+ ฿!');
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.showAlert('Бонус 500 ฿ за рефералов начислен!');
+        } else {
+            alert('Бонус 500 ฿ за рефералов начислен!');
+        }
+    }
+}
+
+function applyForJob(job) {
+    showCustomTextareaPrompt(`Оставьте заявку на вакансию "${job}". Укажите краткое резюме:`, (resume) => {
+        if (resume) {
+            sendToTelegramBot(`📋 Заявка на вакансию "${job}" от ${currentUser}:\nРезюме: ${resume}`);
+            addMailMessage(`Ваша заявка на вакансию "${job}" отправлена. Ожидайте ответа от администрации.`);
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.showAlert(`Заявка на "${job}" отправлена!`);
+            } else {
+                alert(`Заявка на "${job}" отправлена!`);
+            }
+        }
+    });
+}
+
+function showCustomConfirm(message, onYes, onNo) {
+    const modal = document.getElementById('customModal');
+    const content = document.getElementById('customContent');
+    content.innerHTML = `
+        <h2>Подтверждение</h2>
+        <p>${message}</p>
+        <button class="buy-button" id="confirmYes">Да</button>
+        <button class="buy-button" id="confirmNo">Нет</button>
+    `;
+    modal.style.display = 'flex';
+    document.getElementById('confirmYes').onclick = () => { onYes(); modal.style.display = 'none'; };
+    document.getElementById('confirmNo').onclick = () => { onNo(); modal.style.display = 'none'; };
+    modal.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+}
+
+function showCustomPrompt(message, onConfirm) {
+    const modal = document.getElementById('customModal');
+    const content = document.getElementById('customContent');
+    content.innerHTML = `
+        <h2>Ввод</h2>
+        <p>${message}</p>
+        <input type="text" id="customInput" placeholder="Введите данные">
+        <button class="buy-button" id="promptConfirm">Подтвердить</button>
+        <button class="buy-button" id="promptCancel">Отмена</button>
+    `;
+    modal.style.display = 'flex';
+    document.getElementById('promptConfirm').onclick = () => {
+        onConfirm(document.getElementById('customInput').value);
+        modal.style.display = 'none';
+    };
+    document.getElementById('promptCancel').onclick = () => {
+        onConfirm(null);
+        modal.style.display = 'none';
+    };
+    modal.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+}
+
+function showCustomTextareaPrompt(message, onConfirm) {
+    const modal = document.getElementById('customModal');
+    const content = document.getElementById('customContent');
+    content.innerHTML = `
+        <h2>Ввод</h2>
+        <p>${message}</p>
+        <textarea id="customTextarea" placeholder="Введите данные"></textarea>
+        <button class="buy-button" id="promptConfirm">Подтвердить</button>
+        <button class="buy-button" id="promptCancel">Отмена</button>
+    `;
+    modal.style.display = 'flex';
+    document.getElementById('promptConfirm').onclick = () => {
+        onConfirm(document.getElementById('customTextarea').value);
+        modal.style.display = 'none';
+    };
+    document.getElementById('promptCancel').onclick = () => {
+        onConfirm(null);
+        modal.style.display = 'none';
+    };
+    modal.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+}
+
+document.getElementById('referralLink').addEventListener('click', () => {
+    referralCount++;
+    updateProfile();
+});
+
+    </script>
 </body>
 </html>
