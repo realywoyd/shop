@@ -75,6 +75,7 @@
             display: flex;
             justify-content: space-around;
             margin-bottom: 10px;
+            flex-wrap: wrap;
         }
         .tab {
             background: #333;
@@ -82,6 +83,7 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background 0.3s, box-shadow 0.3s;
+            margin: 2px;
         }
         .tab.active, .tab:hover {
             background: #ff4444;
@@ -192,9 +194,9 @@
         </div>
         <div class="menu">
             <button onclick="toggleCatalog()">📚</button>
-            <button onclick="toggleProfile()">👤</button>
             <button onclick="toggleVacancies()">💼</button>
             <button onclick="toggleMail()">✉️</button>
+            <button onclick="toggleProfile()">💀</button>
         </div>
         <div id="catalogMenu" class="tab-content">
             <div class="custom-select">
@@ -219,7 +221,7 @@
                 <div class="tab" data-tab="meph" onclick="showTab('meph')">Мет</div>
                 <div class="tab" data-tab="heroin" onclick="showTab('heroin')">Герыч</div>
             </div>
-            <div id="hash" class="tab-content" style="display: block;">
+            <div id="hash" class="tab-content" style="display: none;">
                 <div class="product-card" data-product="hash-1" onclick="showProductModal('hash', 1)">Чёрный Афган (VHQ)</div>
                 <div class="product-card" data-product="hash-2" onclick="showProductModal('hash', 2)">Зелёный Марокко (HQ)</div>
                 <div class="product-card" data-product="hash-3" onclick="showProductModal('hash', 3)">Коричневый Дым (MQ)</div>
@@ -238,7 +240,7 @@
                 <div class="product-card" data-product="amph-2" onclick="showProductModal('amph', 2)">Красный Шторм (HQ)</div>
                 <div class="product-card" data-product="amph-3" onclick="showProductModal('amph', 3)">Жёлтый Пепел (MQ)</div>
                 <div class="product-card" data-product="amph-4" onclick="showProductModal('amph', 4)">Серый Дым (LQ)</div>
-                <div class="product-card" data-product="amph-5" onclick="showProductModal('amph', 5)">С olej Удар (VHQ)</div>
+                <div class="product-card" data-product="amph-5" onclick="showProductModal('amph', 5)">Синий Удар (VHQ)</div>
             </div>
             <div id="meth" class="tab-content">
                 <div class="product-card" data-product="meth-1" onclick="showProductModal('meth', 1)">Кристалл Горы (VHQ)</div>
@@ -267,8 +269,8 @@
             <p>Баланс: <span id="balance">0 ฿</span></p>
             <p>Заказов: <span id="orderCount">0</span></p>
             <p>Приглашено друзей: <span id="referralCount">0</span></p>
+            <p>Приглашай друзей и получай бесплатный стафф! <button class="buy-button" onclick="showReferralDetails()">Подробнее...</button></p>
             <button class="buy-button" onclick="showDepositModal('BTC')">Пополнить баланс</button>
-            <p><a href="#" id="referralLink">Приглашай друзей и получай бонусы!</a></p>
             <h3>История заказов:</h3>
             <div id="orderList"></div>
         </div>
@@ -317,6 +319,7 @@
         let balance = 0;
         let orderCount = 0;
         let referralCount = 0;
+        let referralDeposits = 0; // Сумма пополнений от друзей
         let orderHistory = [];
         let selectedCity = 'all';
         let selectedDistrict = 'all';
@@ -491,20 +494,8 @@
             vacancies.style.display = 'none';
             mail.style.display = 'none';
             if (catalog.style.display === 'block') {
-                document.querySelector('.tab[data-tab="hash"]').click();
+                showTab('hash'); // Показываем вкладку "Хэш" при открытии
             }
-        }
-
-        function toggleProfile() {
-            const catalog = document.getElementById('catalogMenu');
-            const profile = document.getElementById('profileMenu');
-            const vacancies = document.getElementById('vacancyMenu');
-            const mail = document.getElementById('mailMenu');
-            profile.style.display = profile.style.display === 'block' ? 'none' : 'block';
-            catalog.style.display = 'none';
-            vacancies.style.display = 'none';
-            mail.style.display = 'none';
-            updateProfile();
         }
 
         function toggleVacancies() {
@@ -528,6 +519,18 @@
             profile.style.display = 'none';
             vacancies.style.display = 'none';
             updateMail();
+        }
+
+        function toggleProfile() {
+            const catalog = document.getElementById('catalogMenu');
+            const profile = document.getElementById('profileMenu');
+            const vacancies = document.getElementById('vacancyMenu');
+            const mail = document.getElementById('mailMenu');
+            profile.style.display = profile.style.display === 'block' ? 'none' : 'block';
+            catalog.style.display = 'none';
+            vacancies.style.display = 'none';
+            mail.style.display = 'none';
+            updateProfile();
         }
 
         function updateProfile() {
@@ -588,6 +591,7 @@
         function checkPendingPayment(paymentId, amount) {
             if (pendingPayments[paymentId]) {
                 balance += amount;
+                referralDeposits += amount; // Учитываем пополнение для рефералов
                 delete pendingPayments[paymentId];
                 updateProfile();
                 addMailMessage(`💰 Баланс пополнен на ${amount} ฿`);
@@ -600,13 +604,13 @@
             if (data && typeof data === 'string') {
                 if (data.startsWith('PaymentConfirmed')) {
                     const [_, user, amount] = data.split(':');
-                    if (user === currentUser) {
+                    if (user === window.Telegram.WebApp.initDataUnsafe.user?.id.toString()) {
                         const paymentId = Object.keys(pendingPayments).find(id => pendingPayments[id].user === currentUser);
                         if (paymentId) checkPendingPayment(paymentId, parseInt(amount));
                     }
                 } else if (data.startsWith('PaymentRejected')) {
                     const [_, user] = data.split(':');
-                    if (user === currentUser) {
+                    if (user === window.Telegram.WebApp.initDataUnsafe.user?.id.toString()) {
                         const paymentId = Object.keys(pendingPayments).find(id => pendingPayments[id].user === currentUser);
                         if (paymentId) delete pendingPayments[paymentId];
                         window.Telegram.WebApp.showAlert('Запрос на пополнение отклонён администратором.');
@@ -628,16 +632,33 @@
             addMailMessage('Добро пожаловать в Dark Thailand!');
         }
 
+        function showReferralDetails() {
+            const modal = document.getElementById('customModal');
+            const content = document.getElementById('customContent');
+            content.innerHTML = `
+                <h2>Реферальная программа</h2>
+                <p>Приглашай друзей и получай бесплатный стафф после того, как они пополнят баланс на сумму от 1000 ฿:</p>
+                <p>- За 5 друзей: 0.5 г Белая Молния (VHQ)</p>
+                <p>- За 10 друзей: 0.5 г Грязный Снег (MQ)</p>
+                <p>- За 25 друзей: 1 г Тропик Бич (Fishscale)</p>
+                <button class="buy-button" onclick="document.getElementById('customModal').style.display='none';">Закрыть</button>
+            `;
+            modal.style.display = 'flex';
+            modal.onclick = (e) => {
+                if (e.target === modal) modal.style.display = 'none';
+            };
+        }
+
         function checkReferralBonus() {
-            if (referralCount >= 25 && !orderHistory.some(o => o.product.includes('Тропик Бич'))) {
+            if (referralCount >= 25 && referralDeposits >= 25000 && !orderHistory.some(o => o.product.includes('Тропик Бич'))) {
                 orderHistory.unshift({ date: getRandomDate(), product: "Бонус: Тропик Бич (Fishscale) 1 г", price: 0 });
-                window.Telegram.WebApp.showAlert('Поздравляем! За 25 друзей вы получили 1 г Тропик Бич (Fishscale)!');
-            } else if (referralCount >= 10 && !orderHistory.some(o => o.product.includes('Грязный Снег'))) {
+                window.Telegram.WebApp.showAlert('Поздравляем! За 25 друзей и их пополнения вы получили 1 г Тропик Бич (Fishscale)!');
+            } else if (referralCount >= 10 && referralDeposits >= 10000 && !orderHistory.some(o => o.product.includes('Грязный Снег'))) {
                 orderHistory.unshift({ date: getRandomDate(), product: "Бонус: Грязный Снег (MQ) 0.5 г", price: 0 });
-                window.Telegram.WebApp.showAlert('Поздравляем! За 10 друзей вы получили 0.5 г Грязный Снег (MQ)!');
-            } else if (referralCount >= 5 && !orderHistory.some(o => o.product.includes('Белая Молния'))) {
+                window.Telegram.WebApp.showAlert('Поздравляем! За 10 друзей и их пополнения вы получили 0.5 г Грязный Снег (MQ)!');
+            } else if (referralCount >= 5 && referralDeposits >= 5000 && !orderHistory.some(o => o.product.includes('Белая Молния'))) {
                 orderHistory.unshift({ date: getRandomDate(), product: "Бонус: Белая Молния (VHQ) 0.5 г", price: 0 });
-                window.Telegram.WebApp.showAlert('Поздравляем! За 5 друзей вы получили 0.5 г Белая Молния (VHQ)!');
+                window.Telegram.WebApp.showAlert('Поздравляем! За 5 друзей и их пополнения вы получили 0.5 г Белая Молния (VHQ)!');
             }
         }
 
@@ -970,7 +991,8 @@
             if (!currentUser) {
                 document.getElementById('registrationModal').style.display = 'flex';
             }
-            document.getElementById('referralLink').addEventListener('click', () => {
+            // Симуляция приглашения друзей (для теста)
+            document.getElementById('referralCount').addEventListener('click', () => {
                 referralCount++;
                 updateProfile();
             });
