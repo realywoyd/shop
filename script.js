@@ -1290,3 +1290,25 @@ modals.forEach(modalId => {
         }
     });
 });
+// Закрытие модальных окон при клике на пустую область
+const modals = [
+    'paymentModal',
+    'productModal',
+    'depositModal',
+    'preorderModal',
+    'registrationModal',
+    'customModal',
+    'confirmModal'
+];
+
+modals.forEach(modalId => {
+    const modal = document.getElementById(modalId);
+    modal.addEventListener('click', (event) => {
+        // Проверяем, был ли клик вне содержимого модального окна
+        const contentClass = modalId.replace('Modal', 'Content'); // Например, paymentModal -> paymentContent
+        const modalContent = modal.querySelector(`.${contentClass}`);
+        if (event.target === modal && !modalContent.contains(event.target)) {
+            modal.style.display = 'none';
+        }
+    });
+});
