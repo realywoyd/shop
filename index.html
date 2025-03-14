@@ -1030,6 +1030,7 @@ function initApp() {
         try {
             currentUser = JSON.parse(savedUser);
             userLanguage = currentUser.language;
+            updateUI(); // Оставляем здесь, если UI зависит от раннего обновления
             hideRegistrationModal();
         } catch (e) {
             console.error('Ошибка парсинга данных пользователя:', e);
@@ -1042,16 +1043,21 @@ function initApp() {
     updateDistrictFilter();
     filterByCity();
 
+    // Исправление проблемы с неактивными категориями
     const firstTab = document.querySelector('.tab');
     if (firstTab) {
         firstTab.classList.add('active');
-        document.getElementById(firstTab.dataset.tab).style.display = 'block';
+        const tabContent = document.getElementById(firstTab.dataset.tab);
+        if (tabContent) {
+            tabContent.style.display = 'block';
+        } else {
+            console.warn('Контент вкладки не найден:', firstTab.dataset.tab);
+        }
     } else {
         console.warn('Не найдена первая вкладка категорий (.tab)');
     }
-    updateTabs();
     
-    if (savedUser) updateUI(); // Обновляем UI только если пользователь загружен
+    updateTabs(); // Оставляем для обработки всех вкладок
 }
 
         function updateUI() {
