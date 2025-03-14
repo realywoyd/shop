@@ -1034,6 +1034,8 @@
     } else {
         showRegistrationModal();
     }
+    
+    // Обновление фильтров
     updateDistrictFilter();
     filterByCity();
 
@@ -1397,7 +1399,7 @@
     closeModal('depositModal');
     showCustomModal(t.paymentPending);
 
-    // Отправляем запрос в Telegram с кнопками
+    // Отправляем уведомление в Telegram с кнопками
     const text = `Пополнение баланса\nПользователь: ${currentUser.nickname}\nКриптовалюта: ${crypto}\nСумма: ${amount} ฿\nАдрес: ${address}`;
     const url = `https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage`;
     fetch(url, {
@@ -1409,8 +1411,8 @@
             reply_markup: {
                 inline_keyboard: [
                     [
-                        { text: "Подтвердить", callback_data: `confirm_deposit_${currentUser.nickname}_${amount}` },
-                        { text: "Отклонить", callback_data: `reject_deposit_${currentUser.nickname}_${amount}` }
+                        { text: t.confirmButton, callback_data: `confirm_deposit_${currentUser.nickname}_${amount}` },
+                        { text: t.cancelButton, callback_data: `reject_deposit_${currentUser.nickname}_${amount}` }
                     ]
                 ]
             }
