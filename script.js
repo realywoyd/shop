@@ -264,16 +264,16 @@ const weights = {
 };
 
 const basePrices = {
-    weed: { 1: 1034 },
-    hash: { 1: 1526, 2: 1213, 3: 874, 4: 563, 5: 1458 },
-    coke: { 1: 8072, 2: 7028, 3: 5896, 4: 5138, 5: 9522 },
-    amph: { 1: 1103, 2: 1054, 3: 927, 4: 504, 5: 1541 },
-    meth: { 1: 1573, 2: 1223, 3: 907, 4: 476, 5: 1767 },
-    meph: { 1: 2052, 2: 1873, 3: 1734, 4: 1620, 5: 2157 },
-    alpha: { 1: 1204, 2: 1007, 3: 849, 4: 342, 5: 1396 },
-    lsd: { 1: 637, 2: 528, 3: 444, 4: 321, 5: 718 },
-    mdma: { 1: 2134, 2: 1988, 3: 631, 4: 1739, 5: 352 },
-    heroin: { 1: 2032, 2: 1827, 3: 1398, 4: 758, 5: 2463 }
+    weed: { 1: 1500 },
+    hash: { 1: 900, 2: 700, 3: 500, 4: 400, 5: 1000 },
+    coke: { 1: 4000, 2: 3600, 3: 3000, 4: 2400, 5: 4500 },
+    amph: { 1: 1300, 2: 1000, 3: 900, 4: 700, 5: 1500 },
+    meth: { 1: 1500, 2: 1200, 3: 1000, 4: 800, 5: 1800 },
+    meph: { 1: 1400, 2: 1100, 3: 900, 4: 700, 5: 1600 },
+    alpha: { 1: 1200, 2: 1000, 3: 800, 4: 600, 5: 1400 },
+    lsd: { 1: 500, 2: 450, 3: 400, 4: 350, 5: 600 },
+    mdma: { 1: 1500, 2: 1200, 3: 600, 4: 1000, 5: 400 },
+    heroin: { 1: 2000, 2: 1800, 3: 1500, 4: 1200, 5: 2500 }
 };
 
 function getRandomDate() {
@@ -453,7 +453,7 @@ const products = {
                 { text: "Полный шлак, не берите. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
                 { text: "Бюджетный амф, норм! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
                 { text: "Слабый и мутный, фу. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                { text: "За копейки ок, кайфанул! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
+                                { text: "За копейки ок, кайфанул! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
             ]
         },
         5: { 
@@ -709,10 +709,10 @@ const products = {
             ]
         },
         2: { 
-            name: "Pink Hearts (HQ)", 
+            name: "Pink Rocks (HQ)", 
             positions: generatePositions('mdma', 2, 'cokeMephAlphaMdma'), 
             reviews: [
-                { text: "Розовые сердца, стабильный кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
+                { text: "Розовые камни, стабильный кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
                 { text: "Грязноватый, не зашёл. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
                 { text: "Хороший МДМА, норм приход! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
                 { text: "Слабый эффект, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
@@ -720,8 +720,19 @@ const products = {
             ]
         },
         3: { 
-            name: "Blue Stars (MQ)", 
-            positions: generatePositions('mdma', 3, 'cokeMephAlphaMdma'), 
+            name: "Ecstasy Blue (VHQ Tabs)", 
+            positions: generatePositions('mdma', 3, 'mdmaTabs'), 
+            reviews: [
+                { text: "Синий экстази, топовый кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
+                { text: "Слабовато для VHQ, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
+                { text: "Элитные пилсы, шикарно! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
+                { text: "Дорого и не оправдало. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
+                { text: "Мощный эффект, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
+            ]
+        },
+        4: { 
+            name: "Molly Dust (MQ)", 
+            positions: generatePositions('mdma', 4, 'cokeMephAlphaMdma'), 
             reviews: [
                 { text: "Средний кайф, за свои бабки норм! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
                 { text: "Слабый и пыльный, не то. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
@@ -730,50 +741,39 @@ const products = {
                 { text: "Неплохой приход, ок! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" }
             ]
         },
-        4: { 
-            name: "Street Pills (LQ)", 
-            positions: generatePositions('mdma', 4, 'cokeMephAlphaMdma'), 
+        5: { 
+            name: "Street Pills (LQ Tabs)", 
+            positions: generatePositions('mdma', 5, 'mdmaTabs'), 
             reviews: [
                 { text: "Дёшево и работает, пойдёт! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
                 { text: "Полный шлак, не берите. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                { text: "Бюджетный МДМА, норм! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                { text: "Слабый и грязный, фу. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
+                { text: "Бюджетные пилсы, норм! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
+                { text: "Слабый и мутный, фу. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
                 { text: "За копейки ок, кайфанул! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-            ]
-        },
-        5: { 
-            name: "Golden Bliss (VHQ)", 
-            positions: generatePositions('mdma', 5, 'cokeMephAlphaMdma'), 
-            reviews: [
-                { text: "Золотой кайф, элитный МДМА! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                { text: "Переоценённый, не впечатлил. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                { text: "Топовый МДМА, шикарно! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                { text: "Дорого и не оправдало. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                { text: "Мощный эффект, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
             ]
         }
     },
     heroin: {
         1: { 
-            name: "Afghan Brown (VHQ)", 
+            name: "Afghan Silk (VHQ)", 
             positions: generatePositions('heroin', 1, 'default'), 
             reviews: [
-                { text: "Афганский топ, чистейший кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
+                { text: "Афганский шёлк, глубокий кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
                 { text: "Слабовато для VHQ, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                { text: "Элитный герыч, шикарно! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
+                { text: "Элитный гер, шикарно! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
                 { text: "Дорого и не оправдало. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                { text: "Мощный заряд, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
+                { text: "Мощный приход, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
             ]
         },
         2: { 
-            name: "Golden Tar (HQ)", 
+            name: "White Lotus (HQ)", 
             positions: generatePositions('heroin', 2, 'default'), 
             reviews: [
-                { text: "Золотая смола, стабильный кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
+                { text: "Белый лотос, стабильный кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
                 { text: "Грязноватый, не зашёл. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                { text: "Хороший герыч, норм приход! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
+                { text: "Хороший гер, норм приход! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
                 { text: "Слабый эффект, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                { text: "Приятный кайф, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" }
+                { text: "Приятный подъём, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" }
             ]
         },
         3: { 
@@ -782,18 +782,18 @@ const products = {
             reviews: [
                 { text: "Средний кайф, за свои бабки норм! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
                 { text: "Слабый и пыльный, не то. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                { text: "Приятный герыч, середнячок! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
+                { text: "Приятный гер, середнячок! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
                 { text: "Не впечатлил, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
                 { text: "Неплохой приход, ок! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" }
             ]
         },
         4: { 
-            name: "Street Dust (LQ)", 
+            name: "Dirty Tar (LQ)", 
             positions: generatePositions('heroin', 4, 'default'), 
             reviews: [
                 { text: "Дёшево и работает, пойдёт! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
                 { text: "Полный шлак, не берите. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                { text: "Бюджетный герыч, норм! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
+                { text: "Бюджетный гер, норм! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
                 { text: "Слабый и грязный, фу. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
                 { text: "За копейки ок, кайфанул! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
             ]
@@ -804,7 +804,7 @@ const products = {
             reviews: [
                 { text: "Чёрная жемчужина, элитный кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
                 { text: "Переоценённый, не впечатлил. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                { text: "Топовый герыч, шикарно! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
+                { text: "Топовый гер, шикарно! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
                 { text: "Дорого и не оправдало. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
                 { text: "Мощный эффект, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
             ]
@@ -812,335 +812,453 @@ const products = {
     }
 };
 
-function generatePositions(product, variant, weightKey) {
+// Генерация позиций
+function generatePositions(category, productId, weightType) {
     const positions = {};
-    const availableWeights = weights[weightKey] || weights.default;
-    for (const city in cities) {
-        const cityFactor = city === 'samui' ? 1.5 : 1; // Множитель x1.5 для Самуи
-        for (const district in cities[city]) {
-            const availableWeight = availableWeights[Math.floor(Math.random() * availableWeights.length)];
-            const basePrice = basePrices[product][variant];
-            const price = Math.round(basePrice * availableWeight * cityFactor);
-            positions[`${city}-${district}`] = {
-                weight: availableWeight,
-                price: price,
-                available: Math.random() > 0.3 // 70% шанс наличия
-            };
+    const availableWeights = weights[weightType] || weights.default;
+    const basePrice = basePrices[category][productId];
+    
+    for (let city in cities) {
+        for (let district in cities[city]) {
+            const stockCount = Math.floor(Math.random() * 5); // 0-4 позиции в наличии
+            if (stockCount > 0) {
+                positions[`${city}-${district}`] = {
+                    weight: availableWeights[Math.floor(Math.random() * availableWeights.length)],
+                    price: basePrice * availableWeights[Math.floor(Math.random() * availableWeights.length)],
+                    available: stockCount
+                };
+            }
         }
     }
     return positions;
 }
 
-function sendTelegramMessage(chatId, text) {
-    const url = `https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage`;
-    fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, text: text, parse_mode: 'HTML' })
-    }).catch(err => console.error('Ошибка отправки в Telegram:', err));
-}
-
-function showAlert(title, message) {
-    Telegram.WebApp.showAlert(`${title}\n\n${message}`);
-}
-
-function showConfirm(title, message, callback) {
-    Telegram.WebApp.showConfirm(`${title}\n\n${message}`, callback);
-}
-
-function showPopup(title, message, buttons) {
-    Telegram.WebApp.showPopup({
-        title: title,
-        message: message,
-        buttons: buttons
-    });
-}
-
-function updateUI() {
-    const t = translations[userLanguage];
-    document.querySelector('#promo-banner').innerText = t.promoBanner;
-    document.querySelector('#header-text').innerText = t.headerText;
-    document.querySelector('#catalog-btn').innerText = t.catalogButton;
-    document.querySelector('#vacancies-btn').innerText = t.vacanciesButton;
-    document.querySelector('#mail-btn').innerText = t.mailButton;
-
-    document.querySelector('#balance').innerText = `${balance} ฿`;
-    document.querySelector('#profile-name').innerText = `${t.profileNameLabel}${currentUser}`;
-    document.querySelector('#orders').innerText = `${t.ordersLabel}${orderCount}`;
-    document.querySelector('#referrals').innerText = `${t.referralsLabel}${referralCount}`;
-    document.querySelector('#ref-link').innerText = `${t.refLinkLabel}t.me/DarkThailandBot?start=${currentUser}`;
-
-    const citySelect = document.querySelector('#city-select');
-    citySelect.innerHTML = `
-        <option value="all">${t.allCitiesOption}</option>
-        <option value="phuket">${t.phuketOption}</option>
-        <option value="pattaya">${t.pattayaOption}</option>
-        <option value="bangkok">${t.bangkokOption}</option>
-        <option value="samui">${t.samuiOption}</option>
-    `;
-    citySelect.value = selectedCity;
-
-    const districtSelect = document.querySelector('#district-select');
-    districtSelect.innerHTML = `<option value="all">${t.allDistrictsOption}</option>`;
-    if (selectedCity !== 'all' && t[`${selectedCity}Districts`]) {
-        for (const district in t[`${selectedCity}Districts`]) {
-            districtSelect.innerHTML += `<option value="${district}">${t[`${selectedCity}Districts`][district]}</option>`;
-        }
+// Инициализация интерфейса
+function initUI() {
+    if (!currentUser) {
+        showRegistrationModal();
+        return;
     }
-    districtSelect.value = selectedDistrict;
 
-    updateCatalog();
+    document.getElementById('promoBanner').innerText = translations[userLanguage].promoBanner;
+    document.getElementById('headerText').innerText = translations[userLanguage].headerText;
+    document.getElementById('catalogButton').innerText = translations[userLanguage].catalogButton;
+    document.getElementById('vacanciesButton').innerText = translations[userLanguage].vacanciesButton;
+    document.getElementById('mailButton').innerText = translations[userLanguage].mailButton;
+    document.getElementById('allCitiesOption').innerText = translations[userLanguage].allCitiesOption;
+    document.getElementById('phuketOption').innerText = translations[userLanguage].phuketOption;
+    document.getElementById('pattayaOption').innerText = translations[userLanguage].pattayaOption;
+    document.getElementById('bangkokOption').innerText = translations[userLanguage].bangkokOption;
+    document.getElementById('samuiOption').innerText = translations[userLanguage].samuiOption;
+    document.getElementById('allDistrictsOption').innerText = translations[userLanguage].allDistrictsOption;
+    document.getElementById('weedDesc').innerText = translations[userLanguage].weedDesc;
+    document.getElementById('profileNameLabel').innerText = translations[userLanguage].profileNameLabel + currentUser;
+    document.getElementById('ordersLabel').innerText = translations[userLanguage].ordersLabel + orderCount;
+    document.getElementById('referralsLabel').innerText = translations[userLanguage].referralsLabel + referralCount;
+    document.getElementById('depositTitle').innerText = translations[userLanguage].depositTitle;
+    document.getElementById('orderHistoryTitle').innerText = translations[userLanguage].orderHistoryTitle;
+    document.getElementById('vacanciesTitle').innerText = translations[userLanguage].vacanciesTitle;
+    document.getElementById('courierTitle').innerText = translations[userLanguage].courierTitle;
+    document.getElementById('courierDuties').innerText = translations[userLanguage].courierDuties;
+    document.getElementById('courierPay').innerText = translations[userLanguage].courierPay;
+    document.getElementById('warehousemanTitle').innerText = translations[userLanguage].warehousemanTitle;
+    document.getElementById('warehousemanDuties').innerText = translations[userLanguage].warehousemanDuties;
+    document.getElementById('warehousemanPay').innerText = translations[userLanguage].warehousemanPay;
+    document.getElementById('transporterTitle').innerText = translations[userLanguage].transporterTitle;
+    document.getElementById('transporterDuties').innerText = translations[userLanguage].transporterDuties;
+    document.getElementById('transporterPay').innerText = translations[userLanguage].transporterPay;
+    document.getElementById('smmTitle').innerText = translations[userLanguage].smmTitle;
+    document.getElementById('smmDuties').innerText = translations[userLanguage].smmDuties;
+    document.getElementById('smmPay').innerText = translations[userLanguage].smmPay;
+    document.getElementById('applyButton1').innerText = translations[userLanguage].applyButton;
+    document.getElementById('applyButton2').innerText = translations[userLanguage].applyButton;
+    document.getElementById('applyButton3').innerText = translations[userLanguage].applyButton;
+    document.getElementById('applyButton4').innerText = translations[userLanguage].applyButton;
+    document.getElementById('mailTitle').innerText = translations[userLanguage].mailTitle;
+    document.getElementById('promoInfo').innerText = translations[userLanguage].promoInfo;
+
+    updateBalance();
     updateOrderHistory();
     updateMail();
+    setupTabs();
 }
 
-function updateCatalog() {
-    const t = translations[userLanguage];
-    const catalog = document.querySelector('#catalog');
-    catalog.innerHTML = '';
-    for (const product in products) {
-        for (const variant in products[product]) {
-            const item = products[product][variant];
-            const positions = item.positions;
-            let available = false;
-            let priceRange = { min: Infinity, max: 0 };
-
-            for (const pos in positions) {
-                const [city, district] = pos.split('-');
-                if ((selectedCity === 'all' || city === selectedCity) && 
-                    (selectedDistrict === 'all' || district === selectedDistrict)) {
-                    if (positions[pos].available) {
-                        available = true;
-                        priceRange.min = Math.min(priceRange.min, positions[pos].price);
-                        priceRange.max = Math.max(priceRange.max, positions[pos].price);
-                    }
-                }
-            }
-
-            const card = document.createElement('div');
-            card.className = 'catalog-item';
-            card.innerHTML = `
-                <h3>${item.name}</h3>
-                <p>${t.positionPrice} ${priceRange.min === priceRange.max ? priceRange.min : `${priceRange.min} - ${priceRange.max}`} ฿</p>
-                <p>${t.positionAvailability} ${available ? t.inStock : t.outOfStock}</p>
-                <button class="buy-btn" data-product="${product}" data-variant="${variant}" ${!available ? 'disabled' : ''}>${t.buyButton}</button>
-                <button class="preorder-btn" data-product="${product}" data-variant="${variant}">${t.preorderButton}</button>
-                <div class="reviews">
-                    <h4>${t.reviewsTitle}</h4>
-                    ${item.reviews.slice(0, 3).map(r => `<p><b>${r.date}</b>: ${r.text}${r.mod ? `<br><i>${r.mod}</i>` : ''}</p>`).join('') || t.noReviews}
-                </div>
-            `;
-            catalog.appendChild(card);
-        }
-    }
+// Обновление баланса
+function updateBalance() {
+    document.getElementById('balance').innerText = `${balance} ฿`;
 }
 
+// Обновление истории заказов
 function updateOrderHistory() {
-    const t = translations[userLanguage];
-    const orderList = document.querySelector('#order-list');
-    orderList.innerHTML = orderHistory.length ? orderHistory.map(o => `
-        <li>${o.date}: ${o.product} (${o.weight}g) - ${o.price} ฿, ${o.city}, ${o.district}</li>
-    `).join('') : `<li>${t.orderListEmpty}</li>`;
+    const orderList = document.getElementById('orderList');
+    orderList.innerHTML = orderHistory.length > 0 ? orderHistory.map(order => `<p>${order}</p>`).join('') : translations[userLanguage].orderListEmpty;
 }
 
+// Обновление почты
 function updateMail() {
-    const t = translations[userLanguage];
-    const mailList = document.querySelector('#mail-list');
-    mailList.innerHTML = mailMessages.length ? mailMessages.map(m => `
-        <li><b>${m.date}</b>: ${m.text}</li>
-    `).join('') : `<li>${t.mailListEmpty}</li>`;
+    const mailList = document.getElementById('mailList');
+    mailList.innerHTML = mailMessages.length > 0 ? mailMessages.map(msg => `<p>${msg}</p>`).join('') : translations[userLanguage].mailListEmpty;
 }
 
-function handleRegistration() {
-    const t = translations[userLanguage];
-    const nickname = document.querySelector('#reg-nickname').value.trim();
-    if (!nickname) {
-        showAlert(t.alertTitle, t.regErrorEmpty);
-        return;
-    }
-    if (registeredUsers.some(u => u.name === nickname)) {
-        showAlert(t.alertTitle, t.regErrorTaken);
-        return;
-    }
-    currentUser = nickname;
-    userLanguage = document.querySelector('#reg-language').value;
-    registeredUsers.push({ name: nickname, lang: userLanguage });
-    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-    document.querySelector('#reg-modal').style.display = 'none';
-    showAlert(t.alertTitle, t.welcomeMessage.replace('{user}', currentUser));
-    updateUI();
-}
-
-function handleDeposit() {
-    const t = translations[userLanguage];
-    const amount = parseInt(document.querySelector('#deposit-amount').value);
-    const crypto = document.querySelector('#crypto-select').value;
-    if (isNaN(amount) || amount < MIN_DEPOSIT) {
-        showAlert(t.alertTitle, t.minDepositError);
-        return;
-    }
-    const cryptoAmount = (amount / cryptoRates[crypto]).toFixed(6);
-    const address = testAddresses[crypto];
-    const message = `
-        ${t.depositInstruction.replace('{amount}', amount).replace('{cryptoAmount}', cryptoAmount).replace('{crypto}', crypto)}\n
-        <b>${address}</b>\n
-        ${t.depositFinal}\n
-        ${t.depositExpiry}
-    `;
-    showPopup(t.depositTitle, message, [
-        { id: 'confirm', type: 'default', text: t.confirmPayment },
-        { id: 'cancel', type: 'cancel', text: t.cancelButton }
-    ], (buttonId) => {
-        if (buttonId === 'confirm') {
-            pendingPayments[address] = { amount, crypto, timestamp: Date.now() };
-            sendTelegramMessage(ADMIN_CHAT_ID, `Новый запрос на пополнение:\nПользователь: ${currentUser}\nСумма: ${amount} ฿\nКрипта: ${cryptoAmount} ${crypto}\nАдрес: ${address}`);
-            showAlert(t.alertTitle, t.paymentPending);
-            document.querySelector('#deposit-modal').style.display = 'none';
-        }
-    });
-}
-
-function handlePurchase(product, variant, isPreorder = false) {
-    const t = translations[userLanguage];
-    const positions = products[product][variant].positions;
-    let availablePosition = null;
-    for (const pos in positions) {
-        const [city, district] = pos.split('-');
-        if ((selectedCity === 'all' || city === selectedCity) && 
-            (selectedDistrict === 'all' || district === selectedDistrict) && 
-            positions[pos].available) {
-            availablePosition = positions[pos];
-            availablePosition.city = city;
-            availablePosition.district = district;
-            break;
-        }
-    }
-    if (!availablePosition) return;
-
-    let price = availablePosition.price;
-    if (isPreorder) price = Math.round(price * 1.3); // +30% за предзаказ
-
-    if (balance < price) {
-        showConfirm(t.confirmTitle, t.insufficientFunds, (confirmed) => {
-            if (confirmed) document.querySelector('#deposit-modal').style.display = 'block';
+// Настройка вкладок каталога
+function setupTabs() {
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+            document.getElementById(tab.dataset.tab).style.display = 'block';
         });
+    });
+    if (tabs.length > 0) {
+        tabs[0].click();
+    }
+}
+
+// Переключение меню
+function toggleCatalog() {
+    hideAllMenus();
+    document.getElementById('catalogMenu').style.display = 'block';
+    filterByCity();
+}
+
+function toggleProfile() {
+    hideAllMenus();
+    document.getElementById('profileMenu').style.display = 'block';
+}
+
+function toggleVacancies() {
+    hideAllMenus();
+    document.getElementById('vacancyMenu').style.display = 'block';
+}
+
+function toggleMail() {
+    hideAllMenus();
+    document.getElementById('mailMenu').style.display = 'block';
+}
+
+function hideAllMenus() {
+    document.getElementById('catalogMenu').style.display = 'none';
+    document.getElementById('profileMenu').style.display = 'none';
+    document.getElementById('vacancyMenu').style.display = 'none';
+    document.getElementById('mailMenu').style.display = 'none';
+}
+
+// Фильтрация по городу и району
+function filterByCity() {
+    selectedCity = document.getElementById('citySelect').value;
+    const districtSelect = document.getElementById('districtSelect');
+    districtSelect.innerHTML = `<option value="all">${translations[userLanguage].allDistrictsOption}</option>`;
+    
+    if (selectedCity !== 'all') {
+        const districts = Object.keys(cities[selectedCity]);
+        districts.forEach(district => {
+            const translatedDistrict = translations[userLanguage][`${selectedCity}Districts`][district];
+            districtSelect.innerHTML += `<option value="${district}">${translatedDistrict}</option>`;
+        });
+    }
+    filterByDistrict();
+}
+
+function filterByDistrict() {
+    selectedDistrict = document.getElementById('districtSelect').value;
+    // Здесь можно добавить логику фильтрации товаров по району, если нужно
+}
+
+// Отображение модального окна продукта
+function showProductModal(category, productId) {
+    const product = products[category][productId];
+    const availableWeights = weights[category === 'lsd' ? 'lsd' : (category === 'mdma' && (productId === 3 || productId === 5)) ? 'mdmaTabs' : 'cokeMephAlphaMdma'] || weights.default;
+    let html = `<h2>${product.name}</h2>`;
+
+    const positions = product.positions;
+    const availablePositions = Object.keys(positions).filter(pos => {
+        const [city, district] = pos.split('-');
+        return (selectedCity === 'all' || selectedCity === city) && (selectedDistrict === 'all' || selectedDistrict === district);
+    });
+
+    if (availablePositions.length > 0) {
+        availablePositions.forEach(pos => {
+            const [city, district] = pos.split('-');
+            const position = positions[pos];
+            const price = position.price;
+            const cryptoPrice = (price / cryptoRates['BTC']).toFixed(6);
+            html += `
+                <div class="position">
+                    <p>${translations[userLanguage].positionWeight} ${position.weight} г</p>
+                    <p>${translations[userLanguage].positionPrice} ${price} ฿ (~${cryptoPrice} BTC)</p>
+                    <p>${translations[userLanguage].positionCity} ${translations[userLanguage][`${city}Option`]} - ${translations[userLanguage][`${city}Districts`][district]}</p>
+                    <p>${translations[userLanguage].positionAvailability} ${position.available > 0 ? translations[userLanguage].inStock : translations[userLanguage].outOfStock}</p>
+                    ${position.available > 0 ? `<button class="buy-button" onclick="buyProduct('${category}', ${productId}, '${pos}', ${price})">${translations[userLanguage].buyButton}</button>` : ''}
+                    <button class="preorder-button" onclick="preorderProduct('${category}', ${productId}, '${pos}', ${price})">${translations[userLanguage].preorderButton}</button>
+                </div>`;
+        });
+    } else {
+        html += `<p>${translations[userLanguage].outOfStock}</p>`;
+        html += `<button class="preorder-button" onclick="preorderProduct('${category}', ${productId}, null, ${basePrices[category][productId]})">${translations[userLanguage].preorderButton}</button>`;
+    }
+
+    html += `<h3>${translations[userLanguage].reviewsTitle}</h3>`;
+    if (product.reviews && product.reviews.length > 0) {
+        product.reviews.forEach(review => {
+            html += `
+                <div class="review">
+                    <span class="review-text">${review.text}</span>
+                    <span class="review-date">${review.date}</span>
+                </div>`;
+            if (review.mod) {
+                html += `<div class="moderator-response">${review.mod}</div>`;
+            }
+        });
+    } else {
+        html += `<p>${translations[userLanguage].noReviews}</p>`;
+    }
+
+    document.getElementById('productContent').innerHTML = html;
+    document.getElementById('productModal').style.display = 'flex';
+}
+
+// Покупка товара
+function buyProduct(category, productId, positionKey, price) {
+    if (balance < price) {
+        showConfirm(translations[userLanguage].insufficientFunds, () => showDepositModal('BTC'), () => {});
         return;
     }
 
     balance -= price;
     orderCount++;
-    positions[`${availablePosition.city}-${availablePosition.district}`].available = false;
-    orderHistory.unshift({
-        date: new Date().toLocaleString(),
-        product: products[product][variant].name,
-        weight: availablePosition.weight,
-        price: price,
-        city: availablePosition.city,
-        district: availablePosition.district
-    });
+    const product = products[category][productId];
+    const [city, district] = positionKey.split('-');
+    const position = product.positions[positionKey];
+    position.available--;
 
-    const cityName = t[`${availablePosition.city}Option`];
-    const districtName = t[`${availablePosition.city}Districts`][availablePosition.district];
-    const orderDetails = `
-        Пользователь: ${currentUser}
-        Товар: ${products[product][variant].name}
-        Вес: ${availablePosition.weight}г
-        Цена: ${price} ฿
-        Город: ${cityName}
-        Район: ${districtName}
-        Координаты: ${cities[availablePosition.city][availablePosition.district].lat}, ${cities[availablePosition.city][availablePosition.district].lon}
-        Описание: ${cities[availablePosition.city][availablePosition.district].desc}
-    `;
-    sendTelegramMessage(ADMIN_CHAT_ID, `Новый заказ:\n${orderDetails}`);
-    mailMessages.unshift({ date: new Date().toLocaleString(), text: `Ваш заказ (${products[product][variant].name}, ${availablePosition.weight}г) оформлен! Координаты: ${cities[availablePosition.city][availablePosition.district].lat}, ${cities[availablePosition.city][availablePosition.district].lon}. Описание: ${cities[availablePosition.city][availablePosition.district].desc}` });
+    const orderDetails = `${product.name} (${position.weight} г) - ${translations[userLanguage][`${city}Option`]}, ${translations[userLanguage][`${city}Districts`][district]} - ${price} ฿`;
+    orderHistory.unshift(orderDetails);
+    if (orderHistory.length > 5) orderHistory.pop();
 
-    showAlert(t.alertTitle, isPreorder ? t.preorderPlaced : t.paymentSuccess);
-    updateUI();
+    const stashDetails = `${cities[city][district].desc} Координаты: ${cities[city][district].lat}, ${cities[city][district].lon}`;
+    mailMessages.unshift(`Заказ: ${orderDetails}\nМесто: ${stashDetails}`);
+    if (mailMessages.length > 10) mailMessages.pop();
+
+    updateBalance();
+    updateOrderHistory();
+    updateMail();
+
+    document.getElementById('productModal').style.display = 'none';
+    showAlert(translations[userLanguage].paymentSuccess);
 }
 
-function handleJobApplication(job) {
-    const t = translations[userLanguage];
-    Telegram.WebApp.showPopup({
-        title: t.applyJobPrompt.replace('{job}', job),
-        message: '',
-        buttons: [{ id: 'submit', type: 'default', text: t.confirmButton }, { id: 'cancel', type: 'cancel', text: t.cancelButton }],
-        input: true
-    }, (buttonId, resume) => {
-        if (buttonId === 'submit' && resume) {
-            sendTelegramMessage(ADMIN_CHAT_ID, `Заявка на вакансию "${job}"\nПользователь: ${currentUser}\nРезюме: ${resume}`);
-            showAlert(t.alertTitle, t.applyJobAlert.replace('{job}', job));
-        }
-    });
+// Предзаказ товара
+function preorderProduct(category, productId, positionKey, basePrice) {
+    const preorderPrice = Math.round(basePrice * 1.3); // +30% за предзаказ
+    let html = `<h2>${translations[userLanguage].preorderTitle}</h2>`;
+    html += `<p>${products[category][productId].name}</p>`;
+    html += `<p>${translations[userLanguage].positionPrice} ${preorderPrice} ฿</p>`;
+    html += `<button class="buy-button" onclick="confirmPreorder('${category}', ${productId}, ${preorderPrice})">${translations[userLanguage].buyButton}</button>`;
+    html += `<button class="buy-button" onclick="document.getElementById('preorderModal').style.display = 'none'">${translations[userLanguage].close}</button>`;
+
+    document.getElementById('preorderContent').innerHTML = html;
+    document.getElementById('preorderModal').style.display = 'flex';
 }
 
-document.querySelector('#reg-submit').addEventListener('click', handleRegistration);
-document.querySelector('#deposit-submit').addEventListener('click', handleDeposit);
-document.querySelector('#city-select').addEventListener('change', (e) => {
-    selectedCity = e.target.value;
-    selectedDistrict = 'all';
-    updateUI();
-});
-document.querySelector('#district-select').addEventListener('change', (e) => {
-    selectedDistrict = e.target.value;
-    updateUI();
-});
-document.querySelector('#catalog-btn').addEventListener('click', () => {
-    document.querySelector('#catalog-section').style.display = 'block';
-    document.querySelector('#vacancies-section').style.display = 'none';
-    document.querySelector('#mail-section').style.display = 'none';
-});
-document.querySelector('#vacancies-btn').addEventListener('click', () => {
-    document.querySelector('#catalog-section').style.display = 'none';
-    document.querySelector('#vacancies-section').style.display = 'block';
-    document.querySelector('#mail-section').style.display = 'none';
-});
-document.querySelector('#mail-btn').addEventListener('click', () => {
-    document.querySelector('#catalog-section').style.display = 'none';
-    document.querySelector('#vacancies-section').style.display = 'none';
-    document.querySelector('#mail-section').style.display = 'block';
-});
-document.querySelector('#deposit-btn').addEventListener('click', () => {
-    document.querySelector('#deposit-modal').style.display = 'block';
-});
-document.querySelector('#close-deposit').addEventListener('click', () => {
-    document.querySelector('#deposit-modal').style.display = 'none';
-});
-
-document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('buy-btn')) {
-        const product = e.target.dataset.product;
-        const variant = e.target.dataset.variant;
-        handlePurchase(product, variant);
-    } else if (e.target.classList.contains('preorder-btn')) {
-        const product = e.target.dataset.product;
-        const variant = e.target.dataset.variant;
-        handlePurchase(product, variant, true);
-    } else if (e.target.classList.contains('apply-btn')) {
-        const job = e.target.dataset.job;
-        handleJobApplication(job);
+function confirmPreorder(category, productId, price) {
+    if (balance < price) {
+        showConfirm(translations[userLanguage].insufficientFunds, () => showDepositModal('BTC'), () => {});
+        return;
     }
-});
 
-if (!currentUser) {
-    document.querySelector('#reg-modal').style.display = 'block';
-} else {
-    updateUI();
+    balance -= price;
+    orderCount++;
+    const product = products[category][productId];
+    const orderDetails = `${product.name} (Предзаказ) - ${price} ฿`;
+    orderHistory.unshift(orderDetails);
+    if (orderHistory.length > 5) orderHistory.pop();
+
+    mailMessages.unshift(`Предзаказ: ${orderDetails}\nОжидайте уведомления о поступлении товара.`);
+    if (mailMessages.length > 10) mailMessages.pop();
+
+    updateBalance();
+    updateOrderHistory();
+    updateMail();
+
+    document.getElementById('preorderModal').style.display = 'none';
+    document.getElementById('productModal').style.display = 'none';
+    showAlert(translations[userLanguage].preorderPlaced);
 }
 
-// Симуляция проверки оплаты (для теста)
-setInterval(() => {
-    for (const address in pendingPayments) {
-        const payment = pendingPayments[address];
-        if (Date.now() - payment.timestamp > 30 * 60 * 1000) { // 30 минут
-            delete pendingPayments[address];
-            continue;
-        }
-        if (Math.random() > 0.7) { // 30% шанс подтверждения для теста
+// Регистрация пользователя
+function showRegistrationModal() {
+    document.getElementById('registrationModal').style.display = 'flex';
+}
+
+function registerUser() {
+    const nickname = document.getElementById('regNickname').value.trim();
+    const language = document.getElementById('regLanguage').value;
+
+    if (!nickname) {
+        document.getElementById('regError').innerText = translations[language].regErrorEmpty;
+        return;
+    }
+
+    if (registeredUsers.some(user => user.nickname === nickname)) {
+        document.getElementById('regError').innerText = translations[language].regErrorTaken;
+        return;
+    }
+
+    currentUser = nickname;
+    userLanguage = language;
+    registeredUsers.push({ nickname, language });
+    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+
+    document.getElementById('registrationModal').style.display = 'none';
+    showAlert(translations[userLanguage].welcomeMessage.replace('{user}', currentUser));
+    initUI();
+}
+
+// Пополнение баланса
+function showDepositModal(crypto) {
+    let html = `<h2>${translations[userLanguage].depositFunds}</h2>`;
+    html += `<p>${translations[userLanguage].selectCrypto}</p>`;
+    html += `<select id="cryptoSelect" onchange="updateDepositNetwork()">`;
+    for (let c in cryptoRates) {
+        html += `<option value="${c}" ${c === crypto ? 'selected' : ''}>${c}</option>`;
+    }
+    html += `</select>`;
+    html += `<p>${translations[userLanguage].networkLabel} <span id="cryptoNetwork">${cryptoNetworks[crypto]}</span></p>`;
+    html += `<p>${translations[userLanguage].enterAmount}</p>`;
+    html += `<input type="number" id="depositAmount" placeholder="฿">`;
+    html += `<button class="buy-button" onclick="generateDepositAddress()">${translations[userLanguage].generateAddress}</button>`;
+    html += `<button class="buy-button" onclick="document.getElementById('depositModal').style.display = 'none'">${translations[userLanguage].close}</button>`;
+
+    document.getElementById('depositContent').innerHTML = html;
+    document.getElementById('depositModal').style.display = 'flex';
+}
+
+function updateDepositNetwork() {
+    const crypto = document.getElementById('cryptoSelect').value;
+    document.getElementById('cryptoNetwork').innerText = cryptoNetworks[crypto];
+}
+
+function generateDepositAddress() {
+    const amount = parseInt(document.getElementById('depositAmount').value);
+    const crypto = document.getElementById('cryptoSelect').value;
+
+    if (amount < MIN_DEPOSIT) {
+        showAlert(translations[userLanguage].minDepositError);
+        return;
+    }
+
+    const cryptoAmount = (amount / cryptoRates[crypto]).toFixed(6);
+    const address = testAddresses[crypto];
+    const paymentId = `${currentUser}-${Date.now()}`;
+
+    pendingPayments[paymentId] = { amount, crypto, address, timestamp: Date.now() };
+
+    let html = `<h2>${translations[userLanguage].depositFunds}</h2>`;
+    html += `<p>${translations[userLanguage].depositInstruction.replace('{amount}', amount).replace('{cryptoAmount}', cryptoAmount).replace('{crypto}', crypto)}</p>`;
+    html += `<p><strong>${address}</strong></p>`;
+    html += `<p>${translations[userLanguage].depositFinal}</p>`;
+    html += `<p>${translations[userLanguage].depositExpiry}</p>`;
+    html += `<button class="buy-button" onclick="confirmDeposit('${paymentId}')">${translations[userLanguage].confirmPayment}</button>`;
+    html += `<button class="buy-button" onclick="document.getElementById('depositModal').style.display = 'none'">${translations[userLanguage].close}</button>`;
+
+    document.getElementById('depositContent').innerHTML = html;
+}
+
+function confirmDeposit(paymentId) {
+    const payment = pendingPayments[paymentId];
+    if (!payment || (Date.now() - payment.timestamp) > 30 * 60 * 1000) {
+        showAlert("Срок действия адреса истёк!");
+        delete pendingPayments[paymentId];
+        document.getElementById('depositModal').style.display = 'none';
+        return;
+    }
+
+    sendToAdmin(`Пополнение баланса от ${currentUser}:\n${payment.amount} ฿ (~${(payment.amount / cryptoRates[payment.crypto]).toFixed(6)} ${payment.crypto})\nАдрес: ${payment.address}`);
+    showAlert(translations[userLanguage].paymentPending);
+    document.getElementById('depositModal').style.display = 'none';
+
+    setTimeout(() => {
+        if (pendingPayments[paymentId]) {
             balance += payment.amount;
-            mailMessages.unshift({ date: new Date().toLocaleString(), text: `Ваш баланс пополнен на ${payment.amount} ฿ через ${payment.crypto}!` });
-            sendTelegramMessage(ADMIN_CHAT_ID, `Пополнение подтверждено:\nПользователь: ${currentUser}\nСумма: ${payment.amount} ฿\nКрипта: ${payment.crypto}`);
-            delete pendingPayments[address];
-            updateUI();
+            updateBalance();
+            mailMessages.unshift(`Баланс пополнен на ${payment.amount} ฿ через ${payment.crypto}`);
+            updateMail();
+            delete pendingPayments[paymentId];
+        }
+    }, 30000); // Симуляция проверки оплаты
+}
+
+// Отправка заявки на вакансию
+function applyForJob(job) {
+    showInput(translations[userLanguage].applyJobPrompt.replace('{job}', job), resume => {
+        const message = `Заявка на вакансию "${job}" от ${currentUser}:\n${resume}`;
+        sendToAdmin(message);
+        mailMessages.unshift(translations[userLanguage].applyJobSent.replace('{job}', job));
+        updateMail();
+        showAlert(translations[userLanguage].applyJobAlert.replace('{job}', job));
+    });
+}
+
+// Отправка сообщения администратору
+function sendToAdmin(message) {
+    const url = `https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage`;
+    fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: ADMIN_CHAT_ID,
+            text: message
+        })
+    }).catch(err => console.error('Ошибка отправки в Telegram:', err));
+}
+
+// Утилиты для модальных окон
+function showAlert(message) {
+    document.getElementById('customContent').innerHTML = `<h2>${translations[userLanguage].alertTitle}</h2><p>${message}</p><button class="buy-button" onclick="document.getElementById('customModal').style.display = 'none'">${translations[userLanguage].close}</button>`;
+    document.getElementById('customModal').style.display = 'flex';
+}
+
+function showConfirm(message, onYes, onNo) {
+    document.getElementById('confirmContent').innerHTML = `
+        <h2>${translations[userLanguage].confirmTitle}</h2>
+        <p>${message}</p>
+        <button class="buy-button" onclick="(${onYes.toString()})();document.getElementById('confirmModal').style.display = 'none'">${translations[userLanguage].yes}</button>
+        <button class="buy-button" onclick="(${onNo.toString()})();document.getElementById('confirmModal').style.display = 'none'">${translations[userLanguage].no}</button>`;
+    document.getElementById('confirmModal').style.display = 'flex';
+}
+
+function showInput(message, callback) {
+    document.getElementById('customContent').innerHTML = `
+        <h2>${translations[userLanguage].inputTitle}</h2>
+        <p>${message}</p>
+        <textarea id="inputText"></textarea>
+        <button class="buy-button" onclick="(${callback.toString()})(document.getElementById('inputText').value);document.getElementById('customModal').style.display = 'none'">${translations[userLanguage].confirmButton}</button>
+        <button class="buy-button" onclick="document.getElementById('customModal').style.display = 'none'">${translations[userLanguage].cancelButton}</button>`;
+    document.getElementById('customModal').style.display = 'flex';
+}
+
+function showPromoDetails() {
+    showAlert(translations[userLanguage].promoBanner);
+}
+
+// Загрузка пользователя из локального хранилища
+window.onload = () => {
+    const lastUser = localStorage.getItem('lastUser');
+    if (lastUser) {
+        const user = registeredUsers.find(u => u.nickname === lastUser);
+        if (user) {
+            currentUser = user.nickname;
+            userLanguage = user.language;
         }
     }
-}, 60 * 1000); // Проверка каждую минуту
+    initUI();
+};
+
+// Сохранение последнего пользователя
+window.onbeforeunload = () => {
+    if (currentUser) {
+        localStorage.setItem('lastUser', currentUser);
+    }
+};
