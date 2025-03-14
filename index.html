@@ -6,151 +6,6 @@
     <meta http-equiv="Content-Security-Policy" content="sandbox allow-same-origin allow-modals allow-scripts">
     <title>Dark Thailand - Надёжный шоп</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1a1a1a;
-            color: #fff;
-            margin: 0;
-            padding: 10px;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .promo-banner {
-            background-color: #ff4444;
-            padding: 10px;
-            text-align: center;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .header-text {
-            font-size: 20px;
-        }
-        .nav {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-        }
-        .nav-button, .buy-button {
-            background-color: #555;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .nav-button:hover, .buy-button:hover {
-            background-color: #777;
-        }
-        .profile-button {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-        }
-        .catalog-menu, .profile-menu, .vacancy-menu, .mail-menu {
-            display: none;
-        }
-        .city-filter {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .city-filter select {
-            width: 48%;
-            padding: 8px;
-            border-radius: 5px;
-            background-color: #555;
-            color: #fff;
-            border: none;
-        }
-        .tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin-bottom: 10px;
-        }
-        .tab {
-            background-color: #333;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .tab.active {
-            background-color: #777;
-        }
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-        }
-        .product-card {
-            background-color: #333;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            cursor: pointer;
-        }
-        .product-card h3 {
-            margin: 0 0 5px;
-        }
-        .vacancy {
-            background-color: #333;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        .profile-info, .deposit-options, .order-history, .promo-info {
-            background-color: #333;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        .mail-menu div {
-            background-color: #333;
-            padding: 15px;
-            border-radius: 5px;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-        .modal-content, .payment-content, .product-content, .deposit-content, .preorder-content, .registration-content, .custom-content, .confirm-content {
-            background-color: #444;
-            padding: 20px;
-            border-radius: 5px;
-            width: 80%;
-            max-width: 400px;
-            margin: 20% auto;
-            position: relative;
-        }
-        .modal-content input, .modal-content select {
-            width: 100%;
-            padding: 8px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: none;
-        }
-        .buy-button {
-            background-color: #28a745;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -162,22 +17,22 @@
         </div>
         
         <div class="nav">
-            <button class="nav-button" id="catalogButton"></button>
-            <button class="nav-button" id="vacanciesButton"></button>
-            <button class="nav-button" id="mailButton"></button>
-            <button class="profile-button" id="profileButton">☠️</button>
+            <button class="nav-button" id="catalogButton" onclick="toggleCatalog()"></button>
+            <button class="nav-button" id="vacanciesButton" onclick="toggleVacancies()"></button>
+            <button class="nav-button" id="mailButton" onclick="toggleMail()"></button>
+            <button class="profile-button" onclick="toggleProfile()">☠️</button>
         </div>
         
         <div class="catalog-menu" id="catalogMenu">
             <div class="city-filter">
-                <select id="citySelect">
+                <select id="citySelect" onchange="filterByCity()">
                     <option value="all" id="allCitiesOption"></option>
                     <option value="phuket" id="phuketOption"></option>
                     <option value="pattaya" id="pattayaOption"></option>
                     <option value="bangkok" id="bangkokOption"></option>
                     <option value="samui" id="samuiOption"></option>
                 </select>
-                <select id="districtSelect">
+                <select id="districtSelect" onchange="filterByDistrict()">
                     <option value="all" id="allDistrictsOption"></option>
                 </select>
             </div>
@@ -194,16 +49,219 @@
                 <div class="tab" data-tab="heroin" id="heroinTab">Героин</div>
             </div>
 
-            <div id="weed" class="tab-content"></div>
-            <div id="hash" class="tab-content"></div>
-            <div id="coke" class="tab-content"></div>
-            <div id="amph" class="tab-content"></div>
-            <div id="meth" class="tab-content"></div>
-            <div id="meph" class="tab-content"></div>
-            <div id="alpha" class="tab-content"></div>
-            <div id="lsd" class="tab-content"></div>
-            <div id="mdma" class="tab-content"></div>
-            <div id="heroin" class="tab-content"></div>
+            <div id="weed" class="tab-content">
+                <div class="product-card" data-product="weed-1">
+                    <h3 onclick="showProductModal('weed', 1)">Jamaican Haze (VHQ)</h3>
+                    <p id="weedDesc"></p>
+                </div>
+            </div>
+
+            <div id="hash" class="tab-content">
+                <div class="product-card" data-product="hash-1">
+                    <h3 onclick="showProductModal('hash', 1)">Afghan Black Gold (VHQ)</h3>
+                    <p>Премиум афганский гашиш, бархатный эффект</p>
+                </div>
+                <div class="product-card" data-product="hash-2">
+                    <h3 onclick="showProductModal('hash', 2)">Moroccan Spice (HQ)</h3>
+                    <p>Марокканский гашиш с пряным ароматом</p>
+                </div>
+                <div class="product-card" data-product="hash-3">
+                    <h3 onclick="showProductModal('hash', 3)">Nepal Temple (MQ)</h3>
+                    <p>Непальский гашиш, сбалансированный приход</p>
+                </div>
+                <div class="product-card" data-product="hash-4">
+                    <h3 onclick="showProductModal('hash', 4)">Local Dust (LQ)</h3>
+                    <p>Местный бюджетный гашиш</p>
+                </div>
+                <div class="product-card" data-product="hash-5">
+                    <h3 onclick="showProductModal('hash', 5)">Himalayan Storm (VHQ)</h3>
+                    <p>Гималайский шторм, мощный и чистый</p>
+                </div>
+            </div>
+
+            <div id="coke" class="tab-content">
+                <div class="product-card" data-product="coke-1">
+                    <h3 onclick="showProductModal('coke', 1)">Bolivian Fishscale (VHQ)</h3>
+                    <p>Боливийский кокаин, топовый 95%+</p>
+                </div>
+                <div class="product-card" data-product="coke-2">
+                    <h3 onclick="showProductModal('coke', 2)">Colombian Snow (HQ)</h3>
+                    <p>Колумбийский снег, чистый и мощный</p>
+                </div>
+                <div class="product-card" data-product="coke-3">
+                    <h3 onclick="showProductModal('coke', 3)">Peruvian Dust (MQ)</h3>
+                    <p>Перуанская пыль, средний уровень</p>
+                </div>
+                <div class="product-card" data-product="coke-4">
+                    <h3 onclick="showProductModal('coke', 4)">Street Mix (LQ)</h3>
+                    <p>Уличная смесь, бюджетный вариант</p>
+                </div>
+                <div class="product-card" data-product="coke-5">
+                    <h3 onclick="showProductModal('coke', 5)">Cartel Gold (VHQ)</h3>
+                    <p>Золото картеля, элитный стандарт</p>
+                </div>
+            </div>
+
+            <div id="amph" class="tab-content">
+                <div class="product-card" data-product="amph-1">
+                    <h3 onclick="showProductModal('amph', 1)">Crystal Surge (VHQ)</h3>
+                    <p>Кристальный амфетамин, чистая энергия</p>
+                </div>
+                <div class="product-card" data-product="amph-2">
+                    <h3 onclick="showProductModal('amph', 2)">Red Rush (HQ)</h3>
+                    <p>Красный заряд, стабильный драйв</p>
+                </div>
+                <div class="product-card" data-product="amph-3">
+                    <h3 onclick="showProductModal('amph', 3)">Yellow Spark (MQ)</h3>
+                    <p>Жёлтая искра, средний подъём</p>
+                </div>
+                <div class="product-card" data-product="amph-4">
+                    <h3 onclick="showProductModal('amph', 4)">Grey Haze (LQ)</h3>
+                    <p>Серая дымка, базовый вариант</p>
+                </div>
+                <div class="product-card" data-product="amph-5">
+                    <h3 onclick="showProductModal('amph', 5)">Blue Blitz (VHQ)</h3>
+                    <p>Синий удар, элитный амф</p>
+                </div>
+            </div>
+
+            <div id="meth" class="tab-content">
+                <div class="product-card" data-product="meth-1">
+                    <h3 onclick="showProductModal('meth', 1)">Mountain Ice (VHQ)</h3>
+                    <p>Горный лёд, кристальная чистота</p>
+                </div>
+                <div class="product-card" data-product="meth-2">
+                    <h3 onclick="showProductModal('meth', 2)">Blue Flame (HQ)</h3>
+                    <p>Синее пламя, долгий эффект</p>
+                </div>
+                <div class="product-card" data-product="meth-3">
+                    <h3 onclick="showProductModal('meth', 3)">White Shard (MQ)</h3>
+                    <p>Белый осколок, средний уровень</p>
+                </div>
+                <div class="product-card" data-product="meth-4">
+                    <h3 onclick="showProductModal('meth', 4)">Dirty Crystal (LQ)</h3>
+                    <p>Грязный кристалл, эконом-класс</p>
+                </div>
+                <div class="product-card" data-product="meth-5">
+                    <h3 onclick="showProductModal('meth', 5)">Golden Shard (VHQ)</h3>
+                    <p>Золотой осколок, топовый мет</p>
+                </div>
+            </div>
+
+            <div id="meph" class="tab-content">
+                <div class="product-card" data-product="meph-1">
+                    <h3 onclick="showProductModal('meph', 1)">Pink Bliss (VHQ)</h3>
+                    <p>Розовое блаженство, чистейший кайф</p>
+                </div>
+                <div class="product-card" data-product="meph-2">
+                    <h3 onclick="showProductModal('meph', 2)">White Surge (HQ)</h3>
+                    <p>Белый всплеск, стабильный эффект</p>
+                </div>
+                <div class="product-card" data-product="meph-3">
+                    <h3 onclick="showProductModal('meph', 3)">Grey Mist (MQ)</h3>
+                    <p>Серая дымка, средний уровень</p>
+                </div>
+                <div class="product-card" data-product="meph-4">
+                    <h3 onclick="showProductModal('meph', 4)">Dusty High (LQ)</h3>
+                    <p>Пыльный кайф, бюджетный меф</p>
+                </div>
+                <div class="product-card" data-product="meph-5">
+                    <h3 onclick="showProductModal('meph', 5)">Red Pulse (VHQ)</h3>
+                    <p>Красный пульс, элитный рывок</p>
+                </div>
+            </div>
+
+            <div id="alpha" class="tab-content">
+                <div class="product-card" data-product="alpha-1">
+                    <h3 onclick="showProductModal('alpha', 1)">Flakka Fire (VHQ)</h3>
+                    <p>Огненная флакка, чистый Альфа-PVP</p>
+                </div>
+                <div class="product-card" data-product="alpha-2">
+                    <h3 onclick="showProductModal('alpha', 2)">Purple Haze (HQ)</h3>
+                    <p>Пурпурная дымка, мощный заряд</p>
+                </div>
+                <div class="product-card" data-product="alpha-3">
+                    <h3 onclick="showProductModal('alpha', 3)">Green Dust (MQ)</h3>
+                    <p>Зелёная пыль, средний эффект</p>
+                </div>
+                <div class="product-card" data-product="alpha-4">
+                    <h3 onclick="showProductModal('alpha', 4)">Street Gravel (LQ)</h3>
+                    <p>Уличный гравий, бюджетный Альфа</p>
+                </div>
+                <div class="product-card" data-product="alpha-5">
+                    <h3 onclick="showProductModal('alpha', 5)">Crystal Fury (VHQ)</h3>
+                    <p>Кристальная ярость, топовый PVP</p>
+                </div>
+            </div>
+
+            <div id="lsd" class="tab-content">
+                <div class="product-card" data-product="lsd-1">
+                    <h3 onclick="showProductModal('lsd', 1)">Cosmic Tabs (VHQ)</h3>
+                    <p>Космические таблы, чистый трип</p>
+                </div>
+                <div class="product-card" data-product="lsd-2">
+                    <h3 onclick="showProductModal('lsd', 2)">Neon Drops (HQ)</h3>
+                    <p>Неоновые капли, яркий опыт</p>
+                </div>
+                <div class="product-card" data-product="lsd-3">
+                    <h3 onclick="showProductModal('lsd', 3)">Acid Rain (MQ)</h3>
+                    <p>Кислотный дождь, средний трип</p>
+                </div>
+                <div class="product-card" data-product="lsd-4">
+                    <h3 onclick="showProductModal('lsd', 4)">Street Blotters (LQ)</h3>
+                    <p>Уличные блоттеры, базовый ЛСД</p>
+                </div>
+                <div class="product-card" data-product="lsd-5">
+                    <h3 onclick="showProductModal('lsd', 5)">Galactic Hits (VHQ)</h3>
+                    <p>Галактические хиты, элитный кислый</p>
+                </div>
+            </div>
+
+            <div id="mdma" class="tab-content">
+                <div class="product-card" data-product="mdma-1">
+                    <h3 onclick="showProductModal('mdma', 1)">Crystal Love (VHQ)</h3>
+                    <p>Кристальная любовь, чистый МДМА</p>
+                </div>
+                <div class="product-card" data-product="mdma-2">
+                    <h3 onclick="showProductModal('mdma', 2)">Pink Rocks (HQ)</h3>
+                    <p>Розовые камни, стабильный кайф</p>
+                </div>
+                <div class="product-card" data-product="mdma-3">
+                    <h3 onclick="showProductModal('mdma', 3)">Ecstasy Blue (VHQ Tabs)</h3>
+                    <p>Синий экстази, топовые пилсы</p>
+                </div>
+                <div class="product-card" data-product="mdma-4">
+                    <h3 onclick="showProductModal('mdma', 4)">Molly Dust (MQ)</h3>
+                    <p>Молли пыль, средний МДМА</p>
+                </div>
+                <div class="product-card" data-product="mdma-5">
+                    <h3 onclick="showProductModal('mdma', 5)">Street Pills (LQ Tabs)</h3>
+                    <p>Уличные пилсы, бюджетный экстази</p>
+                </div>
+            </div>
+
+            <div id="heroin" class="tab-content">
+                <div class="product-card" data-product="heroin-1">
+                    <h3 onclick="showProductModal('heroin', 1)">Afghan Silk (VHQ)</h3>
+                    <p>Афганский шёлк, глубокий приход</p>
+                </div>
+                <div class="product-card" data-product="heroin-2">
+                    <h3 onclick="showProductModal('heroin', 2)">White Lotus (HQ)</h3>
+                    <p>Белый лотос, чистый эффект</p>
+                </div>
+                <div class="product-card" data-product="heroin-3">
+                    <h3 onclick="showProductModal('heroin', 3)">Brown Sugar (MQ)</h3>
+                    <p>Коричневый сахар, средний героин</p>
+                </div>
+                <div class="product-card" data-product="heroin-4">
+                    <h3 onclick="showProductModal('heroin', 4)">Dirty Tar (LQ)</h3>
+                    <p>Грязный тарт, бюджетный вариант</p>
+                </div>
+                <div class="product-card" data-product="heroin-5">
+                    <h3 onclick="showProductModal('heroin', 5)">Black Pearl (VHQ)</h3>
+                    <p>Чёрная жемчужина, элитный героин</p>
+                </div>
+            </div>
         </div>
 
         <div class="profile-menu" id="profileMenu">
@@ -216,11 +274,11 @@
             </div>
             <div class="deposit-options">
                 <h3 id="depositTitle"></h3>
-                <button class="nav-button" data-crypto="BTC">Bitcoin (BTC)</button>
-                <button class="nav-button" data-crypto="ETH">Ethereum (ETH)</button>
-                <button class="nav-button" data-crypto="USDT">Tether (USDT)</button>
-                <button class="nav-button" data-crypto="SOL">Solana (SOL)</button>
-                <button class="nav-button" data-crypto="TON">Toncoin (TON)</button>
+                <button class="nav-button" onclick="showDepositModal('BTC')">Bitcoin (BTC)</button>
+                <button class="nav-button" onclick="showDepositModal('ETH')">Ethereum (ETH)</button>
+                <button class="nav-button" onclick="showDepositModal('USDT')">Tether (USDT)</button>
+                <button class="nav-button" onclick="showDepositModal('SOL')">Solana (SOL)</button>
+                <button class="nav-button" onclick="showDepositModal('TON')">Toncoin (TON)</button>
             </div>
             <div class="order-history">
                 <h3 id="orderHistoryTitle"></h3>
@@ -228,35 +286,35 @@
             </div>
             <div class="promo-info">
                 <p id="promoInfo"></p>
-                <button class="nav-button" id="promoDetailsButton">Подробнее</button>
+                <button class="nav-button" onclick="showPromoDetails()">Подробнее</button>
             </div>
         </div>
 
         <div class="vacancy-menu" id="vacancyMenu">
-            <h2 id="vacanciesTitle"></h2>
+            <h2 id="vacanciesTitle">Вакансии</h2>
             <div class="vacancy">
-                <h3 id="courierTitle"></h3>
-                <p id="courierDuties"></p>
-                <p id="courierPay"></p>
-                <button class="buy-button" data-job="Courier" id="applyButton1"></button>
+                <h3 id="courierTitle">Кладмен</h3>
+                <p id="courierDuties">Обязанности: Делать клады.</p>
+                <p id="courierPay">Оплата: от 100000 батт/месяц</p>
+                <button class="buy-button" onclick="applyForJob('Курьер')" id="applyButton1">Откликнуться</button>
             </div>
             <div class="vacancy">
-                <h3 id="warehousemanTitle"></h3>
-                <p id="warehousemanDuties"></p>
-                <p id="warehousemanPay"></p>
-                <button class="buy-button" data-job="Warehouseman" id="applyButton2"></button>
+                <h3 id="warehousemanTitle">Складмен</h3>
+                <p id="warehousemanDuties">Обязанности: Приём больших партий, делать мастер-клады для кладменов.</p>
+                <p id="warehousemanPay">Оплата: от 200000 батт/месяц</p>
+                <button class="buy-button" onclick="applyForJob('Складмен')" id="applyButton2">Откликнуться</button>
             </div>
             <div class="vacancy">
-                <h3 id="transporterTitle"></h3>
-                <p id="transporterDuties"></p>
-                <p id="transporterPay"></p>
-                <button class="buy-button" data-job="Transporter" id="applyButton3"></button>
+                <h3 id="transporterTitle">Перевозчик</h3>
+                <p id="transporterDuties">Обязанности: перевозка товара по всему Тайланду.</p>
+                <p id="transporterPay">Оплата: от 350000 батт/месяц</p>
+                <button class="buy-button" onclick="applyForJob('Перевозчик')" id="applyButton3">Откликнуться</button>
             </div>
             <div class="vacancy">
-                <h3 id="smmTitle"></h3>
-                <p id="smmDuties"></p>
-                <p id="smmPay"></p>
-                <button class="buy-button" data-job="SMM Manager" id="applyButton4"></button>
+                <h3 id="smmTitle">SMMщик</h3>
+                <p id="smmDuties">Обязанности: Рекламировать магазин</p>
+                <p id="smmPay">Оплата: от 70000 батт/неделя</p>
+                <button class="buy-button" onclick="applyForJob('SMMщик')" id="applyButton4">Откликнуться</button>
             </div>
         </div>
 
@@ -265,41 +323,42 @@
             <div id="mailList"></div>
         </div>
 
-        <div class="payment-modal" id="paymentModal">
-            <div class="payment-content" id="paymentContent"></div>
-        </div>
         <div class="product-modal" id="productModal">
             <div class="product-content" id="productContent"></div>
         </div>
-        <div class="deposit-modal" id="depositModal">
-            <div class="deposit-content" id="depositContent">
-                <h2 id="depositTitleModal"></h2>
-                <p id="networkLabel"></p>
-                <input type="number" id="depositAmount" placeholder="Enter amount (min 1000 ฿)">
-                <button class="buy-button" id="depositSubmit">Generate Address</button>
-            </div>
+
+        <div class="payment-modal" id="paymentModal">
+            <div class="payment-content" id="paymentContent"></div>
         </div>
+
+        <div class="deposit-modal" id="depositModal">
+            <div class="deposit-content" id="depositContent"></div>
+        </div>
+
         <div class="preorder-modal" id="preorderModal">
             <div class="preorder-content" id="preorderContent"></div>
         </div>
+
         <div class="registration-modal" id="registrationModal">
             <div class="registration-content" id="registrationContent">
-                <h2 id="regTitle"></h2>
-                <p id="regNicknameLabel"></p>
+                <h2>Регистрация</h2>
+                <p>Введите желаемый никнейм:</p>
                 <input type="text" id="regNickname" placeholder="Ваш никнейм">
-                <p id="regLanguageLabel"></p>
+                <p>Выберите язык:</p>
                 <select id="regLanguage">
                     <option value="en">English</option>
                     <option value="th">ไทย (Thai)</option>
                     <option value="ru">Русский</option>
                 </select>
-                <button class="buy-button" id="regSubmit"></button>
+                <button class="buy-button" onclick="registerUser()">Зарегистрироваться</button>
                 <p id="regError" style="color: #ff9999;"></p>
             </div>
         </div>
+
         <div class="custom-modal" id="customModal">
             <div class="custom-content" id="customContent"></div>
         </div>
+
         <div class="confirm-modal" id="confirmModal">
             <div class="confirm-content" id="confirmContent"></div>
         </div>
@@ -307,5 +366,5 @@
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="script.js"></script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9202b29b7f1eb036',t:'MTc0MTk0NDA1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
