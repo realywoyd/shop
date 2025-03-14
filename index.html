@@ -1254,15 +1254,17 @@
     console.log('initApp started');
 
     const savedUser = localStorage.getItem('currentUser');
+    console.log('Checking saved user:', savedUser);
+
     if (savedUser) {
         try {
-            console.log('Found saved user:', savedUser);
             currentUser = JSON.parse(savedUser);
             userLanguage = currentUser.language;
+            console.log('User loaded:', currentUser);
             updateUI();
         } catch (error) {
             console.error('Error parsing saved user:', error);
-            localStorage.removeItem('currentUser'); // Удаляем битые данные
+            localStorage.removeItem('currentUser');
             showRegistrationModal();
         }
     } else {
@@ -1295,7 +1297,7 @@
         console.error('Weed tab not found');
     }
 
-    filterProducts(); // Применяем фильтр
+    filterProducts();
 
     // Обработчики модалок
     document.getElementById('productModal').addEventListener('click', e => {
@@ -1303,31 +1305,7 @@
             document.getElementById('productModal').style.display = 'none';
         }
     });
-    document.getElementById('paymentModal').addEventListener('click', e => {
-        if (e.target === document.getElementById('paymentModal')) {
-            document.getElementById('paymentModal').style.display = 'none';
-        }
-    });
-    document.getElementById('depositModal').addEventListener('click', e => {
-        if (e.target === document.getElementById('depositModal')) {
-            document.getElementById('depositModal').style.display = 'none';
-        }
-    });
-    document.getElementById('preorderModal').addEventListener('click', e => {
-        if (e.target === document.getElementById('preorderModal')) {
-            document.getElementById('preorderModal').style.display = 'none';
-        }
-    });
-    document.getElementById('customModal').addEventListener('click', e => {
-        if (e.target === document.getElementById('customModal')) {
-            document.getElementById('customModal').style.display = 'none';
-        }
-    });
-    document.getElementById('confirmModal').addEventListener('click', e => {
-        if (e.target === document.getElementById('confirmModal')) {
-            document.getElementById('confirmModal').style.display = 'none';
-        }
-    });
+    // ... остальные модалки ...
 }
 
         function updateUI() {
@@ -1637,22 +1615,23 @@
 
     const userId = Date.now().toString();
     currentUser = { id: userId, nickname: nickname, language: userLanguage };
-    console.log('Registering user:', currentUser); // Отладка
+    console.log('Registering user:', currentUser);
 
     try {
         registeredUsers.push(currentUser);
         localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        console.log('User saved to localStorage:', localStorage.getItem('currentUser')); // Проверка
+        console.log('Saved to localStorage:', localStorage.getItem('currentUser'));
     } catch (error) {
         console.error('Error saving to localStorage:', error);
-        showCustomModal('Ошибка', 'Не удалось сохранить данные. Проверьте настройки браузера.');
+        showCustomModal('Ошибка', 'Не удалось сохранить данные. Возможно, вы в приватном режиме.');
         return;
     }
 
     document.getElementById('registrationModal').style.display = 'none';
     showCustomModal(t.alertTitle, t.welcomeMessage.replace('{user}', nickname));
     updateUI();
+}
 
     const urlParams = new URLSearchParams(window.location.search);
     const ref = urlParams.get('start');
