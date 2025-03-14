@@ -1296,336 +1296,385 @@ document.querySelector('.tab[data-tab="weed"]').click(); // Открываем �
 }
 
 function registerUser() {
-const nickname = document.getElementById('regNickname').value.trim();
-const language = document.getElementById('regLanguage').value;
-const errorElement = document.getElementById('regError');
+    const nickname = document.getElementById('regNickname').value.trim();
+    const language = document.getElementById('regLanguage').value;
+    const errorElement = document.getElementById('regError');
 
-if (!nickname) {
-errorElement.textContent = translations[userLanguage].regErrorEmpty;
-return;
-}
+    if (!nickname) {
+        errorElement.textContent = translations[userLanguage].regErrorEmpty;
+        return;
+    }
 
-if (registeredUsers.some(user => user.nickname === nickname)) {
-errorElement.textContent = translations[userLanguage].regErrorTaken;
-return;
-}
+    if (registeredUsers.some(user => user.nickname === nickname)) {
+        errorElement.textContent = translations[userLanguage].regErrorTaken;
+        return;
+    }
 
-currentUser = {
-nickname: nickname,
-language: language,
-id: Date.now().toString()
-};
+    currentUser = {
+        nickname: nickname,
+        language: language,
+        id: Date.now().toString()
+    };
 
-registeredUsers.push(currentUser);
-localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-localStorage.setItem('currentUser', JSON.stringify(currentUser));
-userLanguage = language;
+    registeredUsers.push(currentUser);
+    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    userLanguage = language;
 
-console.log('Пользователь зарегистрирован:', currentUser);
-document.getElementById('registrationModal').style.display = 'none';
-showCustomModal(translations[userLanguage].welcomeMessage.replace('{user}', nickname));
-updateUI();
+    console.log('Пользователь зарегистрирован:', currentUser);
+    document.getElementById('registrationModal').style.display = 'none';
+    showCustomModal(translations[userLanguage].welcomeMessage.replace('{user}', nickname));
+    updateUI();
 }
 
 function updateUI() {
-if (!currentUser) return;
+    if (!currentUser) return;
 
-userLanguage = currentUser.language || 'ru';
-const lang = translations[userLanguage];
+    userLanguage = currentUser.language || 'ru';
+    const lang = translations[userLanguage];
 
-// Обновление текста на основе языка
-document.getElementById('promoBanner').textContent = lang.promoBanner;
-document.getElementById('headerText').textContent = lang.headerText;
-document.getElementById('catalogButton').textContent = lang.catalogButton;
-document.getElementById('vacanciesButton').textContent = lang.vacanciesButton;
-document.getElementById('mailButton').textContent = lang.mailButton;
-document.getElementById('allCitiesOption').textContent = lang.allCitiesOption;
-document.getElementById('allDistrictsOption').textContent = lang.allDistrictsOption;
-document.getElementById('phuketOption').textContent = lang.phuketOption;
-document.getElementById('pattayaOption').textContent = lang.pattayaOption;
-document.getElementById('bangkokOption').textContent = lang.bangkokOption;
-document.getElementById('samuiOption').textContent = lang.samuiOption;
-document.getElementById('weedDesc').textContent = lang.weedDesc;
-document.getElementById('profileNameLabel').textContent = lang.profileNameLabel + currentUser.nickname;
-document.getElementById('balance').textContent = balance + " ฿";
-document.getElementById('ordersLabel').textContent = lang.ordersLabel + orderCount;
-document.getElementById('referralsLabel').textContent = lang.referralsLabel + referralCount;
-document.getElementById('refLinkLabel').textContent = lang.refLinkLabel;
-document.getElementById('referralLink').textContent = https://t.me/DarkThailandBot?start=${currentUser.id};
-document.getElementById('referralLink').href = https://t.me/DarkThailandBot?start=${currentUser.id};
-document.getElementById('depositTitle').textContent = lang.depositTitle;
-document.getElementById('orderHistoryTitle').textContent = lang.orderHistoryTitle;
-document.getElementById('vacanciesTitle').textContent = lang.vacanciesTitle;
-document.getElementById('courierTitle').textContent = lang.courierTitle;
-document.getElementById('courierDuties').textContent = lang.courierDuties;
-document.getElementById('courierPay').textContent = lang.courierPay;
-document.getElementById('warehousemanTitle').textContent = lang.warehousemanTitle;
-document.getElementById('warehousemanDuties').textContent = lang.warehousemanDuties;
-document.getElementById('warehousemanPay').textContent = lang.warehousemanPay;
-document.getElementById('transporterTitle').textContent = lang.transporterTitle;
-document.getElementById('transporterDuties').textContent = lang.transporterDuties;
-document.getElementById('transporterPay').textContent = lang.transporterPay;
-document.getElementById('smmTitle').textContent = lang.smmTitle;
-document.getElementById('smmDuties').textContent = lang.smmDuties;
-document.getElementById('smmPay').textContent = lang.smmPay;
-document.getElementById('applyButton1').textContent = lang.applyButton;
-document.getElementById('applyButton2').textContent = lang.applyButton;
-document.getElementById('applyButton3').textContent = lang.applyButton;
-document.getElementById('applyButton4').textContent = lang.applyButton;
-document.getElementById('mailTitle').textContent = lang.mailTitle;
-document.getElementById('promoInfo').textContent = lang.promoInfo;
+    // Обновление текста на основе языка
+    document.getElementById('promoBanner').textContent = lang.promoBanner;
+    document.getElementById('headerText').textContent = lang.headerText;
+    document.getElementById('catalogButton').textContent = lang.catalogButton;
+    document.getElementById('vacanciesButton').textContent = lang.vacanciesButton;
+    document.getElementById('mailButton').textContent = lang.mailButton;
+    document.getElementById('allCitiesOption').textContent = lang.allCitiesOption;
+    document.getElementById('allDistrictsOption').textContent = lang.allDistrictsOption;
+    document.getElementById('phuketOption').textContent = lang.phuketOption;
+    document.getElementById('pattayaOption').textContent = lang.pattayaOption;
+    document.getElementById('bangkokOption').textContent = lang.bangkokOption;
+    document.getElementById('samuiOption').textContent = lang.samuiOption;
+    document.getElementById('weedDesc').textContent = lang.weedDesc;
+    document.getElementById('profileNameLabel').textContent = lang.profileNameLabel + currentUser.nickname;
+    document.getElementById('balance').textContent = balance + " ฿";
+    document.getElementById('ordersLabel').textContent = lang.ordersLabel + orderCount;
+    document.getElementById('referralsLabel').textContent = lang.referralsLabel + referralCount;
+    document.getElementById('refLinkLabel').textContent = lang.refLinkLabel;
+    document.getElementById('referralLink').textContent = `https://t.me/DarkThailandBot?start=${currentUser.id}`;
+    document.getElementById('referralLink').href = `https://t.me/DarkThailandBot?start=${currentUser.id}`;
+    document.getElementById('depositTitle').textContent = lang.depositTitle;
+    document.getElementById('orderHistoryTitle').textContent = lang.orderHistoryTitle;
+    document.getElementById('vacanciesTitle').textContent = lang.vacanciesTitle;
+    document.getElementById('courierTitle').textContent = lang.courierTitle;
+    document.getElementById('courierDuties').textContent = lang.courierDuties;
+    document.getElementById('courierPay').textContent = lang.courierPay;
+    document.getElementById('warehousemanTitle').textContent = lang.warehousemanTitle;
+    document.getElementById('warehousemanDuties').textContent = lang.warehousemanDuties;
+    document.getElementById('warehousemanPay').textContent = lang.warehousemanPay;
+    document.getElementById('transporterTitle').textContent = lang.transporterTitle;
+    document.getElementById('transporterDuties').textContent = lang.transporterDuties;
+    document.getElementById('transporterPay').textContent = lang.transporterPay;
+    document.getElementById('smmTitle').textContent = lang.smmTitle;
+    document.getElementById('smmDuties').textContent = lang.smmDuties;
+    document.getElementById('smmPay').textContent = lang.smmPay;
+    document.getElementById('applyButton1').textContent = lang.applyButton;
+    document.getElementById('applyButton2').textContent = lang.applyButton;
+    document.getElementById('applyButton3').textContent = lang.applyButton;
+    document.getElementById('applyButton4').textContent = lang.applyButton;
+    document.getElementById('mailTitle').textContent = lang.mailTitle;
+    document.getElementById('promoInfo').textContent = lang.promoInfo;
 
-// Обновление списка заказов
-const orderList = document.getElementById('orderList');
-orderList.innerHTML = orderHistory.length ? orderHistory.map(order => <p>${order}</p>).join('') : <p>${lang.orderListEmpty}</p>;
+    // Обновление списка заказов
+    const orderList = document.getElementById('orderList');
+    orderList.innerHTML = orderHistory.length ? orderHistory.map(order => `<p>${order}</p>`).join('') : `<p>${lang.orderListEmpty}</p>`;
 
-// Обновление списка сообщений
-const mailList = document.getElementById('mailList');
-mailList.innerHTML = mailMessages.length ? mailMessages.map(msg => <p>${msg}</p>).join('') : <p>${lang.mailListEmpty}</p>;
+    // Обновление списка сообщений
+    const mailList = document.getElementById('mailList');
+    mailList.innerHTML = mailMessages.length ? mailMessages.map(msg => `<p>${msg}</p>`).join('') : `<p>${lang.mailListEmpty}</p>`;
 
-// Обновление фильтра районов
-updateDistrictFilter();
-filterByCity();
+    // Обновление фильтра районов
+    updateDistrictFilter();
+    filterByCity();
 }
 
 function toggleCatalog() {
-document.getElementById('catalogMenu').style.display = document.getElementById('catalogMenu').style.display === 'block' ? 'none' : 'block';
-document.getElementById('profileMenu').style.display = 'none';
-document.getElementById('vacancyMenu').style.display = 'none';
-document.getElementById('mailMenu').style.display = 'none';
+    document.getElementById('catalogMenu').style.display = document.getElementById('catalogMenu').style.display === 'block' ? 'none' : 'block';
+    document.getElementById('profileMenu').style.display = 'none';
+    document.getElementById('vacancyMenu').style.display = 'none';
+    document.getElementById('mailMenu').style.display = 'none';
 }
 
 function toggleProfile() {
-document.getElementById('profileMenu').style.display = document.getElementById('profileMenu').style.display === 'block' ? 'none' : 'block';
-document.getElementById('catalogMenu').style.display = 'none';
-document.getElementById('vacancyMenu').style.display = 'none';
-document.getElementById('mailMenu').style.display = 'none';
+    document.getElementById('profileMenu').style.display = document.getElementById('profileMenu').style.display === 'block' ? 'none' : 'block';
+    document.getElementById('catalogMenu').style.display = 'none';
+    document.getElementById('vacancyMenu').style.display = 'none';
+    document.getElementById('mailMenu').style.display = 'none';
 }
 
 function toggleVacancies() {
-document.getElementById('vacancyMenu').style.display = document.getElementById('vacancyMenu').style.display === 'block' ? 'none' : 'block';
-document.getElementById('catalogMenu').style.display = 'none';
-document.getElementById('profileMenu').style.display = 'none';
-document.getElementById('mailMenu').style.display = 'none';
+    document.getElementById('vacancyMenu').style.display = document.getElementById('vacancyMenu').style.display === 'block' ? 'none' : 'block';
+    document.getElementById('catalogMenu').style.display = 'none';
+    document.getElementById('profileMenu').style.display = 'none';
+    document.getElementById('mailMenu').style.display = 'none';
 }
 
 function toggleMail() {
-document.getElementById('mailMenu').style.display = document.getElementById('mailMenu').style.display === 'block' ? 'none' : 'block';
-document.getElementById('catalogMenu').style.display = 'none';
-document.getElementById('profileMenu').style.display = 'none';
-document.getElementById('vacancyMenu').style.display = 'none';
+    document.getElementById('mailMenu').style.display = document.getElementById('mailMenu').style.display === 'block' ? 'none' : 'block';
+    document.getElementById('catalogMenu').style.display = 'none';
+    document.getElementById('profileMenu').style.display = 'none';
+    document.getElementById('vacancyMenu').style.display = 'none';
 }
 
 function filterByCity() {
-selectedCity = document.getElementById('citySelect').value;
-updateDistrictFilter();
-filterByDistrict();
+    selectedCity = document.getElementById('citySelect').value;
+    updateDistrictFilter();
+    filterByDistrict();
 }
 
 function updateDistrictFilter() {
-const districtSelect = document.getElementById('districtSelect');
-districtSelect.innerHTML = <option value="all">${translations[userLanguage].allDistrictsOption}</option>;
-if (selectedCity !== 'all') {
-const districts = translations[userLanguage][${selectedCity}Districts];
-for (let district in districts) {
-const option = document.createElement('option');
-option.value = district;
-option.textContent = districts[district];
-districtSelect.appendChild(option);
-}
-}
+    const districtSelect = document.getElementById('districtSelect');
+    districtSelect.innerHTML = `<option value="all">${translations[userLanguage].allDistrictsOption}</option>`;
+    if (selectedCity !== 'all') {
+        const districts = translations[userLanguage][`${selectedCity}Districts`];
+        for (let district in districts) {
+            const option = document.createElement('option');
+            option.value = district;
+            option.textContent = districts[district];
+            districtSelect.appendChild(option);
+        }
+    }
 }
 
 function filterByDistrict() {
-selectedDistrict = document.getElementById('districtSelect').value;
-document.querySelectorAll('.product-card').forEach(card => {
-const productData = card.dataset.product.split('-');
-const category = productData[0];
-const productId = productData[1];
-const product = products[category][productId];
-const matchingPositions = Object.keys(product.positions).filter(key => {
-const pos = product.positions[key];
-const cityMatch = selectedCity === 'all' || pos.city === selectedCity;
-const districtMatch = selectedDistrict === 'all' || pos.district === selectedDistrict;
-return cityMatch && districtMatch;
-});
-card.style.display = matchingPositions.length > 0 ? 'block' : 'none';
-});
+    selectedDistrict = document.getElementById('districtSelect').value;
+    document.querySelectorAll('.product-card').forEach(card => {
+        const productData = card.dataset.product.split('-');
+        const category = productData[0];
+        const productId = productData[1];
+        const product = products[category][productId];
+        const matchingPositions = Object.keys(product.positions).filter(key => {
+            const pos = product.positions[key];
+            const cityMatch = selectedCity === 'all' || pos.city === selectedCity;
+            const districtMatch = selectedDistrict === 'all' || pos.district === selectedDistrict;
+            return cityMatch && districtMatch;
+        });
+        card.style.display = matchingPositions.length > 0 ? 'block' : 'none';
+    });
 }
 
 function showProductModal(category, productId) {
-const product = products[category][productId];
-const lang = translations[userLanguage];
-let content = <h2>${product.name}</h2>;
+    const product = products[category][productId];
+    const lang = translations[userLanguage];
+    let content = `<h2>${product.name}</h2>`;
 
-// Позиции
-const matchingPositions = Object.keys(product.positions).filter(key => {
-const pos = product.positions[key];
-const cityMatch = selectedCity === 'all' || pos.city === selectedCity;
-const districtMatch = selectedDistrict === 'all' || pos.district === selectedDistrict;
-return cityMatch && districtMatch;
-});
+    // Позиции
+    const matchingPositions = Object.keys(product.positions).filter(key => {
+        const pos = product.positions[key];
+        const cityMatch = selectedCity === 'all' || pos.city === selectedCity;
+        const districtMatch = selectedDistrict === 'all' || pos.district === selectedDistrict;
+        return cityMatch && districtMatch;
+    });
 
-matchingPositions.forEach(key => {
-const pos = product.positions[key];
-const cityName = translations[userLanguage][${pos.city}Option];
-const districtName = translations[userLanguage][${pos.city}Districts][pos.district];
-content += `
+    matchingPositions.forEach(key => {
+        const pos = product.positions[key];
+        const cityName = translations[userLanguage][`${pos.city}Option`];
+        const districtName = translations[userLanguage][`${pos.city}Districts`][pos.district];
+        content += `
+            <div class="position">
+                <p>${lang.positionWeight} ${pos.weight} ${category === 'lsd' || (category === 'mdma' && [3, 5].includes(parseInt(productId))) ? 'шт.' : 'г'}</p>
+                <p>${lang.positionPrice} ${pos.price} ฿</p>
+                <p>${lang.positionCity} ${cityName} (${districtName})</p>
+                <p>${lang.positionAvailability} ${pos.inStock ? lang.inStock : lang.outOfStock}</p>
+                ${pos.inStock ? `<button class="buy-button" onclick="buyProduct('${category}', ${productId}, '${key}')">${lang.buyButton}</button>` : ''}
+                <button class="preorder-button" onclick="preorderProduct('${category}', ${productId}, '${key}')">${lang.preorderButton}</button>
+            </div>`;
+    });
 
-<div class="position"> <p>${lang.positionWeight} ${pos.weight} ${category === 'lsd' || (category === 'mdma' && [3, 5].includes(parseInt(productId))) ? 'шт.' : 'г'}</p> <p>${lang.positionPrice} ${pos.price} ฿</p> <p>${lang.positionCity} ${cityName} (${districtName})</p> <p>${lang.positionAvailability} ${pos.inStock ? lang.inStock : lang.outOfStock}</p> ${pos.inStock ? `<button class="buy-button" onclick="buyProduct('${category}', ${productId}, '${key}')">${lang.buyButton}</button>` : ''} <button class="preorder-button" onclick="preorderProduct('${category}', ${productId}, '${key}')">${lang.preorderButton}</button> </div>`; });
-// Отзывы
-content += <h3>${lang.reviewsTitle}</h3>;
-if (product.reviews.length) {
-product.reviews.forEach(review => {
-content += `
+    // Отзывы
+    content += `<h3>${lang.reviewsTitle}</h3>`;
+    if (product.reviews.length) {
+        product.reviews.forEach(review => {
+            content += `
+                <div class="review">
+                    <div class="review-text">${review.text}</div>
+                    <div class="review-date">${review.date}</div>
+                </div>`;
+            if (review.mod) {
+                content += `<div class="moderator-response">${review.mod}</div>`;
+            }
+        });
+    } else {
+        content += `<p>${lang.noReviews}</p>`;
+    }
 
-<div class="review"> <div class="review-text">${review.text}</div> <div class="review-date">${review.date}</div> </div>`; if (review.mod) { content += `<div class="moderator-response">${review.mod}</div>`; } }); } else { content += `<p>${lang.noReviews}</p>`; }
-content += <button class="buy-button" onclick="document.getElementById('productModal').style.display='none'">${lang.close}</button>;
-document.getElementById('productContent').innerHTML = content;
-document.getElementById('productModal').style.display = 'flex';
+    content += `<button class="buy-button" onclick="document.getElementById('productModal').style.display='none'">${lang.close}</button>`;
+    document.getElementById('productContent').innerHTML = content;
+    document.getElementById('productModal').style.display = 'flex';
 }
 
 function buyProduct(category, productId, positionKey) {
-const product = products[category][productId];
-const pos = product.positions[positionKey];
-const price = pos.price;
-const lang = translations[userLanguage];
+    const product = products[category][productId];
+    const pos = product.positions[positionKey];
+    const price = pos.price;
+    const lang = translations[userLanguage];
 
-if (balance < price) {
-showConfirmModal(lang.insufficientFunds, () => {
-document.getElementById('productModal').style.display = 'none';
-showDepositModal('BTC');
-});
-return;
-}
+    if (balance < price) {
+        showConfirmModal(lang.insufficientFunds, () => {
+            document.getElementById('productModal').style.display = 'none';
+            showDepositModal('BTC');
+        });
+        return;
+    }
 
-balance -= price;
-localStorage.setItem('balance', balance.toString());
-orderCount++;
-localStorage.setItem('orderCount', orderCount.toString());
+    balance -= price;
+    localStorage.setItem('balance', balance.toString());
+    orderCount++;
+    localStorage.setItem('orderCount', orderCount.toString());
 
-const cityName = translations[userLanguage][${pos.city}Option];
-const districtName = translations[userLanguage][${pos.city}Districts][pos.district];
-const location = cities[pos.city][pos.district];
-const orderDetails = ${product.name} (${pos.weight}${category === 'lsd' || (category === 'mdma' && [3, 5].includes(parseInt(productId))) ? 'шт.' : 'г'}) - ${cityName} (${districtName})<br>Координаты: ${location.lat}, ${location.lon}<br>Описание: ${location.desc};
-orderHistory.unshift(orderDetails);
-localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+    const cityName = translations[userLanguage][`${pos.city}Option`];
+    const districtName = translations[userLanguage][`${pos.city}Districts`][pos.district];
+    const location = cities[pos.city][pos.district];
+    const orderDetails = `${product.name} (${pos.weight}${category === 'lsd' || (category === 'mdma' && [3, 5].includes(parseInt(productId))) ? 'шт.' : 'г'}) - ${cityName} (${districtName})<br>Координаты: ${location.lat}, ${location.lon}<br>Описание: ${location.desc}`;
+    orderHistory.unshift(orderDetails);
+    localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
 
-pos.inStock = false;
-showCustomModal(lang.paymentSuccess);
-updateUI();
-document.getElementById('productModal').style.display = 'none';
+    pos.inStock = false;
+    showCustomModal(lang.paymentSuccess);
+    updateUI();
+    document.getElementById('productModal').style.display = 'none';
 }
 
 function preorderProduct(category, productId, positionKey) {
-const product = products[category][productId];
-const pos = product.positions[positionKey];
-const price = Math.round(pos.price * 1.3);
-const lang = translations[userLanguage];
+    const product = products[category][productId];
+    const pos = product.positions[positionKey];
+    const price = Math.round(pos.price * 1.3);
+    const lang = translations[userLanguage];
 
-if (balance < price) {
-showConfirmModal(lang.insufficientFunds, () => {
-document.getElementById('productModal').style.display = 'none';
-showDepositModal('BTC');
-});
-return;
-}
+    if (balance < price) {
+        showConfirmModal(lang.insufficientFunds, () => {
+            document.getElementById('productModal').style.display = 'none';
+            showDepositModal('BTC');
+        });
+        return;
+    }
 
-balance -= price;
-localStorage.setItem('balance', balance.toString());
-orderCount++;
-localStorage.setItem('orderCount', orderCount.toString());
+    balance -= price;
+    localStorage.setItem('balance', balance.toString());
+    orderCount++;
+    localStorage.setItem('orderCount', orderCount.toString());
 
-const cityName = translations[userLanguage][${pos.city}Option];
-const districtName = translations[userLanguage][${pos.city}Districts][pos.district];
-const orderDetails = ${lang.preorderTitle}: ${product.name} (${pos.weight}${category === 'lsd' || (category === 'mdma' && [3, 5].includes(parseInt(productId))) ? 'шт.' : 'г'}) - ${cityName} (${districtName});
-orderHistory.unshift(orderDetails);
-localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+    const cityName = translations[userLanguage][`${pos.city}Option`];
+    const districtName = translations[userLanguage][`${pos.city}Districts`][pos.district];
+    const orderDetails = `${lang.preorderTitle}: ${product.name} (${pos.weight}${category === 'lsd' || (category === 'mdma' && [3, 5].includes(parseInt(productId))) ? 'шт.' : 'г'}) - ${cityName} (${districtName})`;
+    orderHistory.unshift(orderDetails);
+    localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
 
-mailMessages.unshift(${lang.preorderPlaced}: ${product.name} (${pos.weight}${category === 'lsd' || (category === 'mdma' && [3, 5].includes(parseInt(productId))) ? 'шт.' : 'г'}) - ${cityName} (${districtName}));
-localStorage.setItem('mailMessages', JSON.stringify(mailMessages));
+    mailMessages.unshift(`${lang.preorderPlaced}: ${product.name} (${pos.weight}${category === 'lsd' || (category === 'mdma' && [3, 5].includes(parseInt(productId))) ? 'шт.' : 'г'}) - ${cityName} (${districtName})`);
+    localStorage.setItem('mailMessages', JSON.stringify(mailMessages));
 
-showCustomModal(lang.preorderPlaced);
-updateUI();
-document.getElementById('productModal').style.display = 'none';
+    showCustomModal(lang.preorderPlaced);
+    updateUI();
+    document.getElementById('productModal').style.display = 'none';
 }
 
 function showDepositModal(crypto) {
-const lang = translations[userLanguage];
-let content = `
-
-<h2>${lang.depositFunds}</h2> <p>${lang.selectCrypto} ${crypto}</p> <p>${lang.networkLabel} ${cryptoNetworks[crypto]}</p> <p>${lang.enterAmount}</p> <input type="number" id="depositAmount" min="1000"> <button class="buy-button" onclick="generateDepositAddress('${crypto}')">${lang.generateAddress}</button> <p id="depositError" style="color: #ff9999;"></p> <button class="buy-button" onclick="document.getElementById('depositModal').style.display='none'">${lang.close}</button> `; document.getElementById('depositContent').innerHTML = content; document.getElementById('depositModal').style.display = 'flex'; }
-function generateDepositAddress(crypto) {
-const amount = parseInt(document.getElementById('depositAmount').value);
-const lang = translations[userLanguage];
-
-if (amount < MIN_DEPOSIT) {
-document.getElementById('depositError').textContent = lang.minDepositError;
-return;
+    const lang = translations[userLanguage];
+    let content = `
+        <h2>${lang.depositFunds}</h2>
+        <p>${lang.selectCrypto} ${crypto}</p>
+        <p>${lang.networkLabel} ${cryptoNetworks[crypto]}</p>
+        <p>${lang.enterAmount}</p>
+        <input type="number" id="depositAmount" min="1000">
+        <button class="buy-button" onclick="generateDepositAddress('${crypto}')">${lang.generateAddress}</button>
+        <p id="depositError" style="color: #ff9999;"></p>
+        <button class="buy-button" onclick="document.getElementById('depositModal').style.display='none'">${lang.close}</button>
+    `;
+    document.getElementById('depositContent').innerHTML = content;
+    document.getElementById('depositModal').style.display = 'flex';
 }
 
-const cryptoAmount = (amount / cryptoRates[crypto]).toFixed(8);
-const address = testAddresses[crypto];
-const paymentId = Date.now().toString();
+function generateDepositAddress(crypto) {
+    const amount = parseInt(document.getElementById('depositAmount').value);
+    const lang = translations[userLanguage];
 
-pendingPayments[paymentId] = { amount, crypto, address, timestamp: Date.now() };
-localStorage.setItem('pendingPayments', JSON.stringify(pendingPayments));
+    if (amount < MIN_DEPOSIT) {
+        document.getElementById('depositError').textContent = lang.minDepositError;
+        return;
+    }
 
-let content = `
+    const cryptoAmount = (amount / cryptoRates[crypto]).toFixed(8);
+    const address = testAddresses[crypto];
+    const paymentId = Date.now().toString();
 
-<h2>${lang.depositFunds}</h2> <p>${lang.depositInstruction.replace('{amount}', amount).replace('{cryptoAmount}', cryptoAmount).replace('{crypto}', crypto)}</p> <p style="word-break: break-all; font-weight: bold;">${address}</p> <p>${lang.depositFinal}</p> <p>${lang.depositExpiry}</p> <button class="buy-button" onclick="confirmDeposit('${paymentId}')">${lang.confirmPayment}</button> <button class="buy-button" onclick="document.getElementById('depositModal').style.display='none'">${lang.close}</button> `; document.getElementById('depositContent').innerHTML = content; }
+    pendingPayments[paymentId] = { amount, crypto, address, timestamp: Date.now() };
+    localStorage.setItem('pendingPayments', JSON.stringify(pendingPayments));
+
+    let content = `
+        <h2>${lang.depositFunds}</h2>
+        <p>${lang.depositInstruction.replace('{amount}', amount).replace('{cryptoAmount}', cryptoAmount).replace('{crypto}', crypto)}</p>
+        <p style="word-break: break-all; font-weight: bold;">${address}</p>
+        <p>${lang.depositFinal}</p>
+        <p>${lang.depositExpiry}</p>
+        <button class="buy-button" onclick="confirmDeposit('${paymentId}')">${lang.confirmPayment}</button>
+        <button class="buy-button" onclick="document.getElementById('depositModal').style.display='none'">${lang.close}</button>
+    `;
+    document.getElementById('depositContent').innerHTML = content;
+}
+
 function confirmDeposit(paymentId) {
-const lang = translations[userLanguage];
-const payment = pendingPayments[paymentId];
-if (!payment) return;
+    const lang = translations[userLanguage];
+    const payment = pendingPayments[paymentId];
+    if (!payment) return;
 
-balance += payment.amount;
-localStorage.setItem('balance', balance.toString());
-delete pendingPayments[paymentId];
-localStorage.setItem('pendingPayments', JSON.stringify(pendingPayments));
+    balance += payment.amount;
+    localStorage.setItem('balance', balance.toString());
+    delete pendingPayments[paymentId];
+    localStorage.setItem('pendingPayments', JSON.stringify(pendingPayments));
 
-mailMessages.unshift(lang.paymentPending);
-localStorage.setItem('mailMessages', JSON.stringify(mailMessages));
+    mailMessages.unshift(lang.paymentPending);
+    localStorage.setItem('mailMessages', JSON.stringify(mailMessages));
 
-document.getElementById('depositModal').style.display = 'none';
-showCustomModal(lang.paymentPending);
-updateUI();
+    document.getElementById('depositModal').style.display = 'none';
+    showCustomModal(lang.paymentPending);
+    updateUI();
 }
 
 function showCustomModal(message) {
-const lang = translations[userLanguage];
-document.getElementById('customContent').innerHTML = `
-
-<h2>${lang.alertTitle}</h2> <p>${message}</p> <button class="buy-button" onclick="document.getElementById('customModal').style.display='none'">${lang.close}</button> `; document.getElementById('customModal').style.display = 'flex'; }
-function showConfirmModal(message, onConfirm) {
-const lang = translations[userLanguage];
-document.getElementById('confirmContent').innerHTML = `
-
-<h2>${lang.confirmTitle}</h2> <p>${message}</p> <button class="buy-button" onclick="onConfirm(); document.getElementById('confirmModal').style.display='none'">${lang.yes}</button> <button class="buy-button" onclick="document.getElementById('confirmModal').style.display='none'">${lang.no}</button> `; document.getElementById('confirmModal').style.display = 'flex'; }
-function applyForJob(job) {
-const lang = translations[userLanguage];
-const promptMessage = lang.applyJobPrompt.replace('{job}', job);
-const resume = prompt(promptMessage);
-if (resume) {
-const message = lang.applyJobSent.replace('{job}', job);
-mailMessages.unshift(message);
-localStorage.setItem('mailMessages', JSON.stringify(mailMessages));
-showCustomModal(lang.applyJobAlert.replace('{job}', job));
-updateUI();
-
-// Отправка заявки администратору через Telegram
-const text = Новая заявка на вакансию "${job}" от пользователя ${currentUser.nickname}:\n${resume};
-fetch(https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(text)});
+    const lang = translations[userLanguage];
+    document.getElementById('customContent').innerHTML = `
+        <h2>${lang.alertTitle}</h2>
+        <p>${message}</p>
+        <button class="buy-button" onclick="document.getElementById('customModal').style.display='none'">${lang.close}</button>
+    `;
+    document.getElementById('customModal').style.display = 'flex';
 }
+
+function showConfirmModal(message, onConfirm) {
+    const lang = translations[userLanguage];
+    document.getElementById('confirmContent').innerHTML = `
+        <h2>${lang.confirmTitle}</h2>
+        <p>${message}</p>
+        <button class="buy-button" onclick="onConfirm(); document.getElementById('confirmModal').style.display='none'">${lang.yes}</button>
+        <button class="buy-button" onclick="document.getElementById('confirmModal').style.display='none'">${lang.no}</button>
+    `;
+    document.getElementById('confirmModal').style.display = 'flex';
+}
+
+function applyForJob(job) {
+    const lang = translations[userLanguage];
+    const promptMessage = lang.applyJobPrompt.replace('{job}', job);
+    const resume = prompt(promptMessage);
+    if (resume) {
+        const message = lang.applyJobSent.replace('{job}', job);
+        mailMessages.unshift(message);
+        localStorage.setItem('mailMessages', JSON.stringify(mailMessages));
+        showCustomModal(lang.applyJobAlert.replace('{job}', job));
+        updateUI();
+
+        // Отправка заявки администратору через Telegram
+        const text = `Новая заявка на вакансию "${job}" от пользователя ${currentUser.nickname}:\n${resume}`;
+        fetch(`https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(text)}`);
+    }
 }
 
 function showPromoDetails() {
-const lang = translations[userLanguage];
-showCustomModal(lang.promoBanner);
+    const lang = translations[userLanguage];
+    showCustomModal(lang.promoBanner);
 }
 
 // Инициализация приложения
 initApp();
 </script>
-
-</body> </html>
+</body>
+</html>
