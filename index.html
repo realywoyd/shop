@@ -1048,7 +1048,69 @@
 
         function updateUI() {
     const t = translations[userLanguage];
-    // ... остальной код ...
+    
+    // Обновление баннера с промоакцией
+    document.getElementById('promoBanner').textContent = t.promoBanner;
+    
+    // Обновление текста заголовка
+    document.getElementById('headerText').textContent = t.headerText;
+    
+    // Обновление кнопок навигации
+    document.getElementById('catalogButton').textContent = t.catalogButton;
+    document.getElementById('vacanciesButton').textContent = t.vacanciesButton;
+    document.getElementById('mailButton').textContent = t.mailButton;
+    
+    // Обновление фильтра городов
+    document.getElementById('allCitiesOption').textContent = t.allCitiesOption;
+    document.getElementById('phuketOption').textContent = t.phuketOption;
+    document.getElementById('pattayaOption').textContent = t.pattayaOption;
+    document.getElementById('bangkokOption').textContent = t.bangkokOption;
+    document.getElementById('samuiOption').textContent = t.samuiOption;
+    
+    // Обновление фильтра районов
+    document.getElementById('allDistrictsOption').textContent = t.allDistrictsOption;
+    
+    // Обновление описания продукта (на примере марихуаны)
+    document.getElementById('weedDesc').textContent = t.weedDesc;
+    
+    // Обновление профиля пользователя
+    document.getElementById('profileNameLabel').textContent = `${t.profileNameLabel}${currentUser ? currentUser.nickname : ''}`;
+    document.getElementById('balance').textContent = `${balance} ฿`;
+    document.getElementById('ordersLabel').textContent = `${t.ordersLabel}${orderCount}`;
+    document.getElementById('referralsLabel').textContent = `${t.referralsLabel}${referralCount}`;
+    
+    // Обновление заголовка пополнения баланса
+    document.getElementById('depositTitle').textContent = t.depositTitle;
+    
+    // Обновление истории заказов
+    document.getElementById('orderHistoryTitle').textContent = t.orderHistoryTitle;
+    
+    // Обновление вакансий
+    document.getElementById('vacanciesTitle').textContent = t.vacanciesTitle;
+    document.getElementById('courierTitle').textContent = t.courierTitle;
+    document.getElementById('courierDuties').textContent = t.courierDuties;
+    document.getElementById('courierPay').textContent = t.courierPay;
+    document.getElementById('warehousemanTitle').textContent = t.warehousemanTitle;
+    document.getElementById('warehousemanDuties').textContent = t.warehousemanDuties;
+    document.getElementById('warehousemanPay').textContent = t.warehousemanPay;
+    document.getElementById('transporterTitle').textContent = t.transporterTitle;
+    document.getElementById('transporterDuties').textContent = t.transporterDuties;
+    document.getElementById('transporterPay').textContent = t.transporterPay;
+    document.getElementById('smmTitle').textContent = t.smmTitle;
+    document.getElementById('smmDuties').textContent = t.smmDuties;
+    document.getElementById('smmPay').textContent = t.smmPay;
+    document.getElementById('applyButton1').textContent = t.applyButton;
+    document.getElementById('applyButton2').textContent = t.applyButton;
+    document.getElementById('applyButton3').textContent = t.applyButton;
+    document.getElementById('applyButton4').textContent = t.applyButton;
+    
+    // Обновление почты
+    document.getElementById('mailTitle').textContent = t.mailTitle;
+    
+    // Обновление промо-информации
+    document.getElementById('promoInfo').textContent = t.promoInfo;
+    
+    // Обновление названий вкладок категорий
     document.getElementById('weedTab').textContent = t.weedTab;
     document.getElementById('hashTab').textContent = t.hashTab;
     document.getElementById('cokeTab').textContent = t.cokeTab;
@@ -1059,48 +1121,12 @@
     document.getElementById('lsdTab').textContent = t.lsdTab;
     document.getElementById('mdmaTab').textContent = t.mdmaTab;
     document.getElementById('heroinTab').textContent = t.heroinTab;
-    // ... остальной код ...
+    
+    // Обновление обработчиков вкладок, истории заказов и почты
+    updateTabs();
+    updateOrderHistory();
+    updateMail();
 }
-            document.getElementById('promoBanner').textContent = t.promoBanner;
-            document.getElementById('headerText').textContent = t.headerText;
-            document.getElementById('catalogButton').textContent = t.catalogButton;
-            document.getElementById('vacanciesButton').textContent = t.vacanciesButton;
-            document.getElementById('mailButton').textContent = t.mailButton;
-            document.getElementById('allCitiesOption').textContent = t.allCitiesOption;
-            document.getElementById('phuketOption').textContent = t.phuketOption;
-            document.getElementById('pattayaOption').textContent = t.pattayaOption;
-            document.getElementById('bangkokOption').textContent = t.bangkokOption;
-            document.getElementById('samuiOption').textContent = t.samuiOption;
-            document.getElementById('allDistrictsOption').textContent = t.allDistrictsOption;
-            document.getElementById('weedDesc').textContent = t.weedDesc;
-            document.getElementById('profileNameLabel').textContent = `${t.profileNameLabel}${currentUser ? currentUser.nickname : ''}`;
-            document.getElementById('balance').textContent = `${balance} ฿`;
-            document.getElementById('ordersLabel').textContent = `${t.ordersLabel}${orderCount}`;
-            document.getElementById('referralsLabel').textContent = `${t.referralsLabel}${referralCount}`;
-            document.getElementById('depositTitle').textContent = t.depositTitle;
-            document.getElementById('orderHistoryTitle').textContent = t.orderHistoryTitle;
-            document.getElementById('vacanciesTitle').textContent = t.vacanciesTitle;
-            document.getElementById('courierTitle').textContent = t.courierTitle;
-            document.getElementById('courierDuties').textContent = t.courierDuties;
-            document.getElementById('courierPay').textContent = t.courierPay;
-            document.getElementById('warehousemanTitle').textContent = t.warehousemanTitle;
-            document.getElementById('warehousemanDuties').textContent = t.warehousemanDuties;
-            document.getElementById('warehousemanPay').textContent = t.warehousemanPay;
-            document.getElementById('transporterTitle').textContent = t.transporterTitle;
-            document.getElementById('transporterDuties').textContent = t.transporterDuties;
-            document.getElementById('transporterPay').textContent = t.transporterPay;
-            document.getElementById('smmTitle').textContent = t.smmTitle;
-            document.getElementById('smmDuties').textContent = t.smmDuties;
-            document.getElementById('smmPay').textContent = t.smmPay;
-            document.getElementById('applyButton1').textContent = t.applyButton;
-            document.getElementById('applyButton2').textContent = t.applyButton;
-            document.getElementById('applyButton3').textContent = t.applyButton;
-            document.getElementById('applyButton4').textContent = t.applyButton;
-            document.getElementById('mailTitle').textContent = t.mailTitle;
-            document.getElementById('promoInfo').textContent = t.promoInfo;
-            updateTabs();
-            updateOrderHistory();
-            updateMail();
         }
 
         function updateTabs() {
