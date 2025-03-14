@@ -1406,14 +1406,53 @@ function initApp() {
         }
 
         function confirmDeposit(crypto, amount, address) {
-            const t = translations[userLanguage];
-            balance += amount;
-            document.getElementById('balance').textContent = `${balance} ฿`;
-            delete pendingPayments[address];
-            closeModal('depositModal');
-            showCustomModal(t.paymentPending);
-            sendDepositToAdmin(crypto, amount, address);
-        }
+    const t = translations[userLanguage];
+
+    // Проверка входных параметров
+    if (!crypto || !amount || !address || isNaN(amount)) {
+        console.error('Некорректные параметры депозита:', { crypto, amount, address });
+        showCustomModal('Ошибка: Некорректные данные депозита');
+        return;
+    }
+
+    // Проверка авторизации пользователя
+    if (!currentUser || !currentUser.nickname) {
+        console.error('Пользователь не авторизован');
+        showCustomModal('Ошибка: Вы не авторизованы');
+        return;
+    }
+
+    closeModal('depositModal');
+    showCustomModal(t.paymentPending);
+
+    const text = `Пополнение баланса\nПользователь: ${currentUser.nickname}\nКриптовалюта: ${crypto}\nСумма: ${amount} ฿\nАдрес: ${address}`;
+    const url = `https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage`;
+    fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: ADMIN_CHAT_ID,
+            text: text,
+            reply_markup: {
+                inline_keyboard: [
+                    [
+                        { text: t.confirmButton, callback_data: `confirm_deposit_${currentUser.nickname}_${amount}` },
+                        { text: t.cancelButton, callback_data: `reject_deposit_${currentUser.nickname}_${amount}` }
+                    ]
+                ]
+            }
+        })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Ошибка Telegram API: ' + response.status);
+    })
+    .catch(error => {
+        console.error('Ошибка отправки в Telegram:', error);
+        showCustomModal('Ошибка: Не удалось отправить запрос на пополнение');
+    });
+
+    pendingPayments[address] = { amount, crypto, timestamp: Date.now(), status: 'pending' };
+}
 
         function showRegistrationModal() {
             document.getElementById('registrationModal').style.display = 'flex';
