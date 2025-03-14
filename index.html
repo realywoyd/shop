@@ -1651,9 +1651,19 @@
 
     const userId = Date.now().toString();
     currentUser = { id: userId, nickname: nickname, language: userLanguage };
-    registeredUsers.push(currentUser);
-    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-    localStorage.setItem('currentUser', JSON.stringify(currentUser)); // Сохраняем текущего пользователя
+    console.log('Registering user:', currentUser); // Отладка
+
+    try {
+        registeredUsers.push(currentUser);
+        localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        console.log('User saved to localStorage:', localStorage.getItem('currentUser')); // Проверка
+    } catch (error) {
+        console.error('Error saving to localStorage:', error);
+        showCustomModal('Ошибка', 'Не удалось сохранить данные. Проверьте настройки браузера.');
+        return;
+    }
+
     document.getElementById('registrationModal').style.display = 'none';
     showCustomModal(t.alertTitle, t.welcomeMessage.replace('{user}', nickname));
     updateUI();
