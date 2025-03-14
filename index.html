@@ -1251,71 +1251,12 @@
         }
 
         function initApp() {
-    // Проверяем, есть ли сохранённый пользователь в localStorage
-    const savedUser = localStorage.getItem('currentUser');
-    if (savedUser) {
-        // Если есть, восстанавливаем currentUser и обновляем интерфейс
-        currentUser = JSON.parse(savedUser);
-        userLanguage = currentUser.language;
-        // Восстанавливаем другие данные пользователя (баланс, заказы и т.д.), если они есть
-        balance = parseFloat(localStorage.getItem('balance')) || 0;
-        orderCount = parseInt(localStorage.getItem('orderCount')) || 0;
-        referralCount = parseInt(localStorage.getItem('referralCount')) || 0;
-        orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
-        updateUI();
-    } else {
-        // Если нет, показываем регистрацию
-        showRegistrationModal();
-    }
-
-    // Остальной код остаётся без изменений
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
-            document.getElementById(tab.dataset.tab).style.display = 'block';
-        });
-    });
-
-    document.querySelector('.tab[data-tab="weed"]').click();
-
-    document.getElementById('productModal').addEventListener('click', e => {
-        if (e.target === document.getElementById('productModal')) {
-            document.getElementById('productModal').style.display = 'none';
-        }
-    });
-
-    document.getElementById('paymentModal').addEventListener('click', e => {
-        if (e.target === document.getElementById('paymentModal')) {
-            document.getElementById('paymentModal').style.display = 'none';
-        }
-    });
-
-    document.getElementById('depositModal').addEventListener('click', e => {
-        if (e.target === document.getElementById('depositModal')) {
-            document.getElementById('depositModal').style.display = 'none';
-        }
-    });
-
-    document.getElementById('preorderModal').addEventListener('click', e => {
-        if (e.target === document.getElementById('preorderModal')) {
-            document.getElementById('preorderModal').style.display = 'none';
-        }
-    });
-
-    document.getElementById('customModal').addEventListener('click', e => {
-        if (e.target === document.getElementById('customModal')) {
-            document.getElementById('customModal').style.display = 'none';
-        }
-    });
-
-    document.getElementById('confirmModal').addEventListener('click', e => {
-        if (e.target === document.getElementById('confirmModal')) {
-            document.getElementById('confirmModal').style.display = 'none';
-        }
-    });
-}
+            if (!currentUser) {
+                showRegistrationModal();
+            } else {
+                userLanguage = currentUser.language;
+                updateUI();
+            }
 
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.addEventListener('click', () => {
@@ -1525,29 +1466,24 @@
         }
 
         function buyProduct(category, productId, weight, price, city, district) {
-    const t = translations[userLanguage];
-    if (balance < price) {
-        showConfirmModal(t.insufficientFunds, () => showDepositModal('BTC'), () => {});
-        return;
-    }
+            const t = translations[userLanguage];
+            if (balance < price) {
+                showConfirmModal(t.insufficientFunds, () => showDepositModal('BTC'), () => {});
+                return;
+            }
 
-    balance -= price;
-    orderCount++;
-    const orderDetails = `${products[category][productId].name} - ${weight} г, ${price} ฿ (${translations[userLanguage][city + 'Option']} - ${translations[userLanguage][city + 'Districts'][district]})`;
-    orderHistory.unshift(orderDetails);
-    if (orderHistory.length > 10) orderHistory.pop();
+            balance -= price;
+            orderCount++;
+            const orderDetails = `${products[category][productId].name} - ${weight} г, ${price} ฿ (${translations[userLanguage][city + 'Option']} - ${translations[userLanguage][city + 'Districts'][district]})`;
+            orderHistory.unshift(orderDetails);
+            if (orderHistory.length > 10) orderHistory.pop();
 
-    // Сохраняем состояние в localStorage
-    localStorage.setItem('balance', balance);
-    localStorage.setItem('orderCount', orderCount);
-    localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+            const position = products[category][productId].positions.find(p => p.weight === weight && p.city === city && p.district === district);
+            position.available = false;
 
-    const position = products[category][productId].positions.find(p => p.weight === weight && p.city === city && p.district === district);
-    position.available = false;
-
-    updateUI();
-    showPaymentModal(category, productId, weight, price, city, district);
-}
+            updateUI();
+            showPaymentModal(category, productId, weight, price, city, district);
+        }
 
         function showPaymentModal(category, productId, weight, price, city, district) {
             const t = translations[userLanguage];
@@ -1661,39 +1597,37 @@
         }
 
         function registerUser() {
-    const t = translations[userLanguage];
-    const nickname = document.getElementById('regNickname').value.trim();
-    userLanguage = document.getElementById('regLanguage').value;
+            const t = translations[userLanguage];
+            const nickname = document.getElementById('regNickname').value.trim();
+            userLanguage = document.getElementById('regLanguage').value;
 
-    if (!nickname) {
-        document.getElementById('regError').innerText = t.regErrorEmpty;
-        return;
-    }
+            if (!nickname) {
+                document.getElementById('regError').innerText = t.regErrorEmpty;
+                return;
+            }
 
-    if (registeredUsers.some(user => user.nickname === nickname)) {
-        document.getElementById('regError').innerText = t.regErrorTaken;
-        return;
-    }
+            if (registeredUsers.some(user => user.nickname === nickname)) {
+                document.getElementById('regError').innerText = t.regErrorTaken;
+                return;
+            }
 
-    const userId = Date.now().toString();
-    currentUser = { id: userId, nickname: nickname, language: userLanguage };
-    registeredUsers.push(currentUser);
-    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-    localStorage.setItem('currentUser', JSON.stringify(currentUser)); // Сохраняем текущего пользователя
-    document.getElementById('registrationModal').style.display = 'none';
-    showCustomModal(t.alertTitle, t.welcomeMessage.replace('{user}', nickname));
-    updateUI();
+            const userId = Date.now().toString();
+            currentUser = { id: userId, nickname: nickname, language: userLanguage };
+            registeredUsers.push(currentUser);
+            localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+            document.getElementById('registrationModal').style.display = 'none';
+            showCustomModal(t.alertTitle, t.welcomeMessage.replace('{user}', nickname));
+            updateUI();
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const ref = urlParams.get('start');
-    if (ref && registeredUsers.some(user => user.id === ref)) {
-        referralCount++;
-        localStorage.setItem('referralCount', referralCount); // Сохраняем количество рефералов
-        updateUI();
-        sendTelegramMessage(ref, `Ваш друг ${nickname} зарегистрировался по вашей ссылке! У вас теперь ${referralCount} рефералов.`);
-        checkReferralRewards(ref);
-    }
-}
+            const urlParams = new URLSearchParams(window.location.search);
+            const ref = urlParams.get('start');
+            if (ref && registeredUsers.some(user => user.id === ref)) {
+                referralCount++;
+                updateUI();
+                sendTelegramMessage(ref, `Ваш друг ${nickname} зарегистрировался по вашей ссылке! У вас теперь ${referralCount} рефералов.`);
+                checkReferralRewards(ref);
+            }
+        }
 
         function checkReferralRewards(userId) {
             const user = registeredUsers.find(u => u.id === userId);
