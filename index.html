@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Thailand Shop</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta http-equiv="Content-Security-Policy" content="sandbox allow-same-origin allow-modals allow-scripts">
+    <title>Dark Thailand - Надёжный шоп</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,33 +18,30 @@
             max-width: 600px;
             margin: 0 auto;
         }
-        #promo-banner {
+        .promo-banner {
             background-color: #ff4444;
             padding: 10px;
             text-align: center;
             border-radius: 5px;
             margin-bottom: 10px;
         }
-        #header-text {
+        .header {
             text-align: center;
-            font-size: 24px;
             margin-bottom: 20px;
         }
-        .profile {
-            background-color: #333;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
         }
-        .profile p {
-            margin: 5px 0;
+        .header-text {
+            font-size: 20px;
         }
         .nav {
             display: flex;
             justify-content: space-around;
             margin-bottom: 20px;
         }
-        .nav button {
+        .nav-button, .buy-button {
             background-color: #555;
             color: #fff;
             border: none;
@@ -51,41 +49,61 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .nav button:hover {
+        .nav-button:hover, .buy-button:hover {
             background-color: #777;
         }
-        #catalog, #vacancies-section, #mail-section {
+        .profile-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .catalog-menu, .profile-menu, .vacancy-menu, .mail-menu {
             display: none;
         }
-        .catalog-item {
+        .city-filter {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .city-filter select {
+            width: 48%;
+            padding: 8px;
+            border-radius: 5px;
+            background-color: #555;
+            color: #fff;
+            border: none;
+        }
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        .tab {
+            background-color: #333;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .tab.active {
+            background-color: #777;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .product-card {
             background-color: #333;
             padding: 15px;
             border-radius: 5px;
             margin-bottom: 10px;
-        }
-        .catalog-item button {
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
             cursor: pointer;
-            margin-right: 5px;
         }
-        .catalog-item button:disabled {
-            background-color: #666;
-            cursor: not-allowed;
-        }
-        .catalog-item .preorder-btn {
-            background-color: #ffc107;
-            color: #000;
-        }
-        .reviews {
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        .reviews p {
-            margin: 5px 0;
+        .product-card h3 {
+            margin: 0 0 5px;
         }
         .vacancy {
             background-color: #333;
@@ -93,21 +111,16 @@
             border-radius: 5px;
             margin-bottom: 10px;
         }
-        .vacancy button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        #mail-list {
+        .profile-info, .deposit-options, .order-history, .promo-info {
             background-color: #333;
             padding: 15px;
             border-radius: 5px;
+            margin-bottom: 10px;
         }
-        #mail-list li {
-            margin: 5px 0;
+        .mail-menu div {
+            background-color: #333;
+            padding: 15px;
+            border-radius: 5px;
         }
         .modal {
             display: none;
@@ -118,7 +131,7 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.8);
         }
-        .modal-content {
+        .modal-content, .payment-content, .product-content, .deposit-content, .preorder-content, .registration-content, .custom-content, .confirm-content {
             background-color: #444;
             padding: 20px;
             border-radius: 5px;
@@ -134,117 +147,165 @@
             border-radius: 5px;
             border: none;
         }
-        .modal-content button {
+        .buy-button {
             background-color: #28a745;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-        }
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            color: #fff;
-            font-size: 20px;
-            cursor: pointer;
-        }
-        select {
-            width: 48%;
-            padding: 8px;
-            margin: 5px 1%;
-            border-radius: 5px;
-            background-color: #555;
-            color: #fff;
-            border: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div id="promo-banner"></div>
-        <h1 id="header-text"></h1>
-        <div class="profile">
-            <p id="balance">0 ฿</p>
-            <p id="profile-name"></p>
-            <p id="orders"></p>
-            <p id="referrals"></p>
-            <p id="ref-link"></p>
-            <button id="deposit-btn">Deposit Funds</button>
+        <div class="promo-banner" id="promoBanner"></div>
+
+        <div class="header">
+            <div class="logo">Dark Thailand</div>
+            <div class="header-text" id="headerText"></div>
         </div>
+        
         <div class="nav">
-            <button id="catalog-btn">Catalog</button>
-            <button id="vacancies-btn">Vacancies</button>
-            <button id="mail-btn">Mail</button>
+            <button class="nav-button" id="catalogButton"></button>
+            <button class="nav-button" id="vacanciesButton"></button>
+            <button class="nav-button" id="mailButton"></button>
+            <button class="profile-button" id="profileButton">☠️</button>
         </div>
-        <div id="catalog-section">
-            <select id="city-select"></select>
-            <select id="district-select"></select>
-            <div id="catalog"></div>
+        
+        <div class="catalog-menu" id="catalogMenu">
+            <div class="city-filter">
+                <select id="citySelect">
+                    <option value="all" id="allCitiesOption"></option>
+                    <option value="phuket" id="phuketOption"></option>
+                    <option value="pattaya" id="pattayaOption"></option>
+                    <option value="bangkok" id="bangkokOption"></option>
+                    <option value="samui" id="samuiOption"></option>
+                </select>
+                <select id="districtSelect">
+                    <option value="all" id="allDistrictsOption"></option>
+                </select>
+            </div>
+            <div class="tabs">
+                <div class="tab" data-tab="weed" id="weedTab">Марихуана</div>
+                <div class="tab" data-tab="hash" id="hashTab">Гашиш</div>
+                <div class="tab" data-tab="coke" id="cokeTab">Кокаин</div>
+                <div class="tab" data-tab="amph" id="amphTab">Амфетамин</div>
+                <div class="tab" data-tab="meth" id="methTab">Метамфетамин</div>
+                <div class="tab" data-tab="meph" id="mephTab">Мефедрон</div>
+                <div class="tab" data-tab="alpha" id="alphaTab">Альфа-PVP</div>
+                <div class="tab" data-tab="lsd" id="lsdTab">ЛСД</div>
+                <div class="tab" data-tab="mdma" id="mdmaTab">МДМА</div>
+                <div class="tab" data-tab="heroin" id="heroinTab">Героин</div>
+            </div>
+
+            <div id="weed" class="tab-content"></div>
+            <div id="hash" class="tab-content"></div>
+            <div id="coke" class="tab-content"></div>
+            <div id="amph" class="tab-content"></div>
+            <div id="meth" class="tab-content"></div>
+            <div id="meph" class="tab-content"></div>
+            <div id="alpha" class="tab-content"></div>
+            <div id="lsd" class="tab-content"></div>
+            <div id="mdma" class="tab-content"></div>
+            <div id="heroin" class="tab-content"></div>
         </div>
-        <div id="vacancies-section">
-            <h2>Vacancies at Dark Thailand</h2>
-            <div class="vacancy">
-                <h3>Courier</h3>
-                <p>Duties: Delivery and stashing goods at coordinates.</p>
-                <p>Pay: 500-1000 ฿ per stash (depends on volume).</p>
-                <button class="apply-btn" data-job="Courier">Apply</button>
+
+        <div class="profile-menu" id="profileMenu">
+            <div class="profile-info">
+                <h3>☠️</h3>
+                <p id="profileNameLabel"></p>
+                <p>Баланс: <span id="balance">0 ฿</span></p>
+                <p id="ordersLabel"></p>
+                <p id="referralsLabel"></p>
             </div>
-            <div class="vacancy">
-                <h3>Warehouseman</h3>
-                <p>Duties: Packing and preparing goods for shipment.</p>
-                <p>Pay: 2000-3000 ฿ per shift.</p>
-                <button class="apply-btn" data-job="Warehouseman">Apply</button>
+            <div class="deposit-options">
+                <h3 id="depositTitle"></h3>
+                <button class="nav-button" data-crypto="BTC">Bitcoin (BTC)</button>
+                <button class="nav-button" data-crypto="ETH">Ethereum (ETH)</button>
+                <button class="nav-button" data-crypto="USDT">Tether (USDT)</button>
+                <button class="nav-button" data-crypto="SOL">Solana (SOL)</button>
+                <button class="nav-button" data-crypto="TON">Toncoin (TON)</button>
             </div>
-            <div class="vacancy">
-                <h3>Transporter</h3>
-                <p>Duties: Transporting goods between Thai cities.</p>
-                <p>Pay: 5000-10000 ฿ per trip.</p>
-                <button class="apply-btn" data-job="Transporter">Apply</button>
+            <div class="order-history">
+                <h3 id="orderHistoryTitle"></h3>
+                <div id="orderList"></div>
             </div>
-            <div class="vacancy">
-                <h3>SMM Manager</h3>
-                <p>Duties: Promoting the shop on social media and forums.</p>
-                <p>Pay: 3000-5000 ฿ per week + activity bonuses.</p>
-                <button class="apply-btn" data-job="SMM Manager">Apply</button>
+            <div class="promo-info">
+                <p id="promoInfo"></p>
+                <button class="nav-button" id="promoDetailsButton">Подробнее</button>
             </div>
         </div>
-        <div id="mail-section">
-            <h2>Mail</h2>
-            <ul id="mail-list"></ul>
+
+        <div class="vacancy-menu" id="vacancyMenu">
+            <h2 id="vacanciesTitle"></h2>
+            <div class="vacancy">
+                <h3 id="courierTitle"></h3>
+                <p id="courierDuties"></p>
+                <p id="courierPay"></p>
+                <button class="buy-button" data-job="Courier" id="applyButton1"></button>
+            </div>
+            <div class="vacancy">
+                <h3 id="warehousemanTitle"></h3>
+                <p id="warehousemanDuties"></p>
+                <p id="warehousemanPay"></p>
+                <button class="buy-button" data-job="Warehouseman" id="applyButton2"></button>
+            </div>
+            <div class="vacancy">
+                <h3 id="transporterTitle"></h3>
+                <p id="transporterDuties"></p>
+                <p id="transporterPay"></p>
+                <button class="buy-button" data-job="Transporter" id="applyButton3"></button>
+            </div>
+            <div class="vacancy">
+                <h3 id="smmTitle"></h3>
+                <p id="smmDuties"></p>
+                <p id="smmPay"></p>
+                <button class="buy-button" data-job="SMM Manager" id="applyButton4"></button>
+            </div>
+        </div>
+
+        <div class="mail-menu" id="mailMenu">
+            <h2 id="mailTitle"></h2>
+            <div id="mailList"></div>
+        </div>
+
+        <div class="payment-modal" id="paymentModal">
+            <div class="payment-content" id="paymentContent"></div>
+        </div>
+        <div class="product-modal" id="productModal">
+            <div class="product-content" id="productContent"></div>
+        </div>
+        <div class="deposit-modal" id="depositModal">
+            <div class="deposit-content" id="depositContent">
+                <h2 id="depositTitleModal"></h2>
+                <p id="networkLabel"></p>
+                <input type="number" id="depositAmount" placeholder="Enter amount (min 1000 ฿)">
+                <button class="buy-button" id="depositSubmit">Generate Address</button>
+            </div>
+        </div>
+        <div class="preorder-modal" id="preorderModal">
+            <div class="preorder-content" id="preorderContent"></div>
+        </div>
+        <div class="registration-modal" id="registrationModal">
+            <div class="registration-content" id="registrationContent">
+                <h2 id="regTitle"></h2>
+                <p id="regNicknameLabel"></p>
+                <input type="text" id="regNickname" placeholder="Ваш никнейм">
+                <p id="regLanguageLabel"></p>
+                <select id="regLanguage">
+                    <option value="en">English</option>
+                    <option value="th">ไทย (Thai)</option>
+                    <option value="ru">Русский</option>
+                </select>
+                <button class="buy-button" id="regSubmit"></button>
+                <p id="regError" style="color: #ff9999;"></p>
+            </div>
+        </div>
+        <div class="custom-modal" id="customModal">
+            <div class="custom-content" id="customContent"></div>
+        </div>
+        <div class="confirm-modal" id="confirmModal">
+            <div class="confirm-content" id="confirmContent"></div>
         </div>
     </div>
 
-    <div id="reg-modal" class="modal">
-        <div class="modal-content">
-            <h2>Registration</h2>
-            <input type="text" id="reg-nickname" placeholder="Your nickname">
-            <select id="reg-language">
-                <option value="ru">Русский</option>
-                <option value="en">English</option>
-            </select>
-            <button id="reg-submit">Register</button>
-        </div>
-    </div>
-
-    <div id="deposit-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" id="close-deposit">&times;</span>
-            <h2>Deposit Funds</h2>
-            <select id="crypto-select">
-                <option value="BTC">BTC</option>
-                <option value="ETH">ETH</option>
-                <option value="USDT">USDT</option>
-                <option value="SOL">SOL</option>
-                <option value="TON">TON</option>
-            </select>
-            <input type="number" id="deposit-amount" placeholder="Enter amount (min 1000 ฿)">
-            <button id="deposit-submit">Generate Address</button>
-        </div>
-    </div>
-
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
