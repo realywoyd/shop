@@ -1251,16 +1251,19 @@
         }
 
         function initApp() {
-    // Проверяем, есть ли текущий пользователь в localStorage
+    console.log('initApp started');
     const savedUser = localStorage.getItem('currentUser');
     if (savedUser) {
-        currentUser = JSON.parse(savedUser); // Загружаем данные пользователя
-        userLanguage = currentUser.language; // Устанавливаем язык
-        updateUI(); // Обновляем интерфейс с данными пользователя
+        console.log('User found in localStorage:', savedUser);
+        currentUser = JSON.parse(savedUser);
+        userLanguage = currentUser.language;
+        updateUI();
     } else {
-        // Если пользователя нет, показываем регистрацию
+        console.log('No user, showing registration');
         showRegistrationModal();
     }
+    // ... остальной код ...
+}
 
     // Остальной код остаётся без изменений
     document.querySelectorAll('.tab').forEach(tab => {
