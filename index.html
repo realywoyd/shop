@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+       <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -17,13 +17,24 @@
         .container { max-width: 600px; margin: 0 auto; padding: 15px; position: relative; }
         .header { text-align: center; padding: 15px 0; background-color: #2b2b2b; color: #ff4444; margin-bottom: 20px; border-radius: 5px; border: 2px solid #ff4444; box-shadow: 0 0 10px rgba(255, 68, 68, 0.5); }
         .logo { font-size: 48px; animation: textPulse 2s infinite; display: inline-block; }
-        @keyframes textPulse { 0% { transform: scale(1); text-shadow: 0 0 5px #ff4444; } 50% { transform: scale(1.05); text-shadow: 0 0 20px #ff4444, 0 0 30px #ff6666; } 100% { transform: scale(1); text-shadow: 0 0 5px #ff4444; } }
+        @keyframes textPulse { 
+            0% { transform: scale(1); text-shadow: 0 0 5px #ff4444; } 
+            50% { transform: scale(1.05); text-shadow: 0 0 20px #ff4444, 0 0 30px #ff6666; } 
+            100% { transform: scale(1); text-shadow: 0 0 5px #ff4444; } 
+        }
         .header-text { font-size: 16px; margin-top: 5px; animation: textFlicker 3s infinite; }
-        @keyframes textFlicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        @keyframes textFlicker { 
+            0%, 100% { opacity: 1; } 
+            50% { opacity: 0.7; } 
+        }
         .nav { display: flex; justify-content: space-between; margin-bottom: 20px; }
         .nav-button { background-color: #ff4444; color: #000; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; animation: neonPulse 1.5s infinite; }
         .profile-button { background-color: #ff4444; color: #000; border: none; padding: 0; border-radius: 5px; cursor: pointer; font-size: 26px; width: 60px; height: 40px; line-height: 40px; text-align: center; animation: neonPulse 1.5s infinite; }
-        @keyframes neonPulse { 0% { box-shadow: 0 0 5px #ff4444; } 50% { box-shadow: 0 0 20px #ff4444; } 100% { box-shadow: 0 0 5px #ff4444; } }
+        @keyframes neonPulse { 
+            0% { box-shadow: 0 0 5px #ff4444; } 
+            50% { box-shadow: 0 0 20px #ff4444; } 
+            100% { box-shadow: 0 0 5px #ff4444; } 
+        }
         .catalog-menu, .profile-menu, .vacancy-menu, .mail-menu { display: none; background-color: #333; border-radius: 5px; padding: 15px; box-shadow: 0 0 15px rgba(255, 68, 68, 0.3); }
         .city-filter { margin-bottom: 15px; }
         .city-filter select, .district-filter select { width: 100%; padding: 10px; background-color: #2b2b2b; color: #ff4444; border: 1px solid #ff4444; border-radius: 5px; font-size: 16px; margin-bottom: 10px; }
@@ -49,15 +60,87 @@
         .moderator-response { background-color: #2b2b2b; border-left: 4px solid #ff4444; padding: 10px; margin: 5px 0 10px 20px; font-size: 12px; color: #ff6666; text-align: left; }
         .position { margin: 10px 0; text-align: left; }
         .promo-banner { background-color: #ff4444; color: #000; padding: 10px; text-align: center; margin-bottom: 20px; border-radius: 5px; font-weight: bold; }
-        .vacancy { margin-bottom: 15px; }
+        .limited-offer { background: #ff6666; color: #000; padding: 10px; text-align: center; margin: 10px 0; }
+                .vacancy { margin-bottom: 15px; }
         .vacancy h3 { color: #ff6666; }
-        input[type="text"], textarea, input[type="number"], select { width: 100%; padding: 10px; margin: 10px 0; background-color: #2b2b2b; color: #ff4444; border: 1px solid #ff4444; border-radius: 5px; }
+        input[type="text"], textarea, input[type="number"], select { 
+            width: 100%; 
+            padding: 10px; 
+            margin: 10px 0; 
+            background-color: #2b2b2b; 
+            color: #ff4444; 
+            border: 1px solid #ff4444; 
+            border-radius: 5px; 
+        }
         textarea { height: 100px; resize: none; }
+        .support-chat { 
+            position: fixed; 
+            bottom: 20px; 
+            right: 20px; 
+            width: 300px; 
+            background: #333; 
+            padding: 10px; 
+            border-radius: 5px; 
+            box-shadow: 0 0 15px rgba(255, 68, 68, 0.3); 
+        }
+        #chatMessages { 
+            height: 200px; 
+            overflow-y: auto; 
+            color: #ff9999; 
+            padding: 5px; 
+            border: 1px solid #ff4444; 
+            border-radius: 5px; 
+            margin-bottom: 10px; 
+        }
+        #chatInput { 
+            width: 70%; 
+            margin-top: 10px; 
+            display: inline-block; 
+        }
+        .support-chat button { 
+            width: 25%; 
+            margin-left: 5px; 
+            background-color: #ff4444; 
+            color: #000; 
+            border: none; 
+            padding: 10px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+        .recent-purchases { 
+            background: #2b2b2b; 
+            padding: 10px; 
+            margin-top: 20px; 
+            border-radius: 5px; 
+            color: #ff9999; 
+        }
+        .product-image img { 
+            max-width: 100%; 
+            cursor: pointer; 
+            transition: transform 0.3s; 
+        }
+        .product-image img.zoomed { 
+            transform: scale(2); 
+        }
+        .loader { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: #1a1a1a; 
+            color: #ff4444; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 20px; 
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="promo-banner" id="promoBanner"></div>
+        <div class="limited-offer" id="limitedOffer"></div>
 
         <div class="header">
             <div class="logo">Dark Thailand</div>
@@ -310,6 +393,7 @@
                     <p>Чёрная жемчужина, элитный героин</p>
                 </div>
             </div>
+            <div class="recent-purchases" id="recentPurchases"></div>
         </div>
 
         <div class="profile-menu" id="profileMenu">
@@ -319,6 +403,9 @@
                 <p>Баланс: <span id="balance">0 ฿</span></p>
                 <p id="ordersLabel"></p>
                 <p id="referralsLabel"></p>
+                <p id="statusLabel"></p>
+                <p id="achievementsLabel">Достижения:</p>
+                <ul id="achievementsList"></ul>
             </div>
             <div class="deposit-options">
                 <h3 id="depositTitle"></h3>
@@ -339,32 +426,32 @@
         </div>
 
         <div class="vacancy-menu" id="vacancyMenu">
-    <h2 id="vacanciesTitle">Вакансии</h2>
-    <div class="vacancy">
-        <h3 id="courierTitle">Кладмен</h3>
-        <p id="courierDuties">Обязанности: Делать клады.</p>
-        <p id="courierPay">Оплата: от 100000 батт/месяц</p>
-        <button class="buy-button" onclick="applyForJob('Курьер')" id="applyButton1">Откликнуться</button>
-    </div>
-    <div class="vacancy">
-        <h3 id="warehousemanTitle">Складмен</h3>
-        <p id="warehousemanDuties">Обязанности: Приём больших партий, делать мастер-клады для кладменов.</p>
-        <p id="warehousemanPay">Оплата: от 200000 батт/месяц</p>
-        <button class="buy-button" onclick="applyForJob('Складмен')" id="applyButton2">Откликнуться</button>
-    </div>
-    <div class="vacancy">
-        <h3 id="transporterTitle">Перевозчик</h3>
-        <p id="transporterDuties">Обязанности: перевозка товара по всему Тайланду.</p>
-        <p id="transporterPay">Оплата: от 350000 батт/месяц</p>
-        <button class="buy-button" onclick="applyForJob('Перевозчик')" id="applyButton3">Откликнуться</button>
-    </div>
-    <div class="vacancy">
-        <h3 id="smmTitle">SMMщик</h3>
-        <p id="smmDuties">Обязанности: Рекламировать магазин</p>
-        <p id="smmPay">Оплата: от 70000 батт/неделя</p>
-        <button class="buy-button" onclick="applyForJob('SMMщик')" id="applyButton4">Откликнуться</button>
-    </div>
-</div>
+            <h2 id="vacanciesTitle">Вакансии</h2>
+            <div class="vacancy">
+                <h3 id="courierTitle">Кладмен</h3>
+                <p id="courierDuties">Обязанности: Делать клады.</p>
+                <p id="courierPay">Оплата: от 100000 батт/месяц</p>
+                <button class="buy-button" onclick="applyForJob('Кладмен')" id="applyButton1">Откликнуться</button>
+            </div>
+            <div class="vacancy">
+                <h3 id="warehousemanTitle">Складмен</h3>
+                <p id="warehousemanDuties">Обязанности: Приём больших партий, делать мастер-клады для кладменов.</p>
+                <p id="warehousemanPay">Оплата: от 200000 батт/месяц</p>
+                <button class="buy-button" onclick="applyForJob('Складмен')" id="applyButton2">Откликнуться</button>
+            </div>
+            <div class="vacancy">
+                <h3 id="transporterTitle">Перевозчик</h3>
+                <p id="transporterDuties">Обязанности: перевозка товара по всему Тайланду.</p>
+                <p id="transporterPay">Оплата: от 350000 батт/месяц</p>
+                <button class="buy-button" onclick="applyForJob('Перевозчик')" id="applyButton3">Откликнуться</button>
+            </div>
+            <div class="vacancy">
+                <h3 id="smmTitle">SMMщик</h3>
+                <p id="smmDuties">Обязанности: Рекламировать магазин</p>
+                <p id="smmPay">Оплата: от 70000 батт/неделя</p>
+                <button class="buy-button" onclick="applyForJob('SMMщик')" id="applyButton4">Откликнуться</button>
+            </div>
+        </div>
 
         <div class="mail-menu" id="mailMenu">
             <h2 id="mailTitle"></h2>
@@ -410,6 +497,14 @@
         <div class="confirm-modal" id="confirmModal">
             <div class="confirm-content" id="confirmContent"></div>
         </div>
+
+        <div class="support-chat">
+            <div id="chatMessages">
+                <p>Оператор: Чем могу помочь?</p>
+            </div>
+            <input type="text" id="chatInput" placeholder="Напиши сюда...">
+            <button onclick="sendChatMessage()">Отправить</button>
+        </div>
     </div>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -418,7 +513,11 @@
             window.Telegram.WebApp.ready();
             window.Telegram.WebApp.expand();
         } else {
-            console.warn('Telegram Web App не доступен, работаем в оффлайн-режиме');
+            document.body.innerHTML += '<div class="loader">Загрузка шопа... Подключаемся к сети...</div>';
+            setTimeout(() => {
+                document.querySelector('.loader').remove();
+                initApp();
+            }, 2000);
         }
 
         let balance = 0;
@@ -442,9 +541,6 @@
             TON: 200
         };
 
-        const BOT_B_TOKEN = '7589545725:AAHoedAqoGh_k0WWdUs1rcBN1yddUtBFhsk';
-        const ADMIN_CHAT_ID = '5956080955';
-
         const testAddresses = {
             BTC: "bc1qxk53npp2g3gt3x93k93vqgq93v5nwp5cvuk7fn",
             ETH: "0x0d6b8E631b6c99e5184d492F4bcf22c8B5F96009",
@@ -462,295 +558,307 @@
         };
 
         const translations = {
-    en: {
-        promoBanner: "Invite friends and get bonuses! 5 friends = 0.5g amphetamine, 10 friends = 0.5g cocaine (MQ), 25 friends = 1g cocaine (VHQ)!",
-        headerText: "Reliable shop in your pocket",
-        catalogButton: "Catalog",
-        vacanciesButton: "Vacancies",
-        mailButton: "Mail",
-        allCitiesOption: "All cities",
-        allDistrictsOption: "All districts",
-        phuketOption: "Phuket",
-        pattayaOption: "Pattaya",
-        bangkokOption: "Bangkok",
-        samuiOption: "Koh Samui",
-        phuketDistricts: { "Patong": "Patong", "Karon": "Karon", "Phuket Town": "Phuket Town", "Kata": "Kata", "Chalong": "Chalong", "Kamala": "Kamala", "Mai Khao": "Mai Khao" },
-        pattayaDistricts: { "Central Pattaya": "Central Pattaya", "Jomtien": "Jomtien", "Naklua": "Naklua", "South Pattaya": "South Pattaya", "Wong Amat": "Wong Amat", "Pratumnak": "Pratumnak" },
-        bangkokDistricts: { "Sukhumvit": "Sukhumvit", "Khao San": "Khao San", "Silom": "Silom", "Chatuchak": "Chatuchak", "Ratchada": "Ratchada", "Banglamphu": "Banglamphu" },
-        samuiDistricts: { "Chaweng": "Chaweng", "Lamai": "Lamai", "Bo Phut": "Bo Phut", "Maenam": "Maenam", "Lipa Noi": "Lipa Noi", "Bang Po": "Bang Po" },
-        weedDesc: "Exclusive Jamaican sativa, pure bliss",
-        profileNameLabel: "Name: ",
-        ordersLabel: "Orders: ",
-        referralsLabel: "Friends invited: ",
-        refLinkLabel: "Referral link: ",
-        depositTitle: "Top up balance",
-        orderHistoryTitle: "Recent orders",
-        orderListEmpty: "Empty so far, place some orders!",
-        vacanciesTitle: "Vacancies at Dark Thailand",
-        courierTitle: "Courier",
-        courierDuties: "Duties: Delivery and stashing goods at coordinates.",
-        courierPay: "Pay: 500-1000 ฿ per stash (depends on volume).",
-        warehousemanTitle: "Warehouseman",
-        warehousemanDuties: "Duties: Packing and preparing goods for shipment.",
-        warehousemanPay: "Pay: 2000-3000 ฿ per shift.",
-        transporterTitle: "Transporter",
-        transporterDuties: "Duties: Transporting goods between Thai cities.",
-        transporterPay: "Pay: 5000-10000 ฿ per trip.",
-        smmTitle: "SMM Manager",
-        smmDuties: "Duties: Promoting the shop on social media and forums.",
-        smmPay: "Pay: 3000-5000 ฿ per week + activity bonuses.",
-        applyButton: "Apply",
-        mailTitle: "Mail",
-        mailListEmpty: "No messages yet.",
-        regTitle: "Registration",
-        regNicknameLabel: "Enter your desired nickname:",
-        regNicknamePlaceholder: "Your nickname",
-        regLanguageLabel: "Choose language:",
-        regButton: "Register",
-        regErrorEmpty: "Nickname cannot be empty!",
-        regErrorTaken: "This nickname is already taken!",
-        welcomeMessage: "Welcome, {user}! Your account has been created.",
-        insufficientFunds: "Insufficient funds! Top up your balance?",
-        yes: "Yes",
-        no: "No",
-        paymentSuccess: "Payment successful!",
-        preorderTitle: "Preorder",
-        preorderPlaced: "Preorder placed!",
-        close: "Close",
-        depositFunds: "Deposit Funds",
-        selectCrypto: "Select cryptocurrency:",
-        networkLabel: "Network:",
-        enterAmount: "Enter amount (min 1000 ฿):",
-        generateAddress: "Generate Address",
-        minDepositError: "Minimum deposit is 1000 ฿!",
-        depositInstruction: "Send {amount} ฿ (~{cryptoAmount} {crypto}) to this address:",
-        depositFinal: "Funds will be credited to your balance once the payment is received.",
-        depositExpiry: "Address expires in 30 minutes.",
-        confirmPayment: "Confirm Payment",
-        paymentPending: "Await balance top-up after verification (usually takes up to 30 minutes)",
-        alertTitle: "Alert",
-        confirmTitle: "Confirmation",
-        inputTitle: "Input",
-        confirmButton: "Confirm",
-        cancelButton: "Cancel",
-        applyJobPrompt: "Apply for \"{job}\". Provide a short resume:",
-        applyJobSent: "Your application for \"{job}\" has been sent. Await admin response.",
-        applyJobAlert: "Application for \"{job}\" sent!",
-        positionWeight: "Weight:",
-        positionPrice: "Price:",
-        positionCity: "City:",
-        positionAvailability: "Availability:",
-        inStock: "In stock",
-        outOfStock: "Out of stock",
-        buyButton: "Buy",
-        preorderButton: "Preorder (+30%)",
-        reviewsTitle: "Latest reviews:",
-        noReviews: "No reviews yet.",
-        promoInfo: "Invite friends and get free stuff!",
-        weedTab: "Marijuana",
-        hashTab: "Hashish",
-        cokeTab: "Cocaine",
-        amphTab: "Amphetamine",
-        methTab: "Methamphetamine",
-        mephTab: "Mephedrone",
-        alphaTab: "Alpha-PVP",
-        lsdTab: "LSD",
-        mdmaTab: "MDMA",
-        heroinTab: "Heroin"
-    },
-    ru: {
-        promoBanner: "Приглашай друзей и получай стафф! 5 друзей = 0.5 г амфетамина, 10 друзей = 0.5 г кокаина (MQ), 25 друзей = 1 г кокаина (VHQ)!",
-        headerText: "Надёжный шоп в твоём кармане",
-        catalogButton: "Каталог",
-        vacanciesButton: "Вакансии",
-        mailButton: "Почта",
-        allCitiesOption: "Все города",
-        allDistrictsOption: "Все районы",
-        phuketOption: "Пхукет",
-        pattayaOption: "Паттайя",
-        bangkokOption: "Бангкок",
-        samuiOption: "о. Самуи",
-        phuketDistricts: { "Patong": "Патонг", "Karon": "Карон", "Phuket Town": "Пхукет-таун", "Kata": "Ката", "Chalong": "Чалонг", "Kamala": "Камала", "Mai Khao": "Май Кхао" },
-        pattayaDistricts: { "Central Pattaya": "Центральная Паттайя", "Jomtien": "Джомтьен", "Naklua": "Наклуа", "South Pattaya": "Южная Паттайя", "Wong Amat": "Вонг Амат", "Pratumnak": "Пратамнак" },
-        bangkokDistricts: { "Sukhumvit": "Сукхумвит", "Khao San": "Каосан", "Silom": "Силом", "Chatuchak": "Чатучак", "Ratchada": "Ратчада", "Banglamphu": "Банглампху" },
-        samuiDistricts: { "Chaweng": "Чавенг", "Lamai": "Ламай", "Bo Phut": "Бо Пхут", "Maenam": "Маенам", "Lipa Noi": "Липа Ной", "Bang Po": "Банг По" },
-        weedDesc: "Эксклюзивная ямайская сатива, чистейший кайф",
-        profileNameLabel: "Имя: ",
-        ordersLabel: "Заказов: ",
-        referralsLabel: "Приглашено друзей: ",
-        refLinkLabel: "Реферальная ссылка: ",
-        depositTitle: "Пополнить баланс",
-        orderHistoryTitle: "Последние заказы",
-        orderListEmpty: "Пока пусто, делай заказы!",
-        vacanciesTitle: "Вакансии в Dark Thailand",
-        courierTitle: "Кладмен",
-        courierDuties: "Обязанности: Доставка и закладка товара по координатам.",
-        courierPay: "Оплата: 500-1000 ฿ за клад (зависит от объёма).",
-        warehousemanTitle: "Складмен",
-        warehousemanDuties: "Обязанности: Упаковка и подготовка товара к отправке.",
-        warehousemanPay: "Оплата: 2000-3000 ฿ за смену.",
-        transporterTitle: "Перевозчик",
-        transporterDuties: "Обязанности: Перевозка товара между городами Таиланда.",
-        transporterPay: "Оплата: 5000-10000 ฿ за рейс.",
-        smmTitle: "SMMщик",
-        smmDuties: "Обязанности: Продвижение шопа в соцсетях и форумах.",
-        smmPay: "Оплата: 3000-5000 ฿ в неделю + бонусы за активность.",
-        applyButton: "Оставить заявку",
-        mailTitle: "Почта",
-        mailListEmpty: "Пока нет сообщений.",
-        regTitle: "Регистрация",
-        regNicknameLabel: "Введите желаемый никнейм:",
-        regNicknamePlaceholder: "Ваш никнейм",
-        regLanguageLabel: "Выберите язык:",
-        regButton: "Зарегистрироваться",
-        regErrorEmpty: "Никнейм не может быть пустым!",
-        regErrorTaken: "Этот никнейм уже занят!",
-        welcomeMessage: "Добро пожаловать, {user}! Ваш аккаунт успешно создан.",
-        insufficientFunds: "Недостаточно средств на балансе! Пополнить баланс?",
-        yes: "Да",
-        no: "Нет",
-        paymentSuccess: "Оплата прошла!",
-        preorderTitle: "Предзаказ",
-        preorderPlaced: "Предзаказ оформлен!",
-        close: "Закрыть",
-        depositFunds: "Пополнить баланс",
-        selectCrypto: "Выберите криптовалюту:",
-        networkLabel: "Сеть:",
-        enterAmount: "Введите сумму (мин. 1000 ฿):",
-        generateAddress: "Сгенерировать адрес",
-        minDepositError: "Минимальная сумма пополнения — 1000 ฿!",
-        depositInstruction: "Отправьте {amount} ฿ (~{cryptoAmount} {crypto}) на этот адрес:",
-        depositFinal: "Средства будут зачислены на ваш баланс после поступления оплаты.",
-        depositExpiry: "Адрес действителен 30 минут.",
-        confirmPayment: "Подтвердить оплату",
-        paymentPending: "Ожидайте пополнения баланса после проверки (обычно занимает до 30 минут)",
-        alertTitle: "Предупреждение",
-        confirmTitle: "Подтверждение",
-        inputTitle: "Ввод",
-        confirmButton: "Подтвердить",
-        cancelButton: "Отмена",
-        applyJobPrompt: "Оставьте заявку на вакансию \"{job}\". Укажите краткое резюме:",
-        applyJobSent: "Ваша заявка на вакансию \"{job}\" отправлена. Ожидайте ответа от администрации.",
-        applyJobAlert: "Заявка на \"{job}\" отправлена!",
-        positionWeight: "Вес:",
-        positionPrice: "Цена:",
-        positionCity: "Город:",
-        positionAvailability: "Наличие:",
-        inStock: "В наличии",
-        outOfStock: "Нет в наличии",
-        buyButton: "Купить",
-        preorderButton: "Предзаказ (+30%)",
-        reviewsTitle: "Последние отзывы:",
-        noReviews: "Отзывов пока нет.",
-        promoInfo: "Приглашай друзей и получай стафф!",
-        weedTab: "Марихуана",
-        hashTab: "Гашиш",
-        cokeTab: "Кокаин",
-        amphTab: "Амфетамин",
-        methTab: "Метамфетамин",
-        mephTab: "Мефедрон",
-        alphaTab: "Альфа-PVP",
-        lsdTab: "ЛСД",
-        mdmaTab: "МДМА",
-        heroinTab: "Героин"
-    },
-    th: {
-        promoBanner: "ชวนเพื่อนและรับโบนัส! 5 เพื่อน = แอมเฟตามีน 0.5 กรัม, 10 เพื่อน = โคเคน 0.5 กรัม (MQ), 25 เพื่อน = โคเคน 1 กรัม (VHQ)!",
-        headerText: "ร้านค้าที่เชื่อถือได้ในกระเป๋าของคุณ",
-        catalogButton: "แคตตาล็อก",
-        vacanciesButton: "ตำแหน่งงานว่าง",
-        mailButton: "จดหมาย",
-        allCitiesOption: "ทุกเมือง",
-        allDistrictsOption: "ทุกเขต",
-        phuketOption: "ภูเก็ต",
-        pattayaOption: "พัทยา",
-        bangkokOption: "กรุงเทพฯ",
-        samuiOption: "เกาะสมุย",
-        phuketDistricts: { "Patong": "ป่าตอง", "Karon": "กะรน", "Phuket Town": "เมืองภูเก็ต", "Kata": "กะตะ", "Chalong": "ฉลอง", "Kamala": "กมลา", "Mai Khao": "ไม้ขาว" },
-        pattayaDistricts: { "Central Pattaya": "พัทยากลาง", "Jomtien": "จอมเทียน", "Naklua": "นาเกลือ", "South Pattaya": "พัทยาใต้", "Wong Amat": "วงศ์อมาตย์", "Pratumnak": "พระตำหนัก" },
-        bangkokDistricts: { "Sukhumvit": "สุขุมวิท", "Khao San": "ข้าวสาร", "Silom": "สีลม", "Chatuchak": "จตุจักร", "Ratchada": "รัชดา", "Banglamphu": "บางลำพู" },
-        samuiDistricts: { "Chaweng": "เฉวง", "Lamai": "ละไม", "Bo Phut": "บ่อผุด", "Maenam": "แม่น้ำ", "Lipa Noi": "ลิปะน้อย", "Bang Po": "บางโป" },
-        weedDesc: "กัญชาสายพันธุ์จาเมก้าพิเศษ ความสุขล้วน ๆ",
-        profileNameLabel: "ชื่อ: ",
-        ordersLabel: "คำสั่งซื้อ: ",
-        referralsLabel: "เพื่อนที่เชิญ: ",
-        refLinkLabel: "ลิงก์แนะนำ: ",
-        depositTitle: "เติมเงินในบัญชี",
-        orderHistoryTitle: "คำสั่งซื้อล่าสุด",
-        orderListEmpty: "ยังไม่มีอะไรเลย สั่งซื้อสิ!",
-        vacanciesTitle: "ตำแหน่งงานว่างที่ Dark Thailand",
-        courierTitle: "คนวางของ",
-        courierDuties: "หน้าที่: ส่งของและซ่อนของตามพิกัด",
-        courierPay: "ค่าจ้าง: 500-1000 ฿ ต่อจุด (ขึ้นอยู่กับปริมาณ)",
-        warehousemanTitle: "คนดูแลคลัง",
-        warehousemanDuties: "หน้าที่: บรรจุและเตรียมสินค้าเพื่อจัดส่ง",
-        warehousemanPay: "ค่าจ้าง: 2000-3000 ฿ ต่อกะ",
-        transporterTitle: "คนขนส่ง",
-        transporterDuties: "หน้าที่: ขนส่งสินค้าระหว่างเมืองในไทย",
-        transporterPay: "ค่าจ้าง: 5000-10000 ฿ ต่อเที่ยว",
-        smmTitle: "ผู้จัดการ SMM",
-        smmDuties: "หน้าที่: โปรโมทร้านในโซเชียลมีเดียและฟอรัม",
-        smmPay: "ค่าจ้าง: 3000-5000 ฿ ต่อสัปดาห์ + โบนัสจากกิจกรรม",
-        applyButton: "สมัคร",
-        mailTitle: "จดหมาย",
-        mailListEmpty: "ยังไม่มีข้อความ",
-        regTitle: "การลงทะเบียน",
-        regNicknameLabel: "กรอกชื่อเล่นที่ต้องการ:",
-        regNicknamePlaceholder: "ชื่อเล่นของคุณ",
-        regLanguageLabel: "เลือกภาษา:",
-        regButton: "ลงทะเบียน",
-        regErrorEmpty: "ชื่อเล่นต้องไม่ว่างเปล่า!",
-        regErrorTaken: "ชื่อเล่นนี้ถูกใช้แล้ว!",
-        welcomeMessage: "ยินดีต้อนรับ {user}! บัญชีของคุณถูกสร้างเรียบร้อยแล้ว",
-        insufficientFunds: "เงินในบัญชีไม่พอ! เติมเงินในบัญชีหรือไม่?",
-        yes: "ใช่",
-        no: "ไม่",
-        paymentSuccess: "ชำระเงินสำเร็จ!",
-        preorderTitle: "สั่งจองล่วงหน้า",
-        preorderPlaced: "สั่งจองล่วงหน้าเรียบร้อย!",
-        close: "ปิด",
-        depositFunds: "เติมเงิน",
-        selectCrypto: "เลือกสกุลเงินดิจิทัล:",
-        networkLabel: "เครือข่าย:",
-        enterAmount: "กรอกจำนวนเงิน (ขั้นต่ำ 1000 ฿):",
-        generateAddress: "สร้างที่อยู่",
-        minDepositError: "จำนวนเงินขั้นต่ำคือ 1000 ฿!",
-        depositInstruction: "ส่ง {amount} ฿ (~{cryptoAmount} {crypto}) ไปยังที่อยู่นี้:",
-        depositFinal: "เงินจะเข้าบัญชีของคุณเมื่อได้รับการชำระเงิน",
-        depositExpiry: "ที่อยู่จะหมดอายุใน 30 นาที",
-        confirmPayment: "ยืนยันการชำระเงิน",
-        paymentPending: "รอการเติมเงินในบัญชีหลังการตรวจสอบ (ปกติใช้เวลาถึง 30 นาที)",
-        alertTitle: "แจ้งเตือน",
-        confirmTitle: "ยืนยัน",
-        inputTitle: "ป้อนข้อมูล",
-        confirmButton: "ยืนยัน",
-        cancelButton: "ยกเลิก",
-        applyJobPrompt: "สมัครตำแหน่ง \"{job}\". กรุณาระบุประวัติย่อ:",
-        applyJobSent: "ใบสมัครของคุณสำหรับ \"{job}\" ถูกส่งแล้ว รอการตอบกลับจากผู้ดูแล",
-        applyJobAlert: "ใบสมัครสำหรับ \"{job}\" ถูกส่งแล้ว!",
-        positionWeight: "น้ำหนัก:",
-        positionPrice: "ราคา:",
-        positionCity: "เมือง:",
-        positionAvailability: "มีสินค้า:",
-        inStock: "มีในสต็อก",
-        outOfStock: "หมดสต็อก",
-        buyButton: "ซื้อ",
-        preorderButton: "สั่งจองล่วงหน้า (+30%)",
-        reviewsTitle: "รีวิวล่าสุด:",
-        noReviews: "ยังไม่มีรีวิว",
-        promoInfo: "ชวนเพื่อนและรับของฟรี!",
-        weedTab: "กัญชา",
-        hashTab: "กัญชาอัด",
-        cokeTab: "โคเคน",
-        amphTab: "แอมเฟตามีน",
-        methTab: "เมทแอมเฟตามีน",
-        mephTab: "เมเฟโดรน",
-        alphaTab: "อัลฟ่า-พีวีพี",
-        lsdTab: "แอลเอสดี",
-        mdmaTab: "เอ็มดีเอ็มเอ",
-        heroinTab: "เฮโรอีน"
-    }
-};
+            en: {
+                promoBanner: "Invite friends and get bonuses! 5 friends = 0.5g amphetamine, 10 friends = 0.5g cocaine (MQ), 25 friends = 1g cocaine (VHQ)!",
+                headerText: "Reliable shop in your pocket",
+                catalogButton: "Catalog",
+                vacanciesButton: "Vacancies",
+                mailButton: "Mail",
+                allCitiesOption: "All cities",
+                allDistrictsOption: "All districts",
+                phuketOption: "Phuket",
+                pattayaOption: "Pattaya",
+                bangkokOption: "Bangkok",
+                samuiOption: "Koh Samui",
+                phuketDistricts: { "Patong": "Patong", "Karon": "Karon", "Phuket Town": "Phuket Town", "Kata": "Kata", "Chalong": "Chalong", "Kamala": "Kamala", "Mai Khao": "Mai Khao" },
+                pattayaDistricts: { "Central Pattaya": "Central Pattaya", "Jomtien": "Jomtien", "Naklua": "Naklua", "South Pattaya": "South Pattaya", "Wong Amat": "Wong Amat", "Pratumnak": "Pratumnak" },
+                bangkokDistricts: { "Sukhumvit": "Sukhumvit", "Khao San": "Khao San", "Silom": "Silom", "Chatuchak": "Chatuchak", "Ratchada": "Ratchada", "Banglamphu": "Banglamphu" },
+                samuiDistricts: { "Chaweng": "Chaweng", "Lamai": "Lamai", "Bo Phut": "Bo Phut", "Maenam": "Maenam", "Lipa Noi": "Lipa Noi", "Bang Po": "Bang Po" },
+                weedDesc: "Exclusive Jamaican sativa, pure bliss",
+                profileNameLabel: "Name: ",
+                ordersLabel: "Orders: ",
+                referralsLabel: "Friends invited: ",
+                statusLabel: "Status: ",
+                achievementsLabel: "Achievements:",
+                refLinkLabel: "Referral link: ",
+                depositTitle: "Top up balance",
+                orderHistoryTitle: "Recent orders",
+                orderListEmpty: "Empty so far, place some orders!",
+                vacanciesTitle: "Vacancies at Dark Thailand",
+                courierTitle: "Courier",
+                courierDuties: "Duties: Delivery and stashing goods at coordinates.",
+                courierPay: "Pay: 500-1000 ฿ per stash (depends on volume).",
+                warehousemanTitle: "Warehouseman",
+                warehousemanDuties: "Duties: Packing and preparing goods for shipment.",
+                warehousemanPay: "Pay: 2000-3000 ฿ per shift.",
+                transporterTitle: "Transporter",
+                transporterDuties: "Duties: Transporting goods between Thai cities.",
+                transporterPay: "Pay: 5000-10000 ฿ per trip.",
+                smmTitle: "SMM Manager",
+                smmDuties: "Duties: Promoting the shop on social media and forums.",
+                smmPay: "Pay: 3000-5000 ฿ per week + activity bonuses.",
+                applyButton: "Apply",
+                mailTitle: "Mail",
+                mailListEmpty: "No messages yet.",
+                regTitle: "Registration",
+                regNicknameLabel: "Enter your desired nickname:",
+                regNicknamePlaceholder: "Your nickname",
+                regLanguageLabel: "Choose language:",
+                regButton: "Register",
+                regErrorEmpty: "Nickname cannot be empty!",
+                regErrorTaken: "This nickname is already taken!",
+                welcomeMessage: "Welcome, {user}! Your account has been created.",
+                insufficientFunds: "Insufficient funds! Top up your balance?",
+                yes: "Yes",
+                no: "No",
+                paymentSuccess: "Payment successful!",
+                preorderTitle: "Preorder",
+                preorderPlaced: "Preorder placed!",
+                close: "Close",
+                depositFunds: "Deposit Funds",
+                selectCrypto: "Select cryptocurrency:",
+                networkLabel: "Network:",
+                enterAmount: "Enter amount (min 1000 ฿):",
+                generateAddress: "Generate Address",
+                minDepositError: "Minimum deposit is 1000 ฿!",
+                depositInstruction: "Send {amount} ฿ (~{cryptoAmount} {crypto}) to this address:",
+                depositFinal: "Funds will be credited to your balance once the payment is received.",
+                depositExpiry: "Address expires in 30 minutes.",
+                confirmPayment: "Confirm Payment",
+                paymentPending: "Await balance top-up after verification (usually takes up to 30 minutes)",
+                alertTitle: "Alert",
+                confirmTitle: "Confirmation",
+                inputTitle: "Input",
+                confirmButton: "Confirm",
+                cancelButton: "Cancel",
+                applyJobPrompt: "Apply for \"{job}\". Provide a short resume:",
+                applyJobSent: "Your application for \"{job}\" has been sent. Await admin response.",
+                applyJobAlert: "Application for \"{job}\" sent!",
+                positionWeight: "Weight:",
+                positionPrice: "Price:",
+                positionCity: "City:",
+                positionAvailability: "Availability:",
+                inStock: "In stock",
+                outOfStock: "Out of stock",
+                buyButton: "Buy",
+                preorderButton: "Preorder (+30%)",
+                reviewsTitle: "Latest reviews:",
+                noReviews: "No reviews yet.",
+                promoInfo: "Invite friends and get free stuff!",
+                limitedOffer: "20% off on {product}! Time left: ",
+                recentPurchases: "Recent purchases:",
+                weedTab: "Marijuana",
+                hashTab: "Hashish",
+                cokeTab: "Cocaine",
+                amphTab: "Amphetamine",
+                methTab: "Methamphetamine",
+                mephTab: "Mephedrone",
+                alphaTab: "Alpha-PVP",
+                lsdTab: "LSD",
+                mdmaTab: "MDMA",
+                heroinTab: "Heroin"
+            },
+            ru: {
+                promoBanner: "Приглашай друзей и получай стафф! 5 друзей = 0.5 г амфетамина, 10 друзей = 0.5 г кокаина (MQ), 25 друзей = 1 г кокаина (VHQ)!",
+                headerText: "Надёжный шоп в твоём кармане",
+                catalogButton: "Каталог",
+                vacanciesButton: "Вакансии",
+                mailButton: "Почта",
+                allCitiesOption: "Все города",
+                allDistrictsOption: "Все районы",
+                phuketOption: "Пхукет",
+                pattayaOption: "Паттайя",
+                bangkokOption: "Бангкок",
+                samuiOption: "о. Самуи",
+                phuketDistricts: { "Patong": "Патонг", "Karon": "Карон", "Phuket Town": "Пхукет-таун", "Kata": "Ката", "Chalong": "Чалонг", "Kamala": "Камала", "Mai Khao": "Май Кхао" },
+                pattayaDistricts: { "Central Pattaya": "Центральная Паттайя", "Jomtien": "Джомтьен", "Naklua": "Наклуа", "South Pattaya": "Южная Паттайя", "Wong Amat": "Вонг Амат", "Pratumnak": "Пратамнак" },
+                bangkokDistricts: { "Sukhumvit": "Сукхумвит", "Khao San": "Каосан", "Silom": "Силом", "Chatuchak": "Чатучак", "Ratchada": "Ратчада", "Banglamphu": "Банглампху" },
+                samuiDistricts: { "Chaweng": "Чавенг", "Lamai": "Ламай", "Bo Phut": "Бо Пхут", "Maenam": "Маенам", "Lipa Noi": "Липа Ной", "Bang Po": "Банг По" },
+                weedDesc: "Эксклюзивная ямайская сатива, чистейший кайф",
+                profileNameLabel: "Имя: ",
+                ordersLabel: "Заказов: ",
+                referralsLabel: "Приглашено друзей: ",
+                statusLabel: "Статус: ",
+                achievementsLabel: "Достижения:",
+                refLinkLabel: "Реферальная ссылка: ",
+                depositTitle: "Пополнить баланс",
+                orderHistoryTitle: "Последние заказы",
+                orderListEmpty: "Пока пусто, делай заказы!",
+                vacanciesTitle: "Вакансии в Dark Thailand",
+                courierTitle: "Кладмен",
+                courierDuties: "Обязанности: Доставка и закладка товара по координатам.",
+                courierPay: "Оплата: 500-1000 ฿ за клад (зависит от объёма).",
+                warehousemanTitle: "Складмен",
+                warehousemanDuties: "Обязанности: Упаковка и подготовка товара к отправке.",
+                warehousemanPay: "Оплата: 2000-3000 ฿ за смену.",
+                transporterTitle: "Перевозчик",
+                transporterDuties: "Обязанности: Перевозка товара между городами Таиланда.",
+                transporterPay: "Оплата: 5000-10000 ฿ за рейс.",
+                smmTitle: "SMMщик",
+                smmDuties: "Обязанности: Продвижение шопа в соцсетях и форумах.",
+                smmPay: "Оплата: 3000-5000 ฿ в неделю + бонусы за активность.",
+                applyButton: "Откликнуться",
+                mailTitle: "Почта",
+                mailListEmpty: "Пока нет сообщений.",
+                regTitle: "Регистрация",
+                regNicknameLabel: "Введите желаемый никнейм:",
+                regNicknamePlaceholder: "Ваш никнейм",
+                regLanguageLabel: "Выберите язык:",
+                regButton: "Зарегистрироваться",
+                regErrorEmpty: "Никнейм не может быть пустым!",
+                regErrorTaken: "Этот никнейм уже занят!",
+                welcomeMessage: "Добро пожаловать, {user}! Ваш аккаунт успешно создан.",
+                insufficientFunds: "Недостаточно средств на балансе! Пополнить баланс?",
+                yes: "Да",
+                no: "Нет",
+                paymentSuccess: "Оплата прошла!",
+                preorderTitle: "Предзаказ",
+                preorderPlaced: "Предзаказ оформлен!",
+                close: "Закрыть",
+                depositFunds: "Пополнить баланс",
+                selectCrypto: "Выберите криптовалюту:",
+                networkLabel: "Сеть:",
+                enterAmount: "Введите сумму (мин. 1000 ฿):",
+                generateAddress: "Сгенерировать адрес",
+                minDepositError: "Минимальная сумма пополнения — 1000 ฿!",
+                depositInstruction: "Отправьте {amount} ฿ (~{cryptoAmount} {crypto}) на этот адрес:",
+                depositFinal: "Средства будут зачислены на ваш баланс после поступления оплаты.",
+                depositExpiry: "Адрес действителен 30 минут.",
+                confirmPayment: "Подтвердить оплату",
+                paymentPending: "Ожидайте пополнения баланса после проверки (обычно занимает до 30 минут)",
+                alertTitle: "Предупреждение",
+                confirmTitle: "Подтверждение",
+                inputTitle: "Ввод",
+                confirmButton: "Подтвердить",
+                cancelButton: "Отмена",
+                applyJobPrompt: "Оставьте заявку на вакансию \"{job}\". Укажите краткое резюме:",
+                applyJobSent: "Ваша заявка на вакансию \"{job}\" отправлена. Ожидайте ответа от администрации.",
+                applyJobAlert: "Заявка на \"{job}\" отправлена!",
+                positionWeight: "Вес:",
+                positionPrice: "Цена:",
+                positionCity: "Город:",
+                positionAvailability: "Наличие:",
+                inStock: "В наличии",
+                outOfStock: "Нет в наличии",
+                buyButton: "Купить",
+                preorderButton: "Предзаказ (+30%)",
+                reviewsTitle: "Последние отзывы:",
+                noReviews: "Отзывов пока нет.",
+                promoInfo: "Приглашай друзей и получай стафф!",
+                limitedOffer: "Скидка 20% на {product}! Осталось: ",
+                recentPurchases: "Недавние покупки:",
+                weedTab: "Марихуана",
+                hashTab: "Гашиш",
+                cokeTab: "Кокаин",
+                amphTab: "Амфетамин",
+                methTab: "Метамфетамин",
+                mephTab: "Мефедрон",
+                alphaTab: "Альфа-PVP",
+                lsdTab: "ЛСД",
+                mdmaTab: "МДМА",
+                heroinTab: "Героин"
+            },
+            th: {
+                promoBanner: "ชวนเพื่อนและรับโบนัส! 5 เพื่อน = แอมเฟตามีน 0.5 กรัม, 10 เพื่อน = โคเคน 0.5 กรัม (MQ), 25 เพื่อน = โคเคน 1 กรัม (VHQ)!",
+                headerText: "ร้านค้าที่เชื่อถือได้ในกระเป๋าของคุณ",
+                catalogButton: "แคตตาล็อก",
+                vacanciesButton: "ตำแหน่งงานว่าง",
+                mailButton: "จดหมาย",
+                allCitiesOption: "ทุกเมือง",
+                allDistrictsOption: "ทุกเขต",
+                phuketOption: "ภูเก็ต",
+                pattayaOption: "พัทยา",
+                bangkokOption: "กรุงเทพฯ",
+                samuiOption: "เกาะสมุย",
+                phuketDistricts: { "Patong": "ป่าตอง", "Karon": "กะรน", "Phuket Town": "เมืองภูเก็ต", "Kata": "กะตะ", "Chalong": "ฉลอง", "Kamala": "กมลา", "Mai Khao": "ไม้ขาว" },
+                pattayaDistricts: { "Central Pattaya": "พัทยากลาง", "Jomtien": "จอมเทียน", "Naklua": "นาเกลือ", "South Pattaya": "พัทยาใต้", "Wong Amat": "วงศ์อมาตย์", "Pratumnak": "พระตำหนัก" },
+                bangkokDistricts: { "Sukhumvit": "สุขุมวิท", "Khao San": "ข้าวสาร", "Silom": "สีลม", "Chatuchak": "จตุจักร", "Ratchada": "รัชดา", "Banglamphu": "บางลำพู" },
+                samuiDistricts: { "Chaweng": "เฉวง", "Lamai": "ละไม", "Bo Phut": "บ่อผุด", "Maenam": "แม่น้ำ", "Lipa Noi": "ลิปะน้อย", "Bang Po": "บางโป" },
+                weedDesc: "กัญชาสายพันธุ์จาเมก้าพิเศษ ความสุขล้วน ๆ",
+                profileNameLabel: "ชื่อ: ",
+                ordersLabel: "คำสั่งซื้อ: ",
+                referralsLabel: "เพื่อนที่เชิญ: ",
+                statusLabel: "สถานะ: ",
+                achievementsLabel: "ความสำเร็จ:",
+                refLinkLabel: "ลิงก์แนะนำ: ",
+                depositTitle: "เติมเงินในบัญชี",
+                orderHistoryTitle: "คำสั่งซื้อล่าสุด",
+                orderListEmpty: "ยังไม่มีอะไรเลย สั่งซื้อสิ!",
+                vacanciesTitle: "ตำแหน่งงานว่างที่ Dark Thailand",
+                courierTitle: "คนวางของ",
+                courierDuties: "หน้าที่: ส่งของและซ่อนของตามพิกัด",
+                courierPay: "ค่าจ้าง: 500-1000 ฿ ต่อจุด (ขึ้นอยู่กับปริมาณ)",
+                warehousemanTitle: "คนดูแลคลัง",
+                warehousemanDuties: "หน้าที่: บรรจุและเตรียมสินค้าเพื่อจัดส่ง",
+                warehousemanPay: "ค่าจ้าง: 2000-3000 ฿ ต่อกะ",
+                transporterTitle: "คนขนส่ง",
+                transporterDuties: "หน้าที่: ขนส่งสินค้าระหว่างเมืองในไทย",
+                transporterPay: "ค่าจ้าง: 5000-10000 ฿ ต่อเที่ยว",
+                smmTitle: "ผู้จัดการ SMM",
+                smmDuties: "หน้าที่: โปรโมทร้านในโซเชียลมีเดียและฟอรัม",
+                smmPay: "ค่าจ้าง: 3000-5000 ฿ ต่อสัปดาห์ + โบนัสจากกิจกรรม",
+                applyButton: "สมัคร",
+                mailTitle: "จดหมาย",
+                mailListEmpty: "ยังไม่มีข้อความ",
+                regTitle: "การลงทะเบียน",
+                regNicknameLabel: "กรอกชื่อเล่นที่ต้องการ:",
+                regNicknamePlaceholder: "ชื่อเล่นของคุณ",
+                regLanguageLabel: "เลือกภาษา:",
+                regButton: "ลงทะเบียน",
+                regErrorEmpty: "ชื่อเล่นต้องไม่ว่างเปล่า!",
+                regErrorTaken: "ชื่อเล่นนี้ถูกใช้แล้ว!",
+                welcomeMessage: "ยินดีต้อนรับ {user}! บัญชีของคุณถูกสร้างเรียบร้อยแล้ว",
+                insufficientFunds: "เงินในบัญชีไม่พอ! เติมเงินในบัญชีหรือไม่?",
+                yes: "ใช่",
+                no: "ไม่",
+                paymentSuccess: "ชำระเงินสำเร็จ!",
+                preorderTitle: "สั่งจองล่วงหน้า",
+                preorderPlaced: "สั่งจองล่วงหน้าเรียบร้อย!",
+                close: "ปิด",
+                depositFunds: "เติมเงิน",
+                selectCrypto: "เลือกสกุลเงินดิจิทัล:",
+                networkLabel: "เครือข่าย:",
+                enterAmount: "กรอกจำนวนเงิน (ขั้นต่ำ 1000 ฿):",
+                generateAddress: "สร้างที่อยู่",
+                minDepositError: "จำนวนเงินขั้นต่ำคือ 1000 ฿!",
+                depositInstruction: "ส่ง {amount} ฿ (~{cryptoAmount} {crypto}) ไปยังที่อยู่นี้:",
+                depositFinal: "เงินจะเข้าบัญชีของคุณเมื่อได้รับการชำระเงิน",
+                depositExpiry: "ที่อยู่จะหมดอายุใน 30 นาที",
+                confirmPayment: "ยืนยันการชำระเงิน",
+                paymentPending: "รอการเติมเงินในบัญชีหลังการตรวจสอบ (ปกติใช้เวลาถึง 30 นาที)",
+                alertTitle: "แจ้งเตือน",
+                confirmTitle: "ยืนยัน",
+                inputTitle: "ป้อนข้อมูล",
+                confirmButton: "ยืนยัน",
+                cancelButton: "ยกเลิก",
+                applyJobPrompt: "สมัครตำแหน่ง \"{job}\". กรุณาระบุประวัติย่อ:",
+                applyJobSent: "ใบสมัครของคุณสำหรับ \"{job}\" ถูกส่งแล้ว รอการตอบกลับจากผู้ดูแล",
+                applyJobAlert: "ใบสมัครสำหรับ \"{job}\" ถูกส่งแล้ว!",
+                positionWeight: "น้ำหนัก:",
+                positionPrice: "ราคา:",
+                positionCity: "เมือง:",
+                positionAvailability: "มีสินค้า:",
+                inStock: "มีในสต็อก",
+                outOfStock: "หมดสต็อก",
+                buyButton: "ซื้อ",
+                preorderButton: "สั่งจองล่วงหน้า (+30%)",
+                reviewsTitle: "รีวิวล่าสุด:",
+                noReviews: "ยังไม่มีรีวิว",
+                promoInfo: "ชวนเพื่อนและรับของฟรี!",
+                limitedOffer: "ส่วนลด 20% สำหรับ {product}! เหลือเวลา: ",
+                recentPurchases: "การซื้อล่าสุด:",
+                weedTab: "กัญชา",
+                hashTab: "กัญชาอัด",
+                cokeTab: "โคเคน",
+                amphTab: "แอมเฟตามีน",
+                methTab: "เมทแอมเฟตามีน",
+                mephTab: "เมเฟโดรน",
+                alphaTab: "อัลฟ่า-พีวีพี",
+                lsdTab: "แอลเอสดี",
+                mdmaTab: "เอ็มดีเอ็มเอ",
+                heroinTab: "เฮโรอีน"
+            }
+        };
 
         const cities = {
             "phuket": {
@@ -808,825 +916,514 @@
             heroin: { 1: 2000, 2: 1800, 3: 1500, 4: 1200, 5: 2500 }
         };
 
-        function getRandomDate() {
-            const start = new Date(2024, 11, 15); // 15 декабря 2024
-            const end = new Date(2025, 2, 14);   // 14 марта 2025
-            const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-            return date.toLocaleDateString('ru-RU');
-        }
-
-        const products = {
-            weed: {
-                1: { 
-                    name: "Jamaican Haze (VHQ)", 
-                    positions: generatePositions('weed', 1, 'default'), 
-                    reviews: [
-                        { text: "Трава огонь, лучший кайф в Тае! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Нормально, но за такие бабки ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Долбит как надо, чистое удовольствие! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Слабая, местная шняга лучше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Два косяка — и я в космосе! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                }
+        const productImages = {
+            weed: { 1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABPSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==" },
+            hash: { 
+                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABMSURBVHgBtc0xCsAwDAPQ2/8/zkHECZBiQAmswgpswTpMw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w/4uQHJDwN8zBYo9AAAAABJRU5ErkJggg==", 
+                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABMSURBVHgBtc0xCsAwDAPQ2/8/zkHECZBiQAmswgpswTpMw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w/4uQHJDwN8zBYo9AAAAABJRU5ErkJggg==", 
+                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABMSURBVHgBtc0xCsAwDAPQ2/8/zkHECZBiQAmswgpswTpMw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w/4uQHJDwN8zBYo9AAAAABJRU5ErkJggg==", 
+                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABMSURBVHgBtc0xCsAwDAPQ2/8/zkHECZBiQAmswgpswTpMw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w/4uQHJDwN8zBYo9AAAAABJRU5ErkJggg==", 
+                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABMSURBVHgBtc0xCsAwDAPQ2/8/zkHECZBiQAmswgpswTpMw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w/4uQHJDwN8zBYo9AAAAABJRU5ErkJggg==" 
             },
-            hash: {
-                1: { 
-                    name: "Afghan Black Gold (VHQ)", 
-                    positions: generatePositions('hash', 1, 'default'), 
-                    reviews: [
-                        { text: "Мягкий и мощный, просто кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Липкий пиздец, тяжело работать. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Идеальный гаш, чистое золото! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Слабый приход, ждал большего. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Бархатный кайф, топ качество! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                2: { 
-                    name: "Moroccan Spice (HQ)", 
-                    positions: generatePositions('hash', 2, 'default'), 
-                    reviews: [
-                        { text: "Пряный аромат, кайф стабильный! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Слишком сухой, крошится в пыль. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Хороший гаш за свои деньги! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Ничего особенного, слабовато. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Приятный вкус, мягкий приход! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" }
-                    ]
-                },
-                3: { 
-                    name: "Nepal Temple (MQ)", 
-                    positions: generatePositions('hash', 3, 'default'), 
-                    reviews: [
-                        { text: "Сбалансированный приход, норм! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Пыльный какой-то, не зашёл. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Приятный гаш, среднячок! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Слабый эффект, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Хорошо расслабляет, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                4: { 
-                    name: "Local Dust (LQ)", 
-                    positions: generatePositions('hash', 4, 'default'), 
-                    reviews: [
-                        { text: "Дёшево и норм, за свои бабки ок! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Полный шлак, не берите. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Бюджетный гаш, пойдёт! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Слабый и пыльный, фу. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "За копейки норм, расслабился! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                5: { 
-                    name: "Himalayan Storm (VHQ)", 
-                    positions: generatePositions('hash', 5, 'default'), 
-                    reviews: [
-                        { text: "Мощный шторм, чистый кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Переоценённый, не впечатлил. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Элитный гаш, топ качество! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Дорого и не оправдало. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Сильный приход, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                }
+            coke: { 
+                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABNSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqsw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
+                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABNSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqsw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
+                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABNSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqsw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
+                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABNSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqsw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
+                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABNSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqsw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==" 
             },
-            coke: {
-                1: { 
-                    name: "Bolivian Fishscale (VHQ)", 
-                    positions: generatePositions('coke', 1, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Чистейший кокс, топовый кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Слабовато для VHQ, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Боливийский огонь, шикарно! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Дорого и не оправдало. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Мощный заряд, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                2: { 
-                    name: "Colombian Snow (HQ)", 
-                    positions: generatePositions('coke', 2, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Колумбийский снег, стабильный кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Грязноватый, не зашёл. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Хороший кокс, норм приход! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слабый эффект, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Чистый кайф, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" }
-                    ]
-                },
-                3: { 
-                    name: "Peruvian Dust (MQ)", 
-                    positions: generatePositions('coke', 3, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Средний кайф, за свои бабки норм! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слабый и пыльный, не то. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Приятный кокс, середнячок! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Не впечатлил, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Неплохой приход, ок! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" }
-                    ]
-                },
-                4: { 
-                    name: "Street Mix (LQ)", 
-                    positions: generatePositions('coke', 4, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Дёшево и работает, пойдёт! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Полный шлак, не берите. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Бюджетный кокс, норм! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Слабый и мутный, фу. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "За копейки ок, кайфанул! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                5: { 
-                    name: "Cartel Gold (VHQ)", 
-                    positions: generatePositions('coke', 5, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Золото картеля, элитный кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Переоценённый, не впечатлил. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Топовый кокс, шикарный приход! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Дорого и не оправдало. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Мощный кайф, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                }
+            amph: { 
+                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABOSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
+                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABOSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
+                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABOSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
+                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABOSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
+                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABOSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==" 
             },
-            amph: {
-                1: { 
-                    name: "Crystal Surge (VHQ)", 
-                    positions: generatePositions('amph', 1, 'default'), 
-                    reviews: [
-                        { text: "Чистая энергия, топовый амф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Слабовато для VHQ, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Кристальный заряд, шикарно! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Дорого и не оправдало. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Мощный подъём, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                2: { 
-                    name: "Red Rush (HQ)", 
-                    positions: generatePositions('amph', 2, 'default'), 
-                    reviews: [
-                        { text: "Красный заряд, стабильный драйв! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Слабый эффект, не зашёл. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Хороший амф, норм подъём! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Не впечатлил, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Приятный драйв, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" }
-                    ]
-                },
-                3: { 
-                    name: "Yellow Spark (MQ)", 
-                    positions: generatePositions('amph', 3, 'default'), 
-                    reviews: [
-                        { text: "Средний подъём, за свои бабки норм! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слабый и скучный, не то. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Приятный амф, середнячок! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Не впечатлил, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Неплохой заряд, ок! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" }
-                    ]
-                },
-                4: { 
-                    name: "Grey Haze (LQ)", 
-                    positions: generatePositions('amph', 4, 'default'), 
-                    reviews: [
-                        { text: "Дёшево и работает, пойдёт! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Полный шлак, не берите. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Бюджетный амф, норм! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Слабый и мутный, фу. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "За копейки ок, подзарядился! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                5: { 
-                    name: "Blue Blitz (VHQ)", 
-                    positions: generatePositions('amph', 5, 'default'), 
-                    reviews: [
-                        { text: "Синий удар, элитный кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Переоценённый, не впечатлил. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Топовый амф, шикарный заряд! — Аноним", date: getRandomDate(), mod:                         "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Дорого и не оправдало. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Мощный драйв, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                }
+            meth: { 
+                                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABPSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABPSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABPSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABPSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABPSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg=="
+            },
+            meph: { 
+                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABQSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
+                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABQSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
+                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABQSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
+                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABQSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
+                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABQSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==" 
+            },
+            alpha: { 
+                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABRSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
+                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABRSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
+                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABRSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
+                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABRSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
+                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABRSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==" 
+            },
+            lsd: { 
+                                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABSSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABSSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABSSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABSSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABSSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg=="
+            },
+            mdma: { 
+                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABTSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABTSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABTSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABTSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABTSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg=="
+            },
+            heroin: { 
+                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABUSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABUSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABUSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABUSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABUSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg=="
             }
         };
 
-        function generatePositions(category, productId, weightType) {
-            const positions = {};
-            const cityKeys = Object.keys(cities);
-            const weightList = weights[weightType] || weights.default;
-            weightList.forEach(weight => {
-                const pricePerGram = basePrices[category][productId];
-                const totalPrice = pricePerGram * weight;
-                positions[weight] = {
-                    price: totalPrice,
-                    availability: {}
-                };
-                cityKeys.forEach(city => {
-                    const districts = Object.keys(cities[city]);
-                    positions[weight].availability[city] = {};
-                    districts.forEach(district => {
-                        positions[weight].availability[city][district] = Math.random() > 0.3; // 70% шанс наличия
-                    });
-                });
-            });
-            return positions;
-        }
-
-function initApp() {
-    const savedUser = localStorage.getItem('currentUser');
-    if (savedUser) {
-        try {
-            currentUser = JSON.parse(savedUser);
-            userLanguage = currentUser.language;
-            updateUI(); // Оставляем здесь, если UI зависит от раннего обновления
-            hideRegistrationModal();
-        } catch (e) {
-            console.error('Ошибка парсинга данных пользователя:', e);
-            showRegistrationModal();
-        }
-    } else {
-        showRegistrationModal();
-    }
-    
-    updateDistrictFilter();
-    filterByCity();
-
-    // Исправление проблемы с неактивными категориями
-    const firstTab = document.querySelector('.tab');
-    if (firstTab) {
-        firstTab.classList.add('active');
-        const tabContent = document.getElementById(firstTab.dataset.tab);
-        if (tabContent) {
-            tabContent.style.display = 'block';
-        } else {
-            console.warn('Контент вкладки не найден:', firstTab.dataset.tab);
-        }
-    } else {
-        console.warn('Не найдена первая вкладка категорий (.tab)');
-    }
-    
-    updateTabs(); // Оставляем для обработки всех вкладок
-}
-
-        function updateUI() {
-    const t = translations[userLanguage];
-    
-    // Обновление баннера с промоакцией
-    document.getElementById('promoBanner').textContent = t.promoBanner;
-    
-    // Обновление текста заголовка
-    document.getElementById('headerText').textContent = t.headerText;
-    
-    // Обновление кнопок навигации
-    document.getElementById('catalogButton').textContent = t.catalogButton;
-    document.getElementById('vacanciesButton').textContent = t.vacanciesButton;
-    document.getElementById('mailButton').textContent = t.mailButton;
-    
-    // Обновление фильтра городов
-    document.getElementById('allCitiesOption').textContent = t.allCitiesOption;
-    document.getElementById('phuketOption').textContent = t.phuketOption;
-    document.getElementById('pattayaOption').textContent = t.pattayaOption;
-    document.getElementById('bangkokOption').textContent = t.bangkokOption;
-    document.getElementById('samuiOption').textContent = t.samuiOption;
-    
-    // Обновление фильтра районов
-    document.getElementById('allDistrictsOption').textContent = t.allDistrictsOption;
-    
-    // Обновление описания продукта (на примере марихуаны)
-    document.getElementById('weedDesc').textContent = t.weedDesc;
-    
-    // Обновление профиля пользователя
-    document.getElementById('profileNameLabel').textContent = `${t.profileNameLabel}${currentUser ? currentUser.nickname : ''}`;
-    document.getElementById('balance').textContent = `${balance} ฿`;
-    document.getElementById('ordersLabel').textContent = `${t.ordersLabel}${orderCount}`;
-    document.getElementById('referralsLabel').textContent = `${t.referralsLabel}${referralCount}`;
-    
-    // Обновление заголовка пополнения баланса
-    document.getElementById('depositTitle').textContent = t.depositTitle;
-    
-    // Обновление истории заказов
-    document.getElementById('orderHistoryTitle').textContent = t.orderHistoryTitle;
-    
-    // Обновление вакансий
-    document.getElementById('vacanciesTitle').textContent = t.vacanciesTitle;
-    document.getElementById('courierTitle').textContent = t.courierTitle;
-    document.getElementById('courierDuties').textContent = t.courierDuties;
-    document.getElementById('courierPay').textContent = t.courierPay;
-    document.getElementById('warehousemanTitle').textContent = t.warehousemanTitle;
-    document.getElementById('warehousemanDuties').textContent = t.warehousemanDuties;
-    document.getElementById('warehousemanPay').textContent = t.warehousemanPay;
-    document.getElementById('transporterTitle').textContent = t.transporterTitle;
-    document.getElementById('transporterDuties').textContent = t.transporterDuties;
-    document.getElementById('transporterPay').textContent = t.transporterPay;
-    document.getElementById('smmTitle').textContent = t.smmTitle;
-    document.getElementById('smmDuties').textContent = t.smmDuties;
-    document.getElementById('smmPay').textContent = t.smmPay;
-    document.getElementById('applyButton1').textContent = t.applyButton;
-    document.getElementById('applyButton2').textContent = t.applyButton;
-    document.getElementById('applyButton3').textContent = t.applyButton;
-    document.getElementById('applyButton4').textContent = t.applyButton;
-    
-    // Обновление почты
-    document.getElementById('mailTitle').textContent = t.mailTitle;
-    
-    // Обновление промо-информации
-    document.getElementById('promoInfo').textContent = t.promoInfo;
-    
-    // Обновление названий вкладок категорий
-    document.getElementById('weedTab').textContent = t.weedTab;
-    document.getElementById('hashTab').textContent = t.hashTab;
-    document.getElementById('cokeTab').textContent = t.cokeTab;
-    document.getElementById('amphTab').textContent = t.amphTab;
-    document.getElementById('methTab').textContent = t.methTab;
-    document.getElementById('mephTab').textContent = t.mephTab;
-    document.getElementById('alphaTab').textContent = t.alphaTab;
-    document.getElementById('lsdTab').textContent = t.lsdTab;
-    document.getElementById('mdmaTab').textContent = t.mdmaTab;
-    document.getElementById('heroinTab').textContent = t.heroinTab;
-    
-    // Обновление обработчиков вкладок, истории заказов и почты
-    updateTabs();
-    updateOrderHistory();
-    updateMail();
-}
-
-        function updateTabs() {
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
-                    tab.classList.add('active');
-                    document.getElementById(tab.dataset.tab).style.display = 'block';
-                });
-            });
-        }
-
-        function toggleCatalog() {
-            const menu = document.getElementById('catalogMenu');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('profileMenu').style.display = 'none';
-            document.getElementById('vacancyMenu').style.display = 'none';
-            document.getElementById('mailMenu').style.display = 'none';
-        }
-
-        function toggleProfile() {
-            const menu = document.getElementById('profileMenu');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('catalogMenu').style.display = 'none';
-            document.getElementById('vacancyMenu').style.display = 'none';
-            document.getElementById('mailMenu').style.display = 'none';
-        }
-
-        function toggleVacancies() {
-            const menu = document.getElementById('vacancyMenu');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('catalogMenu').style.display = 'none';
-            document.getElementById('profileMenu').style.display = 'none';
-            document.getElementById('mailMenu').style.display = 'none';
-        }
-
-        function toggleMail() {
-            const menu = document.getElementById('mailMenu');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('catalogMenu').style.display = 'none';
-            document.getElementById('profileMenu').style.display = 'none';
-            document.getElementById('vacancyMenu').style.display = 'none';
-        }
-
-        function filterByCity() {
-            selectedCity = document.getElementById('citySelect').value;
-            updateDistrictFilter();
-            filterProducts();
-        }
-
-        function filterByDistrict() {
-            selectedDistrict = document.getElementById('districtSelect').value;
-            filterProducts();
-        }
-
-        function updateDistrictFilter() {
-            const districtSelect = document.getElementById('districtSelect');
-            districtSelect.innerHTML = `<option value="all">${translations[userLanguage].allDistrictsOption}</option>`;
-            if (selectedCity !== 'all') {
-                const districts = translations[userLanguage][`${selectedCity}Districts`];
-                for (const [key, value] of Object.entries(districts)) {
-                    districtSelect.innerHTML += `<option value="${key}">${value}</option>`;
-                }
+        const products = {
+            weed: { 1: { name: "Jamaican Haze (VHQ)", desc: "Эксклюзивная ямайская сатива, чистейший кайф", weight: [1, 2, 3, 5, 10], price: [1500, 2800, 4000, 6000, 11000] } },
+            hash: { 
+                1: { name: "Afghan Black Gold (VHQ)", desc: "Премиум афганский гашиш, бархатный эффект", weight: [1, 2, 3, 5, 10], price: [900, 1700, 2400, 3800, 7000] },
+                2: { name: "Moroccan Spice (HQ)", desc: "Марокканский гашиш с пряным ароматом", weight: [1, 2, 3, 5, 10], price: [700, 1300, 1900, 3000, 5500] },
+                3: { name: "Nepal Temple (MQ)", desc: "Непальский гашиш, сбалансированный приход", weight: [1, 2, 3, 5, 10], price: [500, 900, 1300, 2000, 3800] },
+                4: { name: "Local Dust (LQ)", desc: "Местный бюджетный гашиш", weight: [1, 2, 3, 5, 10], price: [400, 700, 1000, 1500, 2800] },
+                5: { name: "Himalayan Storm (VHQ)", desc: "Гималайский шторм, мощный и чистый", weight: [1, 2, 3, 5, 10], price: [1000, 1900, 2700, 4300, 8000] }
+            },
+            coke: { 
+                1: { name: "Bolivian Fishscale (VHQ)", desc: "Боливийский кокаин, топовый 95%+", weight: [0.5, 1, 2, 3, 5], price: [4000, 7500, 14000, 20000, 35000] },
+                2: { name: "Colombian Snow (HQ)", desc: "Колумбийский снег, чистый и мощный", weight: [0.5, 1, 2, 3, 5], price: [3600, 6500, 12000, 17000, 30000] },
+                3: { name: "Peruvian Dust (MQ)", desc: "Перуанская пыль, средний уровень", weight: [0.5, 1, 2, 3, 5], price: [3000, 5500, 10000, 14000, 25000] },
+                4: { name: "Street Mix (LQ)", desc: "Уличная смесь, бюджетный вариант", weight: [0.5, 1, 2, 3, 5], price: [2400, 4000, 7500, 10000, 18000] },
+                5: { name: "Cartel Gold (VHQ)", desc: "Золото картеля, элитный стандарт", weight: [0.5, 1, 2, 3, 5], price: [4500, 8500, 16000, 23000, 40000] }
+            },
+            amph: { 
+                1: { name: "Crystal Surge (VHQ)", desc: "Кристальный амфетамин, чистая энергия", weight: [1, 2, 3, 5, 10], price: [1300, 2400, 3400, 5300, 9500] },
+                2: { name: "Red Rush (HQ)", desc: "Красный заряд, стабильный драйв", weight: [1, 2, 3, 5, 10], price: [1000, 1800, 2600, 4000, 7000] },
+                3: { name: "Yellow Spark (MQ)", desc: "Жёлтая искра, средний подъём", weight: [1, 2, 3, 5, 10], price: [900, 1600, 2300, 3500, 6000] },
+                4: { name: "Grey Haze (LQ)", desc: "Серая дымка, базовый вариант", weight: [1, 2, 3, 5, 10], price: [700, 1200, 1700, 2500, 4500] },
+                5: { name: "Blue Blitz (VHQ)", desc: "Синий удар, элитный амф", weight: [1, 2, 3, 5, 10], price: [1500, 2800, 4000, 6200, 11000] }
+            },
+            meth: { 
+                1: { name: "Mountain Ice (VHQ)", desc: "Горный лёд, кристальная чистота", weight: [0.5, 1, 2, 3, 5], price: [1500, 2800, 5000, 7000, 12000] },
+                2: { name: "Blue Flame (HQ)", desc: "Синее пламя, долгий эффект", weight: [0.5, 1, 2, 3, 5], price: [1200, 2200, 4000, 5500, 9500] },
+                3: { name: "White Shard (MQ)", desc: "Белый осколок, средний уровень", weight: [0.5, 1, 2, 3, 5], price: [1000, 1800, 3300, 4500, 8000] },
+                4: { name: "Dirty Crystal (LQ)", desc: "Грязный кристалл, эконом-класс", weight: [0.5, 1, 2, 3, 5], price: [800, 1400, 2500, 3500, 6000] },
+                5: { name: "Golden Shard (VHQ)", desc: "Золотой осколок, топовый мет", weight: [0.5, 1, 2, 3, 5], price: [1800, 3400, 6000, 8500, 15000] }
+            },
+            meph: { 
+                1: { name: "Pink Bliss (VHQ)", desc: "Розовое блаженство, чистейший кайф", weight: [0.5, 1, 2, 3, 5], price: [1400, 2600, 4700, 6500, 11000] },
+                2: { name: "White Surge (HQ)", desc: "Белый всплеск, стабильный эффект", weight: [0.5, 1, 2, 3, 5], price: [1100, 2000, 3600, 5000, 8500] },
+                3: { name: "Grey Mist (MQ)", desc: "Серая дымка, средний уровень", weight: [0.5, 1, 2, 3, 5], price: [900, 1600, 2900, 4000, 7000] },
+                4: { name: "Dusty High (LQ)", desc: "Пыльный кайф, бюджетный меф", weight: [0.5, 1, 2, 3, 5], price: [700, 1200, 2200, 3000, 5000] },
+                5: { name: "Red Pulse (VHQ)", desc: "Красный пульс, элитный рывок", weight: [0.5, 1, 2, 3, 5], price: [1600, 3000, 5500, 7800, 13500] }
+            },
+            alpha: { 
+                1: { name: "Flakka Fire (VHQ)", desc: "Огненная флакка, чистый Альфа-PVP", weight: [0.5, 1, 2, 3, 5], price: [1200, 2200, 4000, 5500, 9500] },
+                2: { name: "Purple Haze (HQ)", desc: "Пурпурная дымка, мощный заряд", weight: [0.5, 1, 2, 3, 5], price: [1000, 1800, 3300, 4500, 8000] },
+                3: { name: "Green Dust (MQ)", desc: "Зелёная пыль, средний эффект", weight: [0.5, 1, 2, 3, 5], price: [800, 1400, 2500, 3500, 6000] },
+                4: { name: "Street Gravel (LQ)", desc: "Уличный гравий, бюджетный Альфа", weight: [0.5, 1, 2, 3, 5], price: [600, 1000, 1800, 2500, 4500] },
+                5: { name: "Crystal Fury (VHQ)", desc: "Кристальная ярость, топовый PVP", weight: [0.5, 1, 2, 3, 5], price: [1400, 2600, 4800, 6800, 12000] }
+            },
+            lsd: { 
+                1: { name: "Cosmic Tabs (VHQ)", desc: "Космические таблы, чистый трип", weight: [1, 2, 5], price: [500, 900, 2000] },
+                2: { name: "Neon Drops (HQ)", desc: "Неоновые капли, яркий опыт", weight: [1, 2, 5], price: [450, 800, 1800] },
+                3: { name: "Acid Rain (MQ)", desc: "Кислотный дождь, средний трип", weight: [1, 2, 5], price: [400, 700, 1600] },
+                4: { name: "Street Blotters (LQ)", desc: "Уличные блоттеры, базовый ЛСД", weight: [1, 2, 5], price: [350, 600, 1400] },
+                5: { name: "Galactic Hits (VHQ)", desc: "Галактические хиты, элитный кислый", weight: [1, 2, 5], price: [600, 1100, 2500] }
+            },
+            mdma: { 
+                1: { name: "Crystal Love (VHQ)", desc: "Кристальная любовь, чистый МДМА", weight: [0.5, 1, 2], price: [1500, 2800, 5000] },
+                2: { name: "Pink Rocks (HQ)", desc: "Розовые камни, стабильный кайф", weight: [0.5, 1, 2], price: [1200, 2200, 4000] },
+                3: { name: "Ecstasy Blue (VHQ Tabs)", desc: "Синий экстази, топовые пилсы", weight: [1, 2, 5], price: [600, 1100, 2500] },
+                4: { name: "Molly Dust (MQ)", desc: "Молли пыль, средний МДМА", weight: [0.5, 1, 2], price: [1000, 1800, 3300] },
+                5: { name: "Street Pills (LQ Tabs)", desc: "Уличные пилсы, бюджетный экстази", weight: [1, 2, 5], price: [400, 700, 1600] }
+            },
+            heroin: { 
+                1: { name: "Afghan Silk (VHQ)", desc: "Афганский шёлк, глубокий приход", weight: [0.5, 1, 2, 3], price: [2000, 3700, 7000, 10000] },
+                2: { name: "White Lotus (HQ)", desc: "Белый лотос, чистый эффект", weight: [0.5, 1, 2, 3], price: [1800, 3300, 6200, 9000] },
+                3: { name: "Brown Sugar (MQ)", desc: "Коричневый сахар, средний героин", weight: [0.5, 1, 2, 3], price: [1500, 2700, 5000, 7000] },
+                4: { name: "Dirty Tar (LQ)", desc: "Грязный тарт, бюджетный вариант", weight: [0.5, 1, 2, 3], price: [1200, 2000, 3800, 5500] },
+                5: { name: "Black Pearl (VHQ)", desc: "Чёрная жемчужина, элитный героин", weight: [0.5, 1, 2, 3], price: [2500, 4700, 9000, 13000] }
             }
-        }
+        };
 
-        function filterProducts() {
-            document.querySelectorAll('.product-card').forEach(card => {
-                const [category, productId] = card.dataset.product.split('-');
-                const product = products[category][productId];
-                let isAvailable = false;
-
-                if (selectedCity === 'all') {
-                    isAvailable = Object.values(product.positions).some(weight =>
-                        Object.values(weight.availability).some(city =>
-                            Object.values(city).some(d => d)
-                        )
-                    );
-                } else if (selectedDistrict === 'all') {
-                    isAvailable = Object.values(product.positions).some(weight =>
-                        Object.values(weight.availability[selectedCity]).some(d => d)
-                    );
-                } else {
-                    isAvailable = Object.values(product.positions).some(weight =>
-                        weight.availability[selectedCity][selectedDistrict]
-                    );
-                }
-
-                card.style.display = isAvailable ? 'block' : 'none';
-            });
-        }
-
-        function showProductModal(category, productId) {
-            const t = translations[userLanguage];
-            const product = products[category][productId];
-            let html = `<h2>${product.name}</h2>`;
-            const availableWeights = Object.keys(product.positions).filter(weight => {
-                if (selectedCity === 'all') {
-                    return Object.values(product.positions[weight].availability).some(city =>
-                        Object.values(city).some(d => d)
-                    );
-                } else if (selectedDistrict === 'all') {
-                    return Object.values(product.positions[weight].availability[selectedCity]).some(d => d);
-                } else {
-                    return product.positions[weight].availability[selectedCity][selectedDistrict];
-                }
-            });
-
-            availableWeights.forEach(weight => {
-                const price = product.positions[weight].price;
-                const cryptoPrice = (price / cryptoRates['BTC']).toFixed(6);
-                html += `
-                    <div class="position">
-                        <p>${t.positionWeight} ${weight} г</p>
-                        <p>${t.positionPrice} ${price} ฿ <span class="crypto-price">(${cryptoPrice} BTC)</span></p>
-                        <p>${t.positionCity} ${selectedCity === 'all' ? 'Multiple' : translations[userLanguage][`${selectedCity}Option`]}</p>
-                        <p>${t.positionAvailability} ${t.inStock}</p>
-                        <button class="buy-button" onclick="buyProduct('${category}', ${productId}, ${weight}, ${price})">${t.buyButton}</button>
-                        <button class="preorder-button" onclick="preorderProduct('${category}', ${productId}, ${weight}, ${price})">${t.preorderButton}</button>
-                    </div>`;
-            });
-
-            html += `<h3>${t.reviewsTitle}</h3>`;
-            if (product.reviews && product.reviews.length > 0) {
-                product.reviews.slice(-3).forEach(review => {
-                    html += `
-                        <div class="review">
-                            <span class="review-text">${review.text}</span>
-                            <span class="review-date">${review.date}</span>
-                        </div>`;
-                    if (review.mod) {
-                        html += `<div class="moderator-response">${review.mod}</div>`;
-                    }
-                });
-            } else {
-                html += `<p>${t.noReviews}</p>`;
+        function initApp() {
+            userLanguage = localStorage.getItem('userLanguage') || 'ru';
+            updateTranslations();
+            if (!currentUser) showRegistrationModal();
+            else {
+                document.getElementById('profileNameLabel').textContent = translations[userLanguage].profileNameLabel + currentUser.nickname;
+                document.getElementById('balance').textContent = balance + ' ฿';
+                document.getElementById('ordersLabel').textContent = translations[userLanguage].ordersLabel + orderCount;
+                document.getElementById('referralsLabel').textContent = translations[userLanguage].referralsLabel + referralCount;
+                document.getElementById('statusLabel').textContent = translations[userLanguage].statusLabel + (balance > 0 ? 'Active' : 'Inactive');
+                updateAchievements();
+                updateCatalog();
+                updateRecentPurchases();
             }
-
-            html += `<button class="buy-button" onclick="closeModal('productModal')">${t.close}</button>`;
-            document.getElementById('productContent').innerHTML = html;
-            document.getElementById('productModal').style.display = 'flex';
+            setInterval(updateLimitedOffer, 1000);
         }
 
-        function buyProduct(category, productId, weight, price) {
-            const t = translations[userLanguage];
-            if (balance < price) {
-                showConfirmModal(t.insufficientFunds, () => showDepositModal('BTC'), () => closeModal('confirmModal'));
-            } else {
-                balance -= price;
-                orderCount++;
-                const order = {
-                    id: Date.now(),
-                    product: products[category][productId].name,
-                    weight,
-                    price,
-                    city: selectedCity,
-                    district: selectedDistrict,
-                    coords: cities[selectedCity][selectedDistrict],
-                    date: new Date().toLocaleString()
-                };
-                orderHistory.push(order);
-                updateOrderHistory();
-                document.getElementById('balance').textContent = `${balance} ฿`;
-                document.getElementById('ordersLabel').textContent = `${t.ordersLabel}${orderCount}`;
-                showPaymentModal(order);
-            }
+        function updateTranslations() {
+            document.getElementById('promoBanner').textContent = translations[userLanguage].promoBanner;
+            document.getElementById('headerText').textContent = translations[userLanguage].headerText;
+            document.getElementById('catalogButton').textContent = translations[userLanguage].catalogButton;
+            document.getElementById('vacanciesButton').textContent = translations[userLanguage].vacanciesButton;
+            document.getElementById('mailButton').textContent = translations[userLanguage].mailButton;
+            document.getElementById('allCitiesOption').textContent = translations[userLanguage].allCitiesOption;
+            document.getElementById('phuketOption').textContent = translations[userLanguage].phuketOption;
+            document.getElementById('pattayaOption').textContent = translations[userLanguage].pattayaOption;
+            document.getElementById('bangkokOption').textContent = translations[userLanguage].bangkokOption;
+            document.getElementById('samuiOption').textContent = translations[userLanguage].samuiOption;
+            document.getElementById('allDistrictsOption').textContent = translations[userLanguage].allDistrictsOption;
+            document.getElementById('weedDesc').textContent = translations[userLanguage].weedDesc;
+            document.getElementById('depositTitle').textContent = translations[userLanguage].depositTitle;
+            document.getElementById('orderHistoryTitle').textContent = translations[userLanguage].orderHistoryTitle;
+            document.getElementById('orderList').textContent = orderHistory.length ? orderHistory.join('\n') : translations[userLanguage].orderListEmpty;
+            document.getElementById('vacanciesTitle').textContent = translations[userLanguage].vacanciesTitle;
+            document.getElementById('courierTitle').textContent = translations[userLanguage].courierTitle;
+            document.getElementById('courierDuties').textContent = translations[userLanguage].courierDuties;
+            document.getElementById('courierPay').textContent = translations[userLanguage].courierPay;
+            document.getElementById('warehousemanTitle').textContent = translations[userLanguage].warehousemanTitle;
+            document.getElementById('warehousemanDuties').textContent = translations[userLanguage].warehousemanDuties;
+            document.getElementById('warehousemanPay').textContent = translations[userLanguage].warehousemanPay;
+            document.getElementById('transporterTitle').textContent = translations[userLanguage].transporterTitle;
+            document.getElementById('transporterDuties').textContent = translations[userLanguage].transporterDuties;
+            document.getElementById('transporterPay').textContent = translations[userLanguage].transporterPay;
+            document.getElementById('smmTitle').textContent = translations[userLanguage].smmTitle;
+            document.getElementById('smmDuties').textContent = translations[userLanguage].smmDuties;
+            document.getElementById('smmPay').textContent = translations[userLanguage].smmPay;
+            document.getElementById('applyButton1').textContent = translations[userLanguage].applyButton;
+            document.getElementById('applyButton2').textContent = translations[userLanguage].applyButton;
+            document.getElementById('applyButton3').textContent = translations[userLanguage].applyButton;
+            document.getElementById('applyButton4').textContent = translations[userLanguage].applyButton;
+            document.getElementById('mailTitle').textContent = translations[userLanguage].mailTitle;
+            document.getElementById('mailList').textContent = mailMessages.length ? mailMessages.join('\n') : translations[userLanguage].mailListEmpty;
+            document.getElementById('weedTab').textContent = translations[userLanguage].weedTab;
+            document.getElementById('hashTab').textContent = translations[userLanguage].hashTab;
+            document.getElementById('cokeTab').textContent = translations[userLanguage].cokeTab;
+            document.getElementById('amphTab').textContent = translations[userLanguage].amphTab;
+            document.getElementById('methTab').textContent = translations[userLanguage].methTab;
+            document.getElementById('mephTab').textContent = translations[userLanguage].mephTab;
+            document.getElementById('alphaTab').textContent = translations[userLanguage].alphaTab;
+            document.getElementById('lsdTab').textContent = translations[userLanguage].lsdTab;
+            document.getElementById('mdmaTab').textContent = translations[userLanguage].mdmaTab;
+            document.getElementById('heroinTab').textContent = translations[userLanguage].heroinTab;
         }
-
-        function preorderProduct(category, productId, weight, price) {
-            const t = translations[userLanguage];
-            const preorderPrice = Math.round(price * 1.3);
-            if (balance < preorderPrice) {
-                showConfirmModal(t.insufficientFunds, () => showDepositModal('BTC'), () => closeModal('confirmModal'));
-            } else {
-                balance -= preorderPrice;
-                orderCount++;
-                const order = {
-                    id: Date.now(),
-                    product: products[category][productId].name,
-                    weight,
-                    price: preorderPrice,
-                    city: selectedCity,
-                    district: selectedDistrict,
-                    date: new Date().toLocaleString(),
-                    isPreorder: true
-                };
-                orderHistory.push(order);
-                updateOrderHistory();
-                document.getElementById('balance').textContent = `${balance} ฿`;
-                document.getElementById('ordersLabel').textContent = `${t.ordersLabel}${orderCount}`;
-                showPreorderModal(order);
-            }
-        }
-
-        function showPaymentModal(order) {
-            const t = translations[userLanguage];
-            const coords = `${order.coords.lat}, ${order.coords.lon}`;
-            const description = cities[order.city][order.district].desc;
-            const html = `
-                <h2>${t.paymentSuccess}</h2>
-                <p>Заказ: ${order.product} (${order.weight} г)</p>
-                <p>Город: ${translations[userLanguage][`${order.city}Option`]}</p>
-                <p>Район: ${translations[userLanguage][`${order.city}Districts`][order.district]}</p>
-                <p>Координаты: ${coords}</p>
-                <p>Описание клада: ${description}</p>
-                <button class="buy-button" onclick="closeModal('paymentModal')">Закрыть</button>
-            `;
-            document.getElementById('paymentContent').innerHTML = html;
-            document.getElementById('paymentModal').style.display = 'flex';
-            sendOrderToAdmin(order, coords, description);
-        }
-
-        function showPreorderModal(order) {
-            const t = translations[userLanguage];
-            const html = `
-                <h2>${t.preorderTitle}</h2>
-                <p>${t.preorderPlaced}</p>
-                <p>Заказ: ${order.product} (${order.weight} г)</p>
-                <p>Стоимость: ${order.price} ฿</p>
-                <button class="buy-button" onclick="closeModal('preorderModal')">${t.close}</button>
-            `;
-            document.getElementById('preorderContent').innerHTML = html;
-            document.getElementById('preorderModal').style.display = 'flex';
-            sendPreorderToAdmin(order);
-        }
-
-        function showDepositModal(crypto) {
-            const t = translations[userLanguage];
-            const html = `
-                <h2>${t.depositFunds}</h2>
-                <p>${t.selectCrypto} ${crypto}</p>
-                <p>${t.networkLabel} ${cryptoNetworks[crypto]}</p>
-                <p>${t.enterAmount}</p>
-                <input type="number" id="depositAmount" placeholder="1000 ฿">
-                <button class="buy-button" onclick="generateDepositAddress('${crypto}')">${t.generateAddress}</button>
-                <p id="depositError" style="color: #ff9999;"></p>
-                <button class="buy-button" onclick="closeModal('depositModal')">${t.close}</button>
-            `;
-            document.getElementById('depositContent').innerHTML = html;
-            document.getElementById('depositModal').style.display = 'flex';
-        }
-
-        function generateDepositAddress(crypto) {
-            const t = translations[userLanguage];
-            const amount = parseInt(document.getElementById('depositAmount').value);
-            if (amount < MIN_DEPOSIT) {
-                document.getElementById('depositError').textContent = t.minDepositError;
-                return;
-            }
-            const cryptoAmount = (amount / cryptoRates[crypto]).toFixed(6);
-            const address = testAddresses[crypto];
-            const html = `
-                <h2>${t.depositFunds}</h2>
-                <p>${t.depositInstruction.replace('{amount}', amount).replace('{cryptoAmount}', cryptoAmount).replace('{crypto}', crypto)}</p>
-                <p><strong>${address}</strong></p>
-                <p>${t.depositFinal}</p>
-                <p>${t.depositExpiry}</p>
-                <button class="buy-button" onclick="confirmDeposit('${crypto}', ${amount}, '${address}')">${t.confirmPayment}</button>
-                <button class="buy-button" onclick="closeModal('depositModal')">${t.close}</button>
-            `;
-            document.getElementById('depositContent').innerHTML = html;
-            pendingPayments[address] = { amount, crypto, timestamp: Date.now() };
-        }
-
-        function confirmDeposit(crypto, amount, address) {
-    const t = translations[userLanguage];
-
-    // Проверка входных параметров
-    if (!crypto || !amount || !address || isNaN(amount)) {
-        console.error('Некорректные параметры депозита:', { crypto, amount, address });
-        showCustomModal('Ошибка: Некорректные данные депозита');
-        return;
-    }
-
-    // Проверка авторизации пользователя
-    if (!currentUser || !currentUser.nickname) {
-        console.error('Пользователь не авторизован');
-        showCustomModal('Ошибка: Вы не авторизованы');
-        return;
-    }
-
-    closeModal('depositModal');
-    showCustomModal(t.paymentPending);
-
-    const text = `Пополнение баланса\nПользователь: ${currentUser.nickname}\nКриптовалюта: ${crypto}\nСумма: ${amount} ฿\nАдрес: ${address}`;
-    const url = `https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage`;
-    fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            chat_id: ADMIN_CHAT_ID,
-            text: text,
-            reply_markup: {
-                inline_keyboard: [
-                    [
-                        { text: t.confirmButton, callback_data: `confirm_deposit_${currentUser.nickname}_${amount}` },
-                        { text: t.cancelButton, callback_data: `reject_deposit_${currentUser.nickname}_${amount}` }
-                    ]
-                ]
-            }
-        })
-    })
-    .then(response => {
-        if (!response.ok) throw new Error('Ошибка Telegram API: ' + response.status);
-    })
-    .catch(error => {
-        console.error('Ошибка отправки в Telegram:', error);
-        showCustomModal('Ошибка: Не удалось отправить запрос на пополнение');
-    });
-
-    pendingPayments[address] = { amount, crypto, timestamp: Date.now(), status: 'pending' };
-}
 
         function showRegistrationModal() {
             document.getElementById('registrationModal').style.display = 'flex';
         }
 
-        function hideRegistrationModal() {
-            document.getElementById('registrationModal').style.display = 'none';
-        }
-
         function registerUser() {
-            const t = translations[userLanguage];
             const nickname = document.getElementById('regNickname').value.trim();
-            userLanguage = document.getElementById('regLanguage').value;
-
+            const language = document.getElementById('regLanguage').value;
             if (!nickname) {
-                document.getElementById('regError').textContent = t.regErrorEmpty;
+                document.getElementById('regError').textContent = translations[language].regErrorEmpty;
                 return;
             }
-
             if (registeredUsers.some(user => user.nickname === nickname)) {
-                document.getElementById('regError').textContent = t.regErrorTaken;
+                document.getElementById('regError').textContent = translations[language].regErrorTaken;
                 return;
             }
-
-            currentUser = { nickname, language: userLanguage };
+            currentUser = { nickname, language };
+            userLanguage = language;
+            localStorage.setItem('userLanguage', language);
             registeredUsers.push(currentUser);
             localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            hideRegistrationModal();
-            updateUI();
-            showCustomModal(t.welcomeMessage.replace('{user}', nickname));
-            sendRegistrationToAdmin(nickname);
+            document.getElementById('registrationModal').style.display = 'none';
+            document.getElementById('regNickname').value = '';
+            document.getElementById('regError').textContent = '';
+            alert(translations[userLanguage].welcomeMessage.replace('{user}', nickname));
+            initApp();
         }
 
-        function showCustomModal(message) {
-            const t = translations[userLanguage];
-            document.getElementById('customContent').innerHTML = `
-                <h2>${t.alertTitle}</h2>
-                <p>${message}</p>
-                <button class="buy-button" onclick="closeModal('customModal')">${t.close}</button>
-            `;
-            document.getElementById('customModal').style.display = 'flex';
+        function toggleCatalog() {
+            const menu = document.getElementById('catalogMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            if (menu.style.display === 'block') updateCatalog();
         }
 
-        function showConfirmModal(message, onConfirm, onCancel) {
-            const t = translations[userLanguage];
-            document.getElementById('confirmContent').innerHTML = `
-                <h2>${t.confirmTitle}</h2>
-                <p>${message}</p>
-                <button class="buy-button" onclick="confirmAction()">${t.yes}</button>
-                <button class="buy-button" onclick="cancelAction()">${t.no}</button>
-            `;
-            document.getElementById('confirmModal').style.display = 'flex';
+        function toggleProfile() {
+            const menu = document.getElementById('profileMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            if (menu.style.display === 'block') updateProfile();
+        }
 
-            window.confirmAction = () => {
-                onConfirm();
-                closeModal('confirmModal');
-            };
-            window.cancelAction = () => {
-                onCancel();
-                closeModal('confirmModal');
-            };
+        function toggleVacancies() {
+            const menu = document.getElementById('vacancyMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function toggleMail() {
+            const menu = document.getElementById('mailMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function updateCatalog() {
+            const citySelect = document.getElementById('citySelect');
+            const districtSelect = document.getElementById('districtSelect');
+            const city = citySelect.value;
+            const district = districtSelect.value;
+
+            if (city !== selectedCity) {
+                selectedCity = city;
+                districtSelect.innerHTML = '<option value="all">' + translations[userLanguage].allDistrictsOption + '</option>';
+                if (city !== 'all') {
+                    Object.keys(cities[city]).forEach(d => {
+                        const option = document.createElement('option');
+                        option.value = d;
+                        option.textContent = translations[userLanguage][city + 'Districts'][d] || d;
+                        districtSelect.appendChild(option);
+                    });
+                }
+                selectedDistrict = 'all';
+            }
+
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            tabContents.forEach(content => content.style.display = 'none');
+            document.getElementById('weed').style.display = 'block';
+            document.getElementById('weedTab').classList.add('active');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    tabContents.forEach(content => content.style.display = 'none');
+                    document.getElementById(tab.dataset.tab).style.display = 'block';
+                });
+            });
+        }
+
+        function filterByCity() {
+            updateCatalog();
+            filterByDistrict();
+        }
+
+        function filterByDistrict() {
+            const district = document.getElementById('districtSelect').value;
+            selectedDistrict = district;
+            updateCatalog();
+        }
+
+        function showProductModal(category, id) {
+            const product = products[category][id];
+            const content = document.getElementById('productContent');
+            content.innerHTML = `
+                <h2>${product.name}</h2>
+                <p>${product.desc}</p>
+                <div class="product-image"><img src="${productImages[category][id]}" alt="${product.name}" onclick="this.classList.toggle('zoomed')"></div>
+                <p>${translations[userLanguage].positionWeight}</p>
+                <select id="weightSelect">
+                    ${product.weight.map(w => `<option value="${w}">${w} g</option>`).join('')}
+                </select>
+                <p>${translations[userLanguage].positionPrice} <span id="priceDisplay">${product.price[0]} ฿</span></p>
+                <p>${translations[userLanguage].positionCity} <span id="cityDisplay">${selectedCity}</span></p>
+                <p>${translations[userLanguage].positionAvailability}: <span id="availability">${translations[userLanguage].inStock}</span></p>
+                <button class="buy-button" onclick="buyProduct('${category}', ${id})">${translations[userLanguage].buyButton}</button>
+                <button class="preorder-button" onclick="showPreorderModal('${category}', ${id})">${translations[userLanguage].preorderButton}</button>
+                <div id="reviews">${translations[userLanguage].reviewsTitle}<br>${translations[userLanguage].noReviews}</div>
+                <button onclick="closeModal('productModal')">${translations[userLanguage].close}</button>
+            `;
+            document.getElementById('weightSelect').addEventListener('change', function() {
+                const weightIndex = product.weight.indexOf(parseFloat(this.value));
+                document.getElementById('priceDisplay').textContent = product.price[weightIndex] + ' ฿';
+            });
+            document.getElementById('productModal').style.display = 'flex';
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
 
-        function updateOrderHistory() {
-            const t = translations[userLanguage];
-            const orderList = document.getElementById('orderList');
-            orderList.innerHTML = orderHistory.length === 0 ? `<p>${t.orderListEmpty}</p>` : '';
-            orderHistory.slice(-5).reverse().forEach(order => {
-                orderList.innerHTML += `
-                    <div class="product-card">
-                        <h3>${order.product} (${order.weight} г)</h3>
-                        <p>${order.price} ฿</p>
-                        <p>${order.date}</p>
-                        ${order.isPreorder ? '<p>Предзаказ</p>' : ''}
-                    </div>`;
-            });
+        function buyProduct(category, id) {
+            const weightSelect = document.getElementById('weightSelect');
+            const weight = parseFloat(weightSelect.value);
+            const weightIndex = products[category][id].weight.indexOf(weight);
+            const price = products[category][id].price[weightIndex];
+            if (balance >= price) {
+                balance -= price;
+                orderCount++;
+                orderHistory.push(`${new Date().toLocaleString()} - ${products[category][id].name} (${weight}g) - ${price} ฿`);
+                document.getElementById('balance').textContent = balance + ' ฿';
+                document.getElementById('ordersLabel').textContent = translations[userLanguage].ordersLabel + orderCount;
+                updateRecentPurchases();
+                alert(translations[userLanguage].paymentSuccess);
+                closeModal('productModal');
+                updateAchievements();
+            } else {
+                showConfirmModal(translations[userLanguage].insufficientFunds, () => showDepositModal());
+            }
         }
 
-        function updateMail() {
-            const t = translations[userLanguage];
-            const mailList = document.getElementById('mailList');
-            mailList.innerHTML = mailMessages.length === 0 ? `<p>${t.mailListEmpty}</p>` : '';
-            mailMessages.forEach(msg => {
-                mailList.innerHTML += `
-                    <div class="product-card">
-                        <h3>${msg.title}</h3>
-                        <p>${msg.text}</p>
-                        <p>${msg.date}</p>
-                    </div>`;
+        function showPreorderModal(category, id) {
+            const product = products[category][id];
+            const content = document.getElementById('preorderContent');
+            content.innerHTML = `
+                <h2>${translations[userLanguage].preorderTitle}</h2>
+                <p>${product.name} (${product.weight[0]}g) - ${product.price[0] * 1.3} ฿</p>
+                <button class="buy-button" onclick="preorderProduct('${category}', ${id})">${translations[userLanguage].confirmButton}</button>
+                <button onclick="closeModal('preorderModal')">${translations[userLanguage].cancelButton}</button>
+            `;
+            document.getElementById('preorderModal').style.display = 'flex';
+        }
+
+        function preorderProduct(category, id) {
+            const price = products[category][id].price[0] * 1.3;
+            if (balance >= price) {
+                balance -= price;
+                orderCount++;
+                orderHistory.push(`${new Date().toLocaleString()} - ${products[category][id].name} (Preorder ${products[category][id].weight[0]}g) - ${price} ฿`);
+                document.getElementById('balance').textContent = balance + ' ฿';
+                document.getElementById('ordersLabel').textContent = translations[userLanguage].ordersLabel + orderCount;
+                updateRecentPurchases();
+                alert(translations[userLanguage].preorderPlaced);
+                closeModal('preorderModal');
+                updateAchievements();
+            } else {
+                showConfirmModal(translations[userLanguage].insufficientFunds, () => showDepositModal());
+            }
+        }
+
+        function showDepositModal(crypto = 'BTC') {
+            const content = document.getElementById('depositContent');
+            const amountInBaht = Math.max(MIN_DEPOSIT, balance < MIN_DEPOSIT ? MIN_DEPOSIT * 2 : MIN_DEPOSIT);
+            const amountInCrypto = amountInBaht / cryptoRates[crypto];
+            content.innerHTML = `
+                <h2>${translations[userLanguage].depositFunds}</h2>
+                <p>${translations[userLanguage].selectCrypto}</p>
+                <select id="cryptoSelect">
+                    ${Object.keys(cryptoRates).map(c => `<option value="${c}" ${c === crypto ? 'selected' : ''}>${c}</option>`).join('')}
+                </select>
+                <p>${translations[userLanguage].networkLabel} ${cryptoNetworks[crypto]}</p>
+                <p>${translations[userLanguage].enterAmount}</p>
+                <input type="number" id="depositAmount" value="${amountInBaht}" min="${MIN_DEPOSIT}">
+                <p>${translations[userLanguage].depositInstruction.replace('{amount}', amountInBaht).replace('{cryptoAmount}', amountInCrypto.toFixed(6)).replace('{crypto}', crypto)}</p>
+                <p>${translations[userLanguage].depositAddress}: <span id="depositAddress">${testAddresses[crypto]}</span></p>
+                <p>${translations[userLanguage].depositExpiry}</p>
+                <button class="buy-button" onclick="confirmDeposit('${crypto}')">${translations[userLanguage].confirmPayment}</button>
+                <button onclick="closeModal('depositModal')">${translations[userLanguage].cancelButton}</button>
+            `;
+            document.getElementById('depositAmount').addEventListener('change', function() {
+                const newAmount = Math.max(MIN_DEPOSIT, parseFloat(this.value) || MIN_DEPOSIT);
+                this.value = newAmount;
+                const selectedCrypto = document.getElementById('cryptoSelect').value;
+                const cryptoAmount = newAmount / cryptoRates[selectedCrypto];
+                content.querySelector('p:nth-child(5)').textContent = translations[userLanguage].depositInstruction.replace('{amount}', newAmount).replace('{cryptoAmount}', cryptoAmount.toFixed(6)).replace('{crypto}', selectedCrypto);
             });
+            document.getElementById('cryptoSelect').addEventListener('change', function() {
+                const newCrypto = this.value;
+                showDepositModal(newCrypto);
+            });
+            document.getElementById('depositModal').style.display = 'flex';
+        }
+
+        function confirmDeposit(crypto) {
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+            if (amount < MIN_DEPOSIT) {
+                alert(translations[userLanguage].minDepositError);
+                return;
+            }
+            pendingPayments[Date.now()] = { amount, crypto, address: testAddresses[crypto], timestamp: Date.now() };
+            closeModal('depositModal');
+            alert(translations[userLanguage].paymentPending);
+            setTimeout(() => {
+                if (pendingPayments[Date.now() - 1800000]) {
+                    balance += amount;
+                    document.getElementById('balance').textContent = balance + ' ฿';
+                    delete pendingPayments[Date.now() - 1800000];
+                    updateAchievements();
+                }
+            }, 30000); // Симуляция проверки оплаты через 30 секунд
+        }
+
+        function showConfirmModal(message, onConfirm) {
+            const content = document.getElementById('confirmContent');
+            content.innerHTML = `
+                <h2>${translations[userLanguage].confirmTitle}</h2>
+                <p>${message}</p>
+                <button class="buy-button" onclick="${onConfirm ? onConfirm.toString() + '()' : 'closeModal(\'confirmModal\')'}">${translations[userLanguage].yes}</button>
+                <button onclick="closeModal('confirmModal')">${translations[userLanguage].no}</button>
+            `;
+            document.getElementById('confirmModal').style.display = 'flex';
         }
 
         function applyForJob(job) {
-            const t = translations[userLanguage];
-            showInputModal(t.applyJobPrompt.replace('{job}', job), resume => {
-                const message = t.applyJobSent.replace('{job}', job);
-                mailMessages.push({
-                    title: t.applyJobAlert.replace('{job}', job),
-                    text: `Резюме: ${resume}`,
-                    date: new Date().toLocaleString()
-                });
-                updateMail();
-                showCustomModal(message);
-                sendJobApplicationToAdmin(job, resume);
-            });
+            const resume = prompt(translations[userLanguage].applyJobPrompt.replace('{job}', job));
+            if (resume) {
+                mailMessages.push(`${new Date().toLocaleString()} - Application for ${job}: ${resume}`);
+                alert(translations[userLanguage].applyJobAlert.replace('{job}', job));
+                document.getElementById('mailList').textContent = mailMessages.join('\n');
+            }
         }
 
-        function showInputModal(message, callback) {
-            const t = translations[userLanguage];
-            document.getElementById('customContent').innerHTML = `
-                <h2>${t.inputTitle}</h2>
-                <p>${message}</p>
-                <textarea id="inputText"></textarea>
-                <button class="buy-button" onclick="submitInput()">${t.confirmButton}</button>
-                <button class="buy-button" onclick="closeModal('customModal')">${t.cancelButton}</button>
-            `;
-            document.getElementById('customModal').style.display = 'flex';
-
-            window.submitInput = () => {
-                const input = document.getElementById('inputText').value.trim();
-                if (input) {
-                    callback(input);
-                    closeModal('customModal');
-                }
-            };
+        function updateAchievements() {
+            const achievementsList = document.getElementById('achievementsList');
+            achievementsList.innerHTML = '';
+            if (orderCount >= 5) {
+                const li = document.createElement('li');
+                li.textContent = '5+ Orders Completed';
+                achievementsList.appendChild(li);
+            }
+            if (referralCount >= 5) {
+                const li = document.createElement('li');
+                li.textContent = '5+ Friends Invited';
+                achievementsList.appendChild(li);
+            }
+            if (balance >= 10000) {
+                const li = document.createElement('li');
+                li.textContent = '10,000+ ฿ Spent';
+                achievementsList.appendChild(li);
+            }
         }
 
-        function sendOrderToAdmin(order, coords, description) {
-            const text = `Новый заказ!\nПользователь: ${currentUser.nickname}\nТовар: ${order.product} (${order.weight} г)\nГород: ${order.city}\nРайон: ${order.district}\nКоординаты: ${coords}\nОписание клада: ${description}\nСумма: ${order.price} ฿\nДата: ${order.date}`;
-            sendToTelegram(text);
+        function updateRecentPurchases() {
+            const recentPurchases = document.getElementById('recentPurchases');
+            recentPurchases.innerHTML = `${translations[userLanguage].recentPurchases}<br>${orderHistory.slice(-3).join('<br>') || translations[userLanguage].orderListEmpty}`;
         }
 
-        function sendPreorderToAdmin(order) {
-            const text = `Новый предзаказ!\nПользователь: ${currentUser.nickname}\nТовар: ${order.product} (${order.weight} г)\nГород: ${order.city}\nРайон: ${order.district}\nСумма: ${order.price} ฿\nДата: ${order.date}`;
-            sendToTelegram(text);
+        function updateLimitedOffer() {
+            const offer = document.getElementById('limitedOffer');
+            const now = new Date();
+            const end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+            const timeLeft = Math.floor((end - now) / 1000);
+            if (timeLeft > 0) {
+                const hours = Math.floor(timeLeft / 3600);
+                const minutes = Math.floor((timeLeft % 3600) / 60);
+                const seconds = timeLeft % 60;
+                offer.textContent = translations[userLanguage].limitedOffer.replace('{product}', 'Hash').replace('{time}', `${hours}:${minutes}:${seconds}`);
+            } else {
+                offer.textContent = '';
+            }
         }
 
-        function sendDepositToAdmin(crypto, amount, address) {
-            const text = `Новый депозит!\nПользователь: ${currentUser.nickname}\nКриптовалюта: ${crypto}\nСумма: ${amount} ฿\nАдрес: ${address}`;
-            sendToTelegram(text);
-        }
-
-        function sendRegistrationToAdmin(nickname) {
-            const text = `Новый пользователь!\nНикнейм: ${nickname}\nЯзык: ${userLanguage}`;
-            sendToTelegram(text);
-        }
-
-        function sendJobApplicationToAdmin(job, resume) {
-            const text = `Новая заявка на вакансию!\nПользователь: ${currentUser.nickname}\nВакансия: ${job}\nРезюме: ${resume}`;
-            sendToTelegram(text);
-        }
-
-        function sendToTelegram(text) {
-            const url = `https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage`;
-            fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: ADMIN_CHAT_ID,
-                    text: text
-                })
-            }).catch(error => console.error('Ошибка отправки в Telegram:', error));
+        function sendChatMessage() {
+            const message = document.getElementById('chatInput').value.trim();
+            if (message) {
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.innerHTML += `<p>You: ${message}</p>`;
+                chatMessages.innerHTML += `<p>Оператор: Понял, скоро отвечу!</p>`;
+                document.getElementById('chatInput').value = '';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
         }
 
         function showPromoDetails() {
-            const t = translations[userLanguage];
-            showCustomModal(t.promoBanner);
+            const content = document.getElementById('customContent');
+            content.innerHTML = `
+                <h2>${translations[userLanguage].promoInfo}</h2>
+                <p>${translations[userLanguage].promoBanner}</p>
+                <button onclick="closeModal('customModal')">${translations[userLanguage].close}</button>
+            `;
+            document.getElementById('customModal').style.display = 'flex';
         }
 
+        // Инициализация при загрузке
         window.onload = initApp;
     </script>
 </body>
