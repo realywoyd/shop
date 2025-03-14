@@ -462,295 +462,179 @@
         };
 
         const translations = {
-    en: {
-        promoBanner: "Invite friends and get bonuses! 5 friends = 0.5g amphetamine, 10 friends = 0.5g cocaine (MQ), 25 friends = 1g cocaine (VHQ)!",
-        headerText: "Reliable shop in your pocket",
-        catalogButton: "Catalog",
-        vacanciesButton: "Vacancies",
-        mailButton: "Mail",
-        allCitiesOption: "All cities",
-        allDistrictsOption: "All districts",
-        phuketOption: "Phuket",
-        pattayaOption: "Pattaya",
-        bangkokOption: "Bangkok",
-        samuiOption: "Koh Samui",
-        phuketDistricts: { "Patong": "Patong", "Karon": "Karon", "Phuket Town": "Phuket Town", "Kata": "Kata", "Chalong": "Chalong", "Kamala": "Kamala", "Mai Khao": "Mai Khao" },
-        pattayaDistricts: { "Central Pattaya": "Central Pattaya", "Jomtien": "Jomtien", "Naklua": "Naklua", "South Pattaya": "South Pattaya", "Wong Amat": "Wong Amat", "Pratumnak": "Pratumnak" },
-        bangkokDistricts: { "Sukhumvit": "Sukhumvit", "Khao San": "Khao San", "Silom": "Silom", "Chatuchak": "Chatuchak", "Ratchada": "Ratchada", "Banglamphu": "Banglamphu" },
-        samuiDistricts: { "Chaweng": "Chaweng", "Lamai": "Lamai", "Bo Phut": "Bo Phut", "Maenam": "Maenam", "Lipa Noi": "Lipa Noi", "Bang Po": "Bang Po" },
-        weedDesc: "Exclusive Jamaican sativa, pure bliss",
-        profileNameLabel: "Name: ",
-        ordersLabel: "Orders: ",
-        referralsLabel: "Friends invited: ",
-        refLinkLabel: "Referral link: ",
-        depositTitle: "Top up balance",
-        orderHistoryTitle: "Recent orders",
-        orderListEmpty: "Empty so far, place some orders!",
-        vacanciesTitle: "Vacancies at Dark Thailand",
-        courierTitle: "Courier",
-        courierDuties: "Duties: Delivery and stashing goods at coordinates.",
-        courierPay: "Pay: 500-1000 ฿ per stash (depends on volume).",
-        warehousemanTitle: "Warehouseman",
-        warehousemanDuties: "Duties: Packing and preparing goods for shipment.",
-        warehousemanPay: "Pay: 2000-3000 ฿ per shift.",
-        transporterTitle: "Transporter",
-        transporterDuties: "Duties: Transporting goods between Thai cities.",
-        transporterPay: "Pay: 5000-10000 ฿ per trip.",
-        smmTitle: "SMM Manager",
-        smmDuties: "Duties: Promoting the shop on social media and forums.",
-        smmPay: "Pay: 3000-5000 ฿ per week + activity bonuses.",
-        applyButton: "Apply",
-        mailTitle: "Mail",
-        mailListEmpty: "No messages yet.",
-        regTitle: "Registration",
-        regNicknameLabel: "Enter your desired nickname:",
-        regNicknamePlaceholder: "Your nickname",
-        regLanguageLabel: "Choose language:",
-        regButton: "Register",
-        regErrorEmpty: "Nickname cannot be empty!",
-        regErrorTaken: "This nickname is already taken!",
-        welcomeMessage: "Welcome, {user}! Your account has been created.",
-        insufficientFunds: "Insufficient funds! Top up your balance?",
-        yes: "Yes",
-        no: "No",
-        paymentSuccess: "Payment successful!",
-        preorderTitle: "Preorder",
-        preorderPlaced: "Preorder placed!",
-        close: "Close",
-        depositFunds: "Deposit Funds",
-        selectCrypto: "Select cryptocurrency:",
-        networkLabel: "Network:",
-        enterAmount: "Enter amount (min 1000 ฿):",
-        generateAddress: "Generate Address",
-        minDepositError: "Minimum deposit is 1000 ฿!",
-        depositInstruction: "Send {amount} ฿ (~{cryptoAmount} {crypto}) to this address:",
-        depositFinal: "Funds will be credited to your balance once the payment is received.",
-        depositExpiry: "Address expires in 30 minutes.",
-        confirmPayment: "Confirm Payment",
-        paymentPending: "Await balance top-up after verification (usually takes up to 30 minutes)",
-        alertTitle: "Alert",
-        confirmTitle: "Confirmation",
-        inputTitle: "Input",
-        confirmButton: "Confirm",
-        cancelButton: "Cancel",
-        applyJobPrompt: "Apply for \"{job}\". Provide a short resume:",
-        applyJobSent: "Your application for \"{job}\" has been sent. Await admin response.",
-        applyJobAlert: "Application for \"{job}\" sent!",
-        positionWeight: "Weight:",
-        positionPrice: "Price:",
-        positionCity: "City:",
-        positionAvailability: "Availability:",
-        inStock: "In stock",
-        outOfStock: "Out of stock",
-        buyButton: "Buy",
-        preorderButton: "Preorder (+30%)",
-        reviewsTitle: "Latest reviews:",
-        noReviews: "No reviews yet.",
-        promoInfo: "Invite friends and get free stuff!",
-        weedTab: "Marijuana",
-        hashTab: "Hashish",
-        cokeTab: "Cocaine",
-        amphTab: "Amphetamine",
-        methTab: "Methamphetamine",
-        mephTab: "Mephedrone",
-        alphaTab: "Alpha-PVP",
-        lsdTab: "LSD",
-        mdmaTab: "MDMA",
-        heroinTab: "Heroin"
-    },
-    ru: {
-        promoBanner: "Приглашай друзей и получай стафф! 5 друзей = 0.5 г амфетамина, 10 друзей = 0.5 г кокаина (MQ), 25 друзей = 1 г кокаина (VHQ)!",
-        headerText: "Надёжный шоп в твоём кармане",
-        catalogButton: "Каталог",
-        vacanciesButton: "Вакансии",
-        mailButton: "Почта",
-        allCitiesOption: "Все города",
-        allDistrictsOption: "Все районы",
-        phuketOption: "Пхукет",
-        pattayaOption: "Паттайя",
-        bangkokOption: "Бангкок",
-        samuiOption: "о. Самуи",
-        phuketDistricts: { "Patong": "Патонг", "Karon": "Карон", "Phuket Town": "Пхукет-таун", "Kata": "Ката", "Chalong": "Чалонг", "Kamala": "Камала", "Mai Khao": "Май Кхао" },
-        pattayaDistricts: { "Central Pattaya": "Центральная Паттайя", "Jomtien": "Джомтьен", "Naklua": "Наклуа", "South Pattaya": "Южная Паттайя", "Wong Amat": "Вонг Амат", "Pratumnak": "Пратамнак" },
-        bangkokDistricts: { "Sukhumvit": "Сукхумвит", "Khao San": "Каосан", "Silom": "Силом", "Chatuchak": "Чатучак", "Ratchada": "Ратчада", "Banglamphu": "Банглампху" },
-        samuiDistricts: { "Chaweng": "Чавенг", "Lamai": "Ламай", "Bo Phut": "Бо Пхут", "Maenam": "Маенам", "Lipa Noi": "Липа Ной", "Bang Po": "Банг По" },
-        weedDesc: "Эксклюзивная ямайская сатива, чистейший кайф",
-        profileNameLabel: "Имя: ",
-        ordersLabel: "Заказов: ",
-        referralsLabel: "Приглашено друзей: ",
-        refLinkLabel: "Реферальная ссылка: ",
-        depositTitle: "Пополнить баланс",
-        orderHistoryTitle: "Последние заказы",
-        orderListEmpty: "Пока пусто, делай заказы!",
-        vacanciesTitle: "Вакансии в Dark Thailand",
-        courierTitle: "Кладмен",
-        courierDuties: "Обязанности: Доставка и закладка товара по координатам.",
-        courierPay: "Оплата: 500-1000 ฿ за клад (зависит от объёма).",
-        warehousemanTitle: "Складмен",
-        warehousemanDuties: "Обязанности: Упаковка и подготовка товара к отправке.",
-        warehousemanPay: "Оплата: 2000-3000 ฿ за смену.",
-        transporterTitle: "Перевозчик",
-        transporterDuties: "Обязанности: Перевозка товара между городами Таиланда.",
-        transporterPay: "Оплата: 5000-10000 ฿ за рейс.",
-        smmTitle: "SMMщик",
-        smmDuties: "Обязанности: Продвижение шопа в соцсетях и форумах.",
-        smmPay: "Оплата: 3000-5000 ฿ в неделю + бонусы за активность.",
-        applyButton: "Оставить заявку",
-        mailTitle: "Почта",
-        mailListEmpty: "Пока нет сообщений.",
-        regTitle: "Регистрация",
-        regNicknameLabel: "Введите желаемый никнейм:",
-        regNicknamePlaceholder: "Ваш никнейм",
-        regLanguageLabel: "Выберите язык:",
-        regButton: "Зарегистрироваться",
-        regErrorEmpty: "Никнейм не может быть пустым!",
-        regErrorTaken: "Этот никнейм уже занят!",
-        welcomeMessage: "Добро пожаловать, {user}! Ваш аккаунт успешно создан.",
-        insufficientFunds: "Недостаточно средств на балансе! Пополнить баланс?",
-        yes: "Да",
-        no: "Нет",
-        paymentSuccess: "Оплата прошла!",
-        preorderTitle: "Предзаказ",
-        preorderPlaced: "Предзаказ оформлен!",
-        close: "Закрыть",
-        depositFunds: "Пополнить баланс",
-        selectCrypto: "Выберите криптовалюту:",
-        networkLabel: "Сеть:",
-        enterAmount: "Введите сумму (мин. 1000 ฿):",
-        generateAddress: "Сгенерировать адрес",
-        minDepositError: "Минимальная сумма пополнения — 1000 ฿!",
-        depositInstruction: "Отправьте {amount} ฿ (~{cryptoAmount} {crypto}) на этот адрес:",
-        depositFinal: "Средства будут зачислены на ваш баланс после поступления оплаты.",
-        depositExpiry: "Адрес действителен 30 минут.",
-        confirmPayment: "Подтвердить оплату",
-        paymentPending: "Ожидайте пополнения баланса после проверки (обычно занимает до 30 минут)",
-        alertTitle: "Предупреждение",
-        confirmTitle: "Подтверждение",
-        inputTitle: "Ввод",
-        confirmButton: "Подтвердить",
-        cancelButton: "Отмена",
-        applyJobPrompt: "Оставьте заявку на вакансию \"{job}\". Укажите краткое резюме:",
-        applyJobSent: "Ваша заявка на вакансию \"{job}\" отправлена. Ожидайте ответа от администрации.",
-        applyJobAlert: "Заявка на \"{job}\" отправлена!",
-        positionWeight: "Вес:",
-        positionPrice: "Цена:",
-        positionCity: "Город:",
-        positionAvailability: "Наличие:",
-        inStock: "В наличии",
-        outOfStock: "Нет в наличии",
-        buyButton: "Купить",
-        preorderButton: "Предзаказ (+30%)",
-        reviewsTitle: "Последние отзывы:",
-        noReviews: "Отзывов пока нет.",
-        promoInfo: "Приглашай друзей и получай стафф!",
-        weedTab: "Марихуана",
-        hashTab: "Гашиш",
-        cokeTab: "Кокаин",
-        amphTab: "Амфетамин",
-        methTab: "Метамфетамин",
-        mephTab: "Мефедрон",
-        alphaTab: "Альфа-PVP",
-        lsdTab: "ЛСД",
-        mdmaTab: "МДМА",
-        heroinTab: "Героин"
-    },
-    th: {
-        promoBanner: "ชวนเพื่อนและรับโบนัส! 5 เพื่อน = แอมเฟตามีน 0.5 กรัม, 10 เพื่อน = โคเคน 0.5 กรัม (MQ), 25 เพื่อน = โคเคน 1 กรัม (VHQ)!",
-        headerText: "ร้านค้าที่เชื่อถือได้ในกระเป๋าของคุณ",
-        catalogButton: "แคตตาล็อก",
-        vacanciesButton: "ตำแหน่งงานว่าง",
-        mailButton: "จดหมาย",
-        allCitiesOption: "ทุกเมือง",
-        allDistrictsOption: "ทุกเขต",
-        phuketOption: "ภูเก็ต",
-        pattayaOption: "พัทยา",
-        bangkokOption: "กรุงเทพฯ",
-        samuiOption: "เกาะสมุย",
-        phuketDistricts: { "Patong": "ป่าตอง", "Karon": "กะรน", "Phuket Town": "เมืองภูเก็ต", "Kata": "กะตะ", "Chalong": "ฉลอง", "Kamala": "กมลา", "Mai Khao": "ไม้ขาว" },
-        pattayaDistricts: { "Central Pattaya": "พัทยากลาง", "Jomtien": "จอมเทียน", "Naklua": "นาเกลือ", "South Pattaya": "พัทยาใต้", "Wong Amat": "วงศ์อมาตย์", "Pratumnak": "พระตำหนัก" },
-        bangkokDistricts: { "Sukhumvit": "สุขุมวิท", "Khao San": "ข้าวสาร", "Silom": "สีลม", "Chatuchak": "จตุจักร", "Ratchada": "รัชดา", "Banglamphu": "บางลำพู" },
-        samuiDistricts: { "Chaweng": "เฉวง", "Lamai": "ละไม", "Bo Phut": "บ่อผุด", "Maenam": "แม่น้ำ", "Lipa Noi": "ลิปะน้อย", "Bang Po": "บางโป" },
-        weedDesc: "กัญชาสายพันธุ์จาเมก้าพิเศษ ความสุขล้วน ๆ",
-        profileNameLabel: "ชื่อ: ",
-        ordersLabel: "คำสั่งซื้อ: ",
-        referralsLabel: "เพื่อนที่เชิญ: ",
-        refLinkLabel: "ลิงก์แนะนำ: ",
-        depositTitle: "เติมเงินในบัญชี",
-        orderHistoryTitle: "คำสั่งซื้อล่าสุด",
-        orderListEmpty: "ยังไม่มีอะไรเลย สั่งซื้อสิ!",
-        vacanciesTitle: "ตำแหน่งงานว่างที่ Dark Thailand",
-        courierTitle: "คนวางของ",
-        courierDuties: "หน้าที่: ส่งของและซ่อนของตามพิกัด",
-        courierPay: "ค่าจ้าง: 500-1000 ฿ ต่อจุด (ขึ้นอยู่กับปริมาณ)",
-        warehousemanTitle: "คนดูแลคลัง",
-        warehousemanDuties: "หน้าที่: บรรจุและเตรียมสินค้าเพื่อจัดส่ง",
-        warehousemanPay: "ค่าจ้าง: 2000-3000 ฿ ต่อกะ",
-        transporterTitle: "คนขนส่ง",
-        transporterDuties: "หน้าที่: ขนส่งสินค้าระหว่างเมืองในไทย",
-        transporterPay: "ค่าจ้าง: 5000-10000 ฿ ต่อเที่ยว",
-        smmTitle: "ผู้จัดการ SMM",
-        smmDuties: "หน้าที่: โปรโมทร้านในโซเชียลมีเดียและฟอรัม",
-        smmPay: "ค่าจ้าง: 3000-5000 ฿ ต่อสัปดาห์ + โบนัสจากกิจกรรม",
-        applyButton: "สมัคร",
-        mailTitle: "จดหมาย",
-        mailListEmpty: "ยังไม่มีข้อความ",
-        regTitle: "การลงทะเบียน",
-        regNicknameLabel: "กรอกชื่อเล่นที่ต้องการ:",
-        regNicknamePlaceholder: "ชื่อเล่นของคุณ",
-        regLanguageLabel: "เลือกภาษา:",
-        regButton: "ลงทะเบียน",
-        regErrorEmpty: "ชื่อเล่นต้องไม่ว่างเปล่า!",
-        regErrorTaken: "ชื่อเล่นนี้ถูกใช้แล้ว!",
-        welcomeMessage: "ยินดีต้อนรับ {user}! บัญชีของคุณถูกสร้างเรียบร้อยแล้ว",
-        insufficientFunds: "เงินในบัญชีไม่พอ! เติมเงินในบัญชีหรือไม่?",
-        yes: "ใช่",
-        no: "ไม่",
-        paymentSuccess: "ชำระเงินสำเร็จ!",
-        preorderTitle: "สั่งจองล่วงหน้า",
-        preorderPlaced: "สั่งจองล่วงหน้าเรียบร้อย!",
-        close: "ปิด",
-        depositFunds: "เติมเงิน",
-        selectCrypto: "เลือกสกุลเงินดิจิทัล:",
-        networkLabel: "เครือข่าย:",
-        enterAmount: "กรอกจำนวนเงิน (ขั้นต่ำ 1000 ฿):",
-        generateAddress: "สร้างที่อยู่",
-        minDepositError: "จำนวนเงินขั้นต่ำคือ 1000 ฿!",
-        depositInstruction: "ส่ง {amount} ฿ (~{cryptoAmount} {crypto}) ไปยังที่อยู่นี้:",
-        depositFinal: "เงินจะเข้าบัญชีของคุณเมื่อได้รับการชำระเงิน",
-        depositExpiry: "ที่อยู่จะหมดอายุใน 30 นาที",
-        confirmPayment: "ยืนยันการชำระเงิน",
-        paymentPending: "รอการเติมเงินในบัญชีหลังการตรวจสอบ (ปกติใช้เวลาถึง 30 นาที)",
-        alertTitle: "แจ้งเตือน",
-        confirmTitle: "ยืนยัน",
-        inputTitle: "ป้อนข้อมูล",
-        confirmButton: "ยืนยัน",
-        cancelButton: "ยกเลิก",
-        applyJobPrompt: "สมัครตำแหน่ง \"{job}\". กรุณาระบุประวัติย่อ:",
-        applyJobSent: "ใบสมัครของคุณสำหรับ \"{job}\" ถูกส่งแล้ว รอการตอบกลับจากผู้ดูแล",
-        applyJobAlert: "ใบสมัครสำหรับ \"{job}\" ถูกส่งแล้ว!",
-        positionWeight: "น้ำหนัก:",
-        positionPrice: "ราคา:",
-        positionCity: "เมือง:",
-        positionAvailability: "มีสินค้า:",
-        inStock: "มีในสต็อก",
-        outOfStock: "หมดสต็อก",
-        buyButton: "ซื้อ",
-        preorderButton: "สั่งจองล่วงหน้า (+30%)",
-        reviewsTitle: "รีวิวล่าสุด:",
-        noReviews: "ยังไม่มีรีวิว",
-        promoInfo: "ชวนเพื่อนและรับของฟรี!",
-        weedTab: "กัญชา",
-        hashTab: "กัญชาอัด",
-        cokeTab: "โคเคน",
-        amphTab: "แอมเฟตามีน",
-        methTab: "เมทแอมเฟตามีน",
-        mephTab: "เมเฟโดรน",
-        alphaTab: "อัลฟ่า-พีวีพี",
-        lsdTab: "แอลเอสดี",
-        mdmaTab: "เอ็มดีเอ็มเอ",
-        heroinTab: "เฮโรอีน"
-    }
-};
+            en: {
+                promoBanner: "Invite friends and get bonuses! 5 friends = 0.5g amphetamine, 10 friends = 0.5g cocaine (MQ), 25 friends = 1g cocaine (VHQ)!",
+                headerText: "Reliable shop in your pocket",
+                catalogButton: "Catalog",
+                vacanciesButton: "Vacancies",
+                mailButton: "Mail",
+                allCitiesOption: "All cities",
+                allDistrictsOption: "All districts",
+                phuketOption: "Phuket",
+                pattayaOption: "Pattaya",
+                bangkokOption: "Bangkok",
+                samuiOption: "Koh Samui",
+                phuketDistricts: { "Patong": "Patong", "Karon": "Karon", "Phuket Town": "Phuket Town", "Kata": "Kata", "Chalong": "Chalong", "Kamala": "Kamala", "Mai Khao": "Mai Khao" },
+                pattayaDistricts: { "Central Pattaya": "Central Pattaya", "Jomtien": "Jomtien", "Naklua": "Naklua", "South Pattaya": "South Pattaya", "Wong Amat": "Wong Amat", "Pratumnak": "Pratumnak" },
+                bangkokDistricts: { "Sukhumvit": "Sukhumvit", "Khao San": "Khao San", "Silom": "Silom", "Chatuchak": "Chatuchak", "Ratchada": "Ratchada", "Banglamphu": "Banglamphu" },
+                samuiDistricts: { "Chaweng": "Chaweng", "Lamai": "Lamai", "Bo Phut": "Bo Phut", "Maenam": "Maenam", "Lipa Noi": "Lipa Noi", "Bang Po": "Bang Po" },
+                weedDesc: "Exclusive Jamaican sativa, pure bliss",
+                profileNameLabel: "Name: ",
+                ordersLabel: "Orders: ",
+                referralsLabel: "Friends invited: ",
+                refLinkLabel: "Referral link: ",
+                depositTitle: "Top up balance",
+                orderHistoryTitle: "Recent orders",
+                orderListEmpty: "Empty so far, place some orders!",
+                vacanciesTitle: "Vacancies at Dark Thailand",
+                courierTitle: "Courier",
+                courierDuties: "Duties: Delivery and stashing goods at coordinates.",
+                courierPay: "Pay: 500-1000 ฿ per stash (depends on volume).",
+                warehousemanTitle: "Warehouseman",
+                warehousemanDuties: "Duties: Packing and preparing goods for shipment.",
+                warehousemanPay: "Pay: 2000-3000 ฿ per shift.",
+                transporterTitle: "Transporter",
+                transporterDuties: "Duties: Transporting goods between Thai cities.",
+                transporterPay: "Pay: 5000-10000 ฿ per trip.",
+                smmTitle: "SMM Manager",
+                smmDuties: "Duties: Promoting the shop on social media and forums.",
+                smmPay: "Pay: 3000-5000 ฿ per week + activity bonuses.",
+                applyButton: "Apply",
+                mailTitle: "Mail",
+                mailListEmpty: "No messages yet.",
+                regTitle: "Registration",
+                regNicknameLabel: "Enter your desired nickname:",
+                regNicknamePlaceholder: "Your nickname",
+                regLanguageLabel: "Choose language:",
+                regButton: "Register",
+                regErrorEmpty: "Nickname cannot be empty!",
+                regErrorTaken: "This nickname is already taken!",
+                welcomeMessage: "Welcome, {user}! Your account has been created.",
+                insufficientFunds: "Insufficient funds! Top up your balance?",
+                yes: "Yes",
+                no: "No",
+                paymentSuccess: "Payment successful!",
+                preorderTitle: "Preorder",
+                preorderPlaced: "Preorder placed!",
+                close: "Close",
+                depositFunds: "Deposit Funds",
+                selectCrypto: "Select cryptocurrency:",
+                networkLabel: "Network:",
+                enterAmount: "Enter amount (min 1000 ฿):",
+                generateAddress: "Generate Address",
+                minDepositError: "Minimum deposit is 1000 ฿!",
+                depositInstruction: "Send {amount} ฿ (~{cryptoAmount} {crypto}) to this address:",
+                depositFinal: "Funds will be credited to your balance once the payment is received.",
+                depositExpiry: "Address expires in 30 minutes.",
+                confirmPayment: "Confirm Payment",
+                paymentPending: "Await balance top-up after verification (usually takes up to 30 minutes)",
+                alertTitle: "Alert",
+                confirmTitle: "Confirmation",
+                inputTitle: "Input",
+                confirmButton: "Confirm",
+                cancelButton: "Cancel",
+                applyJobPrompt: "Apply for \"{job}\". Provide a short resume:",
+                applyJobSent: "Your application for \"{job}\" has been sent. Await admin response.",
+                applyJobAlert: "Application for \"{job}\" sent!",
+                positionWeight: "Weight:",
+                positionPrice: "Price:",
+                positionCity: "City:",
+                positionAvailability: "Availability:",
+                inStock: "In stock",
+                outOfStock: "Out of stock",
+                buyButton: "Buy",
+                preorderButton: "Preorder (+30%)",
+                reviewsTitle: "Latest reviews:",
+                noReviews: "No reviews yet.",
+                promoInfo: "Invite friends and get free stuff!"
+            },
+            ru: {
+                promoBanner: "Приглашай друзей и получай стафф! 5 друзей = 0.5 г амфетамина, 10 друзей = 0.5 г кокаина (MQ), 25 друзей = 1 г кокаина (VHQ)!",
+                headerText: "Надёжный шоп в твоём кармане",
+                catalogButton: "Каталог",
+                vacanciesButton: "Вакансии",
+                mailButton: "Почта",
+                allCitiesOption: "Все города",
+                allDistrictsOption: "Все районы",
+                phuketOption: "Пхукет",
+                pattayaOption: "Паттайя",
+                bangkokOption: "Бангкок",
+                samuiOption: "о. Самуи",
+                phuketDistricts: { "Patong": "Патонг", "Karon": "Карон", "Phuket Town": "Пхукет-таун", "Kata": "Ката", "Chalong": "Чалонг", "Kamala": "Камала", "Mai Khao": "Май Кхао" },
+                pattayaDistricts: { "Central Pattaya": "Центральная Паттайя", "Jomtien": "Джомтьен", "Naklua": "Наклуа", "South Pattaya": "Южная Паттайя", "Wong Amat": "Вонг Амат", "Pratumnak": "Пратамнак" },
+                bangkokDistricts: { "Sukhumvit": "Сукхумвит", "Khao San": "Каосан", "Silom": "Силом", "Chatuchak": "Чатучак", "Ratchada": "Ратчада", "Banglamphu": "Банглампху" },
+                samuiDistricts: { "Chaweng": "Чавенг", "Lamai": "Ламай", "Bo Phut": "Бо Пхут", "Maenam": "Маенам", "Lipa Noi": "Липа Ной", "Bang Po": "Банг По" },
+                weedDesc: "Эксклюзивная ямайская сатива, чистейший кайф",
+                profileNameLabel: "Имя: ",
+                ordersLabel: "Заказов: ",
+                referralsLabel: "Приглашено друзей: ",
+                refLinkLabel: "Реферальная ссылка: ",
+                depositTitle: "Пополнить баланс",
+                orderHistoryTitle: "Последние заказы",
+                orderListEmpty: "Пока пусто, делай заказы!",
+                vacanciesTitle: "Вакансии в Dark Thailand",
+                courierTitle: "Кладмен",
+                courierDuties: "Обязанности: Доставка и закладка товара по координатам.",
+                courierPay: "Оплата: 500-1000 ฿ за клад (зависит от объёма).",
+                warehousemanTitle: "Складмен",
+                warehousemanDuties: "Обязанности: Упаковка и подготовка товара к отправке.",
+                warehousemanPay: "Оплата: 2000-3000 ฿ за смену.",
+                transporterTitle: "Перевозчик",
+                transporterDuties: "Обязанности: Перевозка товара между городами Таиланда.",
+                transporterPay: "Оплата: 5000-10000 ฿ за рейс.",
+                smmTitle: "SMMщик",
+                smmDuties: "Обязанности: Продвижение шопа в соцсетях и форумах.",
+                smmPay: "Оплата: 3000-5000 ฿ в неделю + бонусы за активность.",
+                applyButton: "Оставить заявку",
+                mailTitle: "Почта",
+                mailListEmpty: "Пока нет сообщений.",
+                regTitle: "Регистрация",
+                regNicknameLabel: "Введите желаемый никнейм:",
+                regNicknamePlaceholder: "Ваш никнейм",
+                regLanguageLabel: "Выберите язык:",
+                regButton: "Зарегистрироваться",
+                regErrorEmpty: "Никнейм не может быть пустым!",
+                regErrorTaken: "Этот никнейм уже занят!",
+                welcomeMessage: "Добро пожаловать, {user}! Ваш аккаунт успешно создан.",
+                insufficientFunds: "Недостаточно средств на балансе! Пополнить баланс?",
+                yes: "Да",
+                no: "Нет",
+                paymentSuccess: "Оплата прошла!",
+                preorderTitle: "Предзаказ",
+                preorderPlaced: "Предзаказ оформлен!",
+                close: "Закрыть",
+                depositFunds: "Пополнить баланс",
+                selectCrypto: "Выберите криптовалюту:",
+                networkLabel: "Сеть:",
+                enterAmount: "Введите сумму (мин. 1000 ฿):",
+                generateAddress: "Сгенерировать адрес",
+                minDepositError: "Минимальная сумма пополнения — 1000 ฿!",
+                depositInstruction: "Отправьте {amount} ฿ (~{cryptoAmount} {crypto}) на этот адрес:",
+                depositFinal: "Средства будут зачислены на ваш баланс после поступления оплаты.",
+                depositExpiry: "Адрес действителен 30 минут.",
+                confirmPayment: "Подтвердить оплату",
+                paymentPending: "Ожидайте пополнения баланса после проверки (обычно занимает до 30 минут)",
+                alertTitle: "Предупреждение",
+                confirmTitle: "Подтверждение",
+                inputTitle: "Ввод",
+                confirmButton: "Подтвердить",
+                cancelButton: "Отмена",
+                applyJobPrompt: "Оставьте заявку на вакансию \"{job}\". Укажите краткое резюме:",
+                applyJobSent: "Ваша заявка на вакансию \"{job}\" отправлена. Ожидайте ответа от администрации.",
+                applyJobAlert: "Заявка на \"{job}\" отправлена!",
+                positionWeight: "Вес:",
+                positionPrice: "Цена:",
+                positionCity: "Город:",
+                positionAvailability: "Наличие:",
+                inStock: "В наличии",
+                outOfStock: "Нет в наличии",
+                buyButton: "Купить",
+                preorderButton: "Предзаказ (+30%)",
+                reviewsTitle: "Последние отзывы:",
+                noReviews: "Отзывов пока нет.",
+                promoInfo: "Приглашай друзей и получай стафф!"
+            }
+        };
 
         const cities = {
             "phuket": {
@@ -1025,110 +909,63 @@
         }
 
         function initApp() {
-    const savedUser = localStorage.getItem('currentUser');
-    if (savedUser) {
-        currentUser = JSON.parse(savedUser);
-        userLanguage = currentUser.language;
-        updateUI();
-        hideRegistrationModal();
-    } else {
-        showRegistrationModal();
-    }
-    
-    // Обновление фильтров
-    updateDistrictFilter();
-    filterByCity();
-
-    // Активируем первую вкладку и добавляем обработчики
-    const firstTab = document.querySelector('.tab');
-    if (firstTab) {
-        firstTab.classList.add('active');
-        document.getElementById(firstTab.dataset.tab).style.display = 'block';
-    }
-    updateTabs(); // Убедимся, что обработчики событий для вкладок добавлены
-}
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                userLanguage = currentUser.language;
+                updateUI();
+                hideRegistrationModal();
+            } else {
+                showRegistrationModal();
+            }
+            updateDistrictFilter();
+            filterByCity();
+            document.querySelector('.tab').classList.add('active');
+            document.querySelector('.tab-content').style.display = 'block';
+        }
 
         function updateUI() {
-    const t = translations[userLanguage];
-    
-    // Обновление баннера с промоакцией
-    document.getElementById('promoBanner').textContent = t.promoBanner;
-    
-    // Обновление текста заголовка
-    document.getElementById('headerText').textContent = t.headerText;
-    
-    // Обновление кнопок навигации
-    document.getElementById('catalogButton').textContent = t.catalogButton;
-    document.getElementById('vacanciesButton').textContent = t.vacanciesButton;
-    document.getElementById('mailButton').textContent = t.mailButton;
-    
-    // Обновление фильтра городов
-    document.getElementById('allCitiesOption').textContent = t.allCitiesOption;
-    document.getElementById('phuketOption').textContent = t.phuketOption;
-    document.getElementById('pattayaOption').textContent = t.pattayaOption;
-    document.getElementById('bangkokOption').textContent = t.bangkokOption;
-    document.getElementById('samuiOption').textContent = t.samuiOption;
-    
-    // Обновление фильтра районов
-    document.getElementById('allDistrictsOption').textContent = t.allDistrictsOption;
-    
-    // Обновление описания продукта (на примере марихуаны)
-    document.getElementById('weedDesc').textContent = t.weedDesc;
-    
-    // Обновление профиля пользователя
-    document.getElementById('profileNameLabel').textContent = `${t.profileNameLabel}${currentUser ? currentUser.nickname : ''}`;
-    document.getElementById('balance').textContent = `${balance} ฿`;
-    document.getElementById('ordersLabel').textContent = `${t.ordersLabel}${orderCount}`;
-    document.getElementById('referralsLabel').textContent = `${t.referralsLabel}${referralCount}`;
-    
-    // Обновление заголовка пополнения баланса
-    document.getElementById('depositTitle').textContent = t.depositTitle;
-    
-    // Обновление истории заказов
-    document.getElementById('orderHistoryTitle').textContent = t.orderHistoryTitle;
-    
-    // Обновление вакансий
-    document.getElementById('vacanciesTitle').textContent = t.vacanciesTitle;
-    document.getElementById('courierTitle').textContent = t.courierTitle;
-    document.getElementById('courierDuties').textContent = t.courierDuties;
-    document.getElementById('courierPay').textContent = t.courierPay;
-    document.getElementById('warehousemanTitle').textContent = t.warehousemanTitle;
-    document.getElementById('warehousemanDuties').textContent = t.warehousemanDuties;
-    document.getElementById('warehousemanPay').textContent = t.warehousemanPay;
-    document.getElementById('transporterTitle').textContent = t.transporterTitle;
-    document.getElementById('transporterDuties').textContent = t.transporterDuties;
-    document.getElementById('transporterPay').textContent = t.transporterPay;
-    document.getElementById('smmTitle').textContent = t.smmTitle;
-    document.getElementById('smmDuties').textContent = t.smmDuties;
-    document.getElementById('smmPay').textContent = t.smmPay;
-    document.getElementById('applyButton1').textContent = t.applyButton;
-    document.getElementById('applyButton2').textContent = t.applyButton;
-    document.getElementById('applyButton3').textContent = t.applyButton;
-    document.getElementById('applyButton4').textContent = t.applyButton;
-    
-    // Обновление почты
-    document.getElementById('mailTitle').textContent = t.mailTitle;
-    
-    // Обновление промо-информации
-    document.getElementById('promoInfo').textContent = t.promoInfo;
-    
-    // Обновление названий вкладок категорий
-    document.getElementById('weedTab').textContent = t.weedTab;
-    document.getElementById('hashTab').textContent = t.hashTab;
-    document.getElementById('cokeTab').textContent = t.cokeTab;
-    document.getElementById('amphTab').textContent = t.amphTab;
-    document.getElementById('methTab').textContent = t.methTab;
-    document.getElementById('mephTab').textContent = t.mephTab;
-    document.getElementById('alphaTab').textContent = t.alphaTab;
-    document.getElementById('lsdTab').textContent = t.lsdTab;
-    document.getElementById('mdmaTab').textContent = t.mdmaTab;
-    document.getElementById('heroinTab').textContent = t.heroinTab;
-    
-    // Обновление обработчиков вкладок, истории заказов и почты
-    updateTabs();
-    updateOrderHistory();
-    updateMail();
-}
+            const t = translations[userLanguage];
+            document.getElementById('promoBanner').textContent = t.promoBanner;
+            document.getElementById('headerText').textContent = t.headerText;
+            document.getElementById('catalogButton').textContent = t.catalogButton;
+            document.getElementById('vacanciesButton').textContent = t.vacanciesButton;
+            document.getElementById('mailButton').textContent = t.mailButton;
+            document.getElementById('allCitiesOption').textContent = t.allCitiesOption;
+            document.getElementById('phuketOption').textContent = t.phuketOption;
+            document.getElementById('pattayaOption').textContent = t.pattayaOption;
+            document.getElementById('bangkokOption').textContent = t.bangkokOption;
+            document.getElementById('samuiOption').textContent = t.samuiOption;
+            document.getElementById('allDistrictsOption').textContent = t.allDistrictsOption;
+            document.getElementById('weedDesc').textContent = t.weedDesc;
+            document.getElementById('profileNameLabel').textContent = `${t.profileNameLabel}${currentUser ? currentUser.nickname : ''}`;
+            document.getElementById('balance').textContent = `${balance} ฿`;
+            document.getElementById('ordersLabel').textContent = `${t.ordersLabel}${orderCount}`;
+            document.getElementById('referralsLabel').textContent = `${t.referralsLabel}${referralCount}`;
+            document.getElementById('depositTitle').textContent = t.depositTitle;
+            document.getElementById('orderHistoryTitle').textContent = t.orderHistoryTitle;
+            document.getElementById('vacanciesTitle').textContent = t.vacanciesTitle;
+            document.getElementById('courierTitle').textContent = t.courierTitle;
+            document.getElementById('courierDuties').textContent = t.courierDuties;
+            document.getElementById('courierPay').textContent = t.courierPay;
+            document.getElementById('warehousemanTitle').textContent = t.warehousemanTitle;
+            document.getElementById('warehousemanDuties').textContent = t.warehousemanDuties;
+            document.getElementById('warehousemanPay').textContent = t.warehousemanPay;
+            document.getElementById('transporterTitle').textContent = t.transporterTitle;
+            document.getElementById('transporterDuties').textContent = t.transporterDuties;
+            document.getElementById('transporterPay').textContent = t.transporterPay;
+            document.getElementById('smmTitle').textContent = t.smmTitle;
+            document.getElementById('smmDuties').textContent = t.smmDuties;
+            document.getElementById('smmPay').textContent = t.smmPay;
+            document.getElementById('applyButton1').textContent = t.applyButton;
+            document.getElementById('applyButton2').textContent = t.applyButton;
+            document.getElementById('applyButton3').textContent = t.applyButton;
+            document.getElementById('applyButton4').textContent = t.applyButton;
+            document.getElementById('mailTitle').textContent = t.mailTitle;
+            document.getElementById('promoInfo').textContent = t.promoInfo;
+            updateTabs();
+            updateOrderHistory();
+            updateMail();
         }
 
         function updateTabs() {
@@ -1395,33 +1232,14 @@
         }
 
         function confirmDeposit(crypto, amount, address) {
-    const t = translations[userLanguage];
-    closeModal('depositModal');
-    showCustomModal(t.paymentPending);
-
-    // Отправляем уведомление в Telegram с кнопками
-    const text = `Пополнение баланса\nПользователь: ${currentUser.nickname}\nКриптовалюта: ${crypto}\nСумма: ${amount} ฿\nАдрес: ${address}`;
-    const url = `https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage`;
-    fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            chat_id: ADMIN_CHAT_ID,
-            text: text,
-            reply_markup: {
-                inline_keyboard: [
-                    [
-                        { text: t.confirmButton, callback_data: `confirm_deposit_${currentUser.nickname}_${amount}` },
-                        { text: t.cancelButton, callback_data: `reject_deposit_${currentUser.nickname}_${amount}` }
-                    ]
-                ]
-            }
-        })
-    }).catch(error => console.error('Ошибка отправки в Telegram:', error));
-
-    // Сохраняем запрос на пополнение в ожидании
-    pendingPayments[address] = { amount, crypto, timestamp: Date.now(), status: 'pending' };
-}
+            const t = translations[userLanguage];
+            balance += amount;
+            document.getElementById('balance').textContent = `${balance} ฿`;
+            delete pendingPayments[address];
+            closeModal('depositModal');
+            showCustomModal(t.paymentPending);
+            sendDepositToAdmin(crypto, amount, address);
+        }
 
         function showRegistrationModal() {
             document.getElementById('registrationModal').style.display = 'flex';
