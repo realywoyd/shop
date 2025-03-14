@@ -1024,21 +1024,35 @@
             return positions;
         }
 
-        function initApp() {
-            const savedUser = localStorage.getItem('currentUser');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                userLanguage = currentUser.language;
-                updateUI();
-                hideRegistrationModal();
-            } else {
-                showRegistrationModal();
-            }
-            updateDistrictFilter();
-            filterByCity();
-            document.querySelector('.tab').classList.add('active');
-            document.querySelector('.tab-content').style.display = 'block';
+function initApp() {
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+        try {
+            currentUser = JSON.parse(savedUser);
+            userLanguage = currentUser.language;
+            hideRegistrationModal();
+        } catch (e) {
+            console.error('Ошибка парсинга данных пользователя:', e);
+            showRegistrationModal();
         }
+    } else {
+        showRegistrationModal();
+    }
+    
+    updateDistrictFilter();
+    filterByCity();
+
+    const firstTab = document.querySelector('.tab');
+    if (firstTab) {
+        firstTab.classList.add('active');
+        document.getElementById(firstTab.dataset.tab).style.display = 'block';
+    } else {
+        console.warn('Не найдена первая вкладка категорий (.tab)');
+    }
+    updateTabs();
+    
+    if (savedUser) updateUI(); // Обновляем UI только если пользователь загружен
+}
 
         function updateUI() {
     const t = translations[userLanguage];
