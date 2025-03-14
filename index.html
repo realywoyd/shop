@@ -1251,31 +1251,29 @@
         }
 
         function initApp() {
-    console.log('initApp started'); // Отладка начала
+    console.log('initApp started');
 
-    // Проверяем пользователя
     const savedUser = localStorage.getItem('currentUser');
     if (savedUser) {
         try {
-            console.log('Loading saved user:', savedUser);
+            console.log('Found saved user:', savedUser);
             currentUser = JSON.parse(savedUser);
             userLanguage = currentUser.language;
             updateUI();
         } catch (error) {
             console.error('Error parsing saved user:', error);
             localStorage.removeItem('currentUser'); // Удаляем битые данные
-            showRegistrationModal(); // Показываем регистрацию при ошибке
+            showRegistrationModal();
         }
     } else {
-        console.log('No user found, showing registration');
+        console.log('No saved user, showing registration');
         showRegistrationModal();
     }
 
-    // Привязываем обработчики табов независимо от пользователя
     const tabs = document.querySelectorAll('.tab');
     console.log('Found tabs:', tabs.length);
     if (tabs.length === 0) {
-        console.error('No tabs found in DOM');
+        console.error('No tabs found');
         return;
     }
 
@@ -1285,26 +1283,19 @@
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
             document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
-            const contentElement = document.getElementById(tab.dataset.tab);
-            if (contentElement) {
-                contentElement.style.display = 'block';
-            } else {
-                console.error(`Content not found for tab: ${tab.dataset.tab}`);
-            }
+            document.getElementById(tab.dataset.tab).style.display = 'block';
         });
     });
 
-    // Открываем вкладку "Марихуана" по умолчанию
     const weedTab = document.querySelector('.tab[data-tab="weed"]');
     if (weedTab) {
         console.log('Opening weed tab');
-        weedTab.click(); // Используем .click() для запуска события
+        weedTab.click();
     } else {
         console.error('Weed tab not found');
     }
 
-    // Применяем фильтр продуктов (если нужно)
-    filterProducts(); // Добавляем, чтобы сразу показать доступные позиции
+    filterProducts(); // Применяем фильтр
 
     // Обработчики модалок
     document.getElementById('productModal').addEventListener('click', e => {
@@ -1312,31 +1303,26 @@
             document.getElementById('productModal').style.display = 'none';
         }
     });
-
     document.getElementById('paymentModal').addEventListener('click', e => {
         if (e.target === document.getElementById('paymentModal')) {
             document.getElementById('paymentModal').style.display = 'none';
         }
     });
-
     document.getElementById('depositModal').addEventListener('click', e => {
         if (e.target === document.getElementById('depositModal')) {
             document.getElementById('depositModal').style.display = 'none';
         }
     });
-
     document.getElementById('preorderModal').addEventListener('click', e => {
         if (e.target === document.getElementById('preorderModal')) {
             document.getElementById('preorderModal').style.display = 'none';
         }
     });
-
     document.getElementById('customModal').addEventListener('click', e => {
         if (e.target === document.getElementById('customModal')) {
             document.getElementById('customModal').style.display = 'none';
         }
     });
-
     document.getElementById('confirmModal').addEventListener('click', e => {
         if (e.target === document.getElementById('confirmModal')) {
             document.getElementById('confirmModal').style.display = 'none';
