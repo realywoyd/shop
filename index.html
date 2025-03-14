@@ -1250,33 +1250,24 @@
             return positions;
         }
 
-        // Глобальные переменные (должны быть объявлены до вызова initApp)
-let currentUser = null;
-let userLanguage = 'ru';
-let balance = 0;
-let orderCount = 0;
-let referralCount = 0;
-let orderHistory = [];
-
-function initApp() {
-    // Проверяем, есть ли сохранённый пользователь в localStorage
+        function initApp() {
+    // Проверяем, есть ли сохраненный пользователь в localStorage
     const savedUser = localStorage.getItem('currentUser');
+    
     if (savedUser) {
-        // Если есть, восстанавливаем currentUser и обновляем интерфейс
+        // Если пользователь найден в localStorage, восстанавливаем его данные
         currentUser = JSON.parse(savedUser);
         userLanguage = currentUser.language;
-        // Восстанавливаем другие данные пользователя (баланс, заказы и т.д.), если они есть
-        balance = parseFloat(localStorage.getItem('balance')) || 0;
-        orderCount = parseInt(localStorage.getItem('orderCount')) || 0;
-        referralCount = parseInt(localStorage.getItem('referralCount')) || 0;
-        orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
         updateUI();
-    } else {
-        // Если нет, показываем регистрацию
+    } else if (!currentUser) {
+        // Если пользователь не найден ни в памяти, ни в localStorage, показываем окно регистрации
         showRegistrationModal();
+    } else {
+        // Если пользователь уже есть в памяти, но не в localStorage, обновляем UI
+        userLanguage = currentUser.language;
+        updateUI();
     }
 
-    // Обработчики событий для вкладок
     document.querySelectorAll('.tab').forEach(tab => {
         tab.addEventListener('click', () => {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -1286,10 +1277,8 @@ function initApp() {
         });
     });
 
-    // Активируем вкладку "weed" по умолчанию
     document.querySelector('.tab[data-tab="weed"]').click();
 
-    // Обработчики закрытия модальных окон по клику на фон
     document.getElementById('productModal').addEventListener('click', e => {
         if (e.target === document.getElementById('productModal')) {
             document.getElementById('productModal').style.display = 'none';
@@ -1327,468 +1316,40 @@ function initApp() {
     });
 }
 
-// Пример заглушек для функций, если их нет
-function updateUI() {
-    console.log('UI updated');
+function registerUser() {
+    const t = translations[userLanguage];
+    const nickname = document.getElementById('regNickname').value.trim();
+    userLanguage = document.getElementById('regLanguage').value;
+
+    if (!nickname) {
+        document.getElementById('regError').innerText = t.regErrorEmpty;
+        return;
+    }
+
+    if (registeredUsers.some(user => user.nickname === nickname)) {
+        document.getElementById('regError').innerText = t.regErrorTaken;
+        return;
+    }
+
+    const userId = Date.now().toString();
+    currentUser = { id: userId, nickname: nickname, language: userLanguage };
+    registeredUsers.push(currentUser);
+    
+    // Сохраняем пользователя в localStorage
+    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    
+    document.getElementById('registrationModal').style.display = 'none';
+    showCustomModal(t.alertTitle, t.welcomeMessage.replace('{user}', nickname));
+    updateUI();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get('start');
+    if (ref && registeredUsers.some(user => user.id === ref)) {
+        referralCount++;
+        updateUI();
+        sendTelegramMessage(ref, `Ваш друг ${nickname} зарегистрировался по вашей ссылке! У вас теперь ${referralCount} рефералов.`);
+        checkReferralRewards(ref);
+    }
 }
-
-function showRegistrationModal() {
-    console.log('Show registration modal');
-}
-
-// Вызов функции при загрузке страницы (если нужно)
-window.onload = initApp;
-            document.querySelector('.tab[data-tab="weed"]').click();
-
-            document.getElementById('productModal').addEventListener('click', e => {
-                if (e.target === document.getElementById('productModal')) {
-                    document.getElementById('productModal').style.display = 'none';
-                }
-            });
-
-            document.getElementById('paymentModal').addEventListener('click', e => {
-                if (e.target === document.getElementById('paymentModal')) {
-                    document.getElementById('paymentModal').style.display = 'none';
-                }
-            });
-
-            document.getElementById('depositModal').addEventListener('click', e => {
-                if (e.target === document.getElementById('depositModal')) {
-                    document.getElementById('depositModal').style.display = 'none';
-                }
-            });
-
-            document.getElementById('preorderModal').addEventListener('click', e => {
-                if (e.target === document.getElementById('preorderModal')) {
-                    document.getElementById('preorderModal').style.display = 'none';
-                }
-            });
-
-            document.getElementById('customModal').addEventListener('click', e => {
-                if (e.target === document.getElementById('customModal')) {
-                    document.getElementById('customModal').style.display = 'none';
-                }
-            });
-
-            document.getElementById('confirmModal').addEventListener('click', e => {
-                if (e.target === document.getElementById('confirmModal')) {
-                    document.getElementById('confirmModal').style.display = 'none';
-                }
-            });
-        }
-
-        function updateUI() {
-            const t = translations[userLanguage];
-            document.getElementById('promoBanner').innerText = t.promoBanner;
-            document.getElementById('headerText').innerText = t.headerText;
-            document.getElementById('catalogButton').innerText = t.catalogButton;
-            document.getElementById('vacanciesButton').innerText = t.vacanciesButton;
-            document.getElementById('mailButton').innerText = t.mailButton;
-            document.getElementById('allCitiesOption').innerText = t.allCitiesOption;
-            document.getElementById('phuketOption').innerText = t.phuketOption;
-            document.getElementById('pattayaOption').innerText = t.pattayaOption;
-            document.getElementById('bangkokOption').innerText = t.bangkokOption;
-            document.getElementById('samuiOption').innerText = t.samuiOption;
-            document.getElementById('allDistrictsOption').innerText = t.allDistrictsOption;
-            document.getElementById('weedDesc').innerText = t.weedDesc;
-            document.getElementById('profileNameLabel').innerText = t.profileNameLabel + currentUser.nickname;
-            document.getElementById('balance').innerText = balance + " ฿";
-            document.getElementById('ordersLabel').innerText = t.ordersLabel + orderCount;
-            document.getElementById('referralsLabel').innerText = t.referralsLabel + referralCount;
-            document.getElementById('refLinkLabel').innerText = t.refLinkLabel;
-            document.getElementById('referralLink').innerText = `https://t.me/DarkThailandBot?start=${currentUser.id}`;
-            document.getElementById('referralLink').href = `https://t.me/DarkThailandBot?start=${currentUser.id}`;
-            document.getElementById('depositTitle').innerText = t.depositTitle;
-            document.getElementById('orderHistoryTitle').innerText = t.orderHistoryTitle;
-            document.getElementById('orderList').innerHTML = orderHistory.length ? orderHistory.map(order => `<p>${order}</p>`).join('') : t.orderListEmpty;
-            document.getElementById('vacanciesTitle').innerText = t.vacanciesTitle;
-            document.getElementById('courierTitle').innerText = t.courierTitle;
-            document.getElementById('courierDuties').innerText = t.courierDuties;
-            document.getElementById('courierPay').innerText = t.courierPay;
-            document.getElementById('warehousemanTitle').innerText = t.warehousemanTitle;
-            document.getElementById('warehousemanDuties').innerText = t.warehousemanDuties;
-            document.getElementById('warehousemanPay').innerText = t.warehousemanPay;
-            document.getElementById('transporterTitle').innerText = t.transporterTitle;
-            document.getElementById('transporterDuties').innerText = t.transporterDuties;
-            document.getElementById('transporterPay').innerText = t.transporterPay;
-            document.getElementById('smmTitle').innerText = t.smmTitle;
-            document.getElementById('smmDuties').innerText = t.smmDuties;
-            document.getElementById('smmPay').innerText = t.smmPay;
-            document.getElementById('applyButton').innerText = t.applyButton;
-            document.getElementById('applyButton2').innerText = t.applyButton;
-            document.getElementById('applyButton3').innerText = t.applyButton;
-            document.getElementById('applyButton4').innerText = t.applyButton;
-            document.getElementById('mailTitle').innerText = t.mailTitle;
-            document.getElementById('mailList').innerHTML = mailMessages.length ? mailMessages.map(msg => `<p>${msg}</p>`).join('') : t.mailListEmpty;
-            document.getElementById('promoInfo').innerText = t.promoInfo;
-
-            updateDistrictFilter();
-        }
-
-        function toggleCatalog() {
-            const catalog = document.getElementById('catalogMenu');
-            catalog.style.display = catalog.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('profileMenu').style.display = 'none';
-            document.getElementById('vacancyMenu').style.display = 'none';
-            document.getElementById('mailMenu').style.display = 'none';
-        }
-
-        function toggleProfile() {
-            const profile = document.getElementById('profileMenu');
-            profile.style.display = profile.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('catalogMenu').style.display = 'none';
-            document.getElementById('vacancyMenu').style.display = 'none';
-            document.getElementById('mailMenu').style.display = 'none';
-        }
-
-        function toggleVacancies() {
-            const vacancies = document.getElementById('vacancyMenu');
-            vacancies.style.display = vacancies.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('catalogMenu').style.display = 'none';
-            document.getElementById('profileMenu').style.display = 'none';
-            document.getElementById('mailMenu').style.display = 'none';
-        }
-
-        function toggleMail() {
-            const mail = document.getElementById('mailMenu');
-            mail.style.display = mail.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('catalogMenu').style.display = 'none';
-            document.getElementById('profileMenu').style.display = 'none';
-            document.getElementById('vacancyMenu').style.display = 'none';
-        }
-
-        function filterByCity() {
-            selectedCity = document.getElementById('citySelect').value;
-            updateDistrictFilter();
-            filterProducts();
-        }
-
-        function filterByDistrict() {
-            selectedDistrict = document.getElementById('districtSelect').value;
-            filterProducts();
-        }
-
-        function updateDistrictFilter() {
-            const districtSelect = document.getElementById('districtSelect');
-            districtSelect.innerHTML = `<option value="all">${translations[userLanguage].allDistrictsOption}</option>`;
-            if (selectedCity !== 'all') {
-                const districts = translations[userLanguage][selectedCity + 'Districts'];
-                for (const [key, value] of Object.entries(districts)) {
-                    districtSelect.innerHTML += `<option value="${key}">${value}</option>`;
-                }
-            }
-        }
-
-        function filterProducts() {
-            document.querySelectorAll('.product-card').forEach(card => {
-                const [category, productId] = card.dataset.product.split('-');
-                const product = products[category][productId];
-                const hasPosition = product.positions.some(pos => 
-                    (selectedCity === 'all' || pos.city === selectedCity) &&
-                    (selectedDistrict === 'all' || pos.district === selectedDistrict)
-                );
-                card.style.display = hasPosition ? 'block' : 'none';
-            });
-        }
-
-        function showProductModal(category, productId) {
-            const t = translations[userLanguage];
-            const product = products[category][productId];
-            const modal = document.getElementById('productModal');
-            const content = document.getElementById('productContent');
-            let positionsHTML = '';
-
-            product.positions.forEach(pos => {
-                if ((selectedCity === 'all' || pos.city === selectedCity) && (selectedDistrict === 'all' || pos.district === selectedDistrict)) {
-                    const price = basePrices[category][productId] * pos.weight;
-                    const cryptoPrice = (price / cryptoRates.BTC).toFixed(6);
-                    positionsHTML += `
-                        <div class="position">
-                            <p>${t.positionWeight} ${pos.weight} г</p>
-                            <p>${t.positionPrice} ${price} ฿ <span class="crypto-price">(${cryptoPrice} BTC)</span></p>
-                            <p>${t.positionCity} ${translations[userLanguage][pos.city + 'Option']} - ${translations[userLanguage][pos.city + 'Districts'][pos.district]}</p>
-                            <p>${t.positionAvailability} ${pos.available ? t.inStock : t.outOfStock}</p>
-                            ${pos.available ? `<button class="buy-button" onclick="buyProduct('${category}', ${productId}, ${pos.weight}, ${price}, '${pos.city}', '${pos.district}')">${t.buyButton}</button>` : `<button class="preorder-button" onclick="showPreorderModal('${category}', ${productId}, ${pos.weight}, ${price})">${t.preorderButton}</button>`}
-                        </div>`;
-                }
-            });
-
-            let reviewsHTML = `<h3>${t.reviewsTitle}</h3>`;
-            if (product.reviews && product.reviews.length > 0) {
-                product.reviews.forEach(review => {
-                    reviewsHTML += `
-                        <div class="review">
-                            <span class="review-text">${review.text}</span>
-                            <span class="review-date">${review.date}</span>
-                        </div>
-                        <div class="moderator-response">${review.mod}</div>`;
-                });
-            } else {
-                reviewsHTML += `<p>${t.noReviews}</p>`;
-            }
-
-            content.innerHTML = `
-                <h2>${product.name}</h2>
-                ${positionsHTML || '<p>Нет доступных позиций в выбранном регионе.</p>'}
-                ${reviewsHTML}
-                <button class="buy-button" onclick="document.getElementById('productModal').style.display='none';">${t.close}</button>
-            `;
-            modal.style.display = 'flex';
-        }
-
-        function buyProduct(category, productId, weight, price, city, district) {
-            const t = translations[userLanguage];
-            if (balance < price) {
-                showConfirmModal(t.insufficientFunds, () => showDepositModal('BTC'), () => {});
-                return;
-            }
-
-            balance -= price;
-            orderCount++;
-            const orderDetails = `${products[category][productId].name} - ${weight} г, ${price} ฿ (${translations[userLanguage][city + 'Option']} - ${translations[userLanguage][city + 'Districts'][district]})`;
-            orderHistory.unshift(orderDetails);
-            if (orderHistory.length > 10) orderHistory.pop();
-
-            const position = products[category][productId].positions.find(p => p.weight === weight && p.city === city && p.district === district);
-            position.available = false;
-
-            updateUI();
-            showPaymentModal(category, productId, weight, price, city, district);
-        }
-
-        function showPaymentModal(category, productId, weight, price, city, district) {
-            const t = translations[userLanguage];
-            const coords = cities[city][district];
-            const paymentContent = `
-                <h2>${t.paymentSuccess}</h2>
-                <p>${products[category][productId].name} - ${weight} г</p>
-                <p>${t.positionCity} ${translations[userLanguage][city + 'Option']} - ${translations[userLanguage][city + 'Districts'][district]}</p>
-                <p>Координаты: ${coords.lat}, ${coords.lon}</p>
-                <p>Описание: ${coords.desc}</p>
-                <button class="buy-button" onclick="document.getElementById('paymentModal').style.display='none';">${t.close}</button>
-            `;
-            document.getElementById('paymentContent').innerHTML = paymentContent;
-            document.getElementById('paymentModal').style.display = 'flex';
-        }
-
-        function showPreorderModal(category, productId, weight, price) {
-            const t = translations[userLanguage];
-            const preorderPrice = Math.round(price * 1.3);
-            const cryptoPrice = (preorderPrice / cryptoRates.BTC).toFixed(6);
-            const preorderContent = `
-                <h2>${t.preorderTitle}</h2>
-                <p>${products[category][productId].name} - ${weight} г</p>
-                <p>${t.positionPrice} ${preorderPrice} ฿ <span class="crypto-price">(${cryptoPrice} BTC)</span></p>
-                <button class="buy-button" onclick="confirmPreorder('${category}', ${productId}, ${weight}, ${preorderPrice})">${t.buyButton}</button>
-                <button class="buy-button" onclick="document.getElementById('preorderModal').style.display='none';">${t.close}</button>
-            `;
-            document.getElementById('preorderContent').innerHTML = preorderContent;
-            document.getElementById('preorderModal').style.display = 'flex';
-        }
-
-        function confirmPreorder(category, productId, weight, price) {
-            const t = translations[userLanguage];
-            if (balance < price) {
-                showConfirmModal(t.insufficientFunds, () => showDepositModal('BTC'), () => {});
-                return;
-            }
-
-            balance -= price;
-            orderCount++;
-            const orderDetails = `${t.preorderTitle}: ${products[category][productId].name} - ${weight} г, ${price} ฿`;
-            orderHistory.unshift(orderDetails);
-            if (orderHistory.length > 10) orderHistory.pop();
-
-            updateUI();
-            document.getElementById('preorderContent').innerHTML = `
-                <h2>${t.preorderPlaced}</h2>
-                <p>${products[category][productId].name} - ${weight} г</p>
-                <p>${t.positionPrice} ${price} ฿</p>
-                <button class="buy-button" onclick="document.getElementById('preorderModal').style.display='none';">${t.close}</button>
-            `;
-        }
-
-        function showDepositModal(crypto) {
-            const t = translations[userLanguage];
-            const depositContent = `
-                <h2>${t.depositFunds}</h2>
-                <p>${t.selectCrypto} ${crypto}</p>
-                <p>${t.networkLabel} ${cryptoNetworks[crypto]}</p>
-                <input type="number" id="depositAmount" placeholder="${t.enterAmount}">
-                <button class="buy-button" onclick="generateDepositAddress('${crypto}')">${t.generateAddress}</button>
-                <p id="depositError" style="color: #ff9999;"></p>
-                <button class="buy-button" onclick="document.getElementById('depositModal').style.display='none';">${t.close}</button>
-            `;
-            document.getElementById('depositContent').innerHTML = depositContent;
-            document.getElementById('depositModal').style.display = 'flex';
-        }
-
-        function generateDepositAddress(crypto) {
-            const t = translations[userLanguage];
-            const amount = parseFloat(document.getElementById('depositAmount').value);
-            if (isNaN(amount) || amount < MIN_DEPOSIT) {
-                document.getElementById('depositError').innerText = t.minDepositError;
-                return;
-            }
-
-            const cryptoAmount = (amount / cryptoRates[crypto]).toFixed(6);
-            const address = testAddresses[crypto];
-            pendingPayments[address] = { amount, crypto, user: currentUser.id, timestamp: Date.now() };
-
-            const depositContent = `
-                <h2>${t.depositFunds}</h2>
-                <p>${t.depositInstruction.replace('{amount}', amount).replace('{cryptoAmount}', cryptoAmount).replace('{crypto}', crypto)}</p>
-                <p><strong>${address}</strong></p>
-                <p>${t.depositFinal}</p>
-                <p>${t.depositExpiry}</p>
-                <button class="buy-button" onclick="confirmDeposit('${address}')">${t.confirmPayment}</button>
-                <button class="buy-button" onclick="document.getElementById('depositModal').style.display='none';">${t.close}</button>
-            `;
-            document.getElementById('depositContent').innerHTML = depositContent;
-        }
-
-        function confirmDeposit(address) {
-            const t = translations[userLanguage];
-            const payment = pendingPayments[address];
-            if (!payment || (Date.now() - payment.timestamp) > 30 * 60 * 1000) {
-                showCustomModal(t.alertTitle, "Адрес устарел или не найден!");
-                return;
-            }
-
-            sendTelegramMessage(ADMIN_CHAT_ID, `Пользователь ${payment.user} подтвердил пополнение:\n${payment.amount} ฿ (${(payment.amount / cryptoRates[payment.crypto]).toFixed(6)} ${payment.crypto})\nАдрес: ${address}\nПроверьте транзакцию и зачислите средства.`);
-            document.getElementById('depositContent').innerHTML = `
-                <h2>${t.paymentPending}</h2>
-                <button class="buy-button" onclick="document.getElementById('depositModal').style.display='none';">${t.close}</button>
-            `;
-            delete pendingPayments[address];
-        }
-
-        function showRegistrationModal() {
-            document.getElementById('registrationModal').style.display = 'flex';
-        }
-
-        function registerUser() {
-            const t = translations[userLanguage];
-            const nickname = document.getElementById('regNickname').value.trim();
-            userLanguage = document.getElementById('regLanguage').value;
-
-            if (!nickname) {
-                document.getElementById('regError').innerText = t.regErrorEmpty;
-                return;
-            }
-
-            if (registeredUsers.some(user => user.nickname === nickname)) {
-                document.getElementById('regError').innerText = t.regErrorTaken;
-                return;
-            }
-
-            const userId = Date.now().toString();
-            currentUser = { id: userId, nickname: nickname, language: userLanguage };
-            registeredUsers.push(currentUser);
-            localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-            document.getElementById('registrationModal').style.display = 'none';
-            showCustomModal(t.alertTitle, t.welcomeMessage.replace('{user}', nickname));
-            updateUI();
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const ref = urlParams.get('start');
-            if (ref && registeredUsers.some(user => user.id === ref)) {
-                referralCount++;
-                updateUI();
-                sendTelegramMessage(ref, `Ваш друг ${nickname} зарегистрировался по вашей ссылке! У вас теперь ${referralCount} рефералов.`);
-                checkReferralRewards(ref);
-            }
-        }
-
-        function checkReferralRewards(userId) {
-            const user = registeredUsers.find(u => u.id === userId);
-            if (!user) return;
-
-            const refCount = referralCount;
-            let rewardMessage = '';
-            if (refCount >= 25) {
-                rewardMessage = "Вы пригласили 25 друзей! Вам начислено 1 г кокаина (VHQ)!";
-                sendTelegramMessage(userId, rewardMessage);
-            } else if (refCount >= 10) {
-                rewardMessage = "Вы пригласили 10 друзей! Вам начислено 0.5 г кокаина (MQ)!";
-                sendTelegramMessage(userId, rewardMessage);
-            } else if (refCount >= 5) {
-                rewardMessage = "Вы пригласили 5 друзей! Вам начислено 0.5 г амфетамина!";
-                sendTelegramMessage(userId, rewardMessage);
-            }
-        }
-
-        function showCustomModal(title, message) {
-            const t = translations[userLanguage];
-            document.getElementById('customContent').innerHTML = `
-                <h2>${title}</h2>
-                <p>${message}</p>
-                <button class="buy-button" onclick="document.getElementById('customModal').style.display='none';">${t.close}</button>
-            `;
-            document.getElementById('customModal').style.display = 'flex';
-        }
-
-        function showConfirmModal(message, onConfirm, onCancel) {
-            const t = translations[userLanguage];
-            document.getElementById('confirmContent').innerHTML = `
-                <h2>${t.confirmTitle}</h2>
-                <p>${message}</p>
-                <button class="buy-button" onclick="confirmAction(() => {${onConfirm.toString()}})">${t.yes}</button>
-                <button class="buy-button" onclick="cancelAction(() => {${onCancel.toString()}})">${t.no}</button>
-            `;
-            document.getElementById('confirmModal').style.display = 'flex';
-        }
-
-        function confirmAction(callback) {
-            document.getElementById('confirmModal').style.display = 'none';
-            callback();
-        }
-
-        function cancelAction(callback) {
-            document.getElementById('confirmModal').style.display = 'none';
-            callback();
-        }
-
-        function applyForJob(job) {
-            const t = translations[userLanguage];
-            showCustomModal(t.inputTitle, `
-                <p>${t.applyJobPrompt.replace('{job}', job)}</p>
-                <textarea id="resumeInput" placeholder="Ваше резюме"></textarea>
-                <button class="buy-button" onclick="submitJobApplication('${job}')">${t.confirmButton}</button>
-                <button class="buy-button" onclick="document.getElementById('customModal').style.display='none';">${t.cancelButton}</button>
-            `);
-        }
-
-        function submitJobApplication(job) {
-            const t = translations[userLanguage];
-            const resume = document.getElementById('resumeInput').value.trim();
-            if (!resume) {
-                showCustomModal(t.alertTitle, "Резюме не может быть пустым!");
-                return;
-            }
-
-            sendTelegramMessage(ADMIN_CHAT_ID, `Заявка на вакансию "${job}" от ${currentUser.nickname}:\n${resume}`);
-            document.getElementById('customModal').innerHTML = `
-                <h2>${t.applyJobAlert.replace('{job}', job)}</h2>
-                <p>${t.applyJobSent.replace('{job}', job)}</p>
-                <button class="buy-button" onclick="document.getElementById('customModal').style.display='none';">${t.close}</button>
-            `;
-        }
-
-        function sendTelegramMessage(chatId, text) {
-            const url = `https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage`;
-            fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: chatId, text: text })
-            }).catch(error => console.error('Ошибка отправки в Telegram:', error));
-        }
-
-        function showPromoDetails() {
-            const t = translations[userLanguage];
-            showCustomModal("Акция \"Приведи друга\"", t.promoBanner);
-        }
-
-        window.onload = initApp;
-    </script>
 </body>
