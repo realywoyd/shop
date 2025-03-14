@@ -1253,36 +1253,34 @@
         function initApp() {
     console.log('initApp started');
 
+    // Проверка localStorage
     const savedUser = localStorage.getItem('currentUser');
-    console.log('Saved user from localStorage:', savedUser);
+    console.log('Saved user:', savedUser);
 
     if (savedUser) {
         try {
             currentUser = JSON.parse(savedUser);
             userLanguage = currentUser.language || 'en';
-            console.log('Parsed user:', currentUser);
+            console.log('Loaded user:', currentUser);
             updateUI();
         } catch (error) {
-            console.error('Error parsing saved user:', error);
+            console.error('Error parsing user:', error);
             localStorage.removeItem('currentUser');
-            console.log('Removed invalid user data');
             showRegistrationModal();
         }
     } else {
-        console.log('No saved user, showing registration');
+        console.log('No user, showing registration');
         showRegistrationModal();
     }
 
+    // Проверка табов
     const tabs = document.querySelectorAll('.tab');
-    console.log('Found tabs:', tabs.length);
-    if (tabs.length === 0) {
-        console.error('No tabs found in DOM');
-        return;
-    }
+    console.log('Tabs found:', tabs.length);
 
     tabs.forEach(tab => {
+        console.log('Setting up tab:', tab.dataset.tab);
         tab.addEventListener('click', () => {
-            console.log(`Tab clicked: ${tab.dataset.tab}`);
+            console.log('Clicked tab:', tab.dataset.tab);
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
             document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
@@ -1290,32 +1288,18 @@
             if (contentElement) {
                 contentElement.style.display = 'block';
             } else {
-                console.error(`Content not found for tab: ${tab.dataset.tab}`);
+                console.error('Content not found for tab:', tab.dataset.tab);
             }
         });
     });
 
     const weedTab = document.querySelector('.tab[data-tab="weed"]');
     if (weedTab) {
-        console.log('Opening weed tab');
+        console.log('Triggering weed tab');
         weedTab.click();
     } else {
         console.error('Weed tab not found');
     }
-
-    filterProducts();
-
-    // Обработчики модалок
-    ['productModal', 'paymentModal', 'depositModal', 'preorderModal', 'customModal', 'confirmModal'].forEach(modalId => {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.addEventListener('click', e => {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-        }
-    });
 }
         function updateUI() {
             const t = translations[userLanguage];
@@ -1608,42 +1592,31 @@
         }
 
         function registerUser() {
-    const t = translations[userLanguage] || translations['en']; // Фallback на случай undefined
     const nickname = document.getElementById('regNickname')?.value.trim() || '';
     userLanguage = document.getElementById('regLanguage')?.value || 'en';
 
-    console.log('Registering with nickname:', nickname, 'language:', userLanguage);
+    console.log('Registering with:', { nickname, userLanguage });
 
     if (!nickname) {
-        document.getElementById('regError')?.innerText = t.regErrorEmpty || 'Nickname is required';
-        return;
-    }
-
-    if (registeredUsers.some(user => user.nickname === nickname)) {
-        document.getElementById('regError')?.innerText = t.regErrorTaken || 'Nickname is taken';
+        console.log('Nickname is empty');
+        document.getElementById('regError').innerText = 'Nickname is required';
         return;
     }
 
     const userId = Date.now().toString();
     currentUser = { id: userId, nickname: nickname, language: userLanguage };
-    console.log('New user object:', currentUser);
+    console.log('Created user:', currentUser);
 
     try {
-        registeredUsers.push(currentUser);
-        localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        console.log('LocalStorage after save:', {
-            currentUser: localStorage.getItem('currentUser'),
-            registeredUsers: localStorage.getItem('registeredUsers')
-        });
+        console.log('Saved user:', localStorage.getItem('currentUser'));
     } catch (error) {
-        console.error('Error saving to localStorage:', error);
-        showCustomModal('Ошибка', 'Не удалось сохранить данные. Проверьте настройки браузера.');
+        console.error('Error saving user:', error);
         return;
     }
 
     document.getElementById('registrationModal')?.style.display = 'none';
-    showCustomModal(t.alertTitle || 'Success', t.welcomeMessage?.replace('{user}', nickname) || `Welcome, ${nickname}!`);
+    console.log('Registration modal closed');
     updateUI();
 }
 
