@@ -23,15 +23,8 @@
         .nav { display: flex; justify-content: space-between; margin-bottom: 20px; }
         .nav-button { background-color: #ff4444; color: #000; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; animation: neonPulse 1.5s infinite; }
         .profile-button { background-color: #ff4444; color: #000; border: none; padding: 0; border-radius: 5px; cursor: pointer; font-size: 26px; width: 60px; height: 40px; line-height: 40px; text-align: center; animation: neonPulse 1.5s infinite; }
-        .chat-button { position: fixed; bottom: 20px; right: 20px; background-color: #ff4444; color: #000; border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; font-size: 24px; animation: neonPulse 1.5s infinite; z-index: 1000; }
-        .chat-button::before { content: "💬"; }
         @keyframes neonPulse { 0% { box-shadow: 0 0 5px #ff4444; } 50% { box-shadow: 0 0 20px #ff4444; } 100% { box-shadow: 0 0 5px #ff4444; } }
         .catalog-menu, .profile-menu, .vacancy-menu, .mail-menu { display: none; background-color: #333; border-radius: 5px; padding: 15px; box-shadow: 0 0 15px rgba(255, 68, 68, 0.3); }
-        .support-chat { display: none; position: fixed; bottom: 90px; right: 20px; width: 300px; height: 400px; background-color: #333; border-radius: 5px; box-shadow: 0 0 15px rgba(255, 68, 68, 0.5); z-index: 1000; flex-direction: column; }
-        .support-chat.active { display: flex; animation: slideUp 0.3s ease-out; }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        .chat-messages { flex-grow: 1; overflow-y: auto; padding: 10px; color: #ff9999; }
-        .chat-input { padding: 10px; background-color: #2b2b2b; border: 1px solid #ff4444; border-radius: 5px; color: #ff4444; margin: 10px; }
         .city-filter { margin-bottom: 15px; }
         .city-filter select, .district-filter select { width: 100%; padding: 10px; background-color: #2b2b2b; color: #ff4444; border: 1px solid #ff4444; border-radius: 5px; font-size: 16px; margin-bottom: 10px; }
         .tabs { display: flex; flex-wrap: wrap; margin-bottom: 15px; }
@@ -43,12 +36,13 @@
         .product-card:hover { transform: scale(1.02); }
         .product-card h3 { margin-top: 0; color: #ff6666; cursor: pointer; }
         .product-card p { margin: 5px 0; }
+        .product-image { width: 100%; max-height: 150px; object-fit: cover; border-radius: 5px; margin-bottom: 10px; }
         .price { font-weight: bold; color: #ff9999; }
         .crypto-price { font-size: 12px; color: #ff6666; }
         .buy-button, .preorder-button { background-color: #ff4444; color: #000; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin: 5px 0; width: 100%; transition: all 0.3s; }
         .preorder-button { background-color: #ff6666; }
         .buy-button:hover, .preorder-button:hover { background-color: #ff8888; }
-        .payment-modal, .product-modal, .deposit-modal, .preorder-modal, .registration-modal, .custom-modal, .confirm-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center; z-index: 900; }
+        .payment-modal, .product-modal, .deposit-modal, .preorder-modal, .registration-modal, .custom-modal, .confirm-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center; }
         .payment-content, .product-content, .deposit-content, .preorder-content, .registration-content, .custom-content, .confirm-content { background: #333; padding: 20px; border-radius: 5px; text-align: center; color: #ff4444; max-width: 500px; max-height: 80vh; overflow-y: auto; border: 2px solid #ff4444; box-shadow: 0 0 15px rgba(255, 68, 68, 0.5); }
         .review { background-color: #2b2b2b; border-left: 4px solid #ff6666; padding: 10px; margin: 10px 0; font-size: 12px; color: #ff9999; text-align: left; display: flex; justify-content: space-between; }
         .review-text { flex-grow: 1; }
@@ -106,6 +100,7 @@
 
             <div id="weed" class="tab-content">
                 <div class="product-card" data-product="weed-1">
+                    <img src="https://images.unsplash.com/photo-1611270434307-22121fbed208?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Jamaican Haze">
                     <h3 onclick="showProductModal('weed', 1)">Jamaican Haze (VHQ)</h3>
                     <p id="weedDesc"></p>
                 </div>
@@ -113,22 +108,27 @@
 
             <div id="hash" class="tab-content">
                 <div class="product-card" data-product="hash-1">
+                    <img src="https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Afghan Black Gold">
                     <h3 onclick="showProductModal('hash', 1)">Afghan Black Gold (VHQ)</h3>
                     <p>Премиум афганский гашиш, бархатный эффект</p>
                 </div>
                 <div class="product-card" data-product="hash-2">
+                    <img src="https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Moroccan Spice">
                     <h3 onclick="showProductModal('hash', 2)">Moroccan Spice (HQ)</h3>
                     <p>Марокканский гашиш с пряным ароматом</p>
                 </div>
                 <div class="product-card" data-product="hash-3">
+                    <img src="https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Nepal Temple">
                     <h3 onclick="showProductModal('hash', 3)">Nepal Temple (MQ)</h3>
                     <p>Непальский гашиш, сбалансированный приход</p>
                 </div>
                 <div class="product-card" data-product="hash-4">
+                    <img src="https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Local Dust">
                     <h3 onclick="showProductModal('hash', 4)">Local Dust (LQ)</h3>
                     <p>Местный бюджетный гашиш</p>
                 </div>
                 <div class="product-card" data-product="hash-5">
+                    <img src="https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Himalayan Storm">
                     <h3 onclick="showProductModal('hash', 5)">Himalayan Storm (VHQ)</h3>
                     <p>Гималайский шторм, мощный и чистый</p>
                 </div>
@@ -136,22 +136,27 @@
 
             <div id="coke" class="tab-content">
                 <div class="product-card" data-product="coke-1">
+                    <img src="https://images.unsplash.com/photo-1600577915942-4f3e4f3e3f3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Bolivian Fishscale">
                     <h3 onclick="showProductModal('coke', 1)">Bolivian Fishscale (VHQ)</h3>
                     <p>Боливийский кокаин, топовый 95%+</p>
                 </div>
                 <div class="product-card" data-product="coke-2">
+                    <img src="https://images.unsplash.com/photo-1600577915942-4f3e4f3e3f3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Colombian Snow">
                     <h3 onclick="showProductModal('coke', 2)">Colombian Snow (HQ)</h3>
                     <p>Колумбийский снег, чистый и мощный</p>
                 </div>
                 <div class="product-card" data-product="coke-3">
+                    <img src="https://images.unsplash.com/photo-1600577915942-4f3e4f3e3f3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Peruvian Dust">
                     <h3 onclick="showProductModal('coke', 3)">Peruvian Dust (MQ)</h3>
                     <p>Перуанская пыль, средний уровень</p>
                 </div>
                 <div class="product-card" data-product="coke-4">
+                    <img src="https://images.unsplash.com/photo-1600577915942-4f3e4f3e3f3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Street Mix">
                     <h3 onclick="showProductModal('coke', 4)">Street Mix (LQ)</h3>
                     <p>Уличная смесь, бюджетный вариант</p>
                 </div>
                 <div class="product-card" data-product="coke-5">
+                    <img src="https://images.unsplash.com/photo-1600577915942-4f3e4f3e3f3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Cartel Gold">
                     <h3 onclick="showProductModal('coke', 5)">Cartel Gold (VHQ)</h3>
                     <p>Золото картеля, элитный стандарт</p>
                 </div>
@@ -159,22 +164,27 @@
 
             <div id="amph" class="tab-content">
                 <div class="product-card" data-product="amph-1">
+                    <img src="https://images.unsplash.com/photo-1595433707802-6b2626ef1c91?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Crystal Surge">
                     <h3 onclick="showProductModal('amph', 1)">Crystal Surge (VHQ)</h3>
                     <p>Кристальный амфетамин, чистая энергия</p>
                 </div>
                 <div class="product-card" data-product="amph-2">
+                    <img src="https://images.unsplash.com/photo-1595433707802-6b2626ef1c91?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Red Rush">
                     <h3 onclick="showProductModal('amph', 2)">Red Rush (HQ)</h3>
                     <p>Красный заряд, стабильный драйв</p>
                 </div>
                 <div class="product-card" data-product="amph-3">
+                    <img src="https://images.unsplash.com/photo-1595433707802-6b2626ef1c91?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Yellow Spark">
                     <h3 onclick="showProductModal('amph', 3)">Yellow Spark (MQ)</h3>
                     <p>Жёлтая искра, средний подъём</p>
                 </div>
                 <div class="product-card" data-product="amph-4">
+                    <img src="https://images.unsplash.com/photo-1595433707802-6b2626ef1c91?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Grey Haze">
                     <h3 onclick="showProductModal('amph', 4)">Grey Haze (LQ)</h3>
                     <p>Серая дымка, базовый вариант</p>
                 </div>
                 <div class="product-card" data-product="amph-5">
+                    <img src="https://images.unsplash.com/photo-1595433707802-6b2626ef1c91?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Blue Blitz">
                     <h3 onclick="showProductModal('amph', 5)">Blue Blitz (VHQ)</h3>
                     <p>Синий удар, элитный амф</p>
                 </div>
@@ -182,22 +192,27 @@
 
             <div id="meth" class="tab-content">
                 <div class="product-card" data-product="meth-1">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Mountain Ice">
                     <h3 onclick="showProductModal('meth', 1)">Mountain Ice (VHQ)</h3>
                     <p>Горный лёд, кристальная чистота</p>
                 </div>
                 <div class="product-card" data-product="meth-2">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Blue Flame">
                     <h3 onclick="showProductModal('meth', 2)">Blue Flame (HQ)</h3>
                     <p>Синее пламя, долгий эффект</p>
                 </div>
                 <div class="product-card" data-product="meth-3">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="White Shard">
                     <h3 onclick="showProductModal('meth', 3)">White Shard (MQ)</h3>
                     <p>Белый осколок, средний уровень</p>
                 </div>
                 <div class="product-card" data-product="meth-4">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Dirty Crystal">
                     <h3 onclick="showProductModal('meth', 4)">Dirty Crystal (LQ)</h3>
                     <p>Грязный кристалл, эконом-класс</p>
                 </div>
                 <div class="product-card" data-product="meth-5">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Golden Shard">
                     <h3 onclick="showProductModal('meth', 5)">Golden Shard (VHQ)</h3>
                     <p>Золотой осколок, топовый мет</p>
                 </div>
@@ -205,22 +220,27 @@
 
             <div id="meph" class="tab-content">
                 <div class="product-card" data-product="meph-1">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Pink Bliss">
                     <h3 onclick="showProductModal('meph', 1)">Pink Bliss (VHQ)</h3>
                     <p>Розовое блаженство, чистейший кайф</p>
                 </div>
                 <div class="product-card" data-product="meph-2">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="White Surge">
                     <h3 onclick="showProductModal('meph', 2)">White Surge (HQ)</h3>
                     <p>Белый всплеск, стабильный эффект</p>
                 </div>
                 <div class="product-card" data-product="meph-3">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Grey Mist">
                     <h3 onclick="showProductModal('meph', 3)">Grey Mist (MQ)</h3>
                     <p>Серая дымка, средний уровень</p>
                 </div>
                 <div class="product-card" data-product="meph-4">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Dusty High">
                     <h3 onclick="showProductModal('meph', 4)">Dusty High (LQ)</h3>
                     <p>Пыльный кайф, бюджетный меф</p>
                 </div>
                 <div class="product-card" data-product="meph-5">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Red Pulse">
                     <h3 onclick="showProductModal('meph', 5)">Red Pulse (VHQ)</h3>
                     <p>Красный пульс, элитный рывок</p>
                 </div>
@@ -228,22 +248,27 @@
 
             <div id="alpha" class="tab-content">
                 <div class="product-card" data-product="alpha-1">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Flakka Fire">
                     <h3 onclick="showProductModal('alpha', 1)">Flakka Fire (VHQ)</h3>
                     <p>Огненная флакка, чистый Альфа-PVP</p>
                 </div>
                 <div class="product-card" data-product="alpha-2">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Purple Haze">
                     <h3 onclick="showProductModal('alpha', 2)">Purple Haze (HQ)</h3>
                     <p>Пурпурная дымка, мощный заряд</p>
                 </div>
                 <div class="product-card" data-product="alpha-3">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Green Dust">
                     <h3 onclick="showProductModal('alpha', 3)">Green Dust (MQ)</h3>
                     <p>Зелёная пыль, средний эффект</p>
                 </div>
                 <div class="product-card" data-product="alpha-4">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Street Gravel">
                     <h3 onclick="showProductModal('alpha', 4)">Street Gravel (LQ)</h3>
                     <p>Уличный гравий, бюджетный Альфа</p>
                 </div>
                 <div class="product-card" data-product="alpha-5">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Crystal Fury">
                     <h3 onclick="showProductModal('alpha', 5)">Crystal Fury (VHQ)</h3>
                     <p>Кристальная ярость, топовый PVP</p>
                 </div>
@@ -251,22 +276,27 @@
 
             <div id="lsd" class="tab-content">
                 <div class="product-card" data-product="lsd-1">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Cosmic Tabs">
                     <h3 onclick="showProductModal('lsd', 1)">Cosmic Tabs (VHQ)</h3>
                     <p>Космические таблы, чистый трип</p>
                 </div>
                 <div class="product-card" data-product="lsd-2">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Neon Drops">
                     <h3 onclick="showProductModal('lsd', 2)">Neon Drops (HQ)</h3>
                     <p>Неоновые капли, яркий опыт</p>
                 </div>
                 <div class="product-card" data-product="lsd-3">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Acid Rain">
                     <h3 onclick="showProductModal('lsd', 3)">Acid Rain (MQ)</h3>
                     <p>Кислотный дождь, средний трип</p>
                 </div>
                 <div class="product-card" data-product="lsd-4">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Street Blotters">
                     <h3 onclick="showProductModal('lsd', 4)">Street Blotters (LQ)</h3>
                     <p>Уличные блоттеры, базовый ЛСД</p>
                 </div>
                 <div class="product-card" data-product="lsd-5">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Galactic Hits">
                     <h3 onclick="showProductModal('lsd', 5)">Galactic Hits (VHQ)</h3>
                     <p>Галактические хиты, элитный кислый</p>
                 </div>
@@ -274,22 +304,27 @@
 
             <div id="mdma" class="tab-content">
                 <div class="product-card" data-product="mdma-1">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Crystal Love">
                     <h3 onclick="showProductModal('mdma', 1)">Crystal Love (VHQ)</h3>
                     <p>Кристальная любовь, чистый МДМА</p>
                 </div>
                 <div class="product-card" data-product="mdma-2">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Pink Rocks">
                     <h3 onclick="showProductModal('mdma', 2)">Pink Rocks (HQ)</h3>
                     <p>Розовые камни, стабильный кайф</p>
                 </div>
                 <div class="product-card" data-product="mdma-3">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Ecstasy Blue">
                     <h3 onclick="showProductModal('mdma', 3)">Ecstasy Blue (VHQ Tabs)</h3>
                     <p>Синий экстази, топовые пилсы</p>
                 </div>
                 <div class="product-card" data-product="mdma-4">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Molly Dust">
                     <h3 onclick="showProductModal('mdma', 4)">Molly Dust (MQ)</h3>
                     <p>Молли пыль, средний МДМА</p>
                 </div>
                 <div class="product-card" data-product="mdma-5">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Street Pills">
                     <h3 onclick="showProductModal('mdma', 5)">Street Pills (LQ Tabs)</h3>
                     <p>Уличные пилсы, бюджетный экстази</p>
                 </div>
@@ -297,22 +332,27 @@
 
             <div id="heroin" class="tab-content">
                 <div class="product-card" data-product="heroin-1">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Afghan Silk">
                     <h3 onclick="showProductModal('heroin', 1)">Afghan Silk (VHQ)</h3>
                     <p>Афганский шёлк, глубокий приход</p>
                 </div>
                 <div class="product-card" data-product="heroin-2">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="White Lotus">
                     <h3 onclick="showProductModal('heroin', 2)">White Lotus (HQ)</h3>
                     <p>Белый лотос, чистый эффект</p>
                 </div>
                 <div class="product-card" data-product="heroin-3">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Brown Sugar">
                     <h3 onclick="showProductModal('heroin', 3)">Brown Sugar (MQ)</h3>
                     <p>Коричневый сахар, средний героин</p>
                 </div>
                 <div class="product-card" data-product="heroin-4">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Dirty Tar">
                     <h3 onclick="showProductModal('heroin', 4)">Dirty Tar (LQ)</h3>
                     <p>Грязный тарт, бюджетный вариант</p>
                 </div>
                 <div class="product-card" data-product="heroin-5">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="product-image" alt="Black Pearl">
                     <h3 onclick="showProductModal('heroin', 5)">Black Pearl (VHQ)</h3>
                     <p>Чёрная жемчужина, элитный героин</p>
                 </div>
@@ -351,7 +391,7 @@
                 <h3 id="courierTitle">Кладмен</h3>
                 <p id="courierDuties">Обязанности: Делать клады.</p>
                 <p id="courierPay">Оплата: от 100000 батт/месяц</p>
-                <button class="buy-button" onclick="applyForJob('Курьер')" id="applyButton1">Откликнуться</button>
+                <button class="buy-button" onclick="applyForJob('Кладмен')" id="applyButton1">Откликнуться</button>
             </div>
             <div class="vacancy">
                 <h3 id="warehousemanTitle">Складмен</h3>
@@ -417,13 +457,6 @@
         <div class="confirm-modal" id="confirmModal">
             <div class="confirm-content" id="confirmContent"></div>
         </div>
-
-        <div class="support-chat" id="supportChat">
-            <div class="chat-messages" id="chatMessages"></div>
-            <input type="text" id="chatInput" class="chat-input" placeholder="Type your message...">
-            <button class="buy-button" onclick="sendChatMessage()" style="width: auto; margin: 10px;">Send</button>
-        </div>
-        <button class="chat-button" id="chatButton" onclick="toggleChat()"></button>
     </div>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -482,7 +515,6 @@
                 catalogButton: "Catalog",
                 vacanciesButton: "Vacancies",
                 mailButton: "Mail",
-                chatButton: "Chat",
                 allCitiesOption: "All cities",
                 allDistrictsOption: "All districts",
                 phuketOption: "Phuket",
@@ -562,7 +594,6 @@
                 reviewsTitle: "Latest reviews:",
                 noReviews: "No reviews yet.",
                 promoInfo: "Invite friends and get free stuff!",
-                chatOperatorResponse: "I'll get back to you soon!",
                 weedTab: "Marijuana",
                 hashTab: "Hashish",
                 cokeTab: "Cocaine",
@@ -580,7 +611,6 @@
                 catalogButton: "Каталог",
                 vacanciesButton: "Вакансии",
                 mailButton: "Почта",
-                chatButton: "Чат",
                 allCitiesOption: "Все города",
                 allDistrictsOption: "Все районы",
                 phuketOption: "Пхукет",
@@ -660,7 +690,6 @@
                 reviewsTitle: "Последние отзывы:",
                 noReviews: "Отзывов пока нет.",
                 promoInfo: "Приглашай друзей и получай стафф!",
-                chatOperatorResponse: "Скоро с вами свяжутся!",
                 weedTab: "Марихуана",
                 hashTab: "Гашиш",
                 cokeTab: "Кокаин",
@@ -678,7 +707,6 @@
                 catalogButton: "แคตตาล็อก",
                 vacanciesButton: "ตำแหน่งงานว่าง",
                 mailButton: "จดหมาย",
-                chatButton: "แชท",
                 allCitiesOption: "ทุกเมือง",
                 allDistrictsOption: "ทุกเขต",
                 phuketOption: "ภูเก็ต",
@@ -758,7 +786,6 @@
                 reviewsTitle: "รีวิวล่าสุด:",
                 noReviews: "ยังไม่มีรีวิว",
                 promoInfo: "ชวนเพื่อนและรับของฟรี!",
-                chatOperatorResponse: "ฉันจะติดต่อคุณเร็ว ๆ นี้!",
                 weedTab: "กัญชา",
                 hashTab: "กัญชาอัด",
                 cokeTab: "โคเคน",
@@ -821,751 +848,149 @@
             coke: { 1: 4000, 2: 3600, 3: 3000, 4: 2400, 5: 4500 },
             amph: { 1: 1300, 2: 1000, 3: 900, 4: 700, 5: 1500 },
             meth: { 1: 1500, 2: 1200, 3: 1000, 4: 800, 5: 1800 },
-            meph: { 1: 1400, 2: 1100, 3: 900, 4: 700, 5: 1600 },
-            alpha: { 1: 1200, 2: 1000, 3: 800, 4: 600, 5: 1400 },
+                        meph: { 1: 1400, 2: 1200, 3: 1000, 4: 800, 5: 1600 },
+            alpha: { 1: 1500, 2: 1300, 3: 1100, 4: 900, 5: 1700 },
             lsd: { 1: 500, 2: 450, 3: 400, 4: 350, 5: 600 },
-            mdma: { 1: 1500, 2: 1200, 3: 600, 4: 1000, 5: 400 },
-            heroin: { 1: 2000, 2: 1800, 3: 1500, 4: 1200, 5: 2500 }
+            mdma: { 1: 2000, 2: 1800, 3: 2200, 4: 1500, 5: 1200 },
+            heroin: { 1: 3000, 2: 2700, 3: 2400, 4: 2000, 5: 3500 }
         };
 
-        function getRandomDate() {
-            const start = new Date(2024, 11, 15); // 15 декабря 2024
-            const end = new Date(2025, 2, 14);   // 14 марта 2025
-            const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-            return date.toLocaleDateString('ru-RU');
-        }
-
-        const products = {
-            weed: {
-                1: { 
-                    name: "Jamaican Haze (VHQ)", 
-                    positions: generatePositions('weed', 1, 'default'), 
-                    reviews: [
-                        { text: "Трава огонь, лучший кайф в Тае! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Нормально, но за такие бабки ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Долбит как надо, чистое удовольствие! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Слабая, местная шняга лучше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Два косяка — и я в космосе! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                }
-            },
+        const productImages = {
+            weed: { 1: "https://images.unsplash.com/photo-1611270434307-22121fbed208?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
             hash: {
-                1: { 
-                    name: "Afghan Black Gold (VHQ)", 
-                    positions: generatePositions('hash', 1, 'default'), 
-                    reviews: [
-                        { text: "Мягкий и мощный, просто кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Липкий пиздец, тяжело работать. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Идеальный гаш, чистое золото! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Слабый приход, ждал большего. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Бархатный кайф, топ качество! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                2: { 
-                    name: "Moroccan Spice (HQ)", 
-                    positions: generatePositions('hash', 2, 'default'), 
-                    reviews: [
-                        { text: "Пряный аромат, кайф стабильный! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Слишком сухой, крошится в пыль. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Хороший гаш за свои деньги! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Ничего особенного, слабовато. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Приятный вкус, мягкий приход! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" }
-                    ]
-                },
-                3: { 
-                    name: "Nepal Temple (MQ)", 
-                    positions: generatePositions('hash', 3, 'default'), 
-                    reviews: [
-                        { text: "Сбалансированный приход, норм! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Пыльный какой-то, не зашёл. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Приятный гаш, среднячок! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Слабый эффект, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Хорошо расслабляет, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                4: { 
-                    name: "Local Dust (LQ)", 
-                    positions: generatePositions('hash', 4, 'default'), 
-                    reviews: [
-                        { text: "Дёшево и норм, за свои бабки ок! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Полный шлак, не берите. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Бюджетный гаш, пойдёт! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Слабый и пыльный, фу. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "За копейки норм, расслабился! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                5: { 
-                    name: "Himalayan Storm (VHQ)", 
-                    positions: generatePositions('hash', 5, 'default'), 
-                    reviews: [
-                        { text: "Мощный шторм, чистый кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Переоценённый, не впечатлил. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Элитный гаш, топ качество! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Дорого и не оправдало. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Сильный приход, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                }
+                1: "https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                2: "https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                3: "https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                4: "https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                5: "https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
             },
             coke: {
-                1: { 
-                    name: "Bolivian Fishscale (VHQ)", 
-                    positions: generatePositions('coke', 1, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Чистейший кокс, топовый кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Слабовато для VHQ, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                                                { text: "Боливийский огонь, шикарно! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Дорого, но качество оправдывает. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слишком резкий приход, не по мне. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." }
-                    ]
-                },
-                2: { 
-                    name: "Colombian Snow (HQ)", 
-                    positions: generatePositions('coke', 2, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Колумбийский снег — чистый драйв! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Неплохой кокс, но не VHQ. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Хороший приход, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Слабоват для цены. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Чистота на уровне, доволен! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                3: { 
-                    name: "Peruvian Dust (MQ)", 
-                    positions: generatePositions('coke', 3, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Нормальный кокс за свои деньги! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слишком много примесей. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Средний приход, пойдёт. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Ожидал большего за такую цену. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Достойно для MQ! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                4: { 
-                    name: "Street Mix (LQ)", 
-                    positions: generatePositions('coke', 4, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Бюджетный вариант, но работает! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Полный шлак, не берите. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "За копейки норм, но слабый. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Грязный и слабый приход. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Пойдет для разового. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                5: { 
-                    name: "Cartel Gold (VHQ)", 
-                    positions: generatePositions('coke', 5, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Элитный кокс, чистый кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Дороговато, но качество топ. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Сильный удар, шикарно! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Не оправдал ожидания. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Золото картеля — это реально! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                }
+                1: "https://images.unsplash.com/photo-1600577915942-4f3e4f3e3f3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                2: "https://images.unsplash.com/photo-1600577915942-4f3e4f3e3f3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                3: "https://images.unsplash.com/photo-1600577915942-4f3e4f3e3f3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                4: "https://images.unsplash.com/photo-1600577915942-4f3e4f3e3f3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                5: "https://images.unsplash.com/photo-1600577915942-4f3e4f3e3f3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
             },
             amph: {
-                1: { 
-                    name: "Crystal Surge (VHQ)", 
-                    positions: generatePositions('amph', 1, 'default'), 
-                    reviews: [
-                        { text: "Кристальный заряд, топовый амф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Слишком резкий, не для слабых. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Чистая энергия, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Дорогой, но слабый эффект. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Отличный амф, держит весь день! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                2: { 
-                    name: "Red Rush (HQ)", 
-                    positions: generatePositions('amph', 2, 'default'), 
-                    reviews: [
-                        { text: "Красный заряд, стабильный кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Нормально, но не VHQ. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Хороший драйв за цену! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слабоват, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Приятный подъём, доволен! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" }
-                    ]
-                },
-                3: { 
-                    name: "Yellow Spark (MQ)", 
-                    positions: generatePositions('amph', 3, 'default'), 
-                    reviews: [
-                        { text: "Жёлтая искра, нормальный подъём! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слабый эффект, не впечатлил. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "За такую цену ок! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Мало драйва, разочарован. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Хорошо для разового! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                4: { 
-                    name: "Grey Haze (LQ)", 
-                    positions: generatePositions('amph', 4, 'default'), 
-                    reviews: [
-                        { text: "Бюджетный, но работает! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Полный отстой, не берите. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "За копейки норм, слабоват. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Грязный и слабый. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Пойдет для разового. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                5: { 
-                    name: "Blue Blitz (VHQ)", 
-                    positions: generatePositions('amph', 5, 'default'), 
-                    reviews: [
-                        { text: "Синий удар, элитный амф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Дорогой, но оправдывает. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Мощный драйв, топ! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Не по мне, слишком сильно. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Чистота на высоте! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                }
+                1: "https://images.unsplash.com/photo-1595433707802-6b2626ef1c91?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                2: "https://images.unsplash.com/photo-1595433707802-6b2626ef1c91?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                3: "https://images.unsplash.com/photo-1595433707802-6b2626ef1c91?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                4: "https://images.unsplash.com/photo-1595433707802-6b2626ef1c91?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                5: "https://images.unsplash.com/photo-1595433707802-6b2626ef1c91?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
             },
             meth: {
-                1: { 
-                    name: "Mountain Ice (VHQ)", 
-                    positions: generatePositions('meth', 1, 'default'), 
-                    reviews: [
-                        { text: "Горный лёд, чистый кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Слишком сильный, не для новичков. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Топовый мет, держит долго! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Дорого и не оправдало. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Кристально чистый, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                2: { 
-                    name: "Blue Flame (HQ)", 
-                    positions: generatePositions('meth', 2, 'default'), 
-                    reviews: [
-                        { text: "Синее пламя, долгий эффект! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Нормально, но не VHQ. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Хороший мет за цену! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слабоват, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Приятный кайф, доволен! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" }
-                    ]
-                },
-                3: { 
-                    name: "White Shard (MQ)", 
-                    positions: generatePositions('meth', 3, 'default'), 
-                    reviews: [
-                        { text: "Белый осколок, нормальный мет! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слабый эффект, не зашёл. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "За цену ок, держит! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Мало кайфа, разочарован. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Хорошо для разового! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                4: { 
-                    name: "Dirty Crystal (LQ)", 
-                    positions: generatePositions('meth', 4, 'default'), 
-                    reviews: [
-                        { text: "Бюджетный, но работает! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Полный отстой, не берите. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "За копейки норм, слабоват. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Грязный и слабый. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Пойдет для разового. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                5: { 
-                    name: "Golden Shard (VHQ)", 
-                    positions: generatePositions('meth', 5, 'default'), 
-                    reviews: [
-                        { text: "Золотой осколок, элитный мет! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Дорогой, но оправдывает. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Мощный кайф, топ! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Не по мне, слишком сильно. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Чистота на высоте! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                }
+                1: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                2: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                3: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                4: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                5: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
             },
             meph: {
-                1: { 
-                    name: "Pink Bliss (VHQ)", 
-                    positions: generatePositions('meph', 1, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Розовое блаженство, чистый кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Слишком сильный, не для всех. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Топовый меф, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Дорого и не оправдало. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Чистейший, держит весь день! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                2: { 
-                    name: "White Surge (HQ)", 
-                    positions: generatePositions('meph', 2, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Белый всплеск, стабильный кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Нормально, но не VHQ. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Хороший меф за цену! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слабоват, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Приятный подъём, доволен! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" }
-                    ]
-                },
-                3: { 
-                    name: "Grey Mist (MQ)", 
-                    positions: generatePositions('meph', 3, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Серая дымка, нормальный меф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слабый эффект, не зашёл. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "За цену ок, держит! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Мало кайфа, разочарован. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Хорошо для разового! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                4: { 
-                    name: "Dusty High (LQ)", 
-                    positions: generatePositions('meph', 4, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Бюджетный, но работает! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Полный отстой, не берите. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "За копейки норм, слабоват. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Грязный и слабый. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Пойдет для разового. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                5: { 
-                    name: "Red Pulse (VHQ)", 
-                    positions: generatePositions('meph', 5, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Красный пульс, элитный меф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Дорогой, но оправдывает. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Мощный кайф, топ! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Не по мне, слишком сильно. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Чистота на высоте! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                }
+                1: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                2: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                3: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                4: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                5: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
             },
             alpha: {
-                1: { 
-                    name: "Flakka Fire (VHQ)", 
-                    positions: generatePositions('alpha', 1, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Огненная флакка, чистый драйв! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Слишком сильный, не для слабых. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Топовый Альфа, держит долго! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Дорого и не оправдало. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Кристально чистый, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                2: { 
-                    name: "Purple Haze (HQ)", 
-                    positions: generatePositions('alpha', 2, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Пурпурная дымка, мощный заряд! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Нормально, но не VHQ. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Хороший Альфа за цену! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слабоват, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Приятный кайф, доволен! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" }
-                    ]
-                },
-                3: { 
-                    name: "Green Dust (MQ)", 
-                    positions: generatePositions('alpha', 3, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Зелёная пыль, нормальный Альфа! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слабый эффект, не зашёл. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "За цену ок, держит! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Мало кайфа, разочарован. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Хорошо для разового! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                4: { 
-                    name: "Street Gravel (LQ)", 
-                    positions: generatePositions('alpha', 4, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Бюджетный, но работает! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Полный отстой, не берите. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "За копейки норм, слабоват. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Грязный и слабый. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Пойдет для разового. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                5: { 
-                    name: "Crystal Fury (VHQ)", 
-                    positions: generatePositions('alpha', 5, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Кристальная ярость, элитный Альфа! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Дорогой, но оправдывает. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Мощный кайф, топ! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Не по мне, слишком сильно. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Чистота на высоте! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                }
+                1: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                2: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                3: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                4: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                5: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
             },
             lsd: {
-                1: { 
-                    name: "Cosmic Tabs (VHQ)", 
-                    positions: generatePositions('lsd', 1, 'lsd'), 
-                    reviews: [
-                        { text: "Космические таблы, трип на уровне! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Слишком сильный, не для новичков. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Топовый ЛСД, чистый космос! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Дорого и не оправдало. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Кайфовый трип, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                2: { 
-                    name: "Neon Drops (HQ)", 
-                    positions: generatePositions('lsd', 2, 'lsd'), 
-                    reviews: [
-                        { text: "Неоновые капли, яркий трип! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Нормально, но не VHQ. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Хороший ЛСД за цену! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слабоват, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Приятный кайф, доволен! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" }
-                    ]
-                },
-                3: { 
-                    name: "Acid Rain (MQ)", 
-                    positions: generatePositions('lsd', 3, 'lsd'), 
-                    reviews: [
-                        { text: "Кислотный дождь, нормальный трип! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слабый эффект, не зашёл. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "За цену ок, держит! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Мало кайфа, разочарован. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Хорошо для разового! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                4: { 
-                    name: "Street Blotters (LQ)", 
-                    positions: generatePositions('lsd', 4, 'lsd'), 
-                    reviews: [
-                        { text: "Бюджетный, но работает! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Полный отстой, не берите. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "За копейки норм, слабоват. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Грязный и слабый. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Пойдет для разового. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                5: { 
-                    name: "Galactic Hits (VHQ)", 
-                    positions: generatePositions('lsd', 5, 'lsd'), 
-                    reviews: [
-                        { text: "Галактические хиты, элитный трип! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Дорогой, но оправдывает. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Мощный космос, топ! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Не по мне, слишком сильно. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Чистота на высоте! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                }
+                1: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                2: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                3: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                4: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                5: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
             },
             mdma: {
-                1: { 
-                    name: "Crystal Love (VHQ)", 
-                    positions: generatePositions('mdma', 1, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Кристальная любовь, чистый кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Слишком сильный, не для всех. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Топовый МДМА, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Дорого и не оправдало. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Чистейший, держит весь день! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                2: { 
-                    name: "Pink Rocks (HQ)", 
-                    positions: generatePositions('mdma', 2, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Розовые камни, стабильный кайф! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Нормально, но не VHQ. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Хороший МДМА за цену! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слабоват, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Приятный подъём, доволен! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" }
-                    ]
-                },
-                3: { 
-                    name: "Ecstasy Blue (VHQ Tabs)", 
-                    positions: generatePositions('mdma', 3, 'mdmaTabs'), 
-                    reviews: [
-                        { text: "Синий экстази, топовые пилсы! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Сильные, но дорогие. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Отличный кайф, держит ночь! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Не по мне, слишком ярко. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Чистота на уровне! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                4: { 
-                    name: "Molly Dust (MQ)", 
-                    positions: generatePositions('mdma', 4, 'cokeMephAlphaMdma'), 
-                    reviews: [
-                        { text: "Молли пыль, нормальный МДМА! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слабый эффект, не зашёл. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "За цену ок, держит! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Мало кайфа, разочарован. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Хорошо для разового! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                5: { 
-                    name: "Street Pills (LQ Tabs)", 
-                    positions: generatePositions('mdma', 5, 'mdmaTabs'), 
-                    reviews: [
-                        { text: "Бюджетные пилсы, но работают! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Полный отстой, не берите. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "За копейки норм, слабоваты. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Грязные и слабые. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Пойдут для разового. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                }
+                1: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                2: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                3: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                4: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                5: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
             },
             heroin: {
-                1: { 
-                    name: "Afghan Silk (VHQ)", 
-                    positions: generatePositions('heroin', 1, 'default'), 
-                    reviews: [
-                        { text: "Афганский шёлк, глубокий приход! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Слишком сильный, осторожнее. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Топовый героин, чистота! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Дорого и не оправдало. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Глубокий кайф, рекомендую! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                2: { 
-                    name: "White Lotus (HQ)", 
-                    positions: generatePositions('heroin', 2, 'default'), 
-                    reviews: [
-                        { text: "Белый лотос, чистый эффект! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Нормально, но не VHQ. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Хороший героин за цену! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слабоват, ожидал больше. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Приятный приход, доволен! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" }
-                    ]
-                },
-                3: { 
-                    name: "Brown Sugar (MQ)", 
-                    positions: generatePositions('heroin', 3, 'default'), 
-                    reviews: [
-                        { text: "Коричневый сахар, нормальный героин! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Слабый эффект, не зашёл. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "За цену ок, держит! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Мало кайфа, разочарован. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 15%." },
-                        { text: "Хорошо для разового! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                4: { 
-                    name: "Dirty Tar (LQ)", 
-                    positions: generatePositions('heroin', 4, 'default'), 
-                    reviews: [
-                        { text: "Бюджетный, но работает! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Полный отстой, не берите. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "За копейки норм, слабоват. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 5%!" },
-                        { text: "Грязный и слабый. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 20%." },
-                        { text: "Пойдет для разового. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                },
-                5: { 
-                    name: "Black Pearl (VHQ)", 
-                    positions: generatePositions('heroin', 5, 'default'), 
-                    reviews: [
-                        { text: "Чёрная жемчужина, элитный героин! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 15%!" },
-                        { text: "Дорогой, но оправдывает. — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" },
-                        { text: "Мощный кайф, топ! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё! Активировали промокод на 10%!" },
-                        { text: "Не по мне, слишком сильно. — Аноним", date: getRandomDate(), mod: "Сожалеем, что вы недовольны, будем работать над улучшениями! Активировали промокод на 25%." },
-                        { text: "Чистота на высоте! — Аноним", date: getRandomDate(), mod: "Рады, что вам понравилось, заходите ещё!" }
-                    ]
-                }
+                1: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                2: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                3: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                4: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                5: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
             }
         };
 
-        function generatePositions(category, id, weightType) {
-            const cityKeys = Object.keys(cities);
-            const positions = {};
-            const availableWeights = weights[weightType] || weights.default;
-
-            cityKeys.forEach(city => {
-                Object.keys(cities[city]).forEach(district => {
-                    const weight = availableWeights[Math.floor(Math.random() * availableWeights.length)];
-                    const price = basePrices[category][id] * weight;
-                    const stock = Math.random() > 0.3; // 70% шанс наличия
-                    positions[`${city}-${district}`] = { weight, price, stock };
-                });
-            });
-
-            return positions;
-        }
-
-        function loadTranslations() {
-            const langElements = {
-                promoBanner: document.getElementById('promoBanner'),
-                headerText: document.getElementById('headerText'),
-                catalogButton: document.getElementById('catalogButton'),
-                vacanciesButton: document.getElementById('vacanciesButton'),
-                mailButton: document.getElementById('mailButton'),
-                chatButton: document.getElementById('chatButton'),
-                allCitiesOption: document.getElementById('allCitiesOption'),
-                allDistrictsOption: document.getElementById('allDistrictsOption'),
-                phuketOption: document.getElementById('phuketOption'),
-                pattayaOption: document.getElementById('pattayaOption'),
-                bangkokOption: document.getElementById('bangkokOption'),
-                samuiOption: document.getElementById('samuiOption'),
-                weedDesc: document.getElementById('weedDesc'),
-                profileNameLabel: document.getElementById('profileNameLabel'),
-                ordersLabel: document.getElementById('ordersLabel'),
-                referralsLabel: document.getElementById('referralsLabel'),
-                depositTitle: document.getElementById('depositTitle'),
-                orderHistoryTitle: document.getElementById('orderHistoryTitle'),
-                vacanciesTitle: document.getElementById('vacanciesTitle'),
-                courierTitle: document.getElementById('courierTitle'),
-                courierDuties: document.getElementById('courierDuties'),
-                courierPay: document.getElementById('courierPay'),
-                warehousemanTitle: document.getElementById('warehousemanTitle'),
-                warehousemanDuties: document.getElementById('warehousemanDuties'),
-                warehousemanPay: document.getElementById('warehousemanPay'),
-                transporterTitle: document.getElementById('transporterTitle'),
-                transporterDuties: document.getElementById('transporterDuties'),
-                transporterPay: document.getElementById('transporterPay'),
-                smmTitle: document.getElementById('smmTitle'),
-                smmDuties: document.getElementById('smmDuties'),
-                smmPay: document.getElementById('smmPay'),
-                mailTitle: document.getElementById('mailTitle'),
-                applyButton1: document.getElementById('applyButton1'),
-                applyButton2: document.getElementById('applyButton2'),
-                applyButton3: document.getElementById('applyButton3'),
-                applyButton4: document.getElementById('applyButton4'),
-                weedTab: document.getElementById('weedTab'),
-                hashTab: document.getElementById('hashTab'),
-                cokeTab: document.getElementById('cokeTab'),
-                amphTab: document.getElementById('amphTab'),
-                methTab: document.getElementById('methTab'),
-                mephTab: document.getElementById('mephTab'),
-                alphaTab: document.getElementById('alphaTab'),
-                lsdTab: document.getElementById('lsdTab'),
-                mdmaTab: document.getElementById('mdmaTab'),
-                heroinTab: document.getElementById('heroinTab'),
-                promoInfo: document.getElementById('promoInfo')
-            };
-
-            for (let id in langElements) {
-                if (langElements[id]) {
-                    langElements[id].textContent = translations[userLanguage][id] || translations['en'][id];
-                }
-            }
-
-            updateDistrictOptions();
-        }
-
-        function updateDistrictOptions() {
-            const districtSelect = document.getElementById('districtSelect');
-            districtSelect.innerHTML = `<option value="all">${translations[userLanguage].allDistrictsOption || translations['en'].allDistrictsOption}</option>`;
-            const cityDistricts = translations[userLanguage][`${selectedCity}Districts`] || translations['en'][`${selectedCity}Districts`];
-            if (cityDistricts && selectedCity !== 'all') {
-                for (let district in cityDistricts) {
-                    const option = document.createElement('option');
-                    option.value = district;
-                    option.textContent = cityDistricts[district];
-                    districtSelect.appendChild(option);
-                }
-            }
-        }
-
-        function initializeUser() {
-            const savedUser = localStorage.getItem('currentUser');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                userLanguage = currentUser.language || 'ru';
-                balance = currentUser.balance || 0;
-                orderCount = currentUser.orders || 0;
-                referralCount = currentUser.referrals || 0;
-                orderHistory = currentUser.orderHistory || [];
-                document.getElementById('profileNameLabel').textContent = `${translations[userLanguage].profileNameLabel}${currentUser.nickname}`;
-                document.getElementById('balance').textContent = `${balance} ฿`;
-                document.getElementById('ordersLabel').textContent = `${translations[userLanguage].ordersLabel}${orderCount}`;
-                document.getElementById('referralsLabel').textContent = `${translations[userLanguage].referralsLabel}${referralCount}`;
-                updateOrderHistory();
-                document.getElementById('registrationModal').style.display = 'none';
-                document.getElementById('chatButton').style.display = 'block';
-            } else {
-                document.getElementById('registrationModal').style.display = 'flex';
-                document.getElementById('chatButton').style.display = 'none';
-            }
-            loadTranslations();
-            activateFirstTab();
-        }
-
-        function registerUser() {
-            const nickname = document.getElementById('regNickname').value.trim();
-            const language = document.getElementById('regLanguage').value;
-            const regError = document.getElementById('regError');
-
-            if (!nickname) {
-                regError.textContent = translations[language].regErrorEmpty || translations['en'].regErrorEmpty;
-                return;
-            }
-
-            if (registeredUsers.some(user => user.nickname === nickname)) {
-                regError.textContent = translations[language].regErrorTaken || translations['en'].regErrorTaken;
-                return;
-            }
-
-            currentUser = { nickname, language, balance: 0, orders: 0, referrals: 0, orderHistory: [] };
-            userLanguage = language;
-            registeredUsers.push({ nickname, language });
-            localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            regError.textContent = translations[language].welcomeMessage.replace('{user}', nickname) || translations['en'].welcomeMessage.replace('{user}', nickname);
-            setTimeout(() => {
-                document.getElementById('registrationModal').style.display = 'none';
-                document.getElementById('chatButton').style.display = 'block';
-                initializeUser();
-            }, 2000);
-        }
-
-        function toggleCatalog() {
-            const catalogMenu = document.getElementById('catalogMenu');
-            catalogMenu.style.display = catalogMenu.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('profileMenu').style.display = 'none';
-            document.getElementById('vacancyMenu').style.display = 'none';
-            document.getElementById('mailMenu').style.display = 'none';
-        }
-
-        function toggleProfile() {
-            const profileMenu = document.getElementById('profileMenu');
-            profileMenu.style.display = profileMenu.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('catalogMenu').style.display = 'none';
-            document.getElementById('vacancyMenu').style.display = 'none';
-            document.getElementById('mailMenu').style.display = 'none';
-            if (profileMenu.style.display === 'block') {
-                updateOrderHistory();
-            }
-        }
-
-        function toggleVacancies() {
-            const vacancyMenu = document.getElementById('vacancyMenu');
-            vacancyMenu.style.display = vacancyMenu.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('catalogMenu').style.display = 'none';
-            document.getElementById('profileMenu').style.display = 'none';
-            document.getElementById('mailMenu').style.display = 'none';
-        }
-
-        function toggleMail() {
-            const mailMenu = document.getElementById('mailMenu');
-            mailMenu.style.display = mailMenu.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('catalogMenu').style.display = 'none';
-            document.getElementById('profileMenu').style.display = 'none';
-            document.getElementById('vacancyMenu').style.display = 'none';
+        function loadLanguage() {
+            const lang = translations[userLanguage];
+            document.getElementById('promoBanner').innerText = lang.promoBanner;
+            document.getElementById('headerText').innerText = lang.headerText;
+            document.getElementById('catalogButton').innerText = lang.catalogButton;
+            document.getElementById('vacanciesButton').innerText = lang.vacanciesButton;
+            document.getElementById('mailButton').innerText = lang.mailButton;
+            document.getElementById('allCitiesOption').innerText = lang.allCitiesOption;
+            document.getElementById('phuketOption').innerText = lang.phuketOption;
+            document.getElementById('pattayaOption').innerText = lang.pattayaOption;
+            document.getElementById('bangkokOption').innerText = lang.bangkokOption;
+            document.getElementById('samuiOption').innerText = lang.samuiOption;
+            document.getElementById('allDistrictsOption').innerText = lang.allDistrictsOption;
+            document.getElementById('weedDesc').innerText = lang.weedDesc;
+            document.getElementById('profileNameLabel').innerText = lang.profileNameLabel + (currentUser || 'Гость');
+            document.getElementById('ordersLabel').innerText = lang.ordersLabel + orderCount;
+            document.getElementById('referralsLabel').innerText = lang.referralsLabel + referralCount;
+            document.getElementById('depositTitle').innerText = lang.depositTitle;
+            document.getElementById('orderHistoryTitle').innerText = lang.orderHistoryTitle;
+            document.getElementById('vacanciesTitle').innerText = lang.vacanciesTitle;
+            document.getElementById('courierTitle').innerText = lang.courierTitle;
+            document.getElementById('courierDuties').innerText = lang.courierDuties;
+            document.getElementById('courierPay').innerText = lang.courierPay;
+            document.getElementById('warehousemanTitle').innerText = lang.warehousemanTitle;
+            document.getElementById('warehousemanDuties').innerText = lang.warehousemanDuties;
+            document.getElementById('warehousemanPay').innerText = lang.warehousemanPay;
+            document.getElementById('transporterTitle').innerText = lang.transporterTitle;
+            document.getElementById('transporterDuties').innerText = lang.transporterDuties;
+            document.getElementById('transporterPay').innerText = lang.transporterPay;
+            document.getElementById('smmTitle').innerText = lang.smmTitle;
+            document.getElementById('smmDuties').innerText = lang.smmDuties;
+            document.getElementById('smmPay').innerText = lang.smmPay;
+            document.getElementById('applyButton1').innerText = lang.applyButton;
+            document.getElementById('applyButton2').innerText = lang.applyButton;
+            document.getElementById('applyButton3').innerText = lang.applyButton;
+            document.getElementById('applyButton4').innerText = lang.applyButton;
+            document.getElementById('mailTitle').innerText = lang.mailTitle;
+            document.getElementById('weedTab').innerText = lang.weedTab;
+            document.getElementById('hashTab').innerText = lang.hashTab;
+            document.getElementById('cokeTab').innerText = lang.cokeTab;
+            document.getElementById('amphTab').innerText = lang.amphTab;
+            document.getElementById('methTab').innerText = lang.methTab;
+            document.getElementById('mephTab').innerText = lang.mephTab;
+            document.getElementById('alphaTab').innerText = lang.alphaTab;
+            document.getElementById('lsdTab').innerText = lang.lsdTab;
+            document.getElementById('mdmaTab').innerText = lang.mdmaTab;
+            document.getElementById('heroinTab').innerText = lang.heroinTab;
+            document.getElementById('promoInfo').innerText = lang.promoInfo;
+            updateOrderHistory();
             updateMailList();
+            updateTabs();
+            updateProductCards();
         }
 
-        function activateFirstTab() {
-            const firstTab = document.querySelector('.tab');
-            if (firstTab) {
-                firstTab.classList.add('active');
-                const tabId = firstTab.getAttribute('data-tab');
-                document.getElementById(tabId).style.display = 'block';
+        function updateDistricts() {
+            const districtSelect = document.getElementById('districtSelect');
+            districtSelect.innerHTML = `<option value="all">${translations[userLanguage].allDistrictsOption}</option>`;
+            if (selectedCity !== 'all' && cities[selectedCity]) {
+                const districts = translations[userLanguage][`${selectedCity}Districts`];
+                for (let district in districts) {
+                    districtSelect.innerHTML += `<option value="${district}">${districts[district]}</option>`;
+                }
             }
-        }
-
-        function activateTab(event) {
-            const tabs = document.querySelectorAll('.tab');
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            tabContents.forEach(content => content.style.display = 'none');
-            event.target.classList.add('active');
-            const tabId = event.target.getAttribute('data-tab');
-            document.getElementById(tabId).style.display = 'block';
-            filterProducts();
+            filterByDistrict();
         }
 
         function filterByCity() {
             selectedCity = document.getElementById('citySelect').value;
-            updateDistrictOptions();
+            updateDistricts();
             filterProducts();
         }
 
@@ -1575,341 +1000,405 @@
         }
 
         function filterProducts() {
-            const productCards = document.querySelectorAll('.product-card');
-            productCards.forEach(card => {
-                const cityMatch = selectedCity === 'all' || card.getAttribute('data-product').startsWith(selectedCity);
-                const districtMatch = selectedDistrict === 'all' || card.getAttribute('data-product').includes(selectedDistrict);
-                card.style.display = (cityMatch && districtMatch) ? 'block' : 'none';
+            const products = document.querySelectorAll('.product-card');
+            products.forEach(card => {
+                const productId = card.dataset.product;
+                const [category, id] = productId.split('-');
+                const availableCities = Object.keys(cities);
+                let isVisible = true;
+
+                if (selectedCity !== 'all') {
+                    if (!availableCities.includes(selectedCity)) {
+                        isVisible = false;
+                    } else if (selectedDistrict !== 'all' && !cities[selectedCity][selectedDistrict]) {
+                        isVisible = false;
+                    }
+                }
+
+                card.style.display = isVisible ? 'block' : 'none';
+            });
+        }
+
+        function toggleCatalog() {
+            const catalogMenu = document.getElementById('catalogMenu');
+            const profileMenu = document.getElementById('profileMenu');
+            const vacancyMenu = document.getElementById('vacancyMenu');
+            const mailMenu = document.getElementById('mailMenu');
+            catalogMenu.style.display = catalogMenu.style.display === 'block' ? 'none' : 'block';
+            profileMenu.style.display = 'none';
+            vacancyMenu.style.display = 'none';
+            mailMenu.style.display = 'none';
+            updateTabs();
+        }
+
+        function toggleProfile() {
+            const profileMenu = document.getElementById('profileMenu');
+            const catalogMenu = document.getElementById('catalogMenu');
+            const vacancyMenu = document.getElementById('vacancyMenu');
+            const mailMenu = document.getElementById('mailMenu');
+            profileMenu.style.display = profileMenu.style.display === 'block' ? 'none' : 'block';
+            catalogMenu.style.display = 'none';
+            vacancyMenu.style.display = 'none';
+            mailMenu.style.display = 'none';
+            if (!currentUser) showRegistrationModal();
+        }
+
+        function toggleVacancies() {
+            const vacancyMenu = document.getElementById('vacancyMenu');
+            const catalogMenu = document.getElementById('catalogMenu');
+            const profileMenu = document.getElementById('profileMenu');
+            const mailMenu = document.getElementById('mailMenu');
+            vacancyMenu.style.display = vacancyMenu.style.display === 'block' ? 'none' : 'block';
+            catalogMenu.style.display = 'none';
+            profileMenu.style.display = 'none';
+            mailMenu.style.display = 'none';
+        }
+
+        function toggleMail() {
+            const mailMenu = document.getElementById('mailMenu');
+            const catalogMenu = document.getElementById('catalogMenu');
+            const profileMenu = document.getElementById('profileMenu');
+            const vacancyMenu = document.getElementById('vacancyMenu');
+            mailMenu.style.display = mailMenu.style.display === 'block' ? 'none' : 'block';
+            catalogMenu.style.display = 'none';
+            profileMenu.style.display = 'none';
+            vacancyMenu.style.display = 'none';
+            updateMailList();
+        }
+
+        function updateTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    tabContents.forEach(content => content.style.display = 'none');
+                    document.getElementById(tab.dataset.tab).style.display = 'block';
+                    filterProducts();
+                });
+            });
+            if (!document.querySelector('.tab.active')) {
+                tabs[0].classList.add('active');
+                tabContents[0].style.display = 'block';
+            }
+            filterProducts();
+        }
+
+        function updateProductCards() {
+            const lang = translations[userLanguage];
+            const products = document.querySelectorAll('.product-card');
+            products.forEach(card => {
+                const productId = card.dataset.product;
+                const [category, id] = productId.split('-');
+                const price = basePrices[category][id];
+                const weightsList = (category === 'coke' || category === 'meph' || category === 'alpha' || category === 'mdma') ? weights.cokeMephAlphaMdma : (category === 'lsd' ? weights.lsd : (category === 'mdma' && id === '3' ? weights.mdmaTabs : weights.default));
+                const weightOptions = weightsList.map(w => `${w} г`).join(', ');
+                card.querySelector('.price')?.remove();
+                card.querySelector('.crypto-price')?.remove();
+                card.querySelector('.buy-button')?.remove();
+                card.querySelector('.preorder-button')?.remove();
+                card.innerHTML += `
+                    <p class="price">${lang.positionPrice} ${price} ฿/г</p>
+                    <p class="crypto-price">~${(price / cryptoRates.USDT).toFixed(2)} USDT/г</p>
+                    <button class="buy-button" onclick="buyProduct('${category}', ${id})">${lang.buyButton}</button>
+                    <button class="preorder-button" onclick="preorderProduct('${category}', ${id})">${lang.preorderButton}</button>
+                `;
             });
         }
 
         function showProductModal(category, id) {
-            if (!currentUser) {
-                alert(translations[userLanguage].regTitle || translations['en'].regTitle);
-                return;
-            }
-            const product = products[category][id];
-            const content = document.getElementById('productContent');
-            content.innerHTML = `
-                <h2>${product.name}</h2>
-                <p>${translations[userLanguage].positionWeight || translations['en'].positionWeight}</p>
-                <select id="weightSelect">
-                    ${Object.entries(product.positions).map(([pos, details]) => 
-                        `<option value="${pos}" ${details.stock ? '' : 'disabled'} data-price="${details.price}" data-weight="${details.weight}">${details.weight}g - ${details.price}฿ ${details.stock ? translations[userLanguage].inStock || translations['en'].inStock : translations[userLanguage].outOfStock || translations['en'].outOfStock}</option>`
-                    ).join('')}
-                </select>
-                <p>${translations[userLanguage].positionCity || translations['en'].positionCity}</p>
-                <select id="cityDistrictSelect">
-                    ${Object.entries(product.positions).map(([pos]) => 
-                        `<option value="${pos}">${pos.replace(`${selectedCity}-`, '')}</option>`
-                    ).join('')}
-                </select>
-                <p>${translations[userLanguage].reviewsTitle || translations['en'].reviewsTitle}</p>
-                ${product.reviews.map(review => `
-                    <div class="review">
-                        <span class="review-text">${review.text}</span>
-                        <span class="review-date">${review.date}</span>
-                    </div>
-                    ${review.mod ? `<div class="moderator-response">${review.mod}</div>` : ''}
-                `).join('') || `<p>${translations[userLanguage].noReviews || translations['en'].noReviews}</p>`}
-                <button class="buy-button" onclick="buyProduct('${category}', ${id})">${translations[userLanguage].buyButton || translations['en'].buyButton}</button>
-                <button class="preorder-button" onclick="preorderProduct('${category}', ${id})">${translations[userLanguage].preorderButton || translations['en'].preorderButton}</button>
-                <button class="buy-button" onclick="closeModal('productModal')">${translations[userLanguage].close || translations['en'].close}</button>
+            const lang = translations[userLanguage];
+            const productCard = document.querySelector(`[data-product="${category}-${id}"]`);
+            const name = productCard.querySelector('h3').innerText;
+            const desc = productCard.querySelector('p').innerText;
+            const price = basePrices[category][id];
+            const weightsList = (category === 'coke' || category === 'meph' || category === 'alpha' || category === 'mdma') ? weights.cokeMephAlphaMdma : (category === 'lsd' ? weights.lsd : (category === 'mdma' && id === '3' ? weights.mdmaTabs : weights.default));
+            const inStock = Math.random() > 0.3;
+            const image = productImages[category][id];
+            let content = `
+                <img src="${image}" class="product-image" alt="${name}">
+                <h2>${name}</h2>
+                <p>${desc}</p>
+                <p>${lang.positionPrice} ${price} ฿/г (~${(price / cryptoRates.USDT).toFixed(2)} USDT)</p>
+                <p>${lang.positionWeight} ${weightsList.join(', ')} г</p>
+                <p>${lang.positionCity} ${selectedCity === 'all' ? 'Multiple' : translations[userLanguage][`${selectedCity}Option`]}</p>
+                <p>${lang.positionAvailability} ${inStock ? lang.inStock : lang.outOfStock}</p>
             `;
+            if (inStock) {
+                content += `<button class="buy-button" onclick="buyProduct('${category}', ${id})">${lang.buyButton}</button>`;
+            }
+            content += `<button class="preorder-button" onclick="preorderProduct('${category}', ${id})">${lang.preorderButton}</button>`;
+            content += `
+                <h3>${lang.reviewsTitle}</h3>
+                <div id="reviews">${lang.noReviews}</div>
+                <button class="buy-button" onclick="closeModal('productModal')">${lang.close}</button>
+            `;
+            document.getElementById('productContent').innerHTML = content;
             document.getElementById('productModal').style.display = 'flex';
         }
 
         function buyProduct(category, id) {
-            const weightSelect = document.getElementById('weightSelect');
-            const cityDistrictSelect = document.getElementById('cityDistrictSelect');
-            const selectedOption = weightSelect.options[weightSelect.selectedIndex];
-            const price = parseInt(selectedOption.getAttribute('data-price'));
-            const position = cityDistrictSelect.value;
-            const stock = selectedOption.disabled;
-
-            if (stock) {
-                alert(`${translations[userLanguage].outOfStock || translations['en'].outOfStock}`);
-                return;
+            const lang = translations[userLanguage];
+            const price = basePrices[category][id];
+            const weightsList = (category === 'coke' || category === 'meph' || category === 'alpha' || category === 'mdma') ? weights.cokeMephAlphaMdma : (category === 'lsd' ? weights.lsd : (category === 'mdma' && id === '3' ? weights.mdmaTabs : weights.default));
+            const totalPrice = price * weightsList[0];
+            if (balance >= totalPrice) {
+                balance -= totalPrice;
+                orderCount++;
+                const order = {
+                    id: orderCount,
+                    product: `${category}-${id}`,
+                    weight: weightsList[0],
+                    price: totalPrice,
+                    date: new Date().toLocaleString(),
+                    city: selectedCity,
+                    district: selectedDistrict
+                };
+                orderHistory.push(order);
+                updateOrderHistory();
+                document.getElementById('balance').innerText = `${balance} ฿`;
+                document.getElementById('ordersLabel').innerText = lang.ordersLabel + orderCount;
+                showPaymentModal(order);
+                sendToTelegram(`New order #${order.id}: ${order.product}, ${order.weight}g, ${order.price} ฿, ${order.city}/${order.district}`);
+            } else {
+                showConfirmModal(lang.insufficientFunds, () => showDepositModal('USDT'), () => closeModal('confirmModal'));
             }
-
-            if (balance < price) {
-                showConfirmModal(translations[userLanguage].insufficientFunds || translations['en'].insufficientFunds, () => {
-                    closeModal('confirmModal');
-                    showDepositModal();
-                }, () => closeModal('confirmModal'));
-                return;
-            }
-
-            balance -= price;
-            orderCount++;
-            orderHistory.unshift({ date: new Date().toLocaleDateString('ru-RU'), product: `${category}-${id}`, weight: selectedOption.getAttribute('data-weight'), price, position });
-            if (orderHistory.length > 5) orderHistory.pop();
-            currentUser.balance = balance;
-            currentUser.orders = orderCount;
-            currentUser.orderHistory = orderHistory;
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            document.getElementById('balance').textContent = `${balance} ฿`;
-            document.getElementById('ordersLabel').textContent = `${translations[userLanguage].ordersLabel}${orderCount}`;
-            updateOrderHistory();
-            alert(translations[userLanguage].paymentSuccess || translations['en'].paymentSuccess);
-            closeModal('productModal');
-            sendTelegramNotification(`New order: ${currentUser.nickname} bought ${products[category][id].name} (${selectedOption.getAttribute('data-weight')}g) for ${price}฿ at ${position}`);
         }
 
         function preorderProduct(category, id) {
-            const weightSelect = document.getElementById('weightSelect');
-            const cityDistrictSelect = document.getElementById('cityDistrictSelect');
-            const selectedOption = weightSelect.options[weightSelect.selectedIndex];
-            const basePrice = parseInt(selectedOption.getAttribute('data-price'));
-            const preorderPrice = Math.round(basePrice * 1.3);
-            const position = cityDistrictSelect.value;
-            const stock = selectedOption.disabled;
-
-            if (balance < preorderPrice) {
-                showConfirmModal(translations[userLanguage].insufficientFunds || translations['en'].insufficientFunds, () => {
-                    closeModal('confirmModal');
-                    showDepositModal();
-                }, () => closeModal('confirmModal'));
-                return;
+            const lang = translations[userLanguage];
+            const price = basePrices[category][id] * 1.3;
+            const weightsList = (category === 'coke' || category === 'meph' || category === 'alpha' || category === 'mdma') ? weights.cokeMephAlphaMdma : (category === 'lsd' ? weights.lsd : (category === 'mdma' && id === '3' ? weights.mdmaTabs : weights.default));
+            const totalPrice = price * weightsList[0];
+            if (balance >= totalPrice) {
+                balance -= totalPrice;
+                orderCount++;
+                const order = {
+                    id: orderCount,
+                    product: `${category}-${id}`,
+                    weight: weightsList[0],
+                    price: totalPrice,
+                    date: new Date().toLocaleString(),
+                    city: selectedCity,
+                    district: selectedDistrict,
+                    preorder: true
+                };
+                orderHistory.push(order);
+                updateOrderHistory();
+                document.getElementById('balance').innerText = `${balance} ฿`;
+                document.getElementById('ordersLabel').innerText = lang.ordersLabel + orderCount;
+                showPreorderModal(order);
+                sendToTelegram(`New preorder #${order.id}: ${order.product}, ${order.weight}g, ${order.price} ฿, ${order.city}/${order.district}`);
+            } else {
+                showConfirmModal(lang.insufficientFunds, () => showDepositModal('USDT'), () => closeModal('confirmModal'));
             }
-
-            balance -= preorderPrice;
-            orderCount++;
-            orderHistory.unshift({ date: new Date().toLocaleDateString('ru-RU'), product: `${category}-${id}`, weight: selectedOption.getAttribute('data-weight'), price: preorderPrice, position, type: 'preorder' });
-            if (orderHistory.length > 5) orderHistory.pop();
-            currentUser.balance = balance;
-            currentUser.orders = orderCount;
-            currentUser.orderHistory = orderHistory;
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            document.getElementById('balance').textContent = `${balance} ฿`;
-            document.getElementById('ordersLabel').textContent = `${translations[userLanguage].ordersLabel}${orderCount}`;
-            updateOrderHistory();
-            alert(translations[userLanguage].preorderPlaced || translations['en'].preorderPlaced);
-            closeModal('productModal');
-            sendTelegramNotification(`New preorder: ${currentUser.nickname} preordered ${products[category][id].name} (${selectedOption.getAttribute('data-weight')}g) for ${preorderPrice}฿ at ${position}`);
         }
 
-        function showDepositModal(crypto = 'BTC') {
-            if (!currentUser) {
-                alert(translations[userLanguage].regTitle || translations['en'].regTitle);
-                return;
-            }
-            const content = document.getElementById('depositContent');
-            content.innerHTML = `
-                <h2>${translations[userLanguage].depositFunds || translations['en'].depositFunds}</h2>
-                <p>${translations[userLanguage].selectCrypto || translations['en'].selectCrypto}</p>
-                <select id="cryptoSelect" onchange="updateDepositInfo()">
-                    ${Object.keys(cryptoRates).map(c => `<option value="${c}" ${c === crypto ? 'selected' : ''}>${c}</option>`).join('')}
-                </select>
-                <p>${translations[userLanguage].networkLabel || translations['en'].networkLabel}</p>
-                <input type="text" id="networkInput" value="${cryptoNetworks[crypto]}" readonly>
-                <p>${translations[userLanguage].enterAmount || translations['en'].enterAmount}</p>
-                <input type="number" id="depositAmount" min="${MIN_DEPOSIT}" placeholder="1000 ฿+">
-                <button class="buy-button" onclick="generateDepositAddress()">${translations[userLanguage].generateAddress || translations['en'].generateAddress}</button>
-                <div id="depositAddress"></div>
-                <button class="buy-button" onclick="closeModal('depositModal')">${translations[userLanguage].close || translations['en'].close}</button>
+        function showPaymentModal(order) {
+            const lang = translations[userLanguage];
+            const cityData = cities[order.city][order.district];
+            const content = `
+                <h2>${lang.paymentSuccess}</h2>
+                <p>Order #${order.id}</p>
+                <p>Coordinates: ${cityData.lat}, ${cityData.lon}</p>
+                <p>Description: ${cityData.desc}</p>
+                <button class="buy-button" onclick="closeModal('paymentModal')">${lang.close}</button>
             `;
+            document.getElementById('paymentContent').innerHTML = content;
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
+
+        function showPreorderModal(order) {
+            const lang = translations[userLanguage];
+            const content = `
+                <h2>${lang.preorderTitle}</h2>
+                <p>${lang.preorderPlaced}</p>
+                <p>Order #${order.id}</p>
+                <p>Await delivery to ${order.city}/${order.district}</p>
+                <button class="buy-button" onclick="closeModal('preorderModal')">${lang.close}</button>
+            `;
+            document.getElementById('preorderContent').innerHTML = content;
+            document.getElementById('preorderModal').style.display = 'flex';
+        }
+
+        function showDepositModal(crypto) {
+            const lang = translations[userLanguage];
+            const content = `
+                <h2>${lang.depositFunds}</h2>
+                <p>${lang.selectCrypto}</p>
+                <select id="cryptoSelect" onchange="updateDepositNetwork()">
+                    <option value="BTC" ${crypto === 'BTC' ? 'selected' : ''}>Bitcoin (BTC)</option>
+                    <option value="ETH" ${crypto === 'ETH' ? 'selected' : ''}>Ethereum (ETH)</option>
+                    <option value="USDT" ${crypto === 'USDT' ? 'selected' : ''}>Tether (USDT)</option>
+                    <option value="SOL" ${crypto === 'SOL' ? 'selected' : ''}>Solana (SOL)</option>
+                    <option value="TON" ${crypto === 'TON' ? 'selected' : ''}>Toncoin (TON)</option>
+                </select>
+                <p>${lang.networkLabel} <span id="cryptoNetwork">${cryptoNetworks[crypto]}</span></p>
+                <p>${lang.enterAmount}</p>
+                <input type="number" id="depositAmount" placeholder="฿" min="${MIN_DEPOSIT}">
+                <button class="buy-button" onclick="generateDepositAddress()">${lang.generateAddress}</button>
+                <div id="depositAddress"></div>
+                <button class="buy-button" onclick="closeModal('depositModal')">${lang.close}</button>
+            `;
+            document.getElementById('depositContent').innerHTML = content;
             document.getElementById('depositModal').style.display = 'flex';
         }
 
-        function updateDepositInfo() {
-            const cryptoSelect = document.getElementById('cryptoSelect');
-            const networkInput = document.getElementById('networkInput');
-            networkInput.value = cryptoNetworks[cryptoSelect.value];
+        function updateDepositNetwork() {
+            const crypto = document.getElementById('cryptoSelect').value;
+            document.getElementById('cryptoNetwork').innerText = cryptoNetworks[crypto];
         }
 
         function generateDepositAddress() {
+            const lang = translations[userLanguage];
+            const crypto = document.getElementById('cryptoSelect').value;
             const amount = parseInt(document.getElementById('depositAmount').value);
-            const cryptoSelect = document.getElementById('cryptoSelect');
-            const crypto = cryptoSelect.value;
-            const cryptoAmount = (amount / cryptoRates[crypto]).toFixed(6);
-
             if (amount < MIN_DEPOSIT) {
-                alert(translations[userLanguage].minDepositError || translations['en'].minDepositError);
+                showAlert(lang.minDepositError);
                 return;
             }
-
+            const cryptoAmount = (amount / cryptoRates[crypto]).toFixed(6);
             const address = testAddresses[crypto];
-            const content = document.getElementById('depositAddress');
-            content.innerHTML = `
-                <p>${translations[userLanguage].depositInstruction.replace('{amount}', amount).replace('{cryptoAmount}', cryptoAmount).replace('{crypto}', crypto) || translations['en'].depositInstruction.replace('{amount}', amount).replace('{cryptoAmount}', cryptoAmount).replace('{crypto}', crypto)}</p>
-                <p>${address}</p>
-                <p>${translations[userLanguage].depositFinal || translations['en'].depositFinal}</p>
-                <p>${translations[userLanguage].depositExpiry || translations['en'].depositExpiry}</p>
-                <button class="buy-button" onclick="confirmDeposit('${crypto}', ${amount}, '${address}')">${translations[userLanguage].confirmPayment || translations['en'].confirmPayment}</button>
+            const content = `
+                <p>${lang.depositInstruction.replace('{amount}', amount).replace('{cryptoAmount}', cryptoAmount).replace('{crypto}', crypto)}</p>
+                <p><strong>${address}</strong></p>
+                <p>${lang.depositFinal}</p>
+                <p>${lang.depositExpiry}</p>
+                <button class="buy-button" onclick="confirmDeposit('${crypto}', ${amount}, '${address}')">${lang.confirmPayment}</button>
             `;
-            pendingPayments[address] = { amount, crypto, timestamp: Date.now() };
+            document.getElementById('depositAddress').innerHTML = content;
         }
 
         function confirmDeposit(crypto, amount, address) {
-    balance += amount;
-    currentUser.balance = balance;
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    document.getElementById('balance').textContent = `${balance} ฿`;
-    document.getElementById('depositAddress').innerHTML = `<p>${translations[userLanguage].paymentPending || translations['en'].paymentPending}</p>`;
-    sendTelegramNotification(`Deposit: ${currentUser.nickname} deposited ${amount}฿ (~${(amount / cryptoRates[crypto]).toFixed(6)} ${crypto})`);
-                        delete pendingPayments[address];
-            setTimeout(() => {
-                closeModal('depositModal');
-            }, 2000);
+            const lang = translations[userLanguage];
+            balance += amount;
+            document.getElementById('balance').innerText = `${balance} ฿`;
+            closeModal('depositModal');
+            showAlert(lang.paymentPending);
+            sendToTelegram(`Deposit: ${amount} ฿ (~${(amount / cryptoRates[crypto]).toFixed(6)} ${crypto}) to ${address}`);
+        }
+
+        function showRegistrationModal() {
+            document.getElementById('registrationModal').style.display = 'flex';
+        }
+
+        function registerUser() {
+            const lang = translations[userLanguage];
+            const nickname = document.getElementById('regNickname').value.trim();
+            const language = document.getElementById('regLanguage').value;
+            if (!nickname) {
+                document.getElementById('regError').innerText = lang.regErrorEmpty;
+                return;
+            }
+            if (registeredUsers.some(u => u.nickname === nickname)) {
+                document.getElementById('regError').innerText = lang.regErrorTaken;
+                return;
+            }
+            currentUser = nickname;
+            userLanguage = language;
+            registeredUsers.push({ nickname, language });
+            localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+            document.getElementById('profileNameLabel').innerText = lang.profileNameLabel + currentUser;
+            closeModal('registrationModal');
+            showAlert(lang.welcomeMessage.replace('{user}', currentUser));
+            loadLanguage();
         }
 
         function updateOrderHistory() {
+            const lang = translations[userLanguage];
             const orderList = document.getElementById('orderList');
-            if (orderHistory.length === 0) {
-                orderList.innerHTML = `<p>${translations[userLanguage].orderListEmpty || translations['en'].orderListEmpty}</p>`;
-            } else {
-                orderList.innerHTML = orderHistory.map(order => `
-                    <div class="order-item">
-                        <p>${order.date}: ${products[order.product.split('-')[0]][order.product.split('-')[1]].name}</p>
-                        <p>${translations[userLanguage].positionWeight || translations['en'].positionWeight} ${order.weight}g</p>
-                        <p>${translations[userLanguage].positionPrice || translations['en'].positionPrice} ${order.price}฿</p>
-                        <p>${translations[userLanguage].positionCity || translations['en'].positionCity} ${order.position}</p>
-                        ${order.type === 'preorder' ? `<p>${translations[userLanguage].preorderTitle || translations['en'].preorderTitle}</p>` : ''}
-                    </div>
-                `).join('');
-            }
-        }
-
-        function toggleChat() {
-            const supportChat = document.getElementById('supportChat');
-            supportChat.classList.toggle('active');
-        }
-
-        function sendChatMessage() {
-            const chatInput = document.getElementById('chatInput');
-            const chatMessages = document.getElementById('chatMessages');
-            const message = chatInput.value.trim();
-
-            if (message) {
-                chatMessages.innerHTML += `<p><strong>${currentUser.nickname}:</strong> ${message}</p>`;
-                chatInput.value = '';
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-
-                setTimeout(() => {
-                    chatMessages.innerHTML += `<p><strong>Operator:</strong> ${translations[userLanguage].chatOperatorResponse || translations['en'].chatOperatorResponse}</p>`;
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                    sendTelegramNotification(`Chat message from ${currentUser.nickname}: ${message}`);
-                }, 1000);
-            }
+            orderList.innerHTML = orderHistory.length ? orderHistory.map(order => `
+                <div>Order #${order.id}: ${order.product}, ${order.weight}g, ${order.price} ฿, ${order.date}</div>
+            `).join('') : lang.orderListEmpty;
         }
 
         function updateMailList() {
+            const lang = translations[userLanguage];
             const mailList = document.getElementById('mailList');
-            if (mailMessages.length === 0) {
-                mailList.innerHTML = `<p>${translations[userLanguage].mailListEmpty || translations['en'].mailListEmpty}</p>`;
-            } else {
-                mailList.innerHTML = mailMessages.map(msg => `
-                    <div class="mail-item">
-                        <p><strong>${msg.date}:</strong> ${msg.text}</p>
-                    </div>
-                `).join('');
-            }
+            mailList.innerHTML = mailMessages.length ? mailMessages.map(msg => `<div>${msg}</div>`).join('') : lang.mailListEmpty;
         }
 
-        function applyForJob(job) {
-            showInputModal(translations[userLanguage].applyJobPrompt.replace('{job}', job) || translations['en'].applyJobPrompt.replace('{job}', job), (resume) => {
-                mailMessages.push({ date: new Date().toLocaleDateString('ru-RU'), text: translations[userLanguage].applyJobSent.replace('{job}', job) || translations['en'].applyJobSent.replace('{job}', job) });
-                updateMailList();
-                sendTelegramNotification(`Job application: ${currentUser.nickname} applied for ${job}. Resume: ${resume}`);
-                showAlertModal(translations[userLanguage].applyJobAlert.replace('{job}', job) || translations['en'].applyJobAlert.replace('{job}', job));
-            });
-        }
-
-        function showPromoDetails() {
-            showAlertModal(translations[userLanguage].promoBanner || translations['en'].promoBanner);
-        }
-
-        function showAlertModal(message) {
-            const content = document.getElementById('customContent');
-            content.innerHTML = `
-                <h2>${translations[userLanguage].alertTitle || translations['en'].alertTitle}</h2>
+        function showAlert(message) {
+            const lang = translations[userLanguage];
+            document.getElementById('customContent').innerHTML = `
+                <h2>${lang.alertTitle}</h2>
                 <p>${message}</p>
-                <button class="buy-button" onclick="closeModal('customModal')">${translations[userLanguage].close || translations['en'].close}</button>
+                <button class="buy-button" onclick="closeModal('customModal')">${lang.close}</button>
             `;
             document.getElementById('customModal').style.display = 'flex';
         }
 
         function showConfirmModal(message, onConfirm, onCancel) {
-            const content = document.getElementById('confirmContent');
-            content.innerHTML = `
-                <h2>${translations[userLanguage].confirmTitle || translations['en'].confirmTitle}</h2>
+            const lang = translations[userLanguage];
+            document.getElementById('confirmContent').innerHTML = `
+                <h2>${lang.confirmTitle}</h2>
                 <p>${message}</p>
-                <button class="buy-button" onclick="onConfirmCallback()">${translations[userLanguage].yes || translations['en'].yes}</button>
-                <button class="buy-button" onclick="onCancelCallback()">${translations[userLanguage].no || translations['en'].no}</button>
+                <button class="buy-button" onclick="confirmAction()">${lang.yes}</button>
+                <button class="buy-button" onclick="cancelAction()">${lang.no}</button>
             `;
-            window.onConfirmCallback = onConfirm;
-            window.onCancelCallback = onCancel;
             document.getElementById('confirmModal').style.display = 'flex';
+            window.confirmAction = onConfirm;
+            window.cancelAction = onCancel;
         }
 
-        function showInputModal(message, onSubmit) {
-            const content = document.getElementById('customContent');
-            content.innerHTML = `
-                <h2>${translations[userLanguage].inputTitle || translations['en'].inputTitle}</h2>
-                <p>${message}</p>
-                <textarea id="inputText" placeholder="Your input..."></textarea>
-                <button class="buy-button" onclick="submitInput()">${translations[userLanguage].confirmButton || translations['en'].confirmButton}</button>
-                <button class="buy-button" onclick="closeModal('customModal')">${translations[userLanguage].cancelButton || translations['en'].cancelButton}</button>
-            `;
-            window.submitInput = () => {
-                const input = document.getElementById('inputText').value.trim();
-                if (input) {
-                    onSubmit(input);
-                    closeModal('customModal');
-                }
-            };
-            document.getElementById('customModal').style.display = 'flex';
+        function confirmAction() {
+            window.confirmAction();
+            closeModal('confirmModal');
+        }
+
+        function cancelAction() {
+            window.cancelAction();
+            closeModal('confirmModal');
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
 
-        function sendTelegramNotification(message) {
-            if (!window.Telegram || !window.Telegram.WebApp) {
-                console.log('Telegram Web App not available, skipping notification:', message);
-                return;
-            }
-
-            const url = `https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage`;
-            const data = {
-                chat_id: ADMIN_CHAT_ID,
-                text: message
-            };
-
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (!data.ok) {
-                    console.error('Failed to send Telegram notification:', data);
-                }
-            })
-            .catch(error => {
-                console.error('Error sending Telegram notification:', error);
+        function applyForJob(job) {
+            const lang = translations[userLanguage];
+            showInputModal(lang.applyJobPrompt.replace('{job}', job), resume => {
+                sendToTelegram(`Job application: ${job}\nResume: ${resume}\nUser: ${currentUser || 'Guest'}`);
+                showAlert(lang.applyJobSent.replace('{job}', job));
             });
         }
 
-        function getRandomDate() {
-            const start = new Date(2023, 0, 1);
-            const end = new Date();
-            const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-            return date.toLocaleDateString('ru-RU');
+        function showInputModal(message, callback) {
+            const lang = translations[userLanguage];
+            document.getElementById('customContent').innerHTML = `
+                <h2>${lang.inputTitle}</h2>
+                <p>${message}</p>
+                <textarea id="inputValue"></textarea>
+                <button class="buy-button" onclick="submitInput('${callback}')">${lang.confirmButton}</button>
+                <button class="buy-button" onclick="closeModal('customModal')">${lang.cancelButton}</button>
+            `;
+            document.getElementById('customModal').style.display = 'flex';
+            window.submitInput = value => {
+                const input = document.getElementById('inputValue').value;
+                closeModal('customModal');
+                callback(input);
+            };
         }
 
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', activateTab);
-        });
+        function sendToTelegram(message) {
+            const url = `https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage`;
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: ADMIN_CHAT_ID,
+                    text: message
+                })
+            }).catch(err => console.error('Telegram API error:', err));
+        }
 
-        window.onload = function() {
-            initializeUser();
-        };
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!currentUser) showRegistrationModal();
+            else loadLanguage();
+            updateTabs();
+            updateProductCards();
+        });
     </script>
 </body>
 </html>
