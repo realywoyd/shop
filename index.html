@@ -848,7 +848,7 @@
             coke: { 1: 4000, 2: 3600, 3: 3000, 4: 2400, 5: 4500 },
             amph: { 1: 1300, 2: 1000, 3: 900, 4: 700, 5: 1500 },
             meth: { 1: 1500, 2: 1200, 3: 1000, 4: 800, 5: 1800 },
-                        meph: { 1: 1400, 2: 1200, 3: 1000, 4: 800, 5: 1600 },
+            meph: { 1: 1400, 2: 1200, 3: 1000, 4: 800, 5: 1600 },
             alpha: { 1: 1500, 2: 1300, 3: 1100, 4: 900, 5: 1700 },
             lsd: { 1: 500, 2: 450, 3: 400, 4: 350, 5: 600 },
             mdma: { 1: 2000, 2: 1800, 3: 2200, 4: 1500, 5: 1200 },
@@ -861,7 +861,7 @@
                 1: "https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 2: "https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 3: "https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                4: "https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                                4: "https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 5: "https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
             },
             coke: {
@@ -920,6 +920,49 @@
                 4: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 5: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
             }
+        };
+
+        const reviews = {
+            "weed-1": [
+                { text: "Брал ямайку, штырит как надо, запах огонь, рекомендую!", date: "01.03.2025", response: "Спасибо за отзыв, братан! Заходи ещё." },
+                { text: "Качество на уровне, но клад чуть не под носом у охраны, аккуратнее плиз", date: "28.02.2025", response: "Принято, будем точнее с локациями." }
+            ],
+            "hash-1": [
+                { text: "Афганский топ, плавный приход, держит долго", date: "02.03.2025", response: "Рады, что зашло! Обращайся ещё." },
+                { text: "Всё ок, но упаковка слабая, чуть не рассыпалось", date: "27.02.2025", response: "Исправим, спасибо за фидбек." }
+            ],
+            "coke-1": [
+                { text: "Боливийский пиздец как хорош, чистый кайф, берите не думайте", date: "03.03.2025", response: "Бери ещё, не пожалеешь!" },
+                { text: "Всё четко, только долго искал, описание мутное", date: "26.02.2025", response: "Поправим описание, спасибо за сигнал." }
+            ],
+            "amph-1": [
+                { text: "Кристалл бодрый, заряд на весь день, огонь!", date: "04.03.2025", response: "Заходи за добавкой, братишка!" },
+                { text: "Норм, но эффекта меньше, чем ожидал", date: "25.02.2025", response: "Проверим партию, спасибо за инфу." }
+            ],
+            "meth-1": [
+                { text: "Горный лёд — это пушка, разносит как надо", date: "05.03.2025", response: "Т                опчик! Рады, что зашло." },
+                { text: "Качество норм, но доставка в Паттайе затянулась", date: "24.02.2025", response: "Разберёмся с курьерами, извини за задержку." }
+            ],
+            "meph-1": [
+                { text: "Розовый кайф реально мощный, рекомендую", date: "06.03.2025", response: "Спасибо, братишка! Бери ещё." },
+                { text: "Всё четко, но магнит отвалился, чуть не потерял", date: "23.02.2025", response: "Проверим крепления, спасибо за инфу." }
+            ],
+            "alpha-1": [
+                { text: "Флакка огонь, разносит в щепки, топ!", date: "07.03.2025", response: "Заходи ещё, не пожалеешь!" },
+                { text: "Сильно, но место клада пиздец стремное", date: "22.02.2025", response: "Поправим локации, спасибо за фидбек." }
+            ],
+            "lsd-1": [
+                { text: "Космические таблы — трип лютый, берите", date: "08.03.2025", response: "Рады, что улетел! Обращайся." },
+                { text: "Всё ок, но упаковка слабая, чуть не порвалась", date: "21.02.2025", response: "Улучшим упаковку, спасибо за сигнал." }
+            ],
+            "mdma-1": [
+                { text: "Кристальная любовь — это пиздец, чистый кайф", date: "09.03.2025", response: "Бери ещё, братишка!" },
+                { text: "Норм, но эффект слабоват для VHQ", date: "20.02.2025", response: "Проверим партию, спасибо за отзыв." }
+            ],
+            "heroin-1": [
+                { text: "Афганский шёлк — глубокий приход, топчик", date: "10.03.2025", response: "Рады, что зашло! Заходи ещё." },
+                { text: "Всё четко, но клад рядом с мусоркой, не айс", date: "19.02.2025", response: "Поправим место, спасибо за инфу." }
+            ]
         };
 
         function loadLanguage() {
@@ -1092,17 +1135,11 @@
                 const productId = card.dataset.product;
                 const [category, id] = productId.split('-');
                 const price = basePrices[category][id];
-                const weightsList = (category === 'coke' || category === 'meph' || category === 'alpha' || category === 'mdma') ? weights.cokeMephAlphaMdma : (category === 'lsd' ? weights.lsd : (category === 'mdma' && id === '3' ? weights.mdmaTabs : weights.default));
-                const weightOptions = weightsList.map(w => `${w} г`).join(', ');
                 card.querySelector('.price')?.remove();
                 card.querySelector('.crypto-price')?.remove();
-                card.querySelector('.buy-button')?.remove();
-                card.querySelector('.preorder-button')?.remove();
                 card.innerHTML += `
                     <p class="price">${lang.positionPrice} ${price} ฿/г</p>
                     <p class="crypto-price">~${(price / cryptoRates.USDT).toFixed(2)} USDT/г</p>
-                    <button class="buy-button" onclick="buyProduct('${category}', ${id})">${lang.buyButton}</button>
-                    <button class="preorder-button" onclick="preorderProduct('${category}', ${id})">${lang.preorderButton}</button>
                 `;
             });
         }
@@ -1111,18 +1148,19 @@
             const lang = translations[userLanguage];
             const productCard = document.querySelector(`[data-product="${category}-${id}"]`);
             const name = productCard.querySelector('h3').innerText;
-            const desc = productCard.querySelector('p').innerText;
+            const shortDesc = productCard.querySelector('p').innerText;
             const price = basePrices[category][id];
             const weightsList = (category === 'coke' || category === 'meph' || category === 'alpha' || category === 'mdma') ? weights.cokeMephAlphaMdma : (category === 'lsd' ? weights.lsd : (category === 'mdma' && id === '3' ? weights.mdmaTabs : weights.default));
             const inStock = Math.random() > 0.3;
             const image = productImages[category][id];
+            const detailedDesc = `${shortDesc}. Этот продукт — чистый кайф для тех, кто знает толк в качественном стаффе. Произведён с соблюдением всех стандартов, обеспечивает мощный и стабильный эффект. Доставка в любой район выбранного города.`;
             let content = `
                 <img src="${image}" class="product-image" alt="${name}">
                 <h2>${name}</h2>
-                <p>${desc}</p>
+                <p>${detailedDesc}</p>
                 <p>${lang.positionPrice} ${price} ฿/г (~${(price / cryptoRates.USDT).toFixed(2)} USDT)</p>
                 <p>${lang.positionWeight} ${weightsList.join(', ')} г</p>
-                <p>${lang.positionCity} ${selectedCity === 'all' ? 'Multiple' : translations[userLanguage][`${selectedCity}Option`]}</p>
+                <p>${lang.positionCity} ${selectedCity === 'all' ? 'Несколько городов' : translations[userLanguage][`${selectedCity}Option`]}</p>
                 <p>${lang.positionAvailability} ${inStock ? lang.inStock : lang.outOfStock}</p>
             `;
             if (inStock) {
@@ -1131,7 +1169,22 @@
             content += `<button class="preorder-button" onclick="preorderProduct('${category}', ${id})">${lang.preorderButton}</button>`;
             content += `
                 <h3>${lang.reviewsTitle}</h3>
-                <div id="reviews">${lang.noReviews}</div>
+                <div id="reviews">
+            `;
+            const productReviews = reviews[`${category}-${id}`] || [];
+            if (productReviews.length) {
+                content += productReviews.map(review => `
+                    <div class="review">
+                        <div class="review-text">${review.text}</div>
+                        <div class="review-date">${review.date}</div>
+                    </div>
+                    <div class="moderator-response">${review.response}</div>
+                `).join('');
+            } else {
+                content += lang.noReviews;
+            }
+            content += `
+                </div>
                 <button class="buy-button" onclick="closeModal('productModal')">${lang.close}</button>
             `;
             document.getElementById('productContent').innerHTML = content;
@@ -1164,6 +1217,7 @@
             } else {
                 showConfirmModal(lang.insufficientFunds, () => showDepositModal('USDT'), () => closeModal('confirmModal'));
             }
+            closeModal('productModal');
         }
 
         function preorderProduct(category, id) {
@@ -1193,6 +1247,7 @@
             } else {
                 showConfirmModal(lang.insufficientFunds, () => showDepositModal('USDT'), () => closeModal('confirmModal'));
             }
+            closeModal('productModal');
         }
 
         function showPaymentModal(order) {
@@ -1200,9 +1255,9 @@
             const cityData = cities[order.city][order.district];
             const content = `
                 <h2>${lang.paymentSuccess}</h2>
-                <p>Order #${order.id}</p>
-                <p>Coordinates: ${cityData.lat}, ${cityData.lon}</p>
-                <p>Description: ${cityData.desc}</p>
+                <p>Заказ #${order.id}</p>
+                <p>Координаты: ${cityData.lat}, ${cityData.lon}</p>
+                <p>Описание: ${cityData.desc}</p>
                 <button class="buy-button" onclick="closeModal('paymentModal')">${lang.close}</button>
             `;
             document.getElementById('paymentContent').innerHTML = content;
@@ -1214,8 +1269,8 @@
             const content = `
                 <h2>${lang.preorderTitle}</h2>
                 <p>${lang.preorderPlaced}</p>
-                <p>Order #${order.id}</p>
-                <p>Await delivery to ${order.city}/${order.district}</p>
+                <p>Заказ #${order.id}</p>
+                <p>Ожидайте доставку в ${order.city}/${order.district}</p>
                 <button class="buy-button" onclick="closeModal('preorderModal')">${lang.close}</button>
             `;
             document.getElementById('preorderContent').innerHTML = content;
@@ -1309,7 +1364,7 @@
             const lang = translations[userLanguage];
             const orderList = document.getElementById('orderList');
             orderList.innerHTML = orderHistory.length ? orderHistory.map(order => `
-                <div>Order #${order.id}: ${order.product}, ${order.weight}g, ${order.price} ฿, ${order.date}</div>
+                <div>Заказ #${order.id}: ${order.product}, ${order.weight}г, ${order.price} ฿, ${order.date}</div>
             `).join('') : lang.orderListEmpty;
         }
 
