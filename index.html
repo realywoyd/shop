@@ -1,967 +1,406 @@
-       <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="sandbox allow-same-origin allow-modals allow-scripts">
-    <title>Dark Thailand - Надёжный шоп</title>
+    <title>Dark Thailand</title>
     <style>
         body {
-            font-family: 'Courier New', monospace;
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #ff9999;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2b0000 100%);
-            color: #ff4444;
-            overflow-x: hidden;
         }
-        .container { max-width: 600px; margin: 0 auto; padding: 15px; position: relative; }
-        .header { text-align: center; padding: 15px 0; background-color: #2b2b2b; color: #ff4444; margin-bottom: 20px; border-radius: 5px; border: 2px solid #ff4444; box-shadow: 0 0 10px rgba(255, 68, 68, 0.5); }
-        .logo { font-size: 48px; animation: textPulse 2s infinite; display: inline-block; }
-        @keyframes textPulse { 
-            0% { transform: scale(1); text-shadow: 0 0 5px #ff4444; } 
-            50% { transform: scale(1.05); text-shadow: 0 0 20px #ff4444, 0 0 30px #ff6666; } 
-            100% { transform: scale(1); text-shadow: 0 0 5px #ff4444; } 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        .header-text { font-size: 16px; margin-top: 5px; animation: textFlicker 3s infinite; }
-        @keyframes textFlicker { 
-            0%, 100% { opacity: 1; } 
-            50% { opacity: 0.7; } 
+        header {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+            border-bottom: 2px solid #ff4444;
+            box-shadow: 0 0 15px rgba(255, 68, 68, 0.3);
         }
-        .nav { display: flex; justify-content: space-between; margin-bottom: 20px; }
-        .nav-button { background-color: #ff4444; color: #000; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; animation: neonPulse 1.5s infinite; }
-        .profile-button { background-color: #ff4444; color: #000; border: none; padding: 0; border-radius: 5px; cursor: pointer; font-size: 26px; width: 60px; height: 40px; line-height: 40px; text-align: center; animation: neonPulse 1.5s infinite; }
-        @keyframes neonPulse { 
-            0% { box-shadow: 0 0 5px #ff4444; } 
-            50% { box-shadow: 0 0 20px #ff4444; } 
-            100% { box-shadow: 0 0 5px #ff4444; } 
+        #promoBanner {
+            background-color: #ff4444;
+            color: #000;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
         }
-        .catalog-menu, .profile-menu, .vacancy-menu, .mail-menu { display: none; background-color: #333; border-radius: 5px; padding: 15px; box-shadow: 0 0 15px rgba(255, 68, 68, 0.3); }
-        .city-filter { margin-bottom: 15px; }
-        .city-filter select, .district-filter select { width: 100%; padding: 10px; background-color: #2b2b2b; color: #ff4444; border: 1px solid #ff4444; border-radius: 5px; font-size: 16px; margin-bottom: 10px; }
-        .tabs { display: flex; flex-wrap: wrap; margin-bottom: 15px; }
-        .tab { flex: 1; text-align: center; padding: 10px; background-color: #2b2b2b; cursor: pointer; margin: 5px; border-radius: 5px; transition: all 0.3s; }
-        .tab:hover { background-color: #ff6666; }
-        .tab.active { background-color: #ff4444; color: #000; box-shadow: 0 0 10px #ff4444; }
-        .tab-content { display: none; }
-        .product-card { background-color: #333; border-radius: 5px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(255, 68, 68, 0.3); transition: transform 0.2s; }
-        .product-card:hover { transform: scale(1.02); }
-        .product-card h3 { margin-top: 0; color: #ff6666; cursor: pointer; }
-        .product-card p { margin: 5px 0; }
-        .price { font-weight: bold; color: #ff9999; }
-        .crypto-price { font-size: 12px; color: #ff6666; }
-        .buy-button, .preorder-button { background-color: #ff4444; color: #000; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin: 5px 0; width: 100%; transition: all 0.3s; }
-        .preorder-button { background-color: #ff6666; }
-        .buy-button:hover, .preorder-button:hover { background-color: #ff8888; }
-        .payment-modal, .product-modal, .deposit-modal, .preorder-modal, .registration-modal, .custom-modal, .confirm-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center; }
-        .payment-content, .product-content, .deposit-content, .preorder-content, .registration-content, .custom-content, .confirm-content { background: #333; padding: 20px; border-radius: 5px; text-align: center; color: #ff4444; max-width: 500px; max-height: 80vh; overflow-y: auto; border: 2px solid #ff4444; box-shadow: 0 0 15px rgba(255, 68, 68, 0.5); }
-        .review { background-color: #2b2b2b; border-left: 4px solid #ff6666; padding: 10px; margin: 10px 0; font-size: 12px; color: #ff9999; text-align: left; display: flex; justify-content: space-between; }
-        .review-text { flex-grow: 1; }
-        .review-date { flex-shrink: 0; margin-left: 10px; color: #ff6666; }
-        .moderator-response { background-color: #2b2b2b; border-left: 4px solid #ff4444; padding: 10px; margin: 5px 0 10px 20px; font-size: 12px; color: #ff6666; text-align: left; }
-        .position { margin: 10px 0; text-align: left; }
-        .promo-banner { background-color: #ff4444; color: #000; padding: 10px; text-align: center; margin-bottom: 20px; border-radius: 5px; font-weight: bold; }
-        .limited-offer { background: #ff6666; color: #000; padding: 10px; text-align: center; margin: 10px 0; }
-                .vacancy { margin-bottom: 15px; }
-        .vacancy h3 { color: #ff6666; }
-        input[type="text"], textarea, input[type="number"], select { 
-            width: 100%; 
-            padding: 10px; 
-            margin: 10px 0; 
-            background-color: #2b2b2b; 
-            color: #ff4444; 
-            border: 1px solid #ff4444; 
-            border-radius: 5px; 
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
         }
-        textarea { height: 100px; resize: none; }
-        .support-chat { 
-            position: fixed; 
-            bottom: 20px; 
-            right: 20px; 
-            width: 300px; 
-            background: #333; 
-            padding: 10px; 
-            border-radius: 5px; 
-            box-shadow: 0 0 15px rgba(255, 68, 68, 0.3); 
+        nav select, nav button {
+            background-color: #333;
+            color: #ff9999;
+            border: 1px solid #ff4444;
+            padding: 5px;
+            margin: 0 5px;
+            cursor: pointer;
         }
-        #chatMessages { 
-            height: 200px; 
-            overflow-y: auto; 
-            color: #ff9999; 
-            padding: 5px; 
-            border: 1px solid #ff4444; 
-            border-radius: 5px; 
-            margin-bottom: 10px; 
+        nav button:hover {
+            background-color: #ff4444;
+            color: #000;
         }
-        #chatInput { 
-            width: 70%; 
-            margin-top: 10px; 
-            display: inline-block; 
+        .profile-info {
+            text-align: right;
         }
-        .support-chat button { 
-            width: 25%; 
-            margin-left: 5px; 
-            background-color: #ff4444; 
-            color: #000; 
-            border: none; 
-            padding: 10px; 
-            border-radius: 5px; 
-            cursor: pointer; 
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
         }
-        .recent-purchases { 
-            background: #2b2b2b; 
-            padding: 10px; 
-            margin-top: 20px; 
-            border-radius: 5px; 
-            color: #ff9999; 
+        .modal-content {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 5px;
+            border: 2px solid #ff4444;
+            width: 400px;
+            text-align: center;
         }
-        .product-image img { 
-            max-width: 100%; 
-            cursor: pointer; 
-            transition: transform 0.3s; 
+        .modal-content button {
+            background-color: #ff4444;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
         }
-        .product-image img.zoomed { 
-            transform: scale(2); 
+        .modal-content button:hover {
+            background-color: #ff9999;
         }
-        .loader { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: #1a1a1a; 
-            color: #ff4444; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 20px; 
+        .tab {
+            display: inline-block;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #444;
+            margin: 5px;
+            border-radius: 5px;
+        }
+        .tab.active {
+            background-color: #ff4444;
+            color: #000;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ff4444;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .product-image img {
+            max-width: 100%;
+            cursor: zoom-in;
+        }
+        .product-image img.zoomed {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 80%;
+            max-height: 80%;
+            z-index: 1500;
+            border: 2px solid #ff4444;
+        }
+        .buy-button, .preorder-button {
+            background-color: #ff4444;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .buy-button:hover, .preorder-button:hover {
+            background-color: #ff9999;
+        }
+        .support-chat {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background: #333;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(255, 68, 68, 0.3);
+            display: none;
+            z-index: 1000;
+        }
+        .support-chat.active {
+            display: block;
+        }
+        #chatMessages {
+            height: 200px;
+            overflow-y: auto;
+            color: #ff9999;
+            padding: 5px;
+            border: 1px solid #ff4444;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        #chatInput {
+            width: 70%;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .support-chat button {
+            width: 25%;
+            margin-left: 5px;
+            background-color: #ff4444;
+            color: #000;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .chat-button {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff4444;
+            color: #000;
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+            z-index: 1001;
+        }
+        .registration-modal {
+            z-index: 2000;
+        }
+        #achievementsList, #recentPurchases, #orderList, #mailList {
+            list-style: none;
+            padding: 0;
+        }
+        #limitedOffer {
+            text-align: center;
+            background-color: #ff4444;
+            color: #000;
+            padding: 10px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="promo-banner" id="promoBanner"></div>
-        <div class="limited-offer" id="limitedOffer"></div>
-
-        <div class="header">
-            <div class="logo">Dark Thailand</div>
-            <div class="header-text" id="headerText"></div>
-        </div>
-        
-        <div class="nav">
-            <button class="nav-button" id="catalogButton" onclick="toggleCatalog()"></button>
-            <button class="nav-button" id="vacanciesButton" onclick="toggleVacancies()"></button>
-            <button class="nav-button" id="mailButton" onclick="toggleMail()"></button>
-            <button class="profile-button" onclick="toggleProfile()">☠️</button>
-        </div>
-        
-        <div class="catalog-menu" id="catalogMenu">
-            <div class="city-filter">
+        <header>
+            <div id="promoBanner" onclick="showPromoDetails()">Промо-акция: Скидка 10% на Hash до конца дня!</div>
+            <h1 id="headerText">Dark Thailand</h1>
+            <nav>
                 <select id="citySelect" onchange="filterByCity()">
-                    <option value="all" id="allCitiesOption"></option>
-                    <option value="phuket" id="phuketOption"></option>
-                    <option value="pattaya" id="pattayaOption"></option>
-                    <option value="bangkok" id="bangkokOption"></option>
-                    <option value="samui" id="samuiOption"></option>
+                    <option value="all" id="allCitiesOption">Все города</option>
+                    <option value="phuket" id="phuketOption">Пхукет</option>
+                    <option value="pattaya" id="pattayaOption">Паттайя</option>
+                    <option value="bangkok" id="bangkokOption">Бангкок</option>
+                    <option value="samui" id="samuiOption">Самуи</option>
                 </select>
                 <select id="districtSelect" onchange="filterByDistrict()">
-                    <option value="all" id="allDistrictsOption"></option>
+                    <option value="all" id="allDistrictsOption">Все районы</option>
                 </select>
-            </div>
-            <div class="tabs">
-                <div class="tab" data-tab="weed" id="weedTab">Марихуана</div>
-                <div class="tab" data-tab="hash" id="hashTab">Гашиш</div>
-                <div class="tab" data-tab="coke" id="cokeTab">Кокаин</div>
-                <div class="tab" data-tab="amph" id="amphTab">Амфетамин</div>
-                <div class="tab" data-tab="meth" id="methTab">Метамфетамин</div>
-                <div class="tab" data-tab="meph" id="mephTab">Мефедрон</div>
-                <div class="tab" data-tab="alpha" id="alphaTab">Альфа-PVP</div>
-                <div class="tab" data-tab="lsd" id="lsdTab">ЛСД</div>
-                <div class="tab" data-tab="mdma" id="mdmaTab">МДМА</div>
-                <div class="tab" data-tab="heroin" id="heroinTab">Героин</div>
-            </div>
-
-            <div id="weed" class="tab-content">
-                <div class="product-card" data-product="weed-1">
-                    <h3 onclick="showProductModal('weed', 1)">Jamaican Haze (VHQ)</h3>
-                    <p id="weedDesc"></p>
+                <div class="profile-info">
+                    <button id="catalogButton" onclick="toggleCatalog()">Каталог</button>
+                    <button id="vacanciesButton" onclick="toggleVacancies()">Вакансии</button>
+                    <button id="mailButton" onclick="toggleMail()">Почта</button>
+                    <span id="profileNameLabel"></span> | <span id="balance"></span> | <span id="ordersLabel"></span> | <span id="referralsLabel"></span> | <span id="statusLabel"></span>
+                    <button onclick="toggleProfile()">Профиль</button>
                 </div>
-            </div>
-
-            <div id="hash" class="tab-content">
-                <div class="product-card" data-product="hash-1">
-                    <h3 onclick="showProductModal('hash', 1)">Afghan Black Gold (VHQ)</h3>
-                    <p>Премиум афганский гашиш, бархатный эффект</p>
-                </div>
-                <div class="product-card" data-product="hash-2">
-                    <h3 onclick="showProductModal('hash', 2)">Moroccan Spice (HQ)</h3>
-                    <p>Марокканский гашиш с пряным ароматом</p>
-                </div>
-                <div class="product-card" data-product="hash-3">
-                    <h3 onclick="showProductModal('hash', 3)">Nepal Temple (MQ)</h3>
-                    <p>Непальский гашиш, сбалансированный приход</p>
-                </div>
-                <div class="product-card" data-product="hash-4">
-                    <h3 onclick="showProductModal('hash', 4)">Local Dust (LQ)</h3>
-                    <p>Местный бюджетный гашиш</p>
-                </div>
-                <div class="product-card" data-product="hash-5">
-                    <h3 onclick="showProductModal('hash', 5)">Himalayan Storm (VHQ)</h3>
-                    <p>Гималайский шторм, мощный и чистый</p>
-                </div>
-            </div>
-
-            <div id="coke" class="tab-content">
-                <div class="product-card" data-product="coke-1">
-                    <h3 onclick="showProductModal('coke', 1)">Bolivian Fishscale (VHQ)</h3>
-                    <p>Боливийский кокаин, топовый 95%+</p>
-                </div>
-                <div class="product-card" data-product="coke-2">
-                    <h3 onclick="showProductModal('coke', 2)">Colombian Snow (HQ)</h3>
-                    <p>Колумбийский снег, чистый и мощный</p>
-                </div>
-                <div class="product-card" data-product="coke-3">
-                    <h3 onclick="showProductModal('coke', 3)">Peruvian Dust (MQ)</h3>
-                    <p>Перуанская пыль, средний уровень</p>
-                </div>
-                <div class="product-card" data-product="coke-4">
-                    <h3 onclick="showProductModal('coke', 4)">Street Mix (LQ)</h3>
-                    <p>Уличная смесь, бюджетный вариант</p>
-                </div>
-                <div class="product-card" data-product="coke-5">
-                    <h3 onclick="showProductModal('coke', 5)">Cartel Gold (VHQ)</h3>
-                    <p>Золото картеля, элитный стандарт</p>
-                </div>
-            </div>
-
-            <div id="amph" class="tab-content">
-                <div class="product-card" data-product="amph-1">
-                    <h3 onclick="showProductModal('amph', 1)">Crystal Surge (VHQ)</h3>
-                    <p>Кристальный амфетамин, чистая энергия</p>
-                </div>
-                <div class="product-card" data-product="amph-2">
-                    <h3 onclick="showProductModal('amph', 2)">Red Rush (HQ)</h3>
-                    <p>Красный заряд, стабильный драйв</p>
-                </div>
-                <div class="product-card" data-product="amph-3">
-                    <h3 onclick="showProductModal('amph', 3)">Yellow Spark (MQ)</h3>
-                    <p>Жёлтая искра, средний подъём</p>
-                </div>
-                <div class="product-card" data-product="amph-4">
-                    <h3 onclick="showProductModal('amph', 4)">Grey Haze (LQ)</h3>
-                    <p>Серая дымка, базовый вариант</p>
-                </div>
-                <div class="product-card" data-product="amph-5">
-                    <h3 onclick="showProductModal('amph', 5)">Blue Blitz (VHQ)</h3>
-                    <p>Синий удар, элитный амф</p>
-                </div>
-            </div>
-
-            <div id="meth" class="tab-content">
-                <div class="product-card" data-product="meth-1">
-                    <h3 onclick="showProductModal('meth', 1)">Mountain Ice (VHQ)</h3>
-                    <p>Горный лёд, кристальная чистота</p>
-                </div>
-                <div class="product-card" data-product="meth-2">
-                    <h3 onclick="showProductModal('meth', 2)">Blue Flame (HQ)</h3>
-                    <p>Синее пламя, долгий эффект</p>
-                </div>
-                <div class="product-card" data-product="meth-3">
-                    <h3 onclick="showProductModal('meth', 3)">White Shard (MQ)</h3>
-                    <p>Белый осколок, средний уровень</p>
-                </div>
-                <div class="product-card" data-product="meth-4">
-                    <h3 onclick="showProductModal('meth', 4)">Dirty Crystal (LQ)</h3>
-                    <p>Грязный кристалл, эконом-класс</p>
-                </div>
-                <div class="product-card" data-product="meth-5">
-                    <h3 onclick="showProductModal('meth', 5)">Golden Shard (VHQ)</h3>
-                    <p>Золотой осколок, топовый мет</p>
-                </div>
-            </div>
-
-            <div id="meph" class="tab-content">
-                <div class="product-card" data-product="meph-1">
-                    <h3 onclick="showProductModal('meph', 1)">Pink Bliss (VHQ)</h3>
-                    <p>Розовое блаженство, чистейший кайф</p>
-                </div>
-                <div class="product-card" data-product="meph-2">
-                    <h3 onclick="showProductModal('meph', 2)">White Surge (HQ)</h3>
-                    <p>Белый всплеск, стабильный эффект</p>
-                </div>
-                <div class="product-card" data-product="meph-3">
-                    <h3 onclick="showProductModal('meph', 3)">Grey Mist (MQ)</h3>
-                    <p>Серая дымка, средний уровень</p>
-                </div>
-                <div class="product-card" data-product="meph-4">
-                    <h3 onclick="showProductModal('meph', 4)">Dusty High (LQ)</h3>
-                    <p>Пыльный кайф, бюджетный меф</p>
-                </div>
-                <div class="product-card" data-product="meph-5">
-                    <h3 onclick="showProductModal('meph', 5)">Red Pulse (VHQ)</h3>
-                    <p>Красный пульс, элитный рывок</p>
-                </div>
-            </div>
-
-            <div id="alpha" class="tab-content">
-                <div class="product-card" data-product="alpha-1">
-                    <h3 onclick="showProductModal('alpha', 1)">Flakka Fire (VHQ)</h3>
-                    <p>Огненная флакка, чистый Альфа-PVP</p>
-                </div>
-                <div class="product-card" data-product="alpha-2">
-                    <h3 onclick="showProductModal('alpha', 2)">Purple Haze (HQ)</h3>
-                    <p>Пурпурная дымка, мощный заряд</p>
-                </div>
-                <div class="product-card" data-product="alpha-3">
-                    <h3 onclick="showProductModal('alpha', 3)">Green Dust (MQ)</h3>
-                    <p>Зелёная пыль, средний эффект</p>
-                </div>
-                <div class="product-card" data-product="alpha-4">
-                    <h3 onclick="showProductModal('alpha', 4)">Street Gravel (LQ)</h3>
-                    <p>Уличный гравий, бюджетный Альфа</p>
-                </div>
-                <div class="product-card" data-product="alpha-5">
-                    <h3 onclick="showProductModal('alpha', 5)">Crystal Fury (VHQ)</h3>
-                    <p>Кристальная ярость, топовый PVP</p>
-                </div>
-            </div>
-
-            <div id="lsd" class="tab-content">
-                <div class="product-card" data-product="lsd-1">
-                    <h3 onclick="showProductModal('lsd', 1)">Cosmic Tabs (VHQ)</h3>
-                    <p>Космические таблы, чистый трип</p>
-                </div>
-                <div class="product-card" data-product="lsd-2">
-                    <h3 onclick="showProductModal('lsd', 2)">Neon Drops (HQ)</h3>
-                    <p>Неоновые капли, яркий опыт</p>
-                </div>
-                <div class="product-card" data-product="lsd-3">
-                    <h3 onclick="showProductModal('lsd', 3)">Acid Rain (MQ)</h3>
-                    <p>Кислотный дождь, средний трип</p>
-                </div>
-                <div class="product-card" data-product="lsd-4">
-                    <h3 onclick="showProductModal('lsd', 4)">Street Blotters (LQ)</h3>
-                    <p>Уличные блоттеры, базовый ЛСД</p>
-                </div>
-                <div class="product-card" data-product="lsd-5">
-                    <h3 onclick="showProductModal('lsd', 5)">Galactic Hits (VHQ)</h3>
-                    <p>Галактические хиты, элитный кислый</p>
-                </div>
-            </div>
-
-            <div id="mdma" class="tab-content">
-                <div class="product-card" data-product="mdma-1">
-                    <h3 onclick="showProductModal('mdma', 1)">Crystal Love (VHQ)</h3>
-                    <p>Кристальная любовь, чистый МДМА</p>
-                </div>
-                <div class="product-card" data-product="mdma-2">
-                    <h3 onclick="showProductModal('mdma', 2)">Pink Rocks (HQ)</h3>
-                    <p>Розовые камни, стабильный кайф</p>
-                </div>
-                <div class="product-card" data-product="mdma-3">
-                    <h3 onclick="showProductModal('mdma', 3)">Ecstasy Blue (VHQ Tabs)</h3>
-                    <p>Синий экстази, топовые пилсы</p>
-                </div>
-                <div class="product-card" data-product="mdma-4">
-                    <h3 onclick="showProductModal('mdma', 4)">Molly Dust (MQ)</h3>
-                    <p>Молли пыль, средний МДМА</p>
-                </div>
-                <div class="product-card" data-product="mdma-5">
-                    <h3 onclick="showProductModal('mdma', 5)">Street Pills (LQ Tabs)</h3>
-                    <p>Уличные пилсы, бюджетный экстази</p>
-                </div>
-            </div>
-
-            <div id="heroin" class="tab-content">
-                <div class="product-card" data-product="heroin-1">
-                    <h3 onclick="showProductModal('heroin', 1)">Afghan Silk (VHQ)</h3>
-                    <p>Афганский шёлк, глубокий приход</p>
-                </div>
-                <div class="product-card" data-product="heroin-2">
-                    <h3 onclick="showProductModal('heroin', 2)">White Lotus (HQ)</h3>
-                    <p>Белый лотос, чистый эффект</p>
-                </div>
-                <div class="product-card" data-product="heroin-3">
-                    <h3 onclick="showProductModal('heroin', 3)">Brown Sugar (MQ)</h3>
-                    <p>Коричневый сахар, средний героин</p>
-                </div>
-                <div class="product-card" data-product="heroin-4">
-                    <h3 onclick="showProductModal('heroin', 4)">Dirty Tar (LQ)</h3>
-                    <p>Грязный тарт, бюджетный вариант</p>
-                </div>
-                <div class="product-card" data-product="heroin-5">
-                    <h3 onclick="showProductModal('heroin', 5)">Black Pearl (VHQ)</h3>
-                    <p>Чёрная жемчужина, элитный героин</p>
-                </div>
-            </div>
-            <div class="recent-purchases" id="recentPurchases"></div>
+            </nav>
+        </header>
+        <div id="catalogMenu" style="display: none;">
+            <div class="tab" id="weedTab" data-tab="weed">Weed</div>
+            <div class="tab" id="hashTab" data-tab="hash">Hash</div>
+            <div class="tab" id="cokeTab" data-tab="coke">Coke</div>
+            <div class="tab" id="amphTab" data-tab="amph">Amph</div>
+            <div class="tab" id="methTab" data-tab="meth">Meth</div>
+            <div class="tab" id="mephTab" data-tab="meph">Meph</div>
+            <div class="tab" id="alphaTab" data-tab="alpha">Alpha</div>
+            <div class="tab" id="lsdTab" data-tab="lsd">LSD</div>
+            <div class="tab" id="mdmaTab" data-tab="mdma">MDMA</div>
+            <div class="tab" id="heroinTab" data-tab="heroin">Heroin</div>
+            <div id="weed" class="tab-content"><p id="weedDesc">Выберите товар из каталога.</p></div>
+            <div id="hash" class="tab-content"></div>
+            <div id="coke" class="tab-content"></div>
+            <div id="amph" class="tab-content"></div>
+            <div id="meth" class="tab-content"></div>
+            <div id="meph" class="tab-content"></div>
+            <div id="alpha" class="tab-content"></div>
+            <div id="lsd" class="tab-content"></div>
+            <div id="mdma" class="tab-content"></div>
+            <div id="heroin" class="tab-content"></div>
         </div>
-
-        <div class="profile-menu" id="profileMenu">
-            <div class="profile-info">
-                <h3>☠️</h3>
-                <p id="profileNameLabel"></p>
-                <p>Баланс: <span id="balance">0 ฿</span></p>
-                <p id="ordersLabel"></p>
-                <p id="referralsLabel"></p>
-                <p id="statusLabel"></p>
-                <p id="achievementsLabel">Достижения:</p>
-                <ul id="achievementsList"></ul>
-            </div>
-            <div class="deposit-options">
-                <h3 id="depositTitle"></h3>
-                <button class="nav-button" onclick="showDepositModal('BTC')">Bitcoin (BTC)</button>
-                <button class="nav-button" onclick="showDepositModal('ETH')">Ethereum (ETH)</button>
-                <button class="nav-button" onclick="showDepositModal('USDT')">Tether (USDT)</button>
-                <button class="nav-button" onclick="showDepositModal('SOL')">Solana (SOL)</button>
-                <button class="nav-button" onclick="showDepositModal('TON')">Toncoin (TON)</button>
-            </div>
-            <div class="order-history">
-                <h3 id="orderHistoryTitle"></h3>
-                <div id="orderList"></div>
-            </div>
-            <div class="promo-info">
-                <p id="promoInfo"></p>
-                <button class="nav-button" onclick="showPromoDetails()">Подробнее</button>
-            </div>
+        <div id="profileMenu" style="display: none;">
+            <h2>Профиль</h2>
+            <p id="profileNameLabel"></p>
+            <p id="balance"></p>
+            <p id="ordersLabel"></p>
+            <p id="referralsLabel"></p>
+            <p id="statusLabel"></p>
+            <h3>Достижения</h3>
+            <ul id="achievementsList"></ul>
+            <h3 id="recentPurchases"></h3>
+            <h3>История депозитов</h3>
+            <ul id="depositHistory"></ul>
+            <h3 id="orderHistoryTitle">История заказов</h3>
+            <ul id="orderList"></ul>
         </div>
-
-        <div class="vacancy-menu" id="vacancyMenu">
+        <div id="vacancyMenu" style="display: none;">
             <h2 id="vacanciesTitle">Вакансии</h2>
-            <div class="vacancy">
-                <h3 id="courierTitle">Кладмен</h3>
-                <p id="courierDuties">Обязанности: Делать клады.</p>
-                <p id="courierPay">Оплата: от 100000 батт/месяц</p>
-                <button class="buy-button" onclick="applyForJob('Кладмен')" id="applyButton1">Откликнуться</button>
-            </div>
-            <div class="vacancy">
-                <h3 id="warehousemanTitle">Складмен</h3>
-                <p id="warehousemanDuties">Обязанности: Приём больших партий, делать мастер-клады для кладменов.</p>
-                <p id="warehousemanPay">Оплата: от 200000 батт/месяц</p>
-                <button class="buy-button" onclick="applyForJob('Складмен')" id="applyButton2">Откликнуться</button>
-            </div>
-            <div class="vacancy">
-                <h3 id="transporterTitle">Перевозчик</h3>
-                <p id="transporterDuties">Обязанности: перевозка товара по всему Тайланду.</p>
-                <p id="transporterPay">Оплата: от 350000 батт/месяц</p>
-                <button class="buy-button" onclick="applyForJob('Перевозчик')" id="applyButton3">Откликнуться</button>
-            </div>
-            <div class="vacancy">
-                <h3 id="smmTitle">SMMщик</h3>
-                <p id="smmDuties">Обязанности: Рекламировать магазин</p>
-                <p id="smmPay">Оплата: от 70000 батт/неделя</p>
-                <button class="buy-button" onclick="applyForJob('SMMщик')" id="applyButton4">Откликнуться</button>
-            </div>
+            <h3 id="courierTitle">Курьер</h3>
+            <p id="courierDuties">Обязанности: доставка заказов.</p>
+            <p id="courierPay">Зарплата: 5000-10000 ฿/месяц.</p>
+            <button id="applyButton1" onclick="applyForJob('Courier')">Подать заявку</button>
+            <h3 id="warehousemanTitle">Кладовщик</h3>
+            <p id="warehousemanDuties">Обязанности: упаковка и контроль.</p>
+            <p id="warehousemanPay">Зарплата: 6000-12000 ฿/месяц.</p>
+            <button id="applyButton2" onclick="applyForJob('Warehouseman')">Подать заявку</button>
+            <h3 id="transporterTitle">Транспортер</h3>
+            <p id="transporterDuties">Обязанности: перевозка грузов.</p>
+            <p id="transporterPay">Зарплата: 8000-15000 ฿/месяц.</p>
+            <button id="applyButton3" onclick="applyForJob('Transporter')">Подать заявку</button>
+            <h3 id="smmTitle">SMM-специалист</h3>
+            <p id="smmDuties">Обязанности: продвижение в соцсетях.</p>
+            <p id="smmPay">Зарплата: 7000-13000 ฿/месяц.</p>
+            <button id="applyButton4" onclick="applyForJob('SMM')">Подать заявку</button>
         </div>
-
-        <div class="mail-menu" id="mailMenu">
-            <h2 id="mailTitle"></h2>
-            <div id="mailList"></div>
+        <div id="mailMenu" style="display: none;">
+            <h2 id="mailTitle">Почта</h2>
+            <ul id="mailList"></ul>
         </div>
-
-        <div class="product-modal" id="productModal">
-            <div class="product-content" id="productContent"></div>
-        </div>
-
-        <div class="payment-modal" id="paymentModal">
-            <div class="payment-content" id="paymentContent"></div>
-        </div>
-
-        <div class="deposit-modal" id="depositModal">
-            <div class="deposit-content" id="depositContent"></div>
-        </div>
-
-        <div class="preorder-modal" id="preorderModal">
-            <div class="preorder-content" id="preorderContent"></div>
-        </div>
-
-        <div class="registration-modal" id="registrationModal">
-            <div class="registration-content" id="registrationContent">
-                <h2>Регистрация</h2>
-                <p>Введите желаемый никнейм:</p>
-                <input type="text" id="regNickname" placeholder="Ваш никнейм">
-                <p>Выберите язык:</p>
-                <select id="regLanguage">
-                    <option value="en">English</option>
-                    <option value="th">ไทย (Thai)</option>
-                    <option value="ru">Русский</option>
-                </select>
-                <button class="buy-button" onclick="registerUser()">Зарегистрироваться</button>
-                <p id="regError" style="color: #ff9999;"></p>
-            </div>
-        </div>
-
-        <div class="custom-modal" id="customModal">
-            <div class="custom-content" id="customContent"></div>
-        </div>
-
-        <div class="confirm-modal" id="confirmModal">
-            <div class="confirm-content" id="confirmContent"></div>
-        </div>
-
-        <div class="support-chat">
+        <div id="limitedOffer"></div>
+        <!-- Кнопка для открытия чата -->
+        <button class="chat-button" onclick="toggleChat()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+                <path d="M21 11.5a8.5 8.5 0 0 1-11.4 7.9l-5.1 1.7 1.7-5.1A8.5 8.5 0 0 1 3 11.5a8.5 8.5 0 0 1 18 0z"/>
+            </svg>
+        </button>
+        <!-- Чат с оператором -->
+        <div class="support-chat" id="supportChat">
             <div id="chatMessages">
                 <p>Оператор: Чем могу помочь?</p>
             </div>
             <input type="text" id="chatInput" placeholder="Напиши сюда...">
             <button onclick="sendChatMessage()">Отправить</button>
         </div>
+        <!-- Модальные окна -->
+        <div class="modal registration-modal" id="registrationModal">
+            <div class="modal-content">
+                <h2>Регистрация</h2>
+                <input type="text" id="regNickname" placeholder="Никнейм">
+                <select id="regLanguage">
+                    <option value="ru">Русский</option>
+                    <option value="en">English</option>
+                </select>
+                <p id="regError" style="color: #ff4444;"></p>
+                <button onclick="registerUser()">Зарегистрироваться</button>
+                <button onclick="closeModal('registrationModal')">Отмена</button>
+            </div>
+        </div>
+        <div class="modal" id="productModal">
+            <div class="modal-content" id="productContent"></div>
+        </div>
+        <div class="modal" id="preorderModal">
+            <div class="modal-content" id="preorderContent"></div>
+        </div>
+        <div class="modal" id="depositModal">
+            <div class="modal-content" id="depositContent"></div>
+        </div>
+        <div class="modal" id="confirmModal">
+            <div class="modal-content" id="confirmContent"></div>
+        </div>
+        <div class="modal" id="customModal">
+            <div class="modal-content" id="customContent"></div>
+        </div>
     </div>
-
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        if (window.Telegram && window.Telegram.WebApp) {
-            window.Telegram.WebApp.ready();
-            window.Telegram.WebApp.expand();
-        } else {
-            document.body.innerHTML += '<div class="loader">Загрузка шопа... Подключаемся к сети...</div>';
-            setTimeout(() => {
-                document.querySelector('.loader').remove();
-                initApp();
-            }, 2000);
-        }
-
+        let userLanguage = 'ru';
+        let currentUser = null;
         let balance = 0;
         let orderCount = 0;
         let referralCount = 0;
         let orderHistory = [];
-        let selectedCity = 'all';
-        let selectedDistrict = 'all';
-        let currentUser = null;
-        let userLanguage = 'ru';
         let mailMessages = [];
         let pendingPayments = {};
+        let registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+        let selectedCity = 'all';
+        let selectedDistrict = 'all';
         const MIN_DEPOSIT = 1000;
-        let registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
-
-        let cryptoRates = {
-            BTC: 2000000,
-            ETH: 100000,
-            USDT: 33,
-            SOL: 5000,
-            TON: 200
-        };
-
-        const testAddresses = {
-            BTC: "bc1qxk53npp2g3gt3x93k93vqgq93v5nwp5cvuk7fn",
-            ETH: "0x0d6b8E631b6c99e5184d492F4bcf22c8B5F96009",
-            USDT: "TCZUbqocgdwWx7AJVf6Kk5bq6cQETbWu54",
-            SOL: "HadNG2gWHYiep7GfuP9UzxZQdeKuhCfPQ6qqBNo19B3B",
-            TON: "UQAXS4W2EW4gTFvpZqf-zR1zDrnLcNkjpZOkh-2EXFjwQ2Vh"
-        };
-
-        const cryptoNetworks = {
-            BTC: "BEP20",
-            ETH: "ERC20",
-            USDT: "TRC20",
-            SOL: "Solana",
-            TON: "TON"
-        };
-
-        const translations = {
-            en: {
-                promoBanner: "Invite friends and get bonuses! 5 friends = 0.5g amphetamine, 10 friends = 0.5g cocaine (MQ), 25 friends = 1g cocaine (VHQ)!",
-                headerText: "Reliable shop in your pocket",
-                catalogButton: "Catalog",
-                vacanciesButton: "Vacancies",
-                mailButton: "Mail",
-                allCitiesOption: "All cities",
-                allDistrictsOption: "All districts",
-                phuketOption: "Phuket",
-                pattayaOption: "Pattaya",
-                bangkokOption: "Bangkok",
-                samuiOption: "Koh Samui",
-                phuketDistricts: { "Patong": "Patong", "Karon": "Karon", "Phuket Town": "Phuket Town", "Kata": "Kata", "Chalong": "Chalong", "Kamala": "Kamala", "Mai Khao": "Mai Khao" },
-                pattayaDistricts: { "Central Pattaya": "Central Pattaya", "Jomtien": "Jomtien", "Naklua": "Naklua", "South Pattaya": "South Pattaya", "Wong Amat": "Wong Amat", "Pratumnak": "Pratumnak" },
-                bangkokDistricts: { "Sukhumvit": "Sukhumvit", "Khao San": "Khao San", "Silom": "Silom", "Chatuchak": "Chatuchak", "Ratchada": "Ratchada", "Banglamphu": "Banglamphu" },
-                samuiDistricts: { "Chaweng": "Chaweng", "Lamai": "Lamai", "Bo Phut": "Bo Phut", "Maenam": "Maenam", "Lipa Noi": "Lipa Noi", "Bang Po": "Bang Po" },
-                weedDesc: "Exclusive Jamaican sativa, pure bliss",
-                profileNameLabel: "Name: ",
-                ordersLabel: "Orders: ",
-                referralsLabel: "Friends invited: ",
-                statusLabel: "Status: ",
-                achievementsLabel: "Achievements:",
-                refLinkLabel: "Referral link: ",
-                depositTitle: "Top up balance",
-                orderHistoryTitle: "Recent orders",
-                orderListEmpty: "Empty so far, place some orders!",
-                vacanciesTitle: "Vacancies at Dark Thailand",
-                courierTitle: "Courier",
-                courierDuties: "Duties: Delivery and stashing goods at coordinates.",
-                courierPay: "Pay: 500-1000 ฿ per stash (depends on volume).",
-                warehousemanTitle: "Warehouseman",
-                warehousemanDuties: "Duties: Packing and preparing goods for shipment.",
-                warehousemanPay: "Pay: 2000-3000 ฿ per shift.",
-                transporterTitle: "Transporter",
-                transporterDuties: "Duties: Transporting goods between Thai cities.",
-                transporterPay: "Pay: 5000-10000 ฿ per trip.",
-                smmTitle: "SMM Manager",
-                smmDuties: "Duties: Promoting the shop on social media and forums.",
-                smmPay: "Pay: 3000-5000 ฿ per week + activity bonuses.",
-                applyButton: "Apply",
-                mailTitle: "Mail",
-                mailListEmpty: "No messages yet.",
-                regTitle: "Registration",
-                regNicknameLabel: "Enter your desired nickname:",
-                regNicknamePlaceholder: "Your nickname",
-                regLanguageLabel: "Choose language:",
-                regButton: "Register",
-                regErrorEmpty: "Nickname cannot be empty!",
-                regErrorTaken: "This nickname is already taken!",
-                welcomeMessage: "Welcome, {user}! Your account has been created.",
-                insufficientFunds: "Insufficient funds! Top up your balance?",
-                yes: "Yes",
-                no: "No",
-                paymentSuccess: "Payment successful!",
-                preorderTitle: "Preorder",
-                preorderPlaced: "Preorder placed!",
-                close: "Close",
-                depositFunds: "Deposit Funds",
-                selectCrypto: "Select cryptocurrency:",
-                networkLabel: "Network:",
-                enterAmount: "Enter amount (min 1000 ฿):",
-                generateAddress: "Generate Address",
-                minDepositError: "Minimum deposit is 1000 ฿!",
-                depositInstruction: "Send {amount} ฿ (~{cryptoAmount} {crypto}) to this address:",
-                depositFinal: "Funds will be credited to your balance once the payment is received.",
-                depositExpiry: "Address expires in 30 minutes.",
-                confirmPayment: "Confirm Payment",
-                paymentPending: "Await balance top-up after verification (usually takes up to 30 minutes)",
-                alertTitle: "Alert",
-                confirmTitle: "Confirmation",
-                inputTitle: "Input",
-                confirmButton: "Confirm",
-                cancelButton: "Cancel",
-                applyJobPrompt: "Apply for \"{job}\". Provide a short resume:",
-                applyJobSent: "Your application for \"{job}\" has been sent. Await admin response.",
-                applyJobAlert: "Application for \"{job}\" sent!",
-                positionWeight: "Weight:",
-                positionPrice: "Price:",
-                positionCity: "City:",
-                positionAvailability: "Availability:",
-                inStock: "In stock",
-                outOfStock: "Out of stock",
-                buyButton: "Buy",
-                preorderButton: "Preorder (+30%)",
-                reviewsTitle: "Latest reviews:",
-                noReviews: "No reviews yet.",
-                promoInfo: "Invite friends and get free stuff!",
-                limitedOffer: "20% off on {product}! Time left: ",
-                recentPurchases: "Recent purchases:",
-                weedTab: "Marijuana",
-                hashTab: "Hashish",
-                cokeTab: "Cocaine",
-                amphTab: "Amphetamine",
-                methTab: "Methamphetamine",
-                mephTab: "Mephedrone",
-                alphaTab: "Alpha-PVP",
-                lsdTab: "LSD",
-                mdmaTab: "MDMA",
-                heroinTab: "Heroin"
-            },
-            ru: {
-                promoBanner: "Приглашай друзей и получай стафф! 5 друзей = 0.5 г амфетамина, 10 друзей = 0.5 г кокаина (MQ), 25 друзей = 1 г кокаина (VHQ)!",
-                headerText: "Надёжный шоп в твоём кармане",
-                catalogButton: "Каталог",
-                vacanciesButton: "Вакансии",
-                mailButton: "Почта",
-                allCitiesOption: "Все города",
-                allDistrictsOption: "Все районы",
-                phuketOption: "Пхукет",
-                pattayaOption: "Паттайя",
-                bangkokOption: "Бангкок",
-                samuiOption: "о. Самуи",
-                phuketDistricts: { "Patong": "Патонг", "Karon": "Карон", "Phuket Town": "Пхукет-таун", "Kata": "Ката", "Chalong": "Чалонг", "Kamala": "Камала", "Mai Khao": "Май Кхао" },
-                pattayaDistricts: { "Central Pattaya": "Центральная Паттайя", "Jomtien": "Джомтьен", "Naklua": "Наклуа", "South Pattaya": "Южная Паттайя", "Wong Amat": "Вонг Амат", "Pratumnak": "Пратамнак" },
-                bangkokDistricts: { "Sukhumvit": "Сукхумвит", "Khao San": "Каосан", "Silom": "Силом", "Chatuchak": "Чатучак", "Ratchada": "Ратчада", "Banglamphu": "Банглампху" },
-                samuiDistricts: { "Chaweng": "Чавенг", "Lamai": "Ламай", "Bo Phut": "Бо Пхут", "Maenam": "Маенам", "Lipa Noi": "Липа Ной", "Bang Po": "Банг По" },
-                weedDesc: "Эксклюзивная ямайская сатива, чистейший кайф",
-                profileNameLabel: "Имя: ",
-                ordersLabel: "Заказов: ",
-                referralsLabel: "Приглашено друзей: ",
-                statusLabel: "Статус: ",
-                achievementsLabel: "Достижения:",
-                refLinkLabel: "Реферальная ссылка: ",
-                depositTitle: "Пополнить баланс",
-                orderHistoryTitle: "Последние заказы",
-                orderListEmpty: "Пока пусто, делай заказы!",
-                vacanciesTitle: "Вакансии в Dark Thailand",
-                courierTitle: "Кладмен",
-                courierDuties: "Обязанности: Доставка и закладка товара по координатам.",
-                courierPay: "Оплата: 500-1000 ฿ за клад (зависит от объёма).",
-                warehousemanTitle: "Складмен",
-                warehousemanDuties: "Обязанности: Упаковка и подготовка товара к отправке.",
-                warehousemanPay: "Оплата: 2000-3000 ฿ за смену.",
-                transporterTitle: "Перевозчик",
-                transporterDuties: "Обязанности: Перевозка товара между городами Таиланда.",
-                transporterPay: "Оплата: 5000-10000 ฿ за рейс.",
-                smmTitle: "SMMщик",
-                smmDuties: "Обязанности: Продвижение шопа в соцсетях и форумах.",
-                smmPay: "Оплата: 3000-5000 ฿ в неделю + бонусы за активность.",
-                applyButton: "Откликнуться",
-                mailTitle: "Почта",
-                mailListEmpty: "Пока нет сообщений.",
-                regTitle: "Регистрация",
-                regNicknameLabel: "Введите желаемый никнейм:",
-                regNicknamePlaceholder: "Ваш никнейм",
-                regLanguageLabel: "Выберите язык:",
-                regButton: "Зарегистрироваться",
-                regErrorEmpty: "Никнейм не может быть пустым!",
-                regErrorTaken: "Этот никнейм уже занят!",
-                welcomeMessage: "Добро пожаловать, {user}! Ваш аккаунт успешно создан.",
-                insufficientFunds: "Недостаточно средств на балансе! Пополнить баланс?",
-                yes: "Да",
-                no: "Нет",
-                paymentSuccess: "Оплата прошла!",
-                preorderTitle: "Предзаказ",
-                preorderPlaced: "Предзаказ оформлен!",
-                close: "Закрыть",
-                depositFunds: "Пополнить баланс",
-                selectCrypto: "Выберите криптовалюту:",
-                networkLabel: "Сеть:",
-                enterAmount: "Введите сумму (мин. 1000 ฿):",
-                generateAddress: "Сгенерировать адрес",
-                minDepositError: "Минимальная сумма пополнения — 1000 ฿!",
-                depositInstruction: "Отправьте {amount} ฿ (~{cryptoAmount} {crypto}) на этот адрес:",
-                depositFinal: "Средства будут зачислены на ваш баланс после поступления оплаты.",
-                depositExpiry: "Адрес действителен 30 минут.",
-                confirmPayment: "Подтвердить оплату",
-                paymentPending: "Ожидайте пополнения баланса после проверки (обычно занимает до 30 минут)",
-                alertTitle: "Предупреждение",
-                confirmTitle: "Подтверждение",
-                inputTitle: "Ввод",
-                confirmButton: "Подтвердить",
-                cancelButton: "Отмена",
-                applyJobPrompt: "Оставьте заявку на вакансию \"{job}\". Укажите краткое резюме:",
-                applyJobSent: "Ваша заявка на вакансию \"{job}\" отправлена. Ожидайте ответа от администрации.",
-                applyJobAlert: "Заявка на \"{job}\" отправлена!",
-                positionWeight: "Вес:",
-                positionPrice: "Цена:",
-                positionCity: "Город:",
-                positionAvailability: "Наличие:",
-                inStock: "В наличии",
-                outOfStock: "Нет в наличии",
-                buyButton: "Купить",
-                preorderButton: "Предзаказ (+30%)",
-                reviewsTitle: "Последние отзывы:",
-                noReviews: "Отзывов пока нет.",
-                promoInfo: "Приглашай друзей и получай стафф!",
-                limitedOffer: "Скидка 20% на {product}! Осталось: ",
-                recentPurchases: "Недавние покупки:",
-                weedTab: "Марихуана",
-                hashTab: "Гашиш",
-                cokeTab: "Кокаин",
-                amphTab: "Амфетамин",
-                methTab: "Метамфетамин",
-                mephTab: "Мефедрон",
-                alphaTab: "Альфа-PVP",
-                lsdTab: "ЛСД",
-                mdmaTab: "МДМА",
-                heroinTab: "Героин"
-            },
-            th: {
-                promoBanner: "ชวนเพื่อนและรับโบนัส! 5 เพื่อน = แอมเฟตามีน 0.5 กรัม, 10 เพื่อน = โคเคน 0.5 กรัม (MQ), 25 เพื่อน = โคเคน 1 กรัม (VHQ)!",
-                headerText: "ร้านค้าที่เชื่อถือได้ในกระเป๋าของคุณ",
-                catalogButton: "แคตตาล็อก",
-                vacanciesButton: "ตำแหน่งงานว่าง",
-                mailButton: "จดหมาย",
-                allCitiesOption: "ทุกเมือง",
-                allDistrictsOption: "ทุกเขต",
-                phuketOption: "ภูเก็ต",
-                pattayaOption: "พัทยา",
-                bangkokOption: "กรุงเทพฯ",
-                samuiOption: "เกาะสมุย",
-                phuketDistricts: { "Patong": "ป่าตอง", "Karon": "กะรน", "Phuket Town": "เมืองภูเก็ต", "Kata": "กะตะ", "Chalong": "ฉลอง", "Kamala": "กมลา", "Mai Khao": "ไม้ขาว" },
-                pattayaDistricts: { "Central Pattaya": "พัทยากลาง", "Jomtien": "จอมเทียน", "Naklua": "นาเกลือ", "South Pattaya": "พัทยาใต้", "Wong Amat": "วงศ์อมาตย์", "Pratumnak": "พระตำหนัก" },
-                bangkokDistricts: { "Sukhumvit": "สุขุมวิท", "Khao San": "ข้าวสาร", "Silom": "สีลม", "Chatuchak": "จตุจักร", "Ratchada": "รัชดา", "Banglamphu": "บางลำพู" },
-                samuiDistricts: { "Chaweng": "เฉวง", "Lamai": "ละไม", "Bo Phut": "บ่อผุด", "Maenam": "แม่น้ำ", "Lipa Noi": "ลิปะน้อย", "Bang Po": "บางโป" },
-                weedDesc: "กัญชาสายพันธุ์จาเมก้าพิเศษ ความสุขล้วน ๆ",
-                profileNameLabel: "ชื่อ: ",
-                ordersLabel: "คำสั่งซื้อ: ",
-                referralsLabel: "เพื่อนที่เชิญ: ",
-                statusLabel: "สถานะ: ",
-                achievementsLabel: "ความสำเร็จ:",
-                refLinkLabel: "ลิงก์แนะนำ: ",
-                depositTitle: "เติมเงินในบัญชี",
-                orderHistoryTitle: "คำสั่งซื้อล่าสุด",
-                orderListEmpty: "ยังไม่มีอะไรเลย สั่งซื้อสิ!",
-                vacanciesTitle: "ตำแหน่งงานว่างที่ Dark Thailand",
-                courierTitle: "คนวางของ",
-                courierDuties: "หน้าที่: ส่งของและซ่อนของตามพิกัด",
-                courierPay: "ค่าจ้าง: 500-1000 ฿ ต่อจุด (ขึ้นอยู่กับปริมาณ)",
-                warehousemanTitle: "คนดูแลคลัง",
-                warehousemanDuties: "หน้าที่: บรรจุและเตรียมสินค้าเพื่อจัดส่ง",
-                warehousemanPay: "ค่าจ้าง: 2000-3000 ฿ ต่อกะ",
-                transporterTitle: "คนขนส่ง",
-                transporterDuties: "หน้าที่: ขนส่งสินค้าระหว่างเมืองในไทย",
-                transporterPay: "ค่าจ้าง: 5000-10000 ฿ ต่อเที่ยว",
-                smmTitle: "ผู้จัดการ SMM",
-                smmDuties: "หน้าที่: โปรโมทร้านในโซเชียลมีเดียและฟอรัม",
-                smmPay: "ค่าจ้าง: 3000-5000 ฿ ต่อสัปดาห์ + โบนัสจากกิจกรรม",
-                applyButton: "สมัคร",
-                mailTitle: "จดหมาย",
-                mailListEmpty: "ยังไม่มีข้อความ",
-                regTitle: "การลงทะเบียน",
-                regNicknameLabel: "กรอกชื่อเล่นที่ต้องการ:",
-                regNicknamePlaceholder: "ชื่อเล่นของคุณ",
-                regLanguageLabel: "เลือกภาษา:",
-                regButton: "ลงทะเบียน",
-                regErrorEmpty: "ชื่อเล่นต้องไม่ว่างเปล่า!",
-                regErrorTaken: "ชื่อเล่นนี้ถูกใช้แล้ว!",
-                welcomeMessage: "ยินดีต้อนรับ {user}! บัญชีของคุณถูกสร้างเรียบร้อยแล้ว",
-                insufficientFunds: "เงินในบัญชีไม่พอ! เติมเงินในบัญชีหรือไม่?",
-                yes: "ใช่",
-                no: "ไม่",
-                paymentSuccess: "ชำระเงินสำเร็จ!",
-                preorderTitle: "สั่งจองล่วงหน้า",
-                preorderPlaced: "สั่งจองล่วงหน้าเรียบร้อย!",
-                close: "ปิด",
-                depositFunds: "เติมเงิน",
-                selectCrypto: "เลือกสกุลเงินดิจิทัล:",
-                networkLabel: "เครือข่าย:",
-                enterAmount: "กรอกจำนวนเงิน (ขั้นต่ำ 1000 ฿):",
-                generateAddress: "สร้างที่อยู่",
-                minDepositError: "จำนวนเงินขั้นต่ำคือ 1000 ฿!",
-                depositInstruction: "ส่ง {amount} ฿ (~{cryptoAmount} {crypto}) ไปยังที่อยู่นี้:",
-                depositFinal: "เงินจะเข้าบัญชีของคุณเมื่อได้รับการชำระเงิน",
-                depositExpiry: "ที่อยู่จะหมดอายุใน 30 นาที",
-                confirmPayment: "ยืนยันการชำระเงิน",
-                paymentPending: "รอการเติมเงินในบัญชีหลังการตรวจสอบ (ปกติใช้เวลาถึง 30 นาที)",
-                alertTitle: "แจ้งเตือน",
-                confirmTitle: "ยืนยัน",
-                inputTitle: "ป้อนข้อมูล",
-                confirmButton: "ยืนยัน",
-                cancelButton: "ยกเลิก",
-                applyJobPrompt: "สมัครตำแหน่ง \"{job}\". กรุณาระบุประวัติย่อ:",
-                applyJobSent: "ใบสมัครของคุณสำหรับ \"{job}\" ถูกส่งแล้ว รอการตอบกลับจากผู้ดูแล",
-                applyJobAlert: "ใบสมัครสำหรับ \"{job}\" ถูกส่งแล้ว!",
-                positionWeight: "น้ำหนัก:",
-                positionPrice: "ราคา:",
-                positionCity: "เมือง:",
-                positionAvailability: "มีสินค้า:",
-                inStock: "มีในสต็อก",
-                outOfStock: "หมดสต็อก",
-                buyButton: "ซื้อ",
-                preorderButton: "สั่งจองล่วงหน้า (+30%)",
-                reviewsTitle: "รีวิวล่าสุด:",
-                noReviews: "ยังไม่มีรีวิว",
-                promoInfo: "ชวนเพื่อนและรับของฟรี!",
-                limitedOffer: "ส่วนลด 20% สำหรับ {product}! เหลือเวลา: ",
-                recentPurchases: "การซื้อล่าสุด:",
-                weedTab: "กัญชา",
-                hashTab: "กัญชาอัด",
-                cokeTab: "โคเคน",
-                amphTab: "แอมเฟตามีน",
-                methTab: "เมทแอมเฟตามีน",
-                mephTab: "เมเฟโดรน",
-                alphaTab: "อัลฟ่า-พีวีพี",
-                lsdTab: "แอลเอสดี",
-                mdmaTab: "เอ็มดีเอ็มเอ",
-                heroinTab: "เฮโรอีน"
-            }
-        };
-
+        const cryptoRates = { BTC: 2000000, ETH: 150000, USDT: 33 };
+        const cryptoNetworks = { BTC: 'Bitcoin', ETH: 'Ethereum', USDT: 'ERC20' };
+        const testAddresses = { BTC: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa', ETH: '0x1234567890abcdef1234567890abcdef12345678', USDT: '0xabcdef1234567890abcdef1234567890abcdef12' };
         const cities = {
-            "phuket": {
-                "Patong": { lat: "7.891", lon: "98.298", desc: "Под пальмой у третьего шезлонга, закопано в песке, чёрный пакет." },
-                "Karon": { lat: "7.846", lon: "98.295", desc: "Под камнем у забора, магнит в синей изоленте." },
-                "Phuket Town": { lat: "7.883", lon: "98.391", desc: "В кустах за старой палаткой, завёрнуто в зелёную плёнку." },
-                "Kata": { lat: "7.820", lon: "98.299", desc: "Под скамейкой у пляжа, завёрнуто в чёрную плёнку." },
-                "Chalong": { lat: "7.831", lon: "98.339", desc: "За вывеской у пирса, магнит в красной изоленте." },
-                "Kamala": { lat: "7.952", lon: "98.284", desc: "Под кустом у дороги, завёрнуто в серую ткань." },
-                "Mai Khao": { lat: "8.130", lon: "98.298", desc: "В песке у заброшенной палатки, чёрный пакет." }
-            },
-            "pattaya": {
-                "Central Pattaya": { lat: "12.935", lon: "100.887", desc: "В трещине стены у бара, магнит в красной изоленте." },
-                "Jomtien": { lat: "12.903", lon: "100.869", desc: "Под кустом у дороги, завёрнуто в серую ткань." },
-                "Naklua": { lat: "12.970", lon: "100.900", desc: "За мусоркой на рынке, чёрный пакет." },
-                "South Pattaya": { lat: "12.923", lon: "100.882", desc: "Под камнем у пирса, завёрнуто в зелёную плёнку." },
-                "Wong Amat": { lat: "12.963", lon: "100.885", desc: "Под скамейкой у пляжа, магнит в жёлтой изоленте." },
-                "Pratumnak": { lat: "12.918", lon: "100.865", desc: "В кустах на холме, завёрнуто в чёрную плёнку." }
-            },
-            "bangkok": {
-                "Sukhumvit": { lat: "13.736", lon: "100.561", desc: "В трещине стены у метро, магнит в жёлтой изоленте." },
-                "Khao San": { lat: "13.759", lon: "100.497", desc: "Под скамейкой у хостела, завёрнуто в чёрную плёнку." },
-                "Silom": { lat: "13.723", lon: "100.535", desc: "За вывеской у бара, магнит в синей изоленте." },
-                "Chatuchak": { lat: "13.799", lon: "100.548", desc: "В кустах у рынка, завёрнуто в серую ткань." },
-                "Ratchada": { lat: "13.779", lon: "100.573", desc: "Под мостом у метро, магнит в зелёной изоленте." },
-                "Banglamphu": { lat: "13.760", lon: "100.501", desc: "За палаткой у канала, чёрный пакет." }
-            },
-            "samui": {
-                "Chaweng": { lat: "9.520", lon: "100.057", desc: "Под шезлонгом у бара, завёрнуто в чёрный пакет." },
-                "Lamai": { lat: "9.470", lon: "100.047", desc: "В кустах у дороги, магнит в зелёной изоленте." },
-                "Bo Phut": { lat: "9.560", lon: "100.031", desc: "Под камнем у пирса, завёрнуто в серую ткань." },
-                "Maenam": { lat: "9.573", lon: "100.000", desc: "За мусоркой у пляжа, чёрный пакет." },
-                "Lipa Noi": { lat: "9.498", lon: "99.935", desc: "Под пальмой у берега, магнит в синей изоленте." },
-                "Bang Po": { lat: "9.580", lon: "99.970", desc: "В песке у забора, завёрнуто в зелёную плёнку." }
-            }
-        };
-
-        const weights = {
-            default: [1, 2, 3, 5, 10, 15, 20],
-            cokeMephAlphaMdma: [0.5, 1, 2, 3, 5, 10, 15, 20],
-            lsd: [1, 2, 5, 10],
-            mdmaTabs: [1, 2, 5]
-        };
-
-        const basePrices = {
-            weed: { 1: 1500 },
-            hash: { 1: 900, 2: 700, 3: 500, 4: 400, 5: 1000 },
-            coke: { 1: 4000, 2: 3600, 3: 3000, 4: 2400, 5: 4500 },
-            amph: { 1: 1300, 2: 1000, 3: 900, 4: 700, 5: 1500 },
-            meth: { 1: 1500, 2: 1200, 3: 1000, 4: 800, 5: 1800 },
-            meph: { 1: 1400, 2: 1100, 3: 900, 4: 700, 5: 1600 },
-            alpha: { 1: 1200, 2: 1000, 3: 800, 4: 600, 5: 1400 },
-            lsd: { 1: 500, 2: 450, 3: 400, 4: 350, 5: 600 },
-            mdma: { 1: 1500, 2: 1200, 3: 600, 4: 1000, 5: 400 },
-            heroin: { 1: 2000, 2: 1800, 3: 1500, 4: 1200, 5: 2500 }
+            phuket: { karon: {}, patong: {}, kata: {} },
+            pattaya: { jomtien: {}, central: {} },
+            bangkok: { sukhumvit: {}, silom: {} },
+            samui: { chaweng: {}, lamai: {} }
         };
 
         const productImages = {
-            weed: { 1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABPSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==" },
+            weed: { 
+                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABNSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg=="
+            },
             hash: { 
-                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABMSURBVHgBtc0xCsAwDAPQ2/8/zkHECZBiQAmswgpswTpMw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w/4uQHJDwN8zBYo9AAAAABJRU5ErkJggg==", 
-                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABMSURBVHgBtc0xCsAwDAPQ2/8/zkHECZBiQAmswgpswTpMw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w/4uQHJDwN8zBYo9AAAAABJRU5ErkJggg==", 
-                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABMSURBVHgBtc0xCsAwDAPQ2/8/zkHECZBiQAmswgpswTpMw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w/4uQHJDwN8zBYo9AAAAABJRU5ErkJggg==", 
-                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABMSURBVHgBtc0xCsAwDAPQ2/8/zkHECZBiQAmswgpswTpMw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w/4uQHJDwN8zBYo9AAAAABJRU5ErkJggg==", 
-                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABMSURBVHgBtc0xCsAwDAPQ2/8/zkHECZBiQAmswgpswTpMw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w/4uQHJDwN8zBYo9AAAAABJRU5ErkJggg==" 
+                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABLSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABLSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABLSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABLSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABLSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg=="
             },
             coke: { 
-                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABNSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqsw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
-                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABNSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqsw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
-                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABNSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqsw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
-                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABNSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqsw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
-                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABNSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqsw0YMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==" 
+                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABMSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABMSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABMSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABMSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABMSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg=="
             },
             amph: { 
-                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABOSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
-                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABOSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
-                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABOSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
-                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABOSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
-                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABOSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==" 
+                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABOSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABOSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABOSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABOSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABOSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg=="
             },
             meth: { 
-                                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABPSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABPSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
                 2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABPSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
                 3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABPSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
                 4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABPSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
                 5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABPSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg=="
             },
             meph: { 
-                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABQSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
-                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABQSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
-                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABQSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
-                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABQSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
-                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABQSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==" 
+                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABQSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABQSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABQSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABQSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABQSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg=="
             },
             alpha: { 
-                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABRSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
-                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABRSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
-                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABRSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
-                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABRSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==", 
-                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABRSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==" 
+                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABRSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABRSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABRSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABRSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                5: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABRSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg=="
             },
             lsd: { 
-                                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABSSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
+                1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABSSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
                 2: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABSSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
                 3: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABSSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
                 4: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABSSURBVHgBtc0xCsAwDAJQ2/8/zkHECZBiwAmswgpswTqswkYMDiE4hOHacx1uYQeGYRiGYfQIn8N9Hrd4n8f9vIKTfO4BzvP5NyjP5w9u8gHJDwO6Wxeo9gAAAABJRU5ErkJggg==",
@@ -1050,11 +489,189 @@
             }
         };
 
+        const translations = {
+            ru: {
+                promoBanner: "Промо-акция: Скидка 10% на Hash до конца дня!",
+                headerText: "Dark Thailand",
+                catalogButton: "Каталог",
+                vacanciesButton: "Вакансии",
+                mailButton: "Почта",
+                allCitiesOption: "Все города",
+                phuketOption: "Пхукет",
+                pattayaOption: "Паттайя",
+                bangkokOption: "Бангкок",
+                samuiOption: "Самуи",
+                allDistrictsOption: "Все районы",
+                weedDesc: "Выберите товар из каталога.",
+                profileNameLabel: "Имя: ",
+                balance: "Баланс: ",
+                ordersLabel: "Заказы: ",
+                referralsLabel: "Рефералы: ",
+                statusLabel: "Статус: ",
+                depositTitle: "Пополнить баланс",
+                orderHistoryTitle: "История заказов",
+                orderListEmpty: "Нет заказов.",
+                vacanciesTitle: "Вакансии",
+                courierTitle: "Курьер",
+                courierDuties: "Обязанности: доставка заказов.",
+                courierPay: "Зарплата: 5000-10000 ฿/месяц.",
+                warehousemanTitle: "Кладовщик",
+                warehousemanDuties: "Обязанности: упаковка и контроль.",
+                warehousemanPay: "Зарплата: 6000-12000 ฿/месяц.",
+                transporterTitle: "Транспортер",
+                transporterDuties: "Обязанности: перевозка грузов.",
+                transporterPay: "Зарплата: 8000-15000 ฿/месяц.",
+                smmTitle: "SMM-специалист",
+                smmDuties: "Обязанности: продвижение в соцсетях.",
+                smmPay: "Зарплата: 7000-13000 ฿/месяц.",
+                applyButton: "Подать заявку",
+                mailTitle: "Почта",
+                mailListEmpty: "Нет сообщений.",
+                weedTab: "Weed",
+                hashTab: "Hash",
+                cokeTab: "Coke",
+                amphTab: "Amph",
+                methTab: "Meth",
+                mephTab: "Meph",
+                alphaTab: "Alpha",
+                lsdTab: "LSD",
+                mdmaTab: "MDMA",
+                heroinTab: "Heroin",
+                welcomeMessage: "Добро пожаловать, {user}!",
+                regErrorEmpty: "Введите никнейм!",
+                regErrorTaken: "Этот никнейм уже занят!",
+                positionWeight: "Вес:",
+                positionPrice: "Цена:",
+                positionCity: "Город:",
+                positionAvailability: "Наличие:",
+                inStock: "В наличии",
+                buyButton: "Купить",
+                preorderButton: "Предзаказ",
+                reviewsTitle: "Отзывы",
+                noReviews: "Отзывов пока нет.",
+                close: "Закрыть",
+                paymentSuccess: "Оплата прошла успешно!",
+                insufficientFunds: "Недостаточно средств. Пополнить баланс?",
+                preorderTitle: "Подтверждение предзаказа",
+                confirmButton: "Подтвердить",
+                cancelButton: "Отмена",
+                depositFunds: "Пополнить баланс",
+                selectCrypto: "Выберите криптовалюту:",
+                networkLabel: "Сеть:",
+                enterAmount: "Введите сумму (мин. 1000 ฿):",
+                depositInstruction: "Отправьте {amount} ฿ (~{cryptoAmount} {crypto}) на адрес ниже.",
+                depositAddress: "Адрес депозита:",
+                depositExpiry: "Срок действия: 30 минут.",
+                confirmPayment: "Подтвердить платеж",
+                minDepositError: "Минимальная сумма депозита - 1000 ฿!",
+                paymentPending: "Платеж ожидает подтверждения (30 сек симуляция).",
+                confirmTitle: "Подтверждение",
+                yes: "Да",
+                no: "Нет",
+                applyJobPrompt: "Введите резюме для вакансии {job}:",
+                applyJobAlert: "Заявка на {job} отправлена!",
+                recentPurchases: "Последние покупки:",
+                limitedOffer: "Ограниченное предложение: {product} со скидкой! Осталось: {time}",
+                promoInfo: "Информация о промо-акции"
+            },
+            en: {
+                promoBanner: "Promo: 10% off Hash until end of day!",
+                headerText: "Dark Thailand",
+                catalogButton: "Catalog",
+                vacanciesButton: "Vacancies",
+                mailButton: "Mail",
+                allCitiesOption: "All cities",
+                phuketOption: "Phuket",
+                pattayaOption: "Pattaya",
+                bangkokOption: "Bangkok",
+                samuiOption: "Samui",
+                allDistrictsOption: "All districts",
+                weedDesc: "Select a product from the catalog.",
+                profileNameLabel: "Name: ",
+                balance: "Balance: ",
+                ordersLabel: "Orders: ",
+                referralsLabel: "Referrals: ",
+                statusLabel: "Status: ",
+                depositTitle: "Deposit Funds",
+                orderHistoryTitle: "Order History",
+                orderListEmpty: "No orders.",
+                vacanciesTitle: "Vacancies",
+                courierTitle: "Courier",
+                courierDuties: "Duties: order delivery.",
+                courierPay: "Salary: 5000-10000 ฿/month.",
+                warehousemanTitle: "Warehouseman",
+                warehousemanDuties: "Duties: packing and control.",
+                warehousemanPay: "Salary: 6000-12000 ฿/month.",
+                transporterTitle: "Transporter",
+                transporterDuties: "Duties: cargo transportation.",
+                transporterPay: "Salary: 8000-15000 ฿/month.",
+                smmTitle: "SMM Specialist",
+                smmDuties: "Duties: social media promotion.",
+                smmPay: "Salary: 7000-13000 ฿/month.",
+                applyButton: "Apply",
+                mailTitle: "Mail",
+                mailListEmpty: "No messages.",
+                weedTab: "Weed",
+                hashTab: "Hash",
+                cokeTab: "Coke",
+                amphTab: "Amph",
+                methTab: "Meth",
+                mephTab: "Meph",
+                alphaTab: "Alpha",
+                lsdTab: "LSD",
+                mdmaTab: "MDMA",
+                                heroinTab: "Heroin",
+                welcomeMessage: "Welcome, {user}!",
+                regErrorEmpty: "Enter a nickname!",
+                regErrorTaken: "This nickname is already taken!",
+                positionWeight: "Weight:",
+                positionPrice: "Price:",
+                positionCity: "City:",
+                positionAvailability: "Availability:",
+                inStock: "In stock",
+                buyButton: "Buy",
+                preorderButton: "Preorder",
+                reviewsTitle: "Reviews",
+                noReviews: "No reviews yet.",
+                close: "Close",
+                paymentSuccess: "Payment successful!",
+                insufficientFunds: "Insufficient funds. Top up your balance?",
+                preorderTitle: "Preorder Confirmation",
+                confirmButton: "Confirm",
+                cancelButton: "Cancel",
+                depositFunds: "Deposit Funds",
+                selectCrypto: "Select cryptocurrency:",
+                networkLabel: "Network:",
+                enterAmount: "Enter amount (min. 1000 ฿):",
+                depositInstruction: "Send {amount} ฿ (~{cryptoAmount} {crypto}) to the address below.",
+                depositAddress: "Deposit address:",
+                depositExpiry: "Expires in: 30 minutes.",
+                confirmPayment: "Confirm Payment",
+                minDepositError: "Minimum deposit amount is 1000 ฿!",
+                paymentPending: "Payment pending confirmation (30 sec simulation).",
+                confirmTitle: "Confirmation",
+                yes: "Yes",
+                no: "No",
+                applyJobPrompt: "Enter your resume for the {job} vacancy:",
+                applyJobAlert: "Application for {job} submitted!",
+                recentPurchases: "Recent Purchases:",
+                limitedOffer: "Limited Offer: {product} at a discount! Time left: {time}",
+                promoInfo: "Promo Information"
+            }
+        };
+
         function initApp() {
             userLanguage = localStorage.getItem('userLanguage') || 'ru';
+            const storedUser = localStorage.getItem('currentUser');
+            if (storedUser) {
+                currentUser = JSON.parse(storedUser);
+                userLanguage = currentUser.language;
+            }
             updateTranslations();
-            if (!currentUser) showRegistrationModal();
-            else {
+            
+            if (!currentUser) {
+                showRegistrationModal();
+            } else {
                 document.getElementById('profileNameLabel').textContent = translations[userLanguage].profileNameLabel + currentUser.nickname;
                 document.getElementById('balance').textContent = balance + ' ฿';
                 document.getElementById('ordersLabel').textContent = translations[userLanguage].ordersLabel + orderCount;
@@ -1063,6 +680,7 @@
                 updateAchievements();
                 updateCatalog();
                 updateRecentPurchases();
+                document.querySelector('.chat-button').style.display = 'block';
             }
             setInterval(updateLimitedOffer, 1000);
         }
@@ -1080,7 +698,6 @@
             document.getElementById('samuiOption').textContent = translations[userLanguage].samuiOption;
             document.getElementById('allDistrictsOption').textContent = translations[userLanguage].allDistrictsOption;
             document.getElementById('weedDesc').textContent = translations[userLanguage].weedDesc;
-            document.getElementById('depositTitle').textContent = translations[userLanguage].depositTitle;
             document.getElementById('orderHistoryTitle').textContent = translations[userLanguage].orderHistoryTitle;
             document.getElementById('orderList').textContent = orderHistory.length ? orderHistory.join('\n') : translations[userLanguage].orderListEmpty;
             document.getElementById('vacanciesTitle').textContent = translations[userLanguage].vacanciesTitle;
@@ -1132,12 +749,14 @@
             currentUser = { nickname, language };
             userLanguage = language;
             localStorage.setItem('userLanguage', language);
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
             registeredUsers.push(currentUser);
             localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
             document.getElementById('registrationModal').style.display = 'none';
             document.getElementById('regNickname').value = '';
             document.getElementById('regError').textContent = '';
             alert(translations[userLanguage].welcomeMessage.replace('{user}', nickname));
+            document.querySelector('.chat-button').style.display = 'block';
             initApp();
         }
 
@@ -1176,7 +795,7 @@
                     Object.keys(cities[city]).forEach(d => {
                         const option = document.createElement('option');
                         option.value = d;
-                        option.textContent = translations[userLanguage][city + 'Districts'][d] || d;
+                        option.textContent = d; // Можно добавить перевод для районов
                         districtSelect.appendChild(option);
                     });
                 }
@@ -1187,16 +806,32 @@
             const tabContents = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.classList.remove('active'));
             tabContents.forEach(content => content.style.display = 'none');
+
+            Object.keys(products).forEach(category => {
+                const tabContent = document.getElementById(category);
+                tabContent.innerHTML = '';
+                Object.keys(products[category]).forEach(id => {
+                    const product = products[category][id];
+                    const productDiv = document.createElement('div');
+                    productDiv.innerHTML = `
+                        <h3>${product.name}</h3>
+                        <p>${product.desc}</p>
+                        <button onclick="showProductModal('${category}', ${id})">${translations[userLanguage].buyButton}</button>
+                    `;
+                    tabContent.appendChild(productDiv);
+                });
+            });
+
             document.getElementById('weed').style.display = 'block';
             document.getElementById('weedTab').classList.add('active');
 
             tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
+                tab.onclick = () => {
                     tabs.forEach(t => t.classList.remove('active'));
                     tab.classList.add('active');
                     tabContents.forEach(content => content.style.display = 'none');
                     document.getElementById(tab.dataset.tab).style.display = 'block';
-                });
+                };
             });
         }
 
@@ -1282,7 +917,7 @@
                 document.getElementById('balance').textContent = balance + ' ฿';
                 document.getElementById('ordersLabel').textContent = translations[userLanguage].ordersLabel + orderCount;
                 updateRecentPurchases();
-                alert(translations[userLanguage].preorderPlaced);
+                alert(translations[userLanguage].paymentSuccess);
                 closeModal('preorderModal');
                 updateAchievements();
             } else {
@@ -1333,13 +968,14 @@
             closeModal('depositModal');
             alert(translations[userLanguage].paymentPending);
             setTimeout(() => {
-                if (pendingPayments[Date.now() - 1800000]) {
-                    balance += amount;
+                const paymentKey = Object.keys(pendingPayments).find(key => pendingPayments[key].timestamp <= Date.now());
+                if (paymentKey) {
+                    balance += pendingPayments[paymentKey].amount;
                     document.getElementById('balance').textContent = balance + ' ฿';
-                    delete pendingPayments[Date.now() - 1800000];
+                    delete pendingPayments[paymentKey];
                     updateAchievements();
                 }
-            }, 30000); // Симуляция проверки оплаты через 30 секунд
+            }, 30000);
         }
 
         function showConfirmModal(message, onConfirm) {
@@ -1347,7 +983,7 @@
             content.innerHTML = `
                 <h2>${translations[userLanguage].confirmTitle}</h2>
                 <p>${message}</p>
-                <button class="buy-button" onclick="${onConfirm ? onConfirm.toString() + '()' : 'closeModal(\'confirmModal\')'}">${translations[userLanguage].yes}</button>
+                <button class="buy-button" onclick="${onConfirm ? onConfirm.toString() + '();' : ''}closeModal('confirmModal')">${translations[userLanguage].yes}</button>
                 <button onclick="closeModal('confirmModal')">${translations[userLanguage].no}</button>
             `;
             document.getElementById('confirmModal').style.display = 'flex';
@@ -1367,17 +1003,17 @@
             achievementsList.innerHTML = '';
             if (orderCount >= 5) {
                 const li = document.createElement('li');
-                li.textContent = '5+ Orders Completed';
+                li.textContent = userLanguage === 'ru' ? '5+ заказов выполнено' : '5+ Orders Completed';
                 achievementsList.appendChild(li);
             }
             if (referralCount >= 5) {
                 const li = document.createElement('li');
-                li.textContent = '5+ Friends Invited';
+                li.textContent = userLanguage === 'ru' ? '5+ друзей приглашено' : '5+ Friends Invited';
                 achievementsList.appendChild(li);
             }
             if (balance >= 10000) {
                 const li = document.createElement('li');
-                li.textContent = '10,000+ ฿ Spent';
+                li.textContent = userLanguage === 'ru' ? 'Потрачено 10,000+ ฿' : '10,000+ ฿ Spent';
                 achievementsList.appendChild(li);
             }
         }
@@ -1407,9 +1043,17 @@
             if (message) {
                 const chatMessages = document.getElementById('chatMessages');
                 chatMessages.innerHTML += `<p>You: ${message}</p>`;
-                chatMessages.innerHTML += `<p>Оператор: Понял, скоро отвечу!</p>`;
+                chatMessages.innerHTML += `<p>Operator: I'll get back to you soon!</p>`;
                 document.getElementById('chatInput').value = '';
                 chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        function toggleChat() {
+            const chat = document.getElementById('supportChat');
+            chat.classList.toggle('active');
+            if (chat.classList.contains('active')) {
+                chat.scrollTop = chat.scrollHeight;
             }
         }
 
@@ -1423,7 +1067,16 @@
             document.getElementById('customModal').style.display = 'flex';
         }
 
-        // Инициализация при загрузке
+        function updateProfile() {
+            document.getElementById('profileNameLabel').textContent = translations[userLanguage].profileNameLabel + currentUser.nickname;
+            document.getElementById('balance').textContent = balance + ' ฿';
+            document.getElementById('ordersLabel').textContent = translations[userLanguage].ordersLabel + orderCount;
+            document.getElementById('referralsLabel').textContent = translations[userLanguage].referralsLabel + referralCount;
+            document.getElementById('statusLabel').textContent = translations[userLanguage].statusLabel + (balance > 0 ? 'Active' : 'Inactive');
+            updateAchievements();
+            updateRecentPurchases();
+        }
+
         window.onload = initApp;
     </script>
 </body>
