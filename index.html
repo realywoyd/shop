@@ -1602,38 +1602,38 @@
         }
 
         function registerUser() {
-            const t = translations[userLanguage];
-            const nickname = document.getElementById('regNickname').value.trim();
-            userLanguage = document.getElementById('regLanguage').value;
+    const t = translations[userLanguage];
+    const nickname = document.getElementById('regNickname').value.trim();
+    userLanguage = document.getElementById('regLanguage').value;
 
-            if (!nickname) {
-                document.getElementById('regError').innerText = t.regErrorEmpty;
-                return;
-            }
+    if (!nickname) {
+        document.getElementById('regError').innerText = t.regErrorEmpty;
+        return;
+    }
 
-            if (registeredUsers.some(user => user.nickname === nickname)) {
-                document.getElementById('regError').innerText = t.regErrorTaken;
-                return;
-            }
+    if (registeredUsers.some(user => user.nickname === nickname)) {
+        document.getElementById('regError').innerText = t.regErrorTaken;
+        return;
+    }
 
-            const userId = Date.now().toString();
-            currentUser = { id: userId, nickname: nickname, language: userLanguage };
-            registeredUsers.push(currentUser);
-            localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-            document.getElementById('registrationModal').style.display = 'none';
-            showCustomModal(t.alertTitle, t.welcomeMessage.replace('{user}', nickname));
-            updateUI();
+    const userId = Date.now().toString();
+    currentUser = { id: userId, nickname: nickname, language: userLanguage };
+    registeredUsers.push(currentUser);
+    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+    localStorage.setItem('currentUser', JSON.stringify(currentUser)); // Сохраняем текущего пользователя
+    document.getElementById('registrationModal').style.display = 'none';
+    showCustomModal(t.alertTitle, t.welcomeMessage.replace('{user}', nickname));
+    updateUI();
 
-            const urlParams = new URLSearchParams(window.location.search);
-            const ref = urlParams.get('start');
-            if (ref && registeredUsers.some(user => user.id === ref)) {
-                referralCount++;
-                updateUI();
-                sendTelegramMessage(ref, `Ваш друг ${nickname} зарегистрировался по вашей ссылке! У вас теперь ${referralCount} рефералов.`);
-                checkReferralRewards(ref);
-            }
-        }
-
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get('start');
+    if (ref && registeredUsers.some(user => user.id === ref)) {
+        referralCount++;
+        updateUI();
+        sendTelegramMessage(ref, `Ваш друг ${nickname} зарегистрировался по вашей ссылке! У вас теперь ${referralCount} рефералов.`);
+        checkReferralRewards(ref);
+    }
+}
         function checkReferralRewards(userId) {
             const user = registeredUsers.find(u => u.id === userId);
             if (!user) return;
