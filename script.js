@@ -1240,6 +1240,9 @@ function showPromoDetails() {
 }
 
 // Загрузка пользователя из локального хранилища
+// ... (весь предыдущий код остаётся без изменений до window.onload)
+
+// Загрузка пользователя из локального хранилища
 window.onload = () => {
     const lastUser = localStorage.getItem('lastUser');
     if (lastUser) {
@@ -1247,17 +1250,43 @@ window.onload = () => {
         if (user) {
             currentUser = user.nickname;
             userLanguage = user.language;
-            initUI(); // Если пользователь уже есть, сразу инициализируем интерфейс
+            initUI();
         }
     } else if (registeredUsers.length > 0) {
-        // Если есть зарегистрированные пользователи, но нет lastUser, берём первого
         currentUser = registeredUsers[0].nickname;
         userLanguage = registeredUsers[0].language;
         localStorage.setItem('lastUser', currentUser);
         initUI();
     } else {
-        // Если нет ни одного пользователя, показываем регистрацию
         showRegistrationModal();
     }
 };
+
+// Сохранение последнего пользователя
+window.onbeforeunload = () => {
+    if (currentUser) {
+        localStorage.setItem('lastUser', currentUser);
+    }
 };
+
+// Закрытие модальных окон при клике на пустую область
+const modals = [
+    'paymentModal',
+    'productModal',
+    'depositModal',
+    'preorderModal',
+    'registrationModal',
+    'customModal',
+    'confirmModal'
+];
+
+modals.forEach(modalId => {
+    const modal = document.getElementById(modalId);
+    modal.addEventListener('click', (event) => {
+        const contentClass = modalId.replace('Modal', 'Content');
+        const modalContent = modal.querySelector(`.${contentClass}`);
+        if (event.target === modal && !modalContent.contains(event.target)) {
+            modal.style.display = 'none';
+        }
+    });
+});
