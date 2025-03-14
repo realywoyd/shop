@@ -1250,7 +1250,15 @@
             return positions;
         }
 
-        function initApp() {
+        // Глобальные переменные (должны быть объявлены до вызова initApp)
+let currentUser = null;
+let userLanguage = 'ru';
+let balance = 0;
+let orderCount = 0;
+let referralCount = 0;
+let orderHistory = [];
+
+function initApp() {
     // Проверяем, есть ли сохранённый пользователь в localStorage
     const savedUser = localStorage.getItem('currentUser');
     if (savedUser) {
@@ -1268,7 +1276,7 @@
         showRegistrationModal();
     }
 
-    // Остальной код остаётся без изменений
+    // Обработчики событий для вкладок
     document.querySelectorAll('.tab').forEach(tab => {
         tab.addEventListener('click', () => {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -1278,8 +1286,10 @@
         });
     });
 
+    // Активируем вкладку "weed" по умолчанию
     document.querySelector('.tab[data-tab="weed"]').click();
 
+    // Обработчики закрытия модальных окон по клику на фон
     document.getElementById('productModal').addEventListener('click', e => {
         if (e.target === document.getElementById('productModal')) {
             document.getElementById('productModal').style.display = 'none';
@@ -1317,15 +1327,17 @@
     });
 }
 
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
-                    document.getElementById(tab.dataset.tab).style.display = 'block';
-                });
-            });
+// Пример заглушек для функций, если их нет
+function updateUI() {
+    console.log('UI updated');
+}
 
+function showRegistrationModal() {
+    console.log('Show registration modal');
+}
+
+// Вызов функции при загрузке страницы (если нужно)
+window.onload = initApp;
             document.querySelector('.tab[data-tab="weed"]').click();
 
             document.getElementById('productModal').addEventListener('click', e => {
