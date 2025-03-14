@@ -835,11 +835,7 @@ function generatePositions(category, productId, weightType) {
 
 // Инициализация интерфейса
 function initUI() {
-    if (!currentUser) {
-        showRegistrationModal();
-        return;
-    }
-
+    // Удаляем проверку currentUser здесь, так как она будет в window.onload
     document.getElementById('promoBanner').innerText = translations[userLanguage].promoBanner;
     document.getElementById('headerText').innerText = translations[userLanguage].headerText;
     document.getElementById('catalogButton').innerText = translations[userLanguage].catalogButton;
@@ -1251,14 +1247,17 @@ window.onload = () => {
         if (user) {
             currentUser = user.nickname;
             userLanguage = user.language;
+            initUI(); // Если пользователь уже есть, сразу инициализируем интерфейс
         }
-    }
-    initUI();
-};
-
-// Сохранение последнего пользователя
-window.onbeforeunload = () => {
-    if (currentUser) {
+    } else if (registeredUsers.length > 0) {
+        // Если есть зарегистрированные пользователи, но нет lastUser, берём первого
+        currentUser = registeredUsers[0].nickname;
+        userLanguage = registeredUsers[0].language;
         localStorage.setItem('lastUser', currentUser);
+        initUI();
+    } else {
+        // Если нет ни одного пользователя, показываем регистрацию
+        showRegistrationModal();
     }
+};
 };
