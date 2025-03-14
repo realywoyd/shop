@@ -1255,44 +1255,44 @@ return positions;
 }
 
 function initApp() {
-// Проверяем, есть ли уже зарегистрированный пользователь в localStorage
-const storedUser = localStorage.getItem('currentUser');
-if (storedUser) {
-currentUser = JSON.parse(storedUser);
-userLanguage = currentUser.language || 'ru';
-console.log('Пользователь загружен из localStorage:', currentUser);
-updateUI();
-} else {
-console.log('Пользователь не найден, показываем модалку регистрации');
-document.getElementById('registrationModal').style.display = 'flex';
-}
+    // Проверяем, есть ли уже зарегистрированный пользователь в localStorage
+    const storedUser = localStorage.getItem('currentUser');
+    if (storedUser) {
+        currentUser = JSON.parse(storedUser);
+        userLanguage = currentUser.language || 'ru';
+        console.log('Пользователь загружен из localStorage:', currentUser);
+        updateUI();
+    } else {
+        console.log('Пользователь не найден, показываем модалку регистрации');
+        document.getElementById('registrationModal').style.display = 'flex';
+    }
 
-// Загружаем данные профиля, если они есть
-const storedBalance = localStorage.getItem('balance');
-const storedOrders = localStorage.getItem('orderHistory');
-const storedOrderCount = localStorage.getItem('orderCount');
-const storedReferralCount = localStorage.getItem('referralCount');
-const storedMailMessages = localStorage.getItem('mailMessages');
+    // Загружаем данные профиля, если они есть
+    const storedBalance = localStorage.getItem('balance');
+    const storedOrders = localStorage.getItem('orderHistory');
+    const storedOrderCount = localStorage.getItem('orderCount');
+    const storedReferralCount = localStorage.getItem('referralCount');
+    const storedMailMessages = localStorage.getItem('mailMessages');
 
-if (storedBalance) balance = parseInt(storedBalance);
-if (storedOrders) orderHistory = JSON.parse(storedOrders);
-if (storedOrderCount) orderCount = parseInt(storedOrderCount);
-if (storedReferralCount) referralCount = parseInt(storedReferralCount);
-if (storedMailMessages) mailMessages = JSON.parse(storedMailMessages);
+    if (storedBalance) balance = parseInt(storedBalance);
+    if (storedOrders) orderHistory = JSON.parse(storedOrders);
+    if (storedOrderCount) orderCount = parseInt(storedOrderCount);
+    if (storedReferralCount) referralCount = parseInt(storedReferralCount);
+    if (storedMailMessages) mailMessages = JSON.parse(storedMailMessages);
 
-// Инициализация UI
-updateUI();
+    // Инициализация UI
+    updateUI();
 
-// Инициализация табов каталога
-document.querySelectorAll('.tab').forEach(tab => {
-tab.addEventListener('click', () => {
-document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-tab.classList.add('active');
-document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
-document.getElementById(tab.dataset.tab).style.display = 'block';
-});
-});
-document.querySelector('.tab[data-tab="weed"]').click(); // Открываем первый таб по умолчанию
+    // Инициализация табов каталога
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+            document.getElementById(tab.dataset.tab).style.display = 'block';
+        });
+    });
+    document.querySelector('.tab[data-tab="weed"]').click(); // Открываем первый таб по умолчанию
 }
 
 function registerUser() {
