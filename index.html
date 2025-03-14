@@ -1251,59 +1251,83 @@
         }
 
         function initApp() {
-    // Проверяем, есть ли текущий пользователь в localStorage
-    const savedUser = localStorage.getItem('currentUser');
-    if (savedUser) {
-        currentUser = JSON.parse(savedUser); // Загружаем данные пользователя
-        userLanguage = currentUser.language; // Устанавливаем язык
-        updateUI(); // Обновляем интерфейс с данными пользователя
-    } else {
-        // Если пользователя нет, показываем регистрацию
+    console.log('initApp started');
+    try {
+        const savedUser = localStorage.getItem('currentUser');
+        if (savedUser) {
+            console.log('User loaded:', savedUser);
+            currentUser = JSON.parse(savedUser);
+            userLanguage = currentUser.language;
+            updateUI();
+        } else {
+            console.log('No user, showing registration');
+            showRegistrationModal();
+        }
+    } catch (error) {
+        console.error('Error loading user:', error);
         showRegistrationModal();
     }
 
-    // Остальной код остаётся без изменений
-    document.querySelectorAll('.tab').forEach(tab => {
+    const tabs = document.querySelectorAll('.tab');
+    console.log('Found tabs:', tabs.length);
+    if (tabs.length === 0) {
+        console.error('No tabs found');
+        return;
+    }
+
+    tabs.forEach(tab => {
         tab.addEventListener('click', () => {
+            console.log(`Tab clicked: ${tab.dataset.tab}`);
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
             document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
-            document.getElementById(tab.dataset.tab).style.display = 'block';
+            const contentElement = document.getElementById(tab.dataset.tab);
+            if (contentElement) {
+                contentElement.style.display = 'block';
+            } else {
+                console.error(`Content not found for tab: ${tab.dataset.tab}`);
+            }
         });
     });
 
-    document.querySelector('.tab[data-tab="weed"]').click();
+    const weedTab = document.querySelector('.tab[data-tab="weed"]');
+    if (weedTab) {
+        console.log('Opening weed tab');
+        weedTab.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+        document.getElementById('weed').style.display = 'block';
+    } else {
+        console.error('Weed tab not found');
+    }
 
+    filterProducts(); // Применяем фильтр после инициализации
+
+    // Обработчики модалок
     document.getElementById('productModal').addEventListener('click', e => {
         if (e.target === document.getElementById('productModal')) {
             document.getElementById('productModal').style.display = 'none';
         }
     });
-
     document.getElementById('paymentModal').addEventListener('click', e => {
         if (e.target === document.getElementById('paymentModal')) {
             document.getElementById('paymentModal').style.display = 'none';
         }
     });
-
     document.getElementById('depositModal').addEventListener('click', e => {
         if (e.target === document.getElementById('depositModal')) {
             document.getElementById('depositModal').style.display = 'none';
         }
     });
-
     document.getElementById('preorderModal').addEventListener('click', e => {
         if (e.target === document.getElementById('preorderModal')) {
             document.getElementById('preorderModal').style.display = 'none';
         }
     });
-
     document.getElementById('customModal').addEventListener('click', e => {
         if (e.target === document.getElementById('customModal')) {
             document.getElementById('customModal').style.display = 'none';
         }
     });
-
     document.getElementById('confirmModal').addEventListener('click', e => {
         if (e.target === document.getElementById('confirmModal')) {
             document.getElementById('confirmModal').style.display = 'none';
