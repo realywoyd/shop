@@ -1718,25 +1718,6 @@
             showCustomModal("Акция \"Приведи друга\"", t.promoBanner);
         }
 
-        window.onload = () => {
-    const lastUser = localStorage.getItem('lastUser');
-    if (lastUser) {
-        const user = registeredUsers.find(u => u.nickname === lastUser);
-        if (user) {
-            currentUser = user.nickname;
-            userLanguage = user.language;
-            initUI(); // Если пользователь уже есть, сразу инициализируем интерфейс
-        }
-    } else if (registeredUsers.length > 0) {
-        // Если есть зарегистрированные пользователи, но нет lastUser, берём первого
-        currentUser = registeredUsers[0].nickname;
-        userLanguage = registeredUsers[0].language;
-        localStorage.setItem('lastUser', currentUser);
-        initUI();
-    } else {
-        // Если нет ни одного пользователя, показываем регистрацию
-        showRegistrationModal();
-    }
-};
+        window.onload = initApp;
     </script>
 </body>
