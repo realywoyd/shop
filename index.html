@@ -1673,13 +1673,29 @@ function showPaymentModal(order) {
         }
 
         function confirmDeposit(crypto, amount, address) {
-            const lang = translations[userLanguage];
-            balance += amount;
-            document.getElementById('balance').innerText = `${balance} ฿`;
-            closeModal('depositModal');
-            showAlert(lang.paymentPending);
-            sendToTelegram(`Deposit: ${amount} ฿ (~${(amount / cryptoRates[crypto]).toFixed(6)} ${crypto}) to ${address}`);
-        }
+    const lang = translations[userLanguage];
+    const paymentId = Date.now(); // Уникальный ID платежа на основе времени
+    const pendingPayment = {
+        user: currentUser,
+        crypto: crypto,
+        amount: amount,
+        address: address,
+        paymentId: paymentId,
+        timestamp: new Date().toLocaleString()
+    };
+
+    // Сохраняем неподтверждённый платёж в localStorage
+    let pendingPayments = JSON.parse(localStorage.getItem('pendingPayments')) || [];
+    pendingPayments.push(pendingPayment);
+    localStorage.setItem('pendingPayments', JSON.stringify(pendingPayments));
+
+    // Отправляем запрос в Telegram с кнопкой "Подтвердить"
+    sendPaymentRequestToTelegram(pendingPayment);
+
+    // Закрываем модальное окно и показываем уведомление
+    closeModal('depositModal');
+    showAlert(lang.paymentPending);
+}
 
         function showRegistrationModal() {
             document.getElementById('registrationModal').style.display = 'flex';
