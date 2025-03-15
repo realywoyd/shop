@@ -436,16 +436,16 @@
 
         <div class="registration-modal" id="registrationModal">
             <div class="registration-content" id="registrationContent">
-                <h2>Registration</h2>
-                <p>Enter your desired nickname:</p>
-                <input type="text" id="regNickname" placeholder="Your nickname">
-                <p>Choose language:</p>
+                <h2>Регистрация</h2>
+                <p>Введите желаемый никнейм:</p>
+                <input type="text" id="regNickname" placeholder="Ваш никнейм">
+                <p>Выберите язык:</p>
                 <select id="regLanguage">
                     <option value="en">English</option>
                     <option value="th">ไทย (Thai)</option>
                     <option value="ru">Русский</option>
                 </select>
-                <button class="buy-button" onclick="registerUser()">Register</button>
+                <button class="buy-button" onclick="registerUser()">Зарегистрироваться</button>
                 <p id="regError" style="color: #ff9999;"></p>
             </div>
         </div>
@@ -475,7 +475,7 @@
         let selectedCity = 'all';
         let selectedDistrict = 'all';
         let currentUser = null;
-        let userLanguage = 'en'; // По умолчанию английский
+        let userLanguage = 'en';
         let mailMessages = [];
         let pendingPayments = {};
         const MIN_DEPOSIT = 1000;
@@ -823,7 +823,7 @@
                 "Silom": { lat: "13.723", lon: "100.535", desc: "За вывеской у бара, магнит в синей изоленте." },
                 "Chatuchak": { lat: "13.799", lon: "100.548", desc: "В кустах у рынка, завёрнуто в серую ткань." },
                 "Ratchada": { lat: "13.779", lon: "100.573", desc: "Под мостом у метро, магнит в зелёной изоленте." },
-                "Banglamphu": { lat: "13.760", lon: "100.501", desc: "За мусоркой у храма, завёрнуто в зелёную плёнку." }
+                                "Banglamphu": { lat: "13.760", lon: "100.501", desc: "За мусоркой у храма, завёрнуто в зелёную плёнку." }
             },
             "samui": {
                 "Chaweng": { lat: "9.529", lon: "100.066", desc: "Под скамейкой у пляжа, магнит в синей изоленте." },
@@ -860,7 +860,7 @@
             hash: {
                 1: "https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 2: "https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                3:                 "https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                3: "https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 4: "https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 5: "https://images.unsplash.com/photo-1603394437070-6b991e66b73c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
             },
@@ -924,418 +924,188 @@
 
         const reviews = {
             "weed-1": [
-                { text: "Found it quick, stuff is decent, worth the price", date: "15.03.2025", response: "Thanks for the feedback, bro! Come back anytime." },
-                { text: "Crowded spot, almost got caught, but quality’s okay", date: "12.03.2025", response: "We’ll tweak the spots, sorry for the hassle." },
-                { text: "Smooth pickup, weed’s fire, will order again", date: "14.03.2025", response: "Glad you liked it! See you soon." },
-                { text: "Coords were off, took me 20 mins, but stuff’s good", date: "10.03.2025", response: "We’ll double-check the coords, thanks for the heads-up." },
-                { text: "Top-notch sativa, easy grab, 10/10", date: "13.03.2025", response: "Top feedback for a top strain, cheers!" },
-                { text: "Place was sketchy, but the high’s worth it", date: "11.03.2025", response: "We’ll scout better spots, thanks for sticking with us." },
-                { text: "Quick and clean, best weed I’ve had in a while", date: "09.03.2025", response: "Love hearing that, bro! Stay lifted." }
+                { text: "Найдено быстро, стафчик хорошенький, своих денег стоит", date: "15.03.2025", response: "Спасибо за фидбек, братишка! Заходи ещё." },
+                { text: "Место людное, чуть не спалился, но качество норм", date: "12.03.2025", response: "Поправим локации, извини за косяк." }
             ],
             "hash-1": [
-                { text: "Good stuff, though the stash wasn’t easy to find", date: "13.03.2025", response: "Noted, we’ll make it smoother next time." },
-                { text: "Hash is weak, expected more for the price", date: "11.03.2025", response: "We’ll check the batch, sorry it didn’t hit." },
-                { text: "Duck in the oven. All good, thanks!", date: "14.03.2025", response: "Enjoy, bro! Always here for you." },
-                { text: "Sketchy spot, almost got seen, hash is decent", date: "09.03.2025", response: "We’ll adjust the location, glad you got it." },
-                { text: "Solid Afghan, smooth pickup, happy customer", date: "12.03.2025", response: "That’s what we aim for! Take care." },
-                { text: "Coords spot on, hash hits hard, love it", date: "10.03.2025", response: "Perfect combo, right? See you again!" },
-                { text: "Took a while to find, but quality’s there", date: "08.03.2025", response: "We’ll clarify the desc, thanks for the patience." }
+                { text: "Вариант хороший, правда клад не самый простой, но всё на месте", date: "13.03.2025", response: "Принято, будем точнее с местами." },
+                { text: "Гашик слабый, ожидал большего за такую цену", date: "11.03.2025", response: "Проверим партию, извини за разочарование." }
             ],
             "hash-2": [
-                { text: "Duck in the oven. Spot on, thanks!", date: "14.03.2025", response: "You’re welcome, bro! Enjoy." },
-                { text: "Dodgy spot, nearly got caught, stuff’s alright", date: "09.03.2025", response: "We’ll find quieter places, sorry for that." },
-                { text: "Moroccan vibe is real, quick grab", date: "13.03.2025", response: "Glad it vibes with you! Take it easy." },
-                { text: "Coords were vague, hash is decent though", date: "07.03.2025", response: "We’ll sharpen the coords, thanks for the note." },
-                { text: "Smooth deal, spicy and strong, love it", date: "12.03.2025", response: "Spicy feedback, bro! Come back soon." },
-                { text: "Found it after some hassle, worth it", date: "10.03.2025", response: "Sorry for the trouble, glad it paid off." },
-                { text: "Perfect stash, hash bangs, 5 stars", date: "08.03.2025", response: "Top marks from a top guy, cheers!" }
+                { text: "Гусь в духовке. Всё чётко, благодарю", date: "14.03.2025", response: "На здоровье, братишка!" },
+                { text: "Место стремное, чуть не попался, стафф норм", date: "09.03.2025", response: "Учтём, будем аккуратнее." }
             ],
             "hash-3": [
-                { text: "Touchdown! Quick grab, decent quality", date: "10.03.2025", response: "Smooth moves, bro! Enjoy it." },
-                { text: "Coords off by a bit, took an hour, hash’s okay", date: "07.03.2025", response: "We’ll fix the coords, sorry for the delay." },
-                { text: "Nepal vibes, clean pickup, solid stuff", date: "13.03.2025", response: "Temple blessings, bro! See you again." },
-                { text: "Spot was messy, hash is average", date: "05.03.2025", response: "We’ll clean up the spots, thanks for the heads-up." },
-                { text: "Balanced high, easy find, good deal", date: "12.03.2025", response: "Balance is key, glad you’re happy!" },
-                { text: "Quick and chill, hash does the job", date: "11.03.2025", response: "Chill vibes all the way, bro!" },
-                { text: "Found it fast, temple hash is dope", date: "09.03.2025", response: "Dope feedback, thanks for that!" }
+                { text: "Касание. Съём быстрый, качество на уровне", date: "10.03.2025", response: "Рады, что зашло! Обращайся ещё." },
+                { text: "Корды неточные, искал час, гашик средний", date: "07.03.2025", response: "Проверим координаты, спасибо за сигнал." }
             ],
             "hash-4": [
-                { text: "On point, cheap but works fine", date: "08.03.2025", response: "Budget king, bro! Grab more anytime." },
-                { text: "Stash by the dumpster, stinks, hash is weak", date: "05.03.2025", response: "We’ll move it, sorry for the mess." },
-                { text: "Quick grab, good for the price", date: "10.03.2025", response: "Value for money, right? Cheers!" },
-                { text: "Spot was tricky, hash’s okay", date: "03.03.2025", response: "We’ll simplify it, thanks for sticking it out." },
-                { text: "Cheap and cheerful, easy find", date: "12.03.2025", response: "Glad it worked out, bro!" },
-                { text: "Found it, nothing special but cheap", date: "09.03.2025", response: "Fair deal, thanks for the review!" },
-                { text: "Dust does the trick, smooth pickup", date: "07.03.2025", response: "Simple and effective, enjoy!" }
+                { text: "На месте, бюджетный вариант, но своё дело делает", date: "08.03.2025", response: "За эти бабки норм, бери ещё!" },
+                { text: "Клад у мусорки, запах пиздец, стафф слабый", date: "05.03.2025", response: "Поправим место, извини за косяк." }
             ],
             "hash-5": [
-                { text: "Heavy hitter, spot on, pure fire", date: "13.03.2025", response: "Storm’s brewing, bro! Enjoy the ride." },
-                { text: "Took ages to find, desc was vague, hash’s good", date: "06.03.2025", response: "We’ll tighten the desc, thanks for the patience." },
-                { text: "Himalayan beast, quick grab, love it", date: "14.03.2025", response: "Beast mode activated, cheers!" },
-                { text: "Spot was loud, hash bangs though", date: "08.03.2025", response: "We’ll quiet it down, glad you liked it." },
-                { text: "Top-tier hash, flawless pickup", date: "12.03.2025", response: "Top-tier feedback, bro! Take care." },
-                { text: "Found it quick, storm hits hard", date: "11.03.2025", response: "Fast and furious, enjoy!" },
-                { text: "Quality’s insane, easy stash", date: "09.03.2025", response: "Insane’s our game, cheers!" }
+                { text: "Мощный приход, клад чёткий, всё как надо", date: "13.03.2025", response: "Топчик для тебя, братишка!" },
+                { text: "Долго искал, описание мутное, но стафф норм", date: "06.03.2025", response: "Уточним описание, спасибо за отзыв." }
             ],
             "coke-1": [
-                { text: "Clear markers, spot on coords, all good", date: "15.03.2025", response: "Precision is key, bro! Enjoy." },
-                { text: "Coke’s weak, not VHQ, disappointed", date: "08.03.2025", response: "We’ll check the batch, sorry it fell short." },
-                { text: "Fishscale is fire, quick grab", date: "14.03.2025", response: "Fire feedback, bro! See you soon." },
-                { text: "Busy spot, stressful pickup, coke’s decent", date: "10.03.2025", response: "We’ll scout quieter spots, thanks for the note." },
-                { text: "Top coke, smooth deal, 10/10", date: "13.03.2025", response: "Top marks, bro! Stay high." },
-                { text: "Coords perfect, coke’s pure", date: "12.03.2025", response: "Purity guaranteed, enjoy!" },
-                { text: "Found it fast, fishscale slaps", date: "11.03.2025", response: "Slap back anytime, cheers!" }
+                { text: "Понятные ориентиры, точные корды. Всё четко)", date: "15.03.2025", response: "Спасибо, что оценил! Бери ещё." },
+                { text: "Кокос слабый, не тянет на VHQ, разочарован", date: "08.03.2025", response: "Разберёмся с качеством, извини за косяк." }
             ],
             "coke-2": [
-                { text: "On point. Haven’t tried yet, but trust the shop", date: "13.03.2025", response: "Trust is gold, bro! Let us know how it goes." },
-                { text: "Crowded spot, barely got it, coke’s okay", date: "07.03.2025", response: "We’ll tweak the location, sorry for the stress." },
-                { text: "Snow’s clean, easy pickup", date: "14.03.2025", response: "Clean deal, bro! Enjoy the snow." },
-                { text: "Quality’s solid, quick grab", date: "12.03.2025", response: "Solid feedback, cheers!" },
-                { text: "Took a bit to find, coke’s good", date: "09.03.2025", response: "We’ll sharpen it up, glad you got it." },
-                { text: "Smooth snow, spot on", date: "11.03.2025", response: "Smooth moves, bro! Take care." },
-                { text: "Coords clear, coke’s a hit", date: "10.03.2025", response: "Hit us up again, cheers!" }
+                { text: "На месте. Стафф не пробовал, но беру у этого шопа не первый раз, уверен в кач-ве", date: "13.03.2025", response: "Доверяй, но проверяй! Спасибо за лояльность." },
+                { text: "Клад в людном месте, еле забрал, нервы на пределе", date: "07.03.2025", response: "Поправим локацию, извини за стресс." }
             ],
             "coke-3": [
-                { text: "Touchdown! Fast grab, coke’s alright", date: "12.03.2025", response: "Smooth landing, bro! Enjoy." },
-                { text: "Average quality, expected more from MQ", date: "04.03.2025", response: "We’ll review it, thanks for the heads-up." },
-                { text: "Peruvian dust is decent, quick find", date: "13.03.2025", response: "Dust off and enjoy, bro!" },
-                { text: "Spot was off, coke’s okay", date: "06.03.2025", response: "We’ll fix the spot, sorry for that." },
-                { text: "Good deal, smooth pickup", date: "11.03.2025", response: "Good vibes, cheers!" },
-                { text: "Found it fast, dust hits", date: "10.03.2025", response: "Fast track to fun, enjoy!" },
-                { text: "Coords solid, coke’s fair", date: "08.03.2025", response: "Fair play, bro! Take it easy." }
+                { text: "Касание) Быстро и чётко, кокос норм", date: "12.03.2025", response: "Рады, что всё гладко! Заходи ещё." },
+                { text: "Качество среднее, ожидал большего от MQ", date: "04.03.2025", response: "Проверим партию, спасибо за инфу." }
             ],
             "coke-4": [
-                { text: "Budget coke, on point, decent for price", date: "10.03.2025", response: "Cheap and cheerful, bro! Grab more." },
-                { text: "Stash by trash, nearly puked, coke’s weak", date: "03.03.2025", response: "We’ll move it, sorry for the stink." },
-                { text: "Quick grab, good value", date: "12.03.2025", response: "Value king, cheers!" },
-                { text: "Spot was loud, coke’s alright", date: "05.03.2025", response: "We’ll quiet it down, thanks for sticking it out." },
-                { text: "Cheap high, easy find", date: "11.03.2025", response: "Easy money, bro! Enjoy." },
-                { text: "Found it, basic but works", date: "09.03.2025", response: "Basics done right, cheers!" },
-                { text: "Mix is okay, smooth pickup", date: "07.03.2025", response: "Smooth deal, take it easy!" }
+                { text: "Бюджетный кокос, на месте, для цены норм", date: "10.03.2025", response: "Дёшево и сердито, бери ещё!" },
+                { text: "Клад рядом с мусоркой, чуть не блеванул, стафф слабый", date: "03.03.2025", response: "Исправим место, извини за неудобства." }
             ],
             "coke-5": [
-                { text: "Elite stuff, spot on, easy grab", date: "14.03.2025", response: "Elite crew, bro! Enjoy the gold." },
-                { text: "Pricey, but effect’s less than expected", date: "06.03.2025", response: "We’ll check it, thanks for the feedback." },
-                { text: "Cartel gold is fire, quick find", date: "15.03.2025", response: "Golden feedback, cheers!" },
-                { text: "Coords perfect, coke’s top", date: "13.03.2025", response: "Top-tier deal, bro! Stay high." },
-                { text: "Smooth grab, gold hits hard", date: "12.03.2025", response: "Hard hitter, enjoy!" },
-                { text: "Found it fast, elite quality", date: "11.03.2025", response: "Fast and elite, cheers!" },
-                { text: "Pricey but worth it, easy stash", date: "09.03.2025", response: "Worth every baht, bro!" }
+                { text: "Элитка на уровне, корды точные, съём лёгкий", date: "14.03.2025", response: "Топовый стафф для топовых ребят!" },
+                { text: "Дорого, а эффекта меньше, чем ожидал", date: "06.03.2025", response: "Проверим качество, спасибо за фидбек." }
             ],
             "amph-1": [
-                { text: "Crystal kicks hard, all-day energy, fire!", date: "14.03.2025", response: "Surge on, bro! Grab more." },
-                { text: "Busy spot, nearly got seen, stuff’s okay", date: "09.03.2025", response: "We’ll tweak it, sorry for the scare." },
-                { text: "Touchdown! Amp’s strong, quick grab", date: "13.03.2025", response: "Strong moves, enjoy!" },
-                { text: "Coords solid, crystal’s a banger", date: "12.03.2025", response: "Bang on, bro! Cheers." },
-                { text: "Found it fast, surge is real", date: "11.03.2025", response: "Real deal, take it easy!" },
-                { text: "Spot was tricky, amph’s good", date: "10.03.2025", response: "We’ll simplify, glad you got it." },
-                { text: "Pure energy, smooth pickup", date: "08.03.2025", response: "Energy boost, bro! Stay up." }
+                { text: "Кристалл бодрый, заряд на весь день, огонь!", date: "14.03.2025", response: "Заходи за добавкой, братишка!" },
+                { text: "Место людное, чуть не спалился, стафф норм", date: "09.03.2025", response: "Поправим локацию, извини за косяк." }
             ],
             "amph-2": [
-                { text: "Touchdown! All good, amph’s solid", date: "13.03.2025", response: "Solid deal, bro! Peace." },
-                { text: "Weak kick, expected more from HQ", date: "08.03.2025", response: "We’ll check the batch, sorry it didn’t hit." },
-                { text: "Red rush is dope, quick grab", date: "14.03.2025", response: "Rush on, cheers!" },
-                { text: "Found it, amph’s decent", date: "11.03.2025", response: "Decent vibes, enjoy!" },
-                { text: "Coords clear, rush is smooth", date: "12.03.2025", response: "Smooth sailing, bro!" },
-                { text: "Spot on, amph bangs", date: "10.03.2025", response: "Bang for your buck, cheers!" },
-                { text: "Quick find, red’s a winner", date: "09.03.2025", response: "Winner’s circle, enjoy!" }
+                { text: "Касание. Всё четко, амф бодрит как надо", date: "13.03.2025", response: "Рады, что зашло! Всем мира!" },
+                { text: "Эффект слабый, ожидал большего от HQ", date: "08.03.2025", response: "Проверим партию, спасибо за сигнал." }
             ],
             "amph-3": [
-                { text: "On point, average amph, worth the cash", date: "11.03.2025", response: "Fair deal, bro! Grab more." },
-                { text: "Stash in a mess, desc sucked, stuff’s meh", date: "05.03.2025", response: "We’ll fix it up, sorry for the hassle." },
-                { text: "Yellow spark’s cool, easy grab", date: "12.03.2025", response: "Sparks flying, cheers!" },
-                { text: "Found it quick, amph’s solid", date: "10.03.2025", response: "Solid pickup, enjoy!" },
-                { text: "Coords good, spark’s decent", date: "09.03.2025", response: "Decent deal, bro!" },
-                { text: "Took a bit, amph’s okay", date: "07.03.2025", response: "We’ll speed it up, thanks!" },
-                { text: "Smooth grab, spark works", date: "06.03.2025", response: "Work it, cheers!" }
+                { text: "На месте, средний амф, своих денег стоит", date: "11.03.2025", response: "Норм за такую цену, бери ещё!" },
+                { text: "Клад в говне, описание хуйня, стафф так себе", date: "05.03.2025", response: "Исправим место и описание, извини." }
             ],
             "amph-4": [
-                { text: "Budget stuff, easy grab, does the job", date: "10.03.2025", response: "Job done, bro! Grab more." },
-                { text: "Dodgy spot, stuff’s weak, not great", date: "04.03.2025", response: "We’ll improve, sorry for that." },
-                { text: "Grey haze is cheap, quick find", date: "11.03.2025", response: "Cheap thrills, cheers!" },
-                { text: "Found it fast, amph’s basic", date: "09.03.2025", response: "Basic but good, enjoy!" },
-                { text: "Smooth pickup, haze is fair", date: "08.03.2025", response: "Fair play, bro!" },
-                { text: "Coords clear, amph’s okay", date: "07.03.2025", response: "Okay’s alright, cheers!" },
-                { text: "Cheap and easy, works fine", date: "06.03.2025", response: "Easy does it, enjoy!" }
+                { text: "Бюджетка, но работает, съём лёгкий", date: "10.03.2025", response: "Дёшево и сердито, заходи ещё!" },
+                { text: "Место стремное, стафф слабый, не советую", date: "04.03.2025", response: "Учтём, будем улучшать." }
             ],
             "amph-5": [
-                { text: "Blue blitz is a beast, spot on, fire!", date: "15.03.2025", response: "Blitz mode, bro! Enjoy." },
-                { text: "Took ages, spot sucked, amph’s decent", date: "07.03.2025", response: "We’ll fix the spot, thanks for sticking it out." },
-                { text: "Top amph, quick grab, love it", date: "14.03.2025", response: "Top love, cheers!" },
-                { text: "Coords perfect, blitz bangs", date: "13.03.2025", response: "Bang on, bro!" },
-                { text: "Found it fast, blue’s elite", date: "12.03.2025", response: "Elite vibes, enjoy!" },
-                { text: "Smooth deal, amph’s fire", date: "11.03.2025", response: "Fire deal, cheers!" },
-                { text: "Blitz hits hard, easy stash", date: "10.03.2025", response: "Hard hitter, bro!" }
+                { text: "Синий удар — пушка, корды точные, всё чётко", date: "15.03.2025", response: "Топчик для тебя, братишка!" },
+                { text: "Долго искал, место пиздец, но амф норм", date: "07.03.2025", response: "Поправим локацию, спасибо за отзыв." }
             ],
             "meth-1": [
-                { text: "Mountain ice is insane, blows you away", date: "14.03.2025", response: "Ice cold, bro! Fly high." },
-                { text: "Busy spot, nearly caught, meth’s okay", date: "06.03.2025", response: "We’ll quiet it down, sorry for that." },
-                { text: "Touchdown! Ice is pure, quick grab", date: "13.03.2025", response: "Pure moves, enjoy!" },
-                { text: "Coords spot on, meth’s fire", date: "12.03.2025", response: "Fire deal, cheers!" },
-                { text: "Found it fast, ice slaps", date: "11.03.2025", response: "Slap back, bro!" },
-                { text: "Smooth pickup, meth’s top", date: "10.03.2025", response: "Top-tier, enjoy!" },
-                { text: "Ice is clean, easy stash", date: "09.03.2025", response: "Clean cut, cheers!" }
+                { text: "Горный лёд — это пушка, разносит как надо", date: "14.03.2025", response: "Рады, что улетел! Заходи ещё." },
+                { text: "Клад в людном месте, чуть не попался, мет норм", date: "06.03.2025", response: "Поправим место, извини за нервы." }
             ],
             "meth-2": [
-                { text: "Touchdown! 2 for 2, props to the stash guy", date: "13.03.2025", response: "Stash guy’s blushing, bro! Enjoy." },
-                { text: "Weak blue, expected more", date: "05.03.2025", response: "We’ll check it, sorry it didn’t hit." },
-                { text: "Blue flame’s solid, quick grab", date: "14.03.2025", response: "Flame on, cheers!" },
-                { text: "Found it, meth’s decent", date: "11.03.2025", response: "Decent deal, enjoy!" },
-                { text: "Coords clear, blue’s smooth", date: "12.03.2025", response: "Smooth vibes, bro!" },
-                { text: "Spot on, flame bangs", date: "10.03.2025", response: "Bang for your buck, cheers!" },
-                { text: "Quick find, blue’s a winner", date: "09.03.2025", response: "Winner’s circle, enjoy!" }
+                { text: "Касание) Два из двух! Целуем руки кладмена", date: "13.03.2025", response: "Кладмену приятно, бери ещё!" },
+                { text: "Слабый эффект, ожидал больше от синего", date: "05.03.2025", response: "Проверим качество, спасибо за инфу." }
             ],
             "meth-3": [
-                { text: "On point, meth’s alright, quick grab", date: "12.03.2025", response: "Alright’s good, bro! Enjoy." },
-                { text: "Coords off, took an hour, stuff’s average", date: "04.03.2025", response: "We’ll fix the coords, sorry for the hunt." },
-                { text: "White shard’s cool, easy find", date: "13.03.2025", response: "Shard vibes, cheers!" },
-                { text: "Found it fast, meth’s solid", date: "11.03.2025", response: "Solid pickup, enjoy!" },
-                { text: "Coords good, shard’s decent", date: "10.03.2025", response: "Decent deal, bro!" },
-                { text: "Took a bit, meth’s okay", date: "09.03.2025", response: "We’ll speed it up, thanks!" },
-                { text: "Smooth grab, shard works", date: "08.03.2025", response: "Work it, cheers!" }
+                { text: "На месте, мет норм, съём быстрый", date: "12.03.2025", response: "Всё как надо, заходи ещё!" },
+                { text: "Коорды кривые, искал час, стафф средний", date: "04.03.2025", response: "Поправим корды, извини за косяк." }
             ],
             "meth-4": [
-                { text: "Budget meth, on point, good for price", date: "10.03.2025", response: "Cheap thrills, bro! Grab more." },
-                { text: "Roadside stash, nearly seen, quality’s crap", date: "03.03.2025", response: "We’ll move it, sorry for the mess." },
-                { text: "Dirty crystal’s cheap, quick grab", date: "11.03.2025", response: "Cheap and dirty, cheers!" },
-                { text: "Found it fast, meth’s basic", date: "09.03.2025", response: "Basic but good, enjoy!" },
-                { text: "Smooth pickup, crystal’s fair", date: "08.03.2025", response: "Fair play, bro!" },
-                { text: "Coords clear, meth’s okay", date: "07.03.2025", response: "Okay’s alright, cheers!" },
-                { text: "Cheap and easy, works fine", date: "06.03.2025", response: "Easy does it, enjoy!" }
+                { text: "Бюджетный мет, на месте, для цены ок", date: "10.03.2025", response: "Дёшево и работает, бери ещё!" },
+                { text: "Клад у дороги, чуть не спалили, качество хуйня", date: "03.03.2025", response: "Исправим место, извини за косяк." }
             ],
             "meth-5": [
-                { text: "Golden shard’s top, spot on, fire!", date: "15.03.2025", response: "Golden boy, bro! Enjoy." },
-                { text: "Dodgy spot, weak effect, not impressed", date: "07.03.2025", response: "We’ll fix both, thanks for the note." },
-                { text: "Top meth, quick grab, love it", date: "14.03.2025", response: "Top love, cheers!" },
-                { text: "Coords perfect, shard bangs", date: "13.03.2025", response: "Bang on, bro!" },
-                { text: "Found it fast, gold’s elite", date: "12.03.2025", response: "Elite vibes, enjoy!" },
-                { text: "Smooth deal, meth’s fire", date: "11.03.2025", response: "Fire deal, cheers!" },
-                { text: "Shard hits hard, easy stash", date: "10.03.2025", response: "Hard hitter, bro!" }
+                { text: "Золотой осколок — топ, всё чётко", date: "15.03.2025", response: "Элитка для элиты, братишка!" },
+                { text: "Место стремное, эффект слабый, не зашло", date: "07.03.2025", response: "Проверим и место, и стафф, спасибо." }
             ],
             "meph-1": [
-                { text: "Pink bliss is wild, recommend it", date: "14.03.2025", response: "Bliss out, bro! Grab more." },
-                { text: "Stash in a mess, meph’s okay", date: "06.03.2025", response: "We’ll clean it up, sorry for that." },
-                { text: "Touchdown! Meph’s strong, quick grab", date: "13.03.2025", response: "Strong moves, enjoy!" },
-                { text: "Coords spot on, bliss bangs", date: "12.03.2025", response: "Bang on, bro!" },
-                { text: "Found it fast, pink’s fire", date: "11.03.2025", response: "Fire vibes, cheers!" },
-                { text: "Smooth pickup, meph’s top", date: "10.03.2025", response: "Top-tier, enjoy!" },
-                { text: "Bliss is clean, easy stash", date: "09.03.2025", response: "Clean cut, cheers!" }
+                { text: "Розовый кайф реально мощный, рекомендую", date: "14.03.2025", response: "Спасибо, братишка! Бери ещё." },
+                { text: "Клад в говне, меф норм, но место пиздец", date: "06.03.2025", response: "Поправим локацию, извини." }
             ],
             "meph-2": [
-                { text: "Touchdown! On point, meph’s solid", date: "13.03.2025", response: "Solid deal, bro! Peace." },
-                { text: "Weak surge, expected more from HQ", date: "05.03.2025", response: "We’ll check it, sorry it didn’t hit." },
-                { text: "White surge is dope, quick grab", date: "14.03.2025", response: "Surge on, cheers!" },
-                { text: "Found it, meph’s decent", date: "11.03.2025", response: "Decent deal, enjoy!" },
-                { text: "Coords clear, surge is smooth", date: "12.03.2025", response: "Smooth vibes, bro!" },
-                { text: "Spot on, surge bangs", date: "10.03.2025", response: "Bang for your buck, cheers!" },
-                { text: "Quick find, white’s a winner", date: "09.03.2025", response: "Winner’s circle, enjoy!" }
+                { text: "Касание. Всё на месте, меф бодрый", date: "13.03.2025", response: "Рады, что зашло! Заходи ещё." },
+                { text: "Эффект слабый, ожидал больше от HQ", date: "05.03.2025", response: "Проверим партию, спасибо за фидбек." }
             ],
             "meph-3": [
-                { text: "On point, meph’s average, worth it", date: "12.03.2025", response: "Fair deal, bro! Grab more." },
-                { text: "Stash by trash, stinks, stuff’s meh", date: "04.03.2025", response: "We’ll move it, sorry for the mess." },
-                { text: "Grey mist’s cool, easy grab", date: "13.03.2025", response: "Mist vibes, cheers!" },
-                { text: "Found it fast, meph’s solid", date: "11.03.2025", response: "Solid pickup, enjoy!" },
-                { text: "Coords good, mist’s decent", date: "10.03.2025", response: "Decent deal, bro!" },
-                { text: "Took a bit, meph’s okay", date: "09.03.2025", response: "We’ll speed it up, thanks!" },
-                { text: "Smooth grab, mist works", date: "08.03.2025", response: "Work it, cheers!" }
+                { text: "На месте, меф средний, своих денег стоит", date: "12.03.2025", response: "Норм за эту цену, бери ещё!" },
+                { text: "Клад рядом с мусоркой, запах пиздец, стафф так себе", date: "04.03.2025", response: "Исправим место, извини." }
             ],
             "meph-4": [
-                { text: "Budget meph, easy grab, does the job", date: "10.03.2025", response: "Job done, bro! Grab more." },
-                { text: "Dodgy spot, stuff’s weak, pass", date: "03.03.2025", response: "We’ll improve, sorry for that." },
-                { text: "Dusty high’s cheap, quick find", date: "11.03.2025", response: "Cheap thrills, cheers!" },
-                { text: "Found it fast, meph’s basic", date: "09.03.2025", response: "Basic but good, enjoy!" },
-                { text: "Smooth pickup, dust’s fair", date: "08.03.2025", response: "Fair play, bro!" },
-                { text: "Coords clear, meph’s okay", date: "07.03.2025", response: "Okay’s alright, cheers!" },
-                { text: "Cheap and easy, works fine", date: "06.03.2025", response: "Easy does it, enjoy!" }
+                { text: "Бюджетный меф, съём лёгкий, работает", date: "10.03.2025", response: "Дёшево и сердито, заходи ещё!" },
+                { text: "Место стремное, стафф слабый, не советую", date: "03.03.2025", response: "Учтём, будем улучшать." }
             ],
             "meph-5": [
-                { text: "Red pulse is a beast, spot on, fire!", date: "15.03.2025", response: "Pulse mode, bro! Enjoy." },
-                { text: "Took ages, desc vague, meph’s decent", date: "07.03.2025", response: "We’ll tighten it, thanks for sticking it out." },
-                { text: "Top meph, quick grab, love it", date: "14.03.2025", response: "Top love, cheers!" },
-                { text: "Coords perfect, pulse bangs", date: "13.03.2025", response: "Bang on, bro!" },
-                { text: "Found it fast, red’s elite", date: "12.03.2025", response: "Elite vibes, enjoy!" },
-                { text: "Smooth deal, meph’s fire", date: "11.03.2025", response: "Fire deal, cheers!" },
-                { text: "Pulse hits hard, easy stash", date: "10.03.2025", response: "Hard hitter, bro!" }
+                { text: "Красный пульс — пушка, всё чётко", date: "15.03.2025", response: "Топчик для тебя, братишка!" },
+                { text: "Долго искал, описание мутное, меф норм", date: "07.03.2025", response: "Уточним описание, спасибо." }
             ],
             "alpha-1": [
-                { text: "Flakka’s insane, tears you apart, fire!", date: "14.03.2025", response: "Fire it up, bro! Grab more." },
-                { text: "Busy spot, nearly caught, stuff’s okay", date: "06.03.2025", response: "We’ll quiet it down, sorry for that." },
-                { text: "Touchdown! Alpha’s strong, quick grab", date: "13.03.2025", response: "Strong moves, enjoy!" },
-                { text: "Coords spot on, flakka bangs", date: "12.03.2025", response: "Bang on, bro!" },
-                { text: "Found it fast, fire’s real", date: "11.03.2025", response: "Real deal, cheers!" },
-                { text: "Smooth pickup, alpha’s top", date: "10.03.2025", response: "Top-tier, enjoy!" },
-                { text: "Flakka’s clean, easy stash", date: "09.03.2025", response: "Clean cut, cheers!" }
+                { text: "Флакка огонь, разносит в щепки, топ!", date: "14.03.2025", response: "Заходи ещё, не пожалеешь!" },
+                { text: "Место людное, чуть не спалился, стафф норм", date: "06.03.2025", response: "Поправим локацию, извини." }
             ],
             "alpha-2": [
-                { text: "Touchdown! On point, alpha’s solid", date: "13.03.2025", response: "Solid deal, bro! Peace." },
-                { text: "Weak haze, expected more from HQ", date: "05.03.2025", response: "We’ll check it, sorry it didn’t hit." },
-                { text: "Purple haze is dope, quick grab", date: "14.03.2025", response: "Haze on, cheers!" },
-                { text: "Found it, alpha’s decent", date: "11.03.2025", response: "Decent deal, enjoy!" },
-                { text: "Coords clear, haze is smooth", date: "12.03.2025", response: "Smooth vibes, bro!" },
-                { text: "Spot on, haze bangs", date: "10.03.2025", response: "Bang for your buck, cheers!" },
-                { text: "Quick find, purple’s a winner", date: "09.03.2025", response: "Winner’s circle, enjoy!" }
+                { text: "Касание) Всё чётко, альфа бодрая", date: "13.03.2025", response: "Рады, что зашло! Всем мира!" },
+                { text: "Эффект слабый, ожидал больше от HQ", date: "05.03.2025", response: "Проверим партию, спасибо за сигнал." }
             ],
             "alpha-3": [
-                { text: "On point, alpha’s average, worth it", date: "12.03.2025", response: "Fair deal, bro! Grab more." },
-                { text: "Stash in a mess, desc sucked, stuff’s meh", date: "04.03.2025", response: "We’ll fix it up, sorry for the hassle." },
-                { text: "Green dust’s cool, easy grab", date: "13.03.2025", response: "Dust vibes, cheers!" },
-                { text: "Found it fast, alpha’s solid", date: "11.03.2025", response: "Solid pickup, enjoy!" },
-                { text: "Coords good, dust’s decent", date: "10.03.2025", response: "Decent deal, bro!" },
-                { text: "Took a bit, alpha’s okay", date: "09.03.2025", response: "We’ll speed it up, thanks!" },
-                { text: "Smooth grab, dust works", date: "08.03.2025", response: "Work it, cheers!" }
+                { text: "На месте, альфа средняя, цена ок", date: "12.03.2025", response: "Норм за эти бабки, бери ещё!" },
+                { text: "Клад в говне, описание хуйня, стафф так себе", date: "04.03.2025", response: "Исправим место и описание, извини." }
             ],
             "alpha-4": [
-                { text: "Budget alpha, easy grab, does the job", date: "10.03.2025", response: "Job done, bro! Grab more." },
-                { text: "Dodgy spot, stuff’s weak, pass", date: "03.03.2025", response: "We’ll improve, sorry for that." },
-                { text: "Street gravel’s cheap, quick find", date: "11.03.2025", response: "Cheap thrills, cheers!" },
-                { text: "Found it fast, alpha’s basic", date: "09.03.2025", response: "Basic but good, enjoy!" },
-                { text: "Smooth pickup, gravel’s fair", date: "08.03.2025", response: "Fair play, bro!" },
-                { text: "Coords clear, alpha’s okay", date: "07.03.2025", response: "Okay’s alright, cheers!" },
-                { text: "Cheap and easy, works fine", date: "06.03.2025", response: "Easy does it, enjoy!" }
+                { text: "Бюджетная альфа, съём лёгкий, работает", date: "10.03.2025", response: "Дёшево и сердито, заходи ещё!" },
+                { text: "Место стремное, стафф слабый, не зашло", date: "03.03.2025", response: "Учтём, будем улучшать." }
             ],
             "alpha-5": [
-                { text: "Crystal fury’s a beast, spot on, fire!", date: "15.03.2025", response: "Fury mode, bro! Enjoy." },
-                { text: "Took ages, spot sucked, alpha’s decent", date: "07.03.2025", response: "We’ll fix the spot, thanks for sticking it out." },
-                { text: "Top alpha, quick grab, love it", date: "14.03.2025", response: "Top love, cheers!" },
-                { text: "Coords perfect, fury bangs", date: "13.03.2025", response: "Bang on, bro!" },
-                { text: "Found it fast, crystal’s elite", date: "12.03.2025", response: "Elite vibes, enjoy!" },
-                { text: "Smooth deal, alpha’s fire", date: "11.03.2025", response: "Fire deal, cheers!" },
-                { text: "Fury hits hard, easy stash", date: "10.03.2025", response: "Hard hitter, bro!" }
+                { text: "Кристальная ярость — пушка, всё чётко", date: "15.03.2025", response: "Топчик для тебя, братишка!" },
+                { text: "Долго искал, место пиздец, но альфа норм", date: "07.03.2025", response: "Поправим локацию, спасибо." }
             ],
             "lsd-1": [
-                { text: "Cosmic tabs are wild, insane trip", date: "14.03.2025", response: "Trip out, bro! Grab more." },
-                { text: "Busy spot, nearly caught, stuff’s okay", date: "06.03.2025", response: "We’ll quiet it down, sorry for that." },
-                { text: "Touchdown! LSD’s strong, quick grab", date: "13.03.2025", response: "Strong moves, enjoy!" },
-                { text: "Coords spot on, tabs bang", date: "12.03.2025", response: "Bang on, bro!" },
-                { text: "Found it fast, cosmic’s fire", date: "11.03.2025", response: "Fire vibes, cheers!" },
-                { text: "Smooth pickup, LSD’s top", date: "10.03.2025", response: "Top-tier, enjoy!" },
-                { text: "Tabs are clean, easy stash", date: "09.03.2025", response: "Clean cut, cheers!" }
+                { text: "Космические таблы — трип лютый, берите", date: "14.03.2025", response: "Рады, что улетел! Обращайся." },
+                { text: "Клад в людном месте, чуть не попался, стафф норм", date: "06.03.2025", response: "Поправим место, извини." }
             ],
             "lsd-2": [
-                { text: "Touchdown! On point, LSD’s solid", date: "13.03.2025", response: "Solid deal, bro! Peace." },
-                { text: "Weak trip, expected more from HQ", date: "05.03.2025", response: "We’ll check it, sorry it didn’t hit." },
-                { text: "Neon drops are dope, quick grab", date: "14.03.2025", response: "Drop in, cheers!" },
-                { text: "Found it, LSD’s decent", date: "11.03.2025", response: "Decent deal, enjoy!" },
-                { text: "Coords clear, drops are smooth", date: "12.03.2025", response: "Smooth vibes, bro!" },
-                { text: "Spot on, neon bangs", date: "10.03.2025", response: "Bang for your buck, cheers!" },
-                { text: "Quick find, drops are a winner", date: "09.03.2025", response: "Winner’s circle, enjoy!" }
+                { text: "Касание. Всё чётко, трип яркий", date: "13.03.2025", response: "Спасибо, братишка! Заходи ещё." },
+                { text: "Эффект слабый, ожидал больше от HQ", date: "05.03.2025", response: "Проверим партию, спасибо за фидбек." }
             ],
             "lsd-3": [
-                { text: "On point, LSD’s average, worth it", date: "12.03.2025", response: "Fair deal, bro! Grab more." },
-                { text: "Stash by trash, stinks, trip’s meh", date: "04.03.2025", response: "We’ll move it, sorry for the mess." },
-                { text: "Acid rain’s cool, easy grab", date: "13.03.2025", response: "Rain vibes, cheers!" },
-                { text: "Found it fast, LSD’s solid", date: "11.03.2025", response: "Solid pickup, enjoy!" },
-                { text: "Coords good, rain’s decent", date: "10.03.2025", response: "Decent deal, bro!" },
-                { text: "Took a bit, LSD’s okay", date: "09.03.2025", response: "We’ll speed it up, thanks!" },
-                { text: "Smooth grab, rain works", date: "08.03.2025", response: "Work it, cheers!" }
+                { text: "На месте, кислый норм, своих денег стоит", date: "12.03.2025", response: "Норм за эту цену, бери ещё!" },
+                { text: "Клад рядом с мусоркой, запах пиздец, стафф средний", date: "04.03.2025", response: "Исправим место, извини." }
             ],
             "lsd-4": [
-                { text: "Budget LSD, easy grab, does the job", date: "10.03.2025", response: "Job done, bro! Grab more." },
-                { text: "Dodgy spot, trip’s weak, pass", date: "03.03.2025", response: "We’ll improve, sorry for that." },
-                { text: "Street blotters are cheap, quick find", date: "11.03.2025", response: "Cheap thrills, cheers!" },
-                { text: "Found it fast, LSD’s basic", date: "09.03.2025", response: "Basic but good, enjoy!" },
-                { text: "Smooth pickup, blotters are fair", date: "08.03.2025", response: "Fair play, bro!" },
-                { text: "Coords clear, LSD’s okay", date: "07.03.2025", response: "Okay’s alright, cheers!" },
-                { text: "Cheap and easy, works fine", date: "06.03.2025", response: "Easy does it, enjoy!" }
+                { text: "Бюджетный кислый, съём лёгкий, работает", date: "10.03.2025", response: "Дёшево и сердито, заходи ещё!" },
+                { text: "Место стремное, стафф слабый, не советую", date: "03.03.2025", response: "Учтём, будем улучшать." }
             ],
             "lsd-5": [
-                { text: "Galactic hits are top, spot on, fire!", date: "15.03.2025", response: "Galactic mode, bro! Enjoy." },
-                { text: "Took ages, desc vague, trip’s decent", date: "07.03.2025", response: "We’ll tighten it, thanks for sticking it out." },
-                { text: "Top LSD, quick grab, love it", date: "14.03.2025", response: "Top love, cheers!" },
-                { text: "Coords perfect, hits bang", date: "13.03.2025", response: "Bang on, bro!" },
-                { text: "Found it fast, galactic’s elite", date: "12.03.2025", response: "Elite vibes, enjoy!" },
-                { text: "Smooth deal, LSD’s fire", date: "11.03.2025", response: "Fire deal, cheers!" },
-                { text: "Hits are hard, easy stash", date: "10.03.2025", response: "Hard hitter, bro!" }
+                { text: "Галактические хиты — топ, всё чётко", date: "15.03.2025", response: "Элитка для элиты, братишка!" },
+                { text: "Долго искал, описание мутное, но трип норм", date: "07.03.2025", response: "Уточним описание, спасибо." }
             ],
             "mdma-1": [
-                { text: "Crystal love’s insane, pure bliss", date: "14.03.2025", response: "Love it up, bro! Grab more." },
-                { text: "Busy spot, nearly caught, stuff’s okay", date: "06.03.2025", response: "We’ll quiet it down, sorry for that." },
-                { text: "Touchdown! MDMA’s strong, quick grab", date: "13.03.2025", response: "Strong moves, enjoy!" },
-                { text: "Coords spot on, love bangs", date: "12.03.2025", response: "Bang on, bro!" },
-                { text: "Found it fast, crystal’s fire", date: "11.03.2025", response: "Fire vibes, cheers!" },
-                { text: "Smooth pickup, MDMA’s top", date: "10.03.2025", response: "Top-tier, enjoy!" },
-                { text: "Love’s clean, easy stash", date: "09.03.2025", response: "Clean cut, cheers!" }
+                { text: "Кристальная любовь — пиздец, чистый кайф", date: "14.03.2025", response: "Бери ещё, братишка!" },
+                { text: "Место людное, чуть не спалился, стафф норм", date: "06.03.2025", response: "Поправим локацию, извини." }
             ],
             "mdma-2": [
-                { text: "Touchdown! On point, MDMA’s solid", date: "13.03.2025", response: "Solid deal, bro! Peace." },
-                { text: "Weak kick, expected more from HQ", date: "05.03.2025", response: "We’ll check it, sorry it didn’t hit." },
-                { text: "Pink rocks are dope, quick grab", date: "14.03.2025", response: "Rock on, cheers!" },
-                { text: "Found it, MDMA’s decent", date: "11.03.2025", response: "Decent deal, enjoy!" },
-                { text: "Coords clear, rocks are smooth", date: "12.03.2025", response: "Smooth vibes, bro!" },
-                { text: "Spot on, pink bangs", date: "10.03.2025", response: "Bang for your buck, cheers!" },
-                { text: "Quick find, rocks are a winner", date: "09.03.2025", response: "Winner’s circle, enjoy!" }
+                { text: "Касание) Всё чётко, мдма бодрый", date: "13.03.2025", response: "Рады, что зашло! Заходи ещё." },
+                { text: "Эффект слабый, ожидал больше от HQ", date: "05.03.2025", response: "Проверим партию, спасибо за сигнал." }
             ],
             "mdma-3": [
-                { text: "Blue ecstasy’s top, on point, fire!", date: "12.03.2025", response: "Blue fire, bro! Enjoy." },
-                { text: "Stash in a mess, desc sucked, stuff’s meh", date: "04.03.2025", response: "We’ll fix it up, sorry for the hassle." },
-                { text: "Top pills, quick grab, love it", date: "13.03.2025", response: "Top love, cheers!" },
-                { text: "Found it fast, blue’s solid", date: "11.03.2025", response: "Solid pickup, enjoy!" },
-                { text: "Coords good, ecstasy’s decent", date: "10.03.2025", response: "Decent deal, bro!" },
-                { text: "Took a bit, MDMA’s okay", date: "09.03.2025", response: "We’ll speed it up, thanks!" },
-                { text: "Smooth grab, blue works", date: "08.03.2025", response: "Work it, cheers!" }
+                { text: "Синий экстази — топ, на месте, всё ок", date: "12.03.2025", response: "Топовые пилсы для тебя!" },
+                { text: "Клад в говне, описание хуйня, стафф средний", date: "04.03.2025", response: "Исправим место и описание, извини." }
             ],
             "mdma-4": [
-                { text: "Budget molly, easy grab, does the job", date: "10.03.2025", response: "Job done, bro! Grab more." },
-                { text: "Dodgy spot, stuff’s weak, pass", date: "03.03.2025", response: "We’ll improve, sorry for that." },
-                { text: "Molly dust’s cheap, quick find", date: "11.03.2025", response: "Cheap thrills, cheers!" },
-                { text: "Found it fast, MDMA’s basic", date: "09.03.2025", response: "Basic but good, enjoy!" },
-                { text: "Smooth pickup, dust’s fair", date: "08.03.2025", response: "Fair play, bro!" },
-                { text: "Coords clear, MDMA’s okay", date: "07.03.2025", response: "Okay’s alright, cheers!" },
-                { text: "Cheap and easy, works fine", date: "06.03.2025", response: "Easy does it, enjoy!" }
+                { text: "Бюджетный молли, съём лёгкий, работает", date: "10.03.2025", response: "Дёшево и сердито, заходи ещё!" },
+                { text: "Место стремное, стафф слабый, не зашло", date: "03.03.2025", response: "Учтём, будем улучшать." }
             ],
             "mdma-5": [
-                { text: "Street pills are solid, spot on", date: "15.03.2025", response: "Street cred, bro! Enjoy." },
-                { text: "Took ages, spot sucked, effect’s weak", date: "07.03.2025", response: "We’ll fix it, thanks for sticking it out." },
-                { text: "Pills are decent, quick grab", date: "14.03.2025", response: "Decent deal, cheers!" },
-                { text: "Coords perfect, pills bang", date: "13.03.2025", response: "Bang on, bro!" },
-                { text: "Found it fast, street’s fair", date: "12.03.2025", response: "Fair vibes, enjoy!" },
-                { text: "Smooth deal, pills work", date: "11.03.2025", response: "Work it, cheers!" },
-                { text: "Pills hit, easy stash", date: "10.03.2025", response: "Hit me up, bro!" }
+                { text: "Уличные пилсы норм, всё чётко", date: "15.03.2025", response: "Норм за эти бабки, бери ещё!" },
+                { text: "Долго искал, место пиздец, эффект слабый", date: "07.03.2025", response: "Поправим локацию, спасибо." }
             ],
             "heroin-1": [
-                { text: "Afghan silk’s deep, pure fire", date: "14.03.2025", response: "Silk road, bro! Enjoy." },
-                { text: "Busy spot, nearly caught, stuff’s okay", date: "06.03.2025", response: "We’ll quiet it down, sorry for that." },
-                { text: "Touchdown! Heroin’s strong, quick grab", date: "13.03.2025", response: "Strong moves, enjoy!" },
-                { text: "Coords spot on, silk bangs", date: "12.03.2025", response: "Bang on, bro!" },
-                { text: "Found it fast, afghan’s fire", date: "11.03.2025", response: "Fire vibes, cheers!" },
-                { text: "Smooth pickup, heroin’s top", date: "10.03.2025", response: "Top-tier, enjoy!" },
-                { text: "Silk’s clean, easy stash", date: "09.03.2025", response: "Clean cut, cheers!" }
+                { text: "Афганский шёлк — глубокий приход, топчик", date: "14.03.2025", response: "Рады, что зашло! Заходи ещё." },
+                { text: "Клад в людном месте, чуть не попался, стафф норм", date: "06.03.2025", response: "Поправим место, извини." }
             ],
             "heroin-2": [
-                { text: "Touchdown! On point, heroin’s solid", date: "13.03.2025", response: "Solid deal, bro! Peace." },
-                { text: "Weak kick, expected more from HQ", date: "05.03.2025", response: "We’ll check it, sorry it didn’t hit." },
-                { text: "White lotus is dope, quick grab", date: "14.03.2025", response: "Lotus bloom, cheers!" },
-                { text: "Found it, heroin’s decent", date: "11.03.2025", response: "Decent deal, enjoy!" },
-                { text: "Coords clear, lotus is smooth", date: "12.03.2025", response: "Smooth vibes, bro!" },
-                { text: "Spot on, lotus bangs", date: "10.03.2025", response: "Bang for your buck, cheers!" },
-                { text: "Quick find, white’s a winner", date: "09.03.2025", response: "Winner’s circle, enjoy!" }
+                { text: "Касание. Всё чётко, гер бодрый", date: "13.03.2025", response: "Спасибо, братишка! Заходи ещё." },
+                { text: "Эффект слабый, ожидал больше от HQ", date: "05.03.2025", response: "Проверим партию, спасибо за фидбек." }
             ],
             "heroin-3": [
-                { text: "On point, heroin’s average, worth it", date: "12.03.2025", response: "Fair deal, bro! Grab more." },
-                { text: "Stash by trash, stinks, stuff’s meh", date: "04.03.2025", response: "We’ll move it, sorry for the mess." },
-                { text: "Brown sugar’s cool, easy grab", date: "13.03.2025", response: "Sugar rush, cheers!" },
-                { text: "Found it fast, heroin’s solid", date: "11.03.2025", response: "Solid pickup, enjoy!" },
-                { text: "Coords good, sugar’s decent", date: "10.03.2025", response: "Decent deal, bro!" },
-                { text: "Took a bit, heroin’s okay", date: "09.03.2025", response: "We’ll speed it up, thanks!" },
-                { text: "Smooth grab, sugar works", date: "08.03.2025", response: "Work it, cheers!" }
+                { text: "На месте, гер норм, своих денег стоит", date: "12.03.2025", response: "Норм за эту цену, бери ещё!" },
+                { text: "Клад рядом с мусоркой, запах пиздец, стафф средний", date: "04.03.2025", response: "Исправим место, извини." }
             ],
             "heroin-4": [
-                { text: "Budget heroin, easy grab, does the job", date: "10.03.2025", response: "Job done, bro! Grab more." },
-                { text: "Dodgy spot, stuff’s weak, pass", date: "03.03.2025", response: "We’ll improve, sorry for that." },
-                { text: "Dirty tar’s cheap, quick find", date: "11.03.2025", response: "Cheap thrills, cheers!" },
-                { text: "Found it fast, heroin’s basic", date: "09.03.2025", response: "Basic but good, enjoy!" },
-                { text: "Smooth pickup, tar’s fair", date: "08.03.2025", response: "Fair play, bro!" },
-                { text: "Coords clear, heroin’s okay", date: "07.03.2025", response: "Okay’s alright, cheers!" },
-                { text: "Cheap and easy, works fine", date: "06.03.2025", response: "Easy does it, enjoy!" }
+                { text: "Бюджетный гер, съём лёгкий, работает", date: "10.03.2025", response: "Дёшево и сердито, заходи ещё!" },
+                { text: "Место стремное, стафф слабый, не советую", date: "03.03.2025", response: "Учтём, будем улучшать." }
             ],
             "heroin-5": [
-                { text: "Black pearl’s top, spot on, fire!", date: "15.03.2025", response: "Pearl diver, bro! Enjoy." },
-                { text: "Took ages, desc vague, heroin’s decent", date: "07.03.2025", response: "We’ll tighten it, thanks for sticking it out." },
-                { text: "Top heroin, quick grab, love it", date: "14.03.2025", response: "Top love, cheers!" },
-                { text: "Coords perfect, pearl bangs", date: "13.03.2025", response: "Bang on, bro!" },
-                { text: "Found it fast, black’s elite", date: "12.03.2025", response: "Elite vibes, enjoy!" },
-                { text: "Smooth deal, heroin’s fire", date: "11.03.2025", response: "Fire deal, cheers!" },
-                { text: "Pearl hits hard, easy stash", date: "10.03.2025", response: "Hard hitter, bro!" }
+                { text: "Чёрная жемчужина — топ, всё чётко", date: "15.03.2025", response: "Элитка для элиты, братишка!" },
+                { text: "Долго искал, описание мутное, но гер норм", date: "07.03.2025", response: "Уточним описание, спасибо." }
             ]
         };
 
@@ -1353,7 +1123,7 @@
             document.getElementById('samuiOption').innerText = lang.samuiOption;
             document.getElementById('allDistrictsOption').innerText = lang.allDistrictsOption;
             document.getElementById('weedDesc').innerText = lang.weedDesc;
-            document.getElementById('profileNameLabel').innerText = lang.profileNameLabel + (currentUser || 'Guest');
+            document.getElementById('profileNameLabel').innerText = lang.profileNameLabel + (currentUser || 'Гость');
             document.getElementById('ordersLabel').innerText = lang.ordersLabel + orderCount;
             document.getElementById('referralsLabel').innerText = lang.referralsLabel + referralCount;
             document.getElementById('depositTitle').innerText = lang.depositTitle;
@@ -1457,6 +1227,7 @@
             catalogMenu.style.display = 'none';
             vacancyMenu.style.display = 'none';
             mailMenu.style.display = 'none';
+            if (!currentUser) showRegistrationModal();
         }
 
         function toggleVacancies() {
@@ -1511,36 +1282,10 @@
                 card.querySelector('.price')?.remove();
                 card.querySelector('.crypto-price')?.remove();
                 card.innerHTML += `
-                    <p class="price">${lang.positionPrice} ${price} ฿/g</p>
-                    <p class="crypto-price">~${(price / cryptoRates.USDT).toFixed(2)} USDT/g</p>
+                    <p class="price">${lang.positionPrice} ${price} ฿/г</p>
+                    <p class="crypto-price">~${(price / cryptoRates.USDT).toFixed(2)} USDT/г</p>
                 `;
             });
-        }
-
-        function getRandomReviews(productId) {
-            const productReviews = reviews[productId] || [];
-            if (productReviews.length < 5) return productReviews;
-
-            const positiveReviews = productReviews.filter(r => r.text.includes("fire") || r.text.includes("quick") || r.text.includes("smooth") || r.text.includes("solid") || r.text.includes("top"));
-            const otherReviews = productReviews.filter(r => !positiveReviews.includes(r));
-
-            const selectedReviews = [];
-            selectedReviews.push(positiveReviews[Math.floor(Math.random() * positiveReviews.length)]);
-
-            while (selectedReviews.length < 5 && otherReviews.length > 0) {
-                const randomIndex = Math.floor(Math.random() * otherReviews.length);
-                selectedReviews.push(otherReviews[randomIndex]);
-                otherReviews.splice(randomIndex, 1);
-            }
-
-            while (selectedReviews.length < 5 && productReviews.length > 0) {
-                const randomIndex = Math.floor(Math.random() * productReviews.length);
-                if (!selectedReviews.includes(productReviews[randomIndex])) {
-                    selectedReviews.push(productReviews[randomIndex]);
-                }
-            }
-
-            return selectedReviews.slice(0, 5);
         }
 
         function showProductModal(category, id) {
@@ -1552,159 +1297,347 @@
             const weightsList = (category === 'coke' || category === 'meph' || category === 'alpha' || category === 'mdma') ? weights.cokeMephAlphaMdma : (category === 'lsd' ? weights.lsd : (category === 'mdma' && id === '3' ? weights.mdmaTabs : weights.default));
             const inStock = Math.random() > 0.3;
             const image = productImages[category][id];
-            const detailedDesc = `${shortDesc}. This product is pure bliss for those who know quality stuff. Made to the highest standards, delivers a strong and steady effect. Available in any district
-                        let modalContent = `
-                <div class="modal" id="productModal">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeModal()">&times;</span>
-                        <img src="${image}" alt="${name}" class="product-image">
-                        <h2>${name}</h2>
-                        <p>${detailedDesc}</p>
-                        <p><strong>${lang.inStockLabel}</strong> ${inStock ? lang.yes : lang.no}</p>
-                        <p><strong>${lang.priceLabel}</strong> ${price} ฿/g (~${(price / cryptoRates.USDT).toFixed(2)} USDT/g)</p>
-                        <label for="weightSelect">${lang.weightLabel}</label>
-                        <select id="weightSelect">
+            const detailedDesc = `${shortDesc}. Этот продукт — чистый кайф для тех, кто знает толк в качественном стаффе. Произведён с соблюдением всех стандартов, обеспечивает мощный и стабильный эффект. Доставка в любой район выбранного города.`;
+            let content = `
+                <img src="${image}" class="product-image" alt="${name}">
+                <h2>${name}</h2>
+                <p>${detailedDesc}</p>
+                <p>${lang.positionPrice} ${price} ฿/г (~${(price / cryptoRates.USDT).toFixed(2)} USDT)</p>
+                <p>${lang.positionWeight} ${weightsList.join(', ')} г</p>
+                <p>${lang.positionCity} ${selectedCity === 'all' ? 'Несколько городов' : translations[userLanguage][`${selectedCity}Option`]}</p>
+                <p>${lang.positionAvailability} ${inStock ? lang.inStock : lang.outOfStock}</p>
             `;
-
-            for (let weight in weightsList) {
-                const totalPrice = (price * weightsList[weight]).toFixed(2);
-                const totalCrypto = (totalPrice / cryptoRates.USDT).toFixed(2);
-                modalContent += `<option value="${weight}">${weight} - ${totalPrice} ฿ (~${totalCrypto} USDT)</option>`;
+            if (inStock) {
+                content += `<button class="buy-button" onclick="buyProduct('${category}', ${id})">${lang.buyButton}</button>`;
             }
-
-            modalContent += `
-                        </select>
-                        <button onclick="addToCart('${category}', '${id}', '${name}', ${price})">${lang.addToCartButton}</button>
-                        <div id="reviewsSection">
-                            <h3>${lang.reviewsTitle}</h3>
-                            <div id="reviewsList"></div>
-                        </div>
-                    </div>
-                </div>
+            content += `<button class="preorder-button" onclick="preorderProduct('${category}', ${id})">${lang.preorderButton}</button>`;
+            content += `
+                <h3>${lang.reviewsTitle}</h3>
+                <div id="reviews">
             `;
-
-            document.body.insertAdjacentHTML('beforeend', modalContent);
-            const reviewsList = document.getElementById('reviewsList');
-            const randomReviews = getRandomReviews(`${category}-${id}`);
-            randomReviews.forEach(review => {
-                reviewsList.innerHTML += `
+            const productReviews = reviews[`${category}-${id}`] || [];
+            if (productReviews.length) {
+                content += productReviews.map(review => `
                     <div class="review">
-                        <p>"${review.text}"</p>
-                        <p><em>${review.date}</em></p>
-                        <p><strong>${lang.responseLabel}</strong> ${review.response}</p>
+                        <div class="review-text">${review.text}</div>
+                        <div class="review-date">${review.date}</div>
                     </div>
-                `;
-            });
-            document.getElementById('productModal').style.display = 'block';
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('productModal');
-            if (modal) {
-                modal.remove();
+                    <div class="moderator-response">${review.response}</div>
+                `).join('');
+            } else {
+                content += lang.noReviews;
             }
+            content += `
+                </div>
+                <button class="buy-button" onclick="closeModal('productModal')">${lang.close}</button>
+            `;
+            document.getElementById('productContent').innerHTML = content;
+            document.getElementById('productModal').style.display = 'flex';
         }
 
-        function addToCart(category, id, name, price) {
-            const weightSelect = document.getElementById('weightSelect');
-            const selectedWeight = weightSelect.value;
-            const weightValue = weights[selectedWeight];
-            const totalPrice = (price * weightValue).toFixed(2);
-            cart.push({ category, id, name, weight: selectedWeight, price: totalPrice });
-            orderCount++;
-            updateOrderCount();
-            alert(`${name} (${selectedWeight}) added to cart! Total: ${totalPrice} ฿`);
-            closeModal();
-        }
+       function buyProduct(category, id) {
+    const lang = translations[userLanguage];
+    const price = basePrices[category][id];
+    const weightsList = (category === 'coke' || category === 'meph' || category === 'alpha' || category === 'mdma') ? weights.cokeMephAlphaMdma : (category === 'lsd' ? weights.lsd : (category === 'mdma' && id === '3' ? weights.mdmaTabs : weights.default));
+    const totalPrice = price * weightsList[0];
+    if (balance >= totalPrice) {
+        balance -= totalPrice;
+        orderCount++;
+        const order = {
+            id: orderCount,
+            product: `${category}-${id}`,
+            weight: weightsList[0],
+            price: totalPrice,
+            date: new Date().toLocaleString(),
+            city: selectedCity,
+            district: selectedDistrict
+        };
+        orderHistory.push(order);
+        updateOrderHistory();
+        document.getElementById('balance').innerText = `${balance} ฿`;
+        document.getElementById('ordersLabel').innerText = lang.ordersLabel + orderCount;
+        showPaymentModal(order);
+        sendToTelegram(`New order #${order.id}: ${order.product}, ${order.weight}g, ${order.price} ฿, ${order.city}/${order.district}`);
+        updateUserData(); // Сохраняем изменения
+    } else {
+        showConfirmModal(lang.insufficientFunds, () => showDepositModal('USDT'), () => closeModal('confirmModal'));
+    }
+    closeModal('productModal');
+}
 
-        function updateOrderCount() {
+function updateUserData() {
+    const userIndex = registeredUsers.findIndex(u => u.nickname === currentUser);
+    if (userIndex !== -1) {
+        registeredUsers[userIndex] = { nickname: currentUser, language: userLanguage, balance, orderCount, referralCount, orderHistory };
+        localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+    }
+}
+
+        function preorderProduct(category, id) {
             const lang = translations[userLanguage];
-            document.getElementById('ordersLabel').innerText = lang.ordersLabel + orderCount;
+            const price = basePrices[category][id] * 1.3;
+            const weightsList = (category === 'coke' || category === 'meph' || category === 'alpha' || category === 'mdma') ? weights.cokeMephAlphaMdma : (category === 'lsd' ? weights.lsd : (category === 'mdma' && id === '3' ? weights.mdmaTabs : weights.default));
+            const totalPrice = price * weightsList[0];
+            if (balance >= totalPrice) {
+                balance -= totalPrice;
+                orderCount++;
+                const order = {
+                    id: orderCount,
+                    product: `${category}-${id}`,
+                    weight: weightsList[0],
+                    price: totalPrice,
+                    date: new Date().toLocaleString(),
+                    city: selectedCity,
+                    district: selectedDistrict,
+                    preorder: true
+                };
+                orderHistory.push(order);
+                updateOrderHistory();
+                document.getElementById('balance').innerText = `${balance} ฿`;
+                document.getElementById('ordersLabel').innerText = lang.ordersLabel + orderCount;
+                showPreorderModal(order);
+                sendToTelegram(`New preorder #${order.id}: ${order.product}, ${order.weight}g, ${order.price} ฿, ${order.city}/${order.district}`);
+            } else {
+                showConfirmModal(lang.insufficientFunds, () => showDepositModal('USDT'), () => closeModal('confirmModal'));
+            }
+            closeModal('productModal');
         }
+
+        function showPaymentModal(order) {
+            const lang = translations[userLanguage];
+            const cityData = cities[order.city][order.district];
+            const content = `
+                <h2>${lang.paymentSuccess}</h2>
+                <p>Заказ #${order.id}</p>
+                <p>Координаты: ${cityData.lat}, ${cityData.lon}</p>
+                <p>Описание: ${cityData.desc}</p>
+                <button class="buy-button" onclick="closeModal('paymentModal')">${lang.close}</button>
+            `;
+            document.getElementById('paymentContent').innerHTML = content;
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
+
+        function showPreorderModal(order) {
+            const lang = translations[userLanguage];
+            const content = `
+                <h2>${lang.preorderTitle}</h2>
+                <p>${lang.preorderPlaced}</p>
+                <p>Заказ #${order.id}</p>
+                <p>Ожидайте доставку в ${order.city}/${order.district}</p>
+                <button class="buy-button" onclick="closeModal('preorderModal')">${lang.close}</button>
+            `;
+            document.getElementById('preorderContent').innerHTML = content;
+            document.getElementById('preorderModal').style.display = 'flex';
+        }
+
+        function showDepositModal(crypto) {
+            const lang = translations[userLanguage];
+            const content = `
+                <h2>${lang.depositFunds}</h2>
+                <p>${lang.selectCrypto}</p>
+                <select id="cryptoSelect" onchange="updateDepositNetwork()">
+                    <option value="BTC" ${crypto === 'BTC' ? 'selected' : ''}>Bitcoin (BTC)</option>
+                    <option value="ETH" ${crypto === 'ETH' ? 'selected' : ''}>Ethereum (ETH)</option>
+                    <option value="USDT" ${crypto === 'USDT' ? 'selected' : ''}>Tether (USDT)</option>
+                    <option value="SOL" ${crypto === 'SOL' ? 'selected' : ''}>Solana (SOL)</option>
+                    <option value="TON" ${crypto === 'TON' ? 'selected' : ''}>Toncoin (TON)</option>
+                </select>
+                <p>${lang.networkLabel} <span id="cryptoNetwork">${cryptoNetworks[crypto]}</span></p>
+                <p>${lang.enterAmount}</p>
+                <input type="number" id="depositAmount" placeholder="฿" min="${MIN_DEPOSIT}">
+                <button class="buy-button" onclick="generateDepositAddress()">${lang.generateAddress}</button>
+                <div id="depositAddress"></div>
+                <button class="buy-button" onclick="closeModal('depositModal')">${lang.close}</button>
+            `;
+            document.getElementById('depositContent').innerHTML = content;
+            document.getElementById('depositModal').style.display = 'flex';
+        }
+
+        function updateDepositNetwork() {
+            const crypto = document.getElementById('cryptoSelect').value;
+            document.getElementById('cryptoNetwork').innerText = cryptoNetworks[crypto];
+        }
+
+        function generateDepositAddress() {
+            const lang = translations[userLanguage];
+            const crypto = document.getElementById('cryptoSelect').value;
+            const amount = parseInt(document.getElementById('depositAmount').value);
+            if (amount < MIN_DEPOSIT) {
+                showAlert(lang.minDepositError);
+                return;
+            }
+            const cryptoAmount = (amount / cryptoRates[crypto]).toFixed(6);
+            const address = testAddresses[crypto];
+            const content = `
+                <p>${lang.depositInstruction.replace('{amount}', amount).replace('{cryptoAmount}', cryptoAmount).replace('{crypto}', crypto)}</p>
+                <p><strong>${address}</strong></p>
+                <p>${lang.depositFinal}</p>
+                <p>${lang.depositExpiry}</p>
+                <button class="buy-button" onclick="confirmDeposit('${crypto}', ${amount}, '${address}')">${lang.confirmPayment}</button>
+            `;
+            document.getElementById('depositAddress').innerHTML = content;
+        }
+
+        function confirmDeposit(crypto, amount, address) {
+            const lang = translations[userLanguage];
+            balance += amount;
+            document.getElementById('balance').innerText = `${balance} ฿`;
+            closeModal('depositModal');
+            showAlert(lang.paymentPending);
+            sendToTelegram(`Deposit: ${amount} ฿ (~${(amount / cryptoRates[crypto]).toFixed(6)} ${crypto}) to ${address}`);
+        }
+
+        function showRegistrationModal() {
+            document.getElementById('registrationModal').style.display = 'flex';
+        }
+
+        function registerUser() {
+    const lang = translations[userLanguage];
+    const nickname = document.getElementById('regNickname').value.trim();
+    const language = document.getElementById('regLanguage').value;
+    if (!nickname) {
+        document.getElementById('regError').innerText = lang.regErrorEmpty;
+        return;
+    }
+    if (registeredUsers.some(u => u.nickname === nickname)) {
+        document.getElementById('regError').innerText = lang.regErrorTaken;
+        return;
+    }
+    currentUser = nickname;
+    userLanguage = language; // После регистрации язык берём из выбора юзера
+    const userData = { nickname, language, balance, orderCount, referralCount, orderHistory };
+    registeredUsers.push(userData);
+    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+    localStorage.setItem('currentUser', nickname); // Сохраняем текущего юзера отдельно
+    document.getElementById('profileNameLabel').innerText = lang.profileNameLabel + currentUser;
+    closeModal('registrationModal');
+    showAlert(lang.welcomeMessage.replace('{user}', currentUser));
+    loadLanguage();
+}
+
+// Проверка юзера при загрузке
+function loadCurrentUser() {
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+        const userData = registeredUsers.find(u => u.nickname === savedUser);
+        if (userData) {
+            currentUser = userData.nickname;
+            userLanguage = userData.language;
+            balance = userData.balance || 0;
+            orderCount = userData.orderCount || 0;
+            referralCount = userData.referralCount || 0;
+            orderHistory = userData.orderHistory || [];
+            document.getElementById('balance').innerText = `${balance} ฿`;
+            document.getElementById('ordersLabel').innerText = translations[userLanguage].ordersLabel + orderCount;
+            document.getElementById('referralsLabel').innerText = translations[userLanguage].referralsLabel + referralCount;
+            updateOrderHistory();
+        }
+    }
+}
+
+// Обновляем загрузку страницы
+document.addEventListener('DOMContentLoaded', () => {
+    loadCurrentUser(); // Сначала проверяем юзера
+    if (!currentUser) showRegistrationModal(); // Только если юзера нет, показываем регистрацию
+    loadLanguage();
+    updateTabs();
+    updateProductCards();
+});
 
         function updateOrderHistory() {
             const lang = translations[userLanguage];
-            const orderHistory = document.getElementById('orderHistory');
-            orderHistory.innerHTML = `<h3>${lang.orderHistoryTitle}</h3>`;
-            if (cart.length === 0) {
-                orderHistory.innerHTML += `<p>${lang.noOrders}</p>`;
-            } else {
-                cart.forEach((item, index) => {
-                    orderHistory.innerHTML += `
-                        <div class="order-item">
-                            <p><strong>${item.name}</strong> - ${item.weight} (${item.price} ฿)</p>
-                            <p>${lang.orderDate}: ${new Date().toLocaleDateString()}</p>
-                            <button onclick="removeFromCart(${index})">${lang.removeButton}</button>
-                        </div>
-                    `;
-                });
-            }
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            orderCount--;
-            updateOrderCount();
-            updateOrderHistory();
+            const orderList = document.getElementById('orderList');
+            orderList.innerHTML = orderHistory.length ? orderHistory.map(order => `
+                <div>Заказ #${order.id}: ${order.product}, ${order.weight}г, ${order.price} ฿, ${order.date}</div>
+            `).join('') : lang.orderListEmpty;
         }
 
         function updateMailList() {
             const lang = translations[userLanguage];
             const mailList = document.getElementById('mailList');
-            mailList.innerHTML = `<h3>${lang.mailTitle}</h3>`;
-            if (mail.length === 0) {
-                mailList.innerHTML += `<p>${lang.noMail}</p>`;
-            } else {
-                mail.forEach((message, index) => {
-                    mailList.innerHTML += `
-                        <div class="mail-item">
-                            <p><strong>${message.subject}</strong></p>
-                            <p>${message.body}</p>
-                            <p><em>${message.date}</em></p>
-                            <button onclick="deleteMail(${index})">${lang.deleteButton}</button>
-                        </div>
-                    `;
-                });
-            }
+            mailList.innerHTML = mailMessages.length ? mailMessages.map(msg => `<div>${msg}</div>`).join('') : lang.mailListEmpty;
         }
 
-        function deleteMail(index) {
-            mail.splice(index, 1);
-            updateMailList();
+        function showAlert(message) {
+            const lang = translations[userLanguage];
+            document.getElementById('customContent').innerHTML = `
+                <h2>${lang.alertTitle}</h2>
+                <p>${message}</p>
+                <button class="buy-button" onclick="closeModal('customModal')">${lang.close}</button>
+            `;
+            document.getElementById('customModal').style.display = 'flex';
+        }
+
+        function showConfirmModal(message, onConfirm, onCancel) {
+            const lang = translations[userLanguage];
+            document.getElementById('confirmContent').innerHTML = `
+                <h2>${lang.confirmTitle}</h2>
+                <p>${message}</p>
+                <button class="buy-button" onclick="confirmAction()">${lang.yes}</button>
+                <button class="buy-button" onclick="cancelAction()">${lang.no}</button>
+            `;
+            document.getElementById('confirmModal').style.display = 'flex';
+            window.confirmAction = onConfirm;
+            window.cancelAction = onCancel;
+        }
+
+        function confirmAction() {
+            window.confirmAction();
+            closeModal('confirmModal');
+        }
+
+        function cancelAction() {
+            window.cancelAction();
+            closeModal('confirmModal');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
         }
 
         function applyForJob(job) {
             const lang = translations[userLanguage];
-            mail.push({
-                subject: `${lang.applicationSubject} ${job}`,
-                body: `${lang.applicationBody} ${job}`,
-                date: new Date().toLocaleDateString()
+            showInputModal(lang.applyJobPrompt.replace('{job}', job), resume => {
+                sendToTelegram(`Job application: ${job}\nResume: ${resume}\nUser: ${currentUser || 'Guest'}`);
+                showAlert(lang.applyJobSent.replace('{job}', job));
             });
-            alert(lang.applicationSent);
-            toggleVacancies();
-            toggleMail();
         }
 
-        document.getElementById('citySelect').addEventListener('change', filterByCity);
-        document.getElementById('districtSelect').addEventListener('change', filterByDistrict);
-        document.getElementById('catalogButton').addEventListener('click', toggleCatalog);
-        document.getElementById('profileButton').addEventListener('click', toggleProfile);
-        document.getElementById('vacanciesButton').addEventListener('click', toggleVacancies);
-        document.getElementById('mailButton').addEventListener('click', toggleMail);
-        document.getElementById('applyButton1').addEventListener('click', () => applyForJob('Courier'));
-        document.getElementById('applyButton2').addEventListener('click', () => applyForJob('Warehouseman'));
-        document.getElementById('applyButton3').addEventListener('click', () => applyForJob('Transporter'));
-        document.getElementById('applyButton4').addEventListener('click', () => applyForJob('SMM'));
+        function showInputModal(message, callback) {
+            const lang = translations[userLanguage];
+            document.getElementById('customContent').innerHTML = `
+                <h2>${lang.inputTitle}</h2>
+                <p>${message}</p>
+                <textarea id="inputValue"></textarea>
+                <button class="buy-button" onclick="submitInput('${callback}')">${lang.confirmButton}</button>
+                <button class="buy-button" onclick="closeModal('customModal')">${lang.cancelButton}</button>
+            `;
+            document.getElementById('customModal').style.display = 'flex';
+            window.submitInput = value => {
+                const input = document.getElementById('inputValue').value;
+                closeModal('customModal');
+                callback(input);
+            };
+        }
 
-        const products = document.querySelectorAll('.product-card');
-        products.forEach(card => {
-            card.addEventListener('click', () => {
-                const [category, id] = card.dataset.product.split('-');
-                showProductModal(category, id);
-            });
+        function sendToTelegram(message) {
+            const url = `https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage`;
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: ADMIN_CHAT_ID,
+                    text: message
+                })
+            }).catch(err => console.error('Telegram API error:', err));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!currentUser) showRegistrationModal();
+            else loadLanguage();
+            updateTabs();
+            updateProductCards();
         });
-
-        loadLanguage();
     </script>
 </body>
 </html>
