@@ -1296,7 +1296,7 @@
     const basePrice = basePrices[category][id];
     const weightsList = (category === 'coke') ? weights.coke : (category === 'lsd' ? weights.lsd : (category === 'mdma' && id === '3' ? weights.mdmaTabs : weights.default));
     const image = productImages[category][id];
-    const detailedDesc = `${shortDesc}. Этот продукт — чистый кайф для тех, кто знает толк в стаффе. Произведён с душой, доставка в любой район.`;
+    const detailedDesc = `${shortDesc}. Этот продукт — чистый кайф для тех, кто знает толк в стаффе. Произведён с душой, доставка в твой район.`;
 
     let content = `
         <img src="${image}" class="product-image" alt="${name}">
@@ -1304,28 +1304,35 @@
         <p>${detailedDesc}</p>
     `;
 
-    // Генерируем позиции по городам и районам
-    for (let city in cities) {
-        content += `<h3>${translations[userLanguage][`${city}Option`]}</h3>`;
-        for (let district in cities[city]) {
-            content += `<div><strong>${translations[userLanguage][`${city}Districts`][district]}</strong></div>`;
-            weightsList.forEach(weight => {
-                // Рандомим наличие (80% шанс "в наличии" для реализма)
-                const inStock = (weight === 0.5 || weight === 1) ? true : Math.random() > 0.2;
-                // Рандомим цену с разбросом ±10%
-                const priceVariation = basePrice * (0.9 + Math.random() * 0.2);
-                const price = Math.round(priceVariation * weight);
-                const cityData = cities[city][district];
-                content += `
-                    <p>${lang.positionWeight}: ${weight} г | ${lang.positionPrice}: ${price} ฿ (~${(price / cryptoRates.USDT).toFixed(2)} USDT) | 
-                    ${lang.positionAvailability}: ${inStock ? lang.inStock : lang.outOfStock}</p>
-                `;
-                if (inStock) {
-                    content += `<button class="buy-button" onclick="buyProduct('${category}', ${id}, '${city}', '${district}', ${weight}, ${price})">${lang.buyButton}</button>`;
-                }
-                content += `<button class="preorder-button" onclick="preorderProduct('${category}', ${id}, '${city}', '${district}', ${weight}, ${price * 1.3})">${lang.preorderButton}</button>`;
-            });
-        }
+    // Проверяем, выбраны ли город и район
+    if (selectedCity === 'all' || selectedDistrict === 'all') {
+        content += `
+            <p>Выбери город и район, чтобы увидеть позиции, придурок!</p>
+            <button class="buy-button" onclick="closeModal('productModal')">${lang.close}</button>
+        `;
+    } else {
+        // Показываем позиции только для выбранного города и района
+        const cityName = translations[userLanguage][`${selectedCity}Option`];
+        const districtName = translations[userLanguage][`${selectedCity}Districts`][selectedDistrict];
+        content += `<h3>${cityName} - ${districtName}</h3>`;
+
+        weightsList.forEach(weight => {
+            // Рандомим наличие (80% шанс "в наличии" для реализма)
+            const inStock = (weight === 0.5 || weight === 1) ? true : Math.random() > 0.2;
+            // Рандомим цену с разбросом ±10%
+            const priceVariation = basePrice * (0.9 + Math.random() * 0.2);
+            const price = Math.round(priceVariation * weight);
+            const cityData = cities[selectedCity][selectedDistrict];
+
+            content += `
+                <p>${lang.positionWeight}: ${weight} г | ${lang.positionPrice}: ${price} ฿ (~${(price / cryptoRates.USDT).toFixed(2)} USDT) | 
+                ${lang.positionAvailability}: ${inStock ? lang.inStock : lang.outOfStock}</p>
+            `;
+            if (inStock) {
+                content += `<button class="buy-button" onclick="buyProduct('${category}', ${id}, '${selectedCity}', '${selectedDistrict}', ${weight}, ${price})">${lang.buyButton}</button>`;
+            }
+            content += `<button class="preorder-button" onclick="preorderProduct('${category}', ${id}, '${selectedCity}', '${selectedDistrict}', ${weight}, ${price * 1.3})">${lang.preorderButton}</button>`;
+        });
     }
 
     // Добавляем отзывы
