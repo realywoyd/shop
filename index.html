@@ -1449,27 +1449,32 @@ const reviews = {
         }
 
         function updateProductCards() {
-            const lang = translations[userLanguage];
-            const products = document.querySelectorAll('.product-card');
-            products.forEach(card => {
-                const productId = card.dataset.product;
-                const [category, id] = productId.split('-');
-                const price = basePrices[category][id];
-                card.querySelector('.price')?.remove();
-                card.querySelector('.crypto-price')?.remove();
-                card.innerHTML += `
-                    <p class="price">${lang.positionPrice} ${price} ฿/г</p>
-                    <p class="crypto-price">~${(price / cryptoRates.USDT).toFixed(2)} USDT/г</p>
-                `;
-            });
-        }
+    const lang = translations[userLanguage];
+    const products = document.querySelectorAll('.product-card');
+    products.forEach(card => {
+        const productId = card.dataset.product;
+        const [category, id] = productId.split('-');
+        const basePrice = basePrices[category][id];
+        const image = productImages[category][id];
+        const name = card.querySelector('h3').innerText;
+        const description = card.querySelector('p').innerText;
+
+        card.innerHTML = `
+            <img src="${image}" class="product-image" alt="${name}">
+            <h3 onclick="showProductModal('${category}', ${id})">${name}</h3>
+            <p>${description}</p>
+            <p class="price">${lang.positionPrice} ${basePrice} ฿/г</p>
+            <p class="crypto-price">~${(basePrice / cryptoRates.USDT).toFixed(2)} USDT/г</p>
+        `;
+    });
+}
 
         function showProductModal(category, id) {
     const lang = translations[userLanguage];
     const productCard = document.querySelector(`[data-product="${category}-${id}"]`);
     const name = productCard.querySelector('h3').innerText;
     const shortDesc = productCard.querySelector('p').innerText;
-    const basePrice = basePrices[category][id];
+    const basePrice = basePrices[category][id]; // Используем только базовую цену
     const weightsList = (category === 'coke') ? weights.coke : (category === 'lsd' ? weights.lsd : (category === 'mdma' && id === '3' ? weights.mdmaTabs : weights.default));
     const image = productImages[category][id];
     const detailedDesc = `${shortDesc}. Этот продукт — чистый кайф для тех, кто знает толк в стаффе. Произведён с душой, доставка в твой район.`;
@@ -1480,25 +1485,20 @@ const reviews = {
         <p>${detailedDesc}</p>
     `;
 
-    // Проверяем, выбраны ли город и район
     if (selectedCity === 'all' || selectedDistrict === 'all') {
         content += `
             <p>Выбери город и район, чтобы увидеть позиции.</p>
             <button class="buy-button" onclick="closeModal('productModal')">${lang.close}</button>
         `;
     } else {
-        // Показываем позиции только для выбранного города и района
         const cityName = translations[userLanguage][`${selectedCity}Option`];
         const districtName = translations[userLanguage][`${selectedCity}Districts`][selectedDistrict];
         content += `<h3>${cityName} - ${districtName}</h3>`;
 
         weightsList.forEach(weight => {
-            // Рандомим наличие (80% шанс "в наличии" для реализма)
-            const inStock = (weight === 0.5 || weight === 1) ? true : Math.random() > 0.2;
-            // Рандомим цену с разбросом ±10%
-            const priceVariation = basePrice * (0.9 + Math.random() * 0.2);
-            const price = Math.round(priceVariation * weight);
-            const cityData = cities[selectedCity][selectedDistrict];
+            const inStock = (weight === 0.5 || weight === 1) ? true : Math.random() > 0.2; // Оставляем рандом наличия
+            const price = Math.round(basePrice * weight); // Фиксированная цена без вариаций
+            const preorderPrice = Math.round(price * 1.3); // Предзаказ с наценкой 30%
 
             content += `
                 <p>${lang.positionWeight}: ${weight} г | ${lang.positionPrice}: ${price} ฿ (~${(price / cryptoRates.USDT).toFixed(2)} USDT) | 
@@ -1507,31 +1507,31 @@ const reviews = {
             if (inStock) {
                 content += `<button class="buy-button" onclick="buyProduct('${category}', ${id}, '${selectedCity}', '${selectedDistrict}', ${weight}, ${price})">${lang.buyButton}</button>`;
             }
-            content += `<button class="preorder-button" onclick="preorderProduct('${category}', ${id}, '${selectedCity}', '${selectedDistrict}', ${weight}, ${price * 1.3})">${lang.preorderButton}</button>`;
+            content += `<button class="preorder-button" onclick="preorderProduct('${category}', ${id}, '${selectedCity}', '${selectedDistrict}', ${weight}, ${preorderPrice})">${lang.preorderButton}</button>`;
         });
     }
 
-   // Добавляем отзывы
-content += `
-    <h3>${lang.reviewsTitle}</h3>
-    <div id="reviews">
-`;
-const productReviews = reviews[`${category}-${id}`];
-if (productReviews.length) {
-    content += productReviews.map(review => `
-        <div class="review">
-            <div class="review-text">${review.text}</div>
-            <div class="review-date">${review.date}</div>
+    // Добавляем отзывы
+    content += `
+        <h3>${lang.reviewsTitle}</h3>
+        <div id="reviews">
+    `;
+    const productReviews = reviews[`${category}-${id}`];
+    if (productReviews.length) {
+        content += productReviews.map(review => `
+            <div class="review">
+                <div class="review-text">${review.text}</div>
+                <div class="review-date">${review.date}</div>
+            </div>
+            <div class="moderator-response">${review.response}</div>
+        `).join('');
+    } else {
+        content += lang.noReviews;
+    }
+    content += `
         </div>
-        <div class="moderator-response">${review.response}</div>
-    `).join('');
-} else {
-    content += lang.noReviews;
-}
-content += `
-    </div>
-    <button class="buy-button" onclick="closeModal('productModal')">${lang.close}</button>
-`;
+        <button class="buy-button" onclick="closeModal('productModal')">${lang.close}</button>
+    `;
     document.getElementById('productContent').innerHTML = content;
     document.getElementById('productModal').style.display = 'flex';
 }
