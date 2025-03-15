@@ -1812,6 +1812,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 showAlert(lang.applyJobSent.replace('{job}', job));
             });
         }
+        function sendPaymentRequestToTelegram(payment) {
+    const lang = translations[userLanguage];
+    const message = `
+        Новый запрос на пополнение:
+        Пользователь: ${payment.user}
+        Сумма: ${payment.amount} ฿ (~${(payment.amount / cryptoRates[payment.crypto]).toFixed(6)} ${payment.crypto})
+        Адрес: ${payment.address}
+        ID платежа: ${payment.paymentId}
+        Время: ${payment.timestamp}
+    `;
+
+    const keyboard = {
+        inline_keyboard: [
+            [
+                {
+                    text: "Подтвердить",
+                    callback_data: `confirm_payment_${payment.paymentId}`
+                }
+            ]
+        ]
+    };
+
+    const url = `https://api.telegram.org/bot${BOT_B_TOKEN}/sendMessage`;
+    fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: ADMIN_CHAT_ID,
+            text: message,
+            reply_markup: keyboard
+        })
+    }).catch(err => console.error('Telegram API error:', err));
+}
 
         function showInputModal(message, callback) {
             const lang = translations[userLanguage];
