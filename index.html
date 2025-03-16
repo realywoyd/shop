@@ -1352,15 +1352,17 @@ const reviews = {
         }
 
         function filterByCity() {
-            selectedCity = document.getElementById('citySelect').value;
-            updateDistricts();
-            filterProducts();
-        }
+    selectedCity = document.getElementById('citySelect').value;
+    updateDistricts();
+    filterProducts();
+    sendToTelegram(`Юзер ${currentUser || 'Гость'} выбрал город: ${translations[userLanguage][`${selectedCity}Option`]}`);
+}
 
-        function filterByDistrict() {
-            selectedDistrict = document.getElementById('districtSelect').value;
-            filterProducts();
-        }
+function filterByDistrict() {
+    selectedDistrict = document.getElementById('districtSelect').value;
+    filterProducts();
+    sendToTelegram(`Юзер ${currentUser || 'Гость'} выбрал район: ${translations[userLanguage][`${selectedCity}Districts`][selectedDistrict] || 'Все районы'} в ${translations[userLanguage][`${selectedCity}Option`]}`);
+}
 
         function filterProducts() {
             const products = document.querySelectorAll('.product-card');
@@ -1474,16 +1476,21 @@ const reviews = {
     const productCard = document.querySelector(`[data-product="${category}-${id}"]`);
     const name = productCard.querySelector('h3').innerText;
     const shortDesc = productCard.querySelector('p').innerText;
-    const basePrice = basePrices[category][id]; // Используем только базовую цену
+    const basePrice = basePrices[category][id];
     const weightsList = (category === 'coke') ? weights.coke : (category === 'lsd' ? weights.lsd : (category === 'mdma' && id === '3' ? weights.mdmaTabs : weights.default));
     const image = productImages[category][id];
     const detailedDesc = `${shortDesc}. Этот продукт — чистый кайф для тех, кто знает толк в стаффе. Произведён с душой, доставка в твой район.`;
+
+    // Уведомление о просмотре
+    sendToTelegram(`Юзер ${currentUser || 'Гость'} смотрит товар: ${name} (категория: ${translations[userLanguage][`${category}Tab`]})`);
 
     let content = `
         <img src="${image}" class="product-image" alt="${name}">
         <h2>${name}</h2>
         <p>${detailedDesc}</p>
     `;
+    // Остальной код без изменений...
+
 
     if (selectedCity === 'all' || selectedDistrict === 'all') {
         content += `
@@ -1714,15 +1721,17 @@ function showPaymentModal(order) {
         return;
     }
     currentUser = nickname;
-    userLanguage = language; // После регистрации язык берём из выбора юзера
+    userLanguage = language;
     const userData = { nickname, language, balance, orderCount, referralCount, orderHistory };
     registeredUsers.push(userData);
     localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-    localStorage.setItem('currentUser', nickname); // Сохраняем текущего юзера отдельно
+    localStorage.setItem('currentUser', nickname);
     document.getElementById('profileNameLabel').innerText = lang.profileNameLabel + currentUser;
     closeModal('registrationModal');
     showAlert(lang.welcomeMessage.replace('{user}', currentUser));
     loadLanguage();
+    // Добавляем уведомление в телегу
+    sendToTelegram(`Новый юзер зарегался: ${nickname}, язык: ${language}`);
 }
 
 // Проверка юзера при загрузке
