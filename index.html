@@ -370,6 +370,54 @@
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
+        function manualAddBalance(nickname, amount) {
+    let users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+    let user = users.find(u => u.nickname === nickname);
+    if (user) {
+        // Если бонус ещё не выдан, начисляем
+        if (!user.receivedBonus) {
+            user.balance = (user.balance || 0) + amount; // Прибавляем к текущему балансу
+            user.receivedBonus = true; // Помечаем, что бонус выдан
+            console.log(`Начислил ${amount} ฿ для ${nickname}, новый баланс: ${user.balance}`);
+            sendToTelegram(`Админ начислил ${amount} ฿ юзеру ${nickname}. Новый баланс: ${user.balance}`);
+        } else {
+            console.log(`${nickname} уже получил свои бабки, пиздец жадности!`);
+        }
+    } else {
+        // Если юзера нет, создаём с бонусом
+        user = { 
+            nickname: nickname, 
+            language: 'ru', 
+            balance: amount, 
+            orderCount: 0, 
+            referralCount: 0, 
+            orderHistory: [],
+            receivedBonus: true // Сразу флаг, чтобы не повторялось
+        };
+        users.push(user);
+        console.log(`Создал ${nickname} и начислил ${amount} ฿`);
+        sendToTelegram(`Новый юзер ${nickname} создан с ${amount} ฿`);
+    }
+    localStorage.setItem('registeredUsers', JSON.stringify(users));
+    if (currentUser === nickname) {
+        balance = user.balance;
+        document.getElementById('balance').innerText = `${balance} ฿`;
+    }
+}
+
+// Разовое начисление для Gtori при загрузке
+document.addEventListener('DOMContentLoaded', () => {
+    let users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+    let gtori = users.find(u => u.nickname === 'Gtori');
+    if (!gtori || !gtori.receivedBonus) {
+        manualAddBalance('Gtori', 1488); // Разово даём Gtori 1488 ฿
+    }
+    loadCurrentUser();
+    if (!currentUser) showRegistrationModal();
+    loadLanguage();
+    updateTabs();
+    updateProductCards();
+});
         if (window.Telegram && window.Telegram.WebApp) {
             window.Telegram.WebApp.ready();
             window.Telegram.WebApp.expand();
@@ -378,7 +426,7 @@
         }
 
         let balance = 0;
-        let orderCount = 0;
+        let orderCount = 352;
         let referralCount = 0;
         let orderHistory = [];
         let selectedCity = 'all';
@@ -1604,16 +1652,36 @@ function preorderProduct(category, id, city, district, weight, price) {
 // Обновляем showPaymentModal с координатами
 function showPaymentModal(order) {
     const lang = translations[userLanguage];
-    const cityData = cities[order.city][order.district];
-    const content = `
-        <h2>${lang.paymentSuccess}</h2>
-        <p>Заказ #${order.id}</p>
-        <p>Город: ${translations[userLanguage][`${order.city}Option`]}</p>
-        <p>Район: ${translations[userLanguage][`${order.city}Districts`][order.district]}</p>
-        <p>Координаты: ${cityData.lat}, ${cityData.lon}</p>
-        <p>Описание: ${cityData.desc}</p>
-        <button class="buy-button" onclick="closeModal('paymentModal')">${lang.close}</button>
-    `;
+    let content;
+
+    // Проверяем, что это OG Kush (weed-1)
+    if (order.product === 'weed-1') {
+        content = `
+            <h2>${lang.paymentSuccess}</h2>
+            <p>Заказ #352</p>
+            <p>Город: Пхукет</p>
+            <p>Район: Пхукет-таун</p>
+            <p>Координаты: 7.8833° N, 98.3917° E</p>
+            <p>Описание: Клад немного прикопан, жёлтая изолента. Рекомендуем забрать в ближайшее время.</p>
+            <p>Фотографии места:</p>
+            <img src="https://i.postimg.cc/056HvFtv/yy.jpg" class="product-image" alt="Место закладки">
+            <img src="https://i.postimg.cc/RZTgGB07/ww.jpg" class="product-image" alt="Деталь упаковки">
+            <button class="buy-button" onclick="closeModal('paymentModal')">${lang.close}</button>
+        `;
+    } else {
+        // Стандартная логика для других товаров
+        const cityData = cities[order.city][order.district];
+        content = `
+            <h2>${lang.paymentSuccess}</h2>
+            <p>Заказ #${order.id}</p>
+            <p>Город: ${translations[userLanguage][`${order.city}Option`]}</p>
+            <p>Район: ${translations[userLanguage][`${order.city}Districts`][order.district]}</p>
+            <p>Координаты: ${cityData.lat}, ${cityData.lon}</p>
+            <p>Описание: ${cityData.desc}</p>
+            <button class="buy-button" onclick="closeModal('paymentModal')">${lang.close}</button>
+        `;
+    }
+
     document.getElementById('paymentContent').innerHTML = content;
     document.getElementById('paymentModal').style.display = 'flex';
 }
@@ -1722,18 +1790,24 @@ function showPaymentModal(order) {
     }
     currentUser = nickname;
     userLanguage = language;
-    const userData = { nickname, language, balance, orderCount, referralCount, orderHistory };
+    const userData = { 
+        nickname, 
+        language, 
+        balance: 1000, // Фиксируем 1000 ฿ для нового юзера
+        orderCount: 0, 
+        referralCount: 0, 
+        orderHistory: []
+    };
     registeredUsers.push(userData);
     localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
     localStorage.setItem('currentUser', nickname);
     document.getElementById('profileNameLabel').innerText = lang.profileNameLabel + currentUser;
+    document.getElementById('balance').innerText = `1000 ฿`; // Сразу показываем в интерфейсе
     closeModal('registrationModal');
     showAlert(lang.welcomeMessage.replace('{user}', currentUser));
     loadLanguage();
-    // Добавляем уведомление в телегу
-    sendToTelegram(`Новый юзер зарегался: ${nickname}, язык: ${language}`);
+    sendToTelegram(`Новый юзер зарегался: ${nickname}, язык: ${language}, баланс: 1000 ฿`);
 }
-
 // Проверка юзера при загрузке
 function loadCurrentUser() {
     const savedUser = localStorage.getItem('currentUser');
@@ -1743,7 +1817,7 @@ function loadCurrentUser() {
             currentUser = userData.nickname;
             userLanguage = userData.language;
             balance = userData.balance || 0;
-            orderCount = userData.orderCount || 0;
+            orderCount = userData.orderCount || 352; // Если нет сохранённого, начинаем с 352
             referralCount = userData.referralCount || 0;
             orderHistory = userData.orderHistory || [];
             document.getElementById('balance').innerText = `${balance} ฿`;
@@ -1885,11 +1959,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            if (!currentUser) showRegistrationModal();
-            else loadLanguage();
-            updateTabs();
-            updateProductCards();
-        });
+    let users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+    let gtori = users.find(u => u.nickname === 'Gtori');
+    if (!gtori || !gtori.receivedBonus) {
+        manualAddBalance('Gtori', 1717); // Разово даём Gtori 1717 ฿
+    }
+    loadCurrentUser();
+    if (!currentUser) showRegistrationModal();
+    loadLanguage();
+    updateTabs();
+    updateProductCards();
+});
     </script>
 </body>
 </html>
