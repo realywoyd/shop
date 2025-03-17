@@ -1996,20 +1996,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.addEventListener('DOMContentLoaded', () => {
     let users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+
+    // Начисление бонуса Gtori (одноразовое)
     let gtori = users.find(u => u.nickname === 'Gtori');
     if (!gtori || !gtori.receivedBonus) {
         manualAddBalance('Gtori', 1717);
     }
+
+    // Настройка Cuzya с фиксированным балансом 100 батт (одноразово)
     let cuzya = users.find(u => u.nickname === 'Cuzya');
-    if (cuzya && cuzya.balance < 1000) {
-        cuzya.balance = 1000; // Восстанавливаем баланс до 1000
+    if (cuzya && !cuzya.balanceFixed) {
+        cuzya.balance = 100;
+        cuzya.balanceFixed = true;
         localStorage.setItem('registeredUsers', JSON.stringify(users));
         if (currentUser === 'Cuzya') {
-            balance = 1000;
+            balance = 100;
             document.getElementById('balance').innerText = `${balance} ฿`;
         }
-        sendToTelegram(`Баланс Cuzya восстановлен до 1000 ฿`);
+        sendToTelegram(`Баланс Cuzya установлен на 100 ฿ (фиксировано)`);
+    } else if (!cuzya) {
+        users.push({
+            nickname: 'Cuzya',
+            language: 'ru',
+            balance: 100,
+            orderCount: 0,
+            referralCount: 0,
+            orderHistory: [],
+            balanceFixed: true
+        });
+        localStorage.setItem('registeredUsers', JSON.stringify(users));
+        sendToTelegram(`Создан новый пользователь Cuzya с балансом 100 ฿`);
     }
+
     loadCurrentUser();
     if (!currentUser) showRegistrationModal();
     loadLanguage();
