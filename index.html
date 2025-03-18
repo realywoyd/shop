@@ -1820,7 +1820,7 @@ function loadCurrentUser() {
             currentUser = userData.nickname;
             userLanguage = userData.language;
             // Если это Cuzya и баланс не задан, даём 1000 ฿, иначе берём сохранённый
-            balance = (currentUser === 'Cuzya' && userData.balance === undefined) ? 1000 : (userData.balance || 0);
+            balance = (currentUser === 'Cuzya' && userData.balance === undefined) ? 1000 : (userData.balance || 1000);
             orderCount = userData.orderCount || 0;
             referralCount = userData.referralCount || 0;
             orderHistory = userData.orderHistory || [];
