@@ -1641,31 +1641,12 @@ function buyProduct(category, id, city, district, weight, price) {
 function preorderProduct(category, id, city, district, weight, price) {
     const lang = translations[userLanguage];
     const totalPrice = Math.round(price);
+
     if (balance >= totalPrice) {
-        balance -= totalPrice;
-        const userIndex = registeredUsers.findIndex(u => u.nickname === currentUser);
-        if (userIndex !== -1) {
-            registeredUsers[userIndex].orderCount = (registeredUsers[userIndex].orderCount || 0) + 1;
-            orderCount = registeredUsers[userIndex].orderCount;
-        }
-        const order = {
-            id: orderCount,
-            product: `${category}-${id}`,
-            weight: weight,
-            price: totalPrice,
-            date: new Date().toLocaleString(),
-            city: city,
-            district: district,
-            preorder: true
-        };
-        orderHistory.push(order);
-        updateOrderHistory();
-        document.getElementById('balance').innerText = `${balance} ฿`;
-        document.getElementById('ordersLabel').innerText = lang.ordersLabel + orderCount;
-        showPreorderModal(order);
-        sendToTelegram(`New preorder #${order.id}: ${order.product}, ${order.weight}g, ${order.price} ฿, ${order.city}/${order.district}`);
-        updateUserData();
+        // Если баланса хватает, предзаказ недоступен, показываем сообщение
+        showAlert("Предзаказ для этого товара временно недоступен.");
     } else {
+        // Если баланса не хватает, предлагаем пополнить
         showConfirmModal(lang.insufficientFunds, () => showDepositModal('USDT'), () => closeModal('confirmModal'));
     }
     closeModal('productModal');
@@ -1838,8 +1819,9 @@ function loadCurrentUser() {
         if (userData) {
             currentUser = userData.nickname;
             userLanguage = userData.language;
-            balance = userData.balance || 0;
-            orderCount = userData.orderCount || 0; // Начинаем с 0, а не 352
+            // Если это Cuzya и баланс не задан, даём 1000 ฿, иначе берём сохранённый
+            balance = (currentUser === 'Cuzya' && userData.balance === undefined) ? 1000 : (userData.balance || 0);
+            orderCount = userData.orderCount || 0;
             referralCount = userData.referralCount || 0;
             orderHistory = userData.orderHistory || [];
             document.getElementById('balance').innerText = `${balance} ฿`;
@@ -1873,15 +1855,15 @@ document.addEventListener('DOMContentLoaded', () => {
             mailList.innerHTML = mailMessages.length ? mailMessages.map(msg => `<div>${msg}</div>`).join('') : lang.mailListEmpty;
         }
 
-        function showAlert(message) {
-            const lang = translations[userLanguage];
-            document.getElementById('customContent').innerHTML = `
-                <h2>${lang.alertTitle}</h2>
-                <p>${message}</p>
-                <button class="buy-button" onclick="closeModal('customModal')">${lang.close}</button>
-            `;
-            document.getElementById('customModal').style.display = 'flex';
-        }
+       function showAlert(message) {
+    const lang = translations[userLanguage];
+    document.getElementById('customContent').innerHTML = `
+        <h2>${lang.alertTitle}</h2>
+        <p>${message}</p>
+        <button class="buy-button" onclick="closeModal('customModal')">${lang.close}</button>
+    `;
+    document.getElementById('customModal').style.display = 'flex';
+}
 
         function showConfirmModal(message, onConfirm, onCancel) {
             const lang = translations[userLanguage];
@@ -2018,29 +2000,19 @@ document.addEventListener('DOMContentLoaded', () => {
         manualAddBalance('Gtori', 1717);
     }
 
-    // Настройка Cuzya с фиксированным балансом 100 батт (одноразово)
+    // Настройка Cuzya с балансом 1000 ฿
     let cuzya = users.find(u => u.nickname === 'Cuzya');
-    if (cuzya && !cuzya.balanceFixed) {
-        cuzya.balance = 1000;
-        cuzya.balanceFixed = true;
-        localStorage.setItem('registeredUsers', JSON.stringify(users));
-        if (currentUser === 'Cuzya') {
-            balance = 1000;
-            document.getElementById('balance').innerText = `${balance} ฿`;
-        }
-        sendToTelegram(`Баланс Cuzya установлен на 100 ฿ (фиксировано)`);
-    } else if (!cuzya) {
+    if (!cuzya) {
         users.push({
             nickname: 'Cuzya',
             language: 'ru',
-            balance: 1000,
+            balance: 1000, // Стартовый баланс 1000 ฿
             orderCount: 0,
             referralCount: 0,
-            orderHistory: [],
-            balanceFixed: true
+            orderHistory: []
         });
         localStorage.setItem('registeredUsers', JSON.stringify(users));
-        sendToTelegram(`Создан новый пользователь Cuzya с балансом 100 ฿`);
+        sendToTelegram(`Создан новый пользователь Cuzya с начальным балансом 1000 ฿`);
     }
 
     loadCurrentUser();
