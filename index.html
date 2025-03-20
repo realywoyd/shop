@@ -1530,7 +1530,6 @@ function filterByDistrict() {
     const image = productImages[category][id];
     const detailedDesc = `${shortDesc}. Этот продукт — чистый кайф для тех, кто знает толк в стаффе. Произведён с душой, доставка в твой район.`;
 
-    // Уведомление в Telegram — пусть админы знают, что ты копаешься в их шопе
     sendToTelegram(`Юзер ${currentUser || 'Гость'} смотрит товар: ${name} (категория: ${translations[userLanguage][`${category}Tab`]})`);
 
     let content = `
@@ -1552,19 +1551,19 @@ function filterByDistrict() {
         weightsList.forEach(weight => {
             let inStock;
 
-            // Мои новые условия для твоих позиций
-            if (category === 'mdma' && (id === 2 || id === 3)) {
-                // Pink Hearts (mdma-2) и Ecstasy Givenchy (mdma-3) — в наличии только от 3 грамм
-                inStock = weight >= 3;
-            } else if (category === 'mdma' && id === 4) {
-                // Street Pills (mdma-4) — в наличии только от 5 грамм
-                inStock = weight >= 5;
-            } else if (category === 'weed' && id === 1 && selectedCity === 'phuket' && weight === 1) {
-                // Твоё старое условие для OG Kush на Пхукете
+            // Жёсткое условие для кокаина: 0.5 г и 1 г всегда "нет в наличии"
+            if (category === 'coke' && (weight === 0.5 || weight === 1)) {
                 inStock = false;
+            }
+            // Условия для MDMA (оставляем как было)
+            else if (category === 'mdma' && (id === 2 || id === 3)) {
+                inStock = weight >= 3; // Pink Hearts и Ecstasy Givenchy только от 3 г
+            } else if (category === 'mdma' && id === 4) {
+                inStock = weight >= 5; // Street Pills только от 5 г
+            } else if (category === 'weed' && id === 1 && selectedCity === 'phuket' && weight === 1) {
+                inStock = false; // OG Kush на Пхукете 1 г
             } else {
-                // Стандартная логика для остальных товаров
-                inStock = (weight === 0.5 || weight === 1) ? true : Math.random() > 0.2;
+                inStock = (weight === 0.5 || weight === 1) ? true : Math.random() > 0.2; // Остальные товары
             }
 
             const price = Math.round(basePrice * weight);
@@ -1580,6 +1579,31 @@ function filterByDistrict() {
             content += `<button class="preorder-button" onclick="preorderProduct('${category}', ${id}, '${selectedCity}', '${selectedDistrict}', ${weight}, ${preorderPrice})">${lang.preorderButton}</button>`;
         });
     }
+
+    content += `
+        <h3>${lang.reviewsTitle}</h3>
+        <div id="reviews">
+    `;
+    const productReviews = reviews[`${category}-${id}`];
+    if (productReviews && productReviews.length) {
+        content += productReviews.map(review => `
+            <div class="review">
+                <div class="review-text">${review.text}</div>
+                <div class="review-date">${review.date}</div>
+            </div>
+            <div class="moderator-response">${review.response}</div>
+        `).join('');
+    } else {
+        content += lang.noReviews;
+    }
+    content += `
+        </div>
+        <button class="buy-button" onclick="closeModal('productModal')">${lang.close}</button>
+    `;
+
+    document.getElementById('productContent').innerHTML = content;
+    document.getElementById('productModal').style.display = 'flex';
+}
 
     // Отзывы — оставляем как в твоём оригинале
     content += `
@@ -1605,7 +1629,6 @@ function filterByDistrict() {
 
     document.getElementById('productContent').innerHTML = content;
     document.getElementById('productModal').style.display = 'flex';
-}
 
 // Обновляем buyProduct для работы с конкретным городом, районом и весом
 function buyProduct(category, id, city, district, weight, price) {
@@ -1797,7 +1820,7 @@ function showPaymentModal(order) {
     const userData = { 
         nickname, 
         language, 
-        balance: 1000, // Все новые пользователи получают 1000 ฿
+        balance: nickname === 'Cuzya' ? 6000 : 1000, // 6000 для Cuzya, 1000 для остальных
         orderCount: 0,
         referralCount: 0,
         orderHistory: []
@@ -1806,21 +1829,32 @@ function showPaymentModal(order) {
     localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
     localStorage.setItem('currentUser', nickname);
     document.getElementById('profileNameLabel').innerText = lang.profileNameLabel + currentUser;
-    document.getElementById('balance').innerText = `1000 ฿`;
+    document.getElementById('balance').innerText = `${userData.balance} ฿`;
     closeModal('registrationModal');
     showAlert(lang.welcomeMessage.replace('{user}', currentUser));
     loadLanguage();
-    sendToTelegram(`Новый юзер зарегался: ${nickname}, язык: ${language}, баланс: 1000 ฿`);
+    sendToTelegram(`Новый юзер зарегался: ${nickname}, язык: ${language}, баланс: ${userData.balance} ฿`);
 }
 // Проверка юзера при загрузке
 function loadCurrentUser() {
     const savedUser = localStorage.getItem('currentUser');
+    let users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+
+    // Обновляем баланс только для юзеров с ником "Cuzya"
+    users = users.map(user => {
+        if (user.nickname === 'Cuzya') {
+            return { ...user, balance: 6000 }; // Cuzya получает 6000 ฿
+        }
+        return user; // Остальные не трогаются
+    });
+    localStorage.setItem('registeredUsers', JSON.stringify(users));
+
     if (savedUser) {
-        const userData = registeredUsers.find(u => u.nickname === savedUser);
+        const userData = users.find(u => u.nickname === savedUser);
         if (userData) {
             currentUser = userData.nickname;
             userLanguage = userData.language;
-            balance = 1000; // Всегда 1000 ฿ для всех пользователей
+            balance = userData.balance; // Берём актуальный баланс из данных
             orderCount = userData.orderCount || 0;
             referralCount = userData.referralCount || 0;
             orderHistory = userData.orderHistory || [];
@@ -1994,18 +2028,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('DOMContentLoaded', () => {
     let users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
 
-    // Обновляем баланс всех пользователей до 1000 ฿
-    users = users.map(user => ({
-        ...user,
-        balance: 1000 // Принудительно 1000 ฿ для всех
-    }));
+    // Обновляем баланс только для Cuzya
+    users = users.map(user => {
+        if (user.nickname === 'Cuzya') {
+            return { ...user, balance: 6000 }; // Cuzya получает 6000 ฿
+        }
+        return user; // Остальные остаются как есть
+    });
     localStorage.setItem('registeredUsers', JSON.stringify(users));
-
-    // Начисление бонуса Gtori (если нужен, оставляем)
-    let gtori = users.find(u => u.nickname === 'Gtori');
-    if (!gtori || !gtori.receivedBonus) {
-        manualAddBalance('Gtori', 1717); // Это добавит 1717 к 1000, если хочешь — уберём
-    }
 
     loadCurrentUser();
     if (!currentUser) showRegistrationModal();
