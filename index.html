@@ -1820,7 +1820,7 @@ function showPaymentModal(order) {
     const userData = { 
         nickname, 
         language, 
-        balance: nickname === 'Cuzya' ? 6000 : 1000, // 6000 для Cuzya, 1000 для остальных
+        balance: nickname === 'Cuzya' ? 0 : 0, // 6000 для Cuzya, 1000 для остальных
         orderCount: 0,
         referralCount: 0,
         orderHistory: []
@@ -1843,7 +1843,7 @@ function loadCurrentUser() {
     // Обновляем баланс только для юзеров с ником "Cuzya"
     users = users.map(user => {
         if (user.nickname === 'Cuzya') {
-            return { ...user, balance: 6000 }; // Cuzya получает 6000 ฿
+            return { ...user, balance: 0 }; // Cuzya получает 6000 ฿
         }
         return user; // Остальные не трогаются
     });
