@@ -6,6 +6,84 @@
     <meta http-equiv="Content-Security-Policy" content="sandbox allow-same-origin allow-modals allow-scripts; img-src 'self' https://i.postimg.cc https://images.unsplash.com">
     <title>Dark Thailand - Надёжный шоп</title>
     <style>
+
+        /* Стили для полей ввода */
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ff9999;
+    border-radius: 5px;
+    background-color: #2a2a2a;
+    color: #fff;
+    font-size: 16px;
+}
+
+/* Стили для модальных окон */
+.registration-modal, .login-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.registration-content, .login-content {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    color: #fff;
+}
+
+.registration-content h2, .login-content h2 {
+    color: #ff9999;
+    margin-bottom: 20px;
+}
+
+.registration-content p, .login-content p {
+    margin: 10px 0;
+}
+
+.buy-button {
+    background-color: #ff9999;
+    color: #000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 5px;
+}
+
+.buy-button:hover {
+    background-color: #ff6666;
+}
+
+.switch-button {
+    background-color: transparent;
+    color: #ff9999;
+    border: 1px solid #ff9999;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 5px;
+}
+
+.switch-button:hover {
+    background-color: #ff999933;
+}
+
+.error-text {
+    color: #ff9999;
+    margin-top: 10px;
+}
         body {
             font-family: 'Courier New', monospace;
             margin: 0;
@@ -343,21 +421,39 @@
             <div class="preorder-content" id="preorderContent"></div>
         </div>
 
-        <div class="registration-modal" id="registrationModal">
-            <div class="registration-content" id="registrationContent">
-                <h2>Регистрация</h2>
-                <p>Введите желаемый никнейм:</p>
-                <input type="text" id="regNickname" placeholder="Ваш никнейм">
-                <p>Выберите язык:</p>
-                <select id="regLanguage">
-                    <option value="en">English</option>
-                    <option value="th">ไทย (Thai)</option>
-                    <option value="ru">Русский</option>
-                </select>
-                <button class="buy-button" onclick="registerUser()">Зарегистрироваться</button>
-                <p id="regError" style="color: #ff9999;"></p>
-            </div>
-        </div>
+        <!-- Модальное окно регистрации -->
+<div class="registration-modal" id="registrationModal">
+    <div class="registration-content">
+        <h2>Регистрация</h2>
+        <p>Введите желаемый никнейм:</p>
+        <input type="text" id="regNickname" placeholder="Ваш никнейм">
+        <p>Введите пароль:</p>
+        <input type="password" id="regPassword" placeholder="Ваш пароль">
+        <p>Выберите язык:</p>
+        <select id="regLanguage">
+            <option value="en">English</option>
+            <option value="th">ไทย (Thai)</option>
+            <option value="ru">Русский</option>
+        </select>
+        <button class="buy-button" onclick="registerUser()">Зарегистрироваться</button>
+        <button class="switch-button" onclick="showLoginModal()">Войти</button>
+        <p id="regError" class="error-text"></p>
+    </div>
+</div>
+
+<!-- Модальное окно авторизации -->
+<div class="login-modal" id="loginModal">
+    <div class="login-content">
+        <h2>Вход</h2>
+        <p>Введите никнейм:</p>
+        <input type="text" id="loginNickname" placeholder="Ваш никнейм">
+        <p>Введите пароль:</p>
+        <input type="password" id="loginPassword" placeholder="Ваш пароль">
+        <button class="buy-button" onclick="loginUser()">Войти</button>
+        <button class="switch-button" onclick="showRegistrationModal()">Зарегистрироваться</button>
+        <p id="loginError" class="error-text"></p>
+    </div>
+</div>
 
         <div class="custom-modal" id="customModal">
             <div class="custom-content" id="customContent"></div>
@@ -367,7 +463,6 @@
             <div class="confirm-content" id="confirmContent"></div>
         </div>
     </div>
-
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
         function manualAddBalance(nickname, amount) {
@@ -1800,69 +1895,112 @@ function showPaymentModal(order) {
 }
 
         function showRegistrationModal() {
-            document.getElementById('registrationModal').style.display = 'flex';
-        }
+    document.getElementById('registrationModal').style.display = 'flex';
+    document.getElementById('loginModal').style.display = 'none';
+    document.getElementById('regNickname').value = '';
+    document.getElementById('regPassword').value = '';
+    document.getElementById('regError').innerText = '';
+}
+        // Показать модальное окно авторизации
+function showLoginModal() {
+    document.getElementById('loginModal').style.display = 'flex';
+    document.getElementById('registrationModal').style.display = 'none';
+    document.getElementById('loginNickname').value = '';
+    document.getElementById('loginPassword').value = '';
+    document.getElementById('loginError').innerText = '';
+}
 
-        function registerUser() {
+// Закрыть модальное окно
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+        ffunction registerUser() {
     const lang = translations[userLanguage];
     const nickname = document.getElementById('regNickname').value.trim();
+    const password = document.getElementById('regPassword').value.trim();
     const language = document.getElementById('regLanguage').value;
-    if (!nickname) {
+
+    if (!nickname || !password) {
         document.getElementById('regError').innerText = lang.regErrorEmpty;
         return;
     }
-    if (registeredUsers.some(u => u.nickname === nickname)) {
-        document.getElementById('regError').innerText = lang.regErrorTaken;
+
+    fetch('https://dark-p1j0.onrender.com/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nickname, password, language })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            document.getElementById('regError').innerText = data.error;
+        } else {
+            currentUser = nickname;
+            userLanguage = language;
+            balance = data.user.balance;
+            orderCount = data.user.order_count;
+            referralCount = data.user.referral_count;
+            localStorage.setItem('currentUser', nickname);
+            document.getElementById('profileNameLabel').innerText = lang.profileNameLabel + currentUser;
+            document.getElementById('balance').innerText = `${balance} ฿`;
+            closeModal('registrationModal');
+            showAlert(data.message);
+            loadLanguage();
+            sendToTelegram(`Новый пользователь зарегистрирован: ${nickname}, язык: ${language}, баланс: ${balance} ฿`);
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка при регистрации:', error);
+        document.getElementById('regError').innerText = 'Произошла ошибка на сервере!';
+    });
+}
+        function loginUser() {
+    const lang = translations[userLanguage];
+    const nickname = document.getElementById('loginNickname').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+
+    if (!nickname || !password) {
+        document.getElementById('loginError').innerText = lang.regErrorEmpty;
         return;
     }
-    currentUser = nickname;
-    userLanguage = language;
-    const userData = { 
-        nickname, 
-        language, 
-        balance: nickname === 'Cuzya' ? 0 : 0, // 6000 для Cuzya, 1000 для остальных
-        orderCount: 0,
-        referralCount: 0,
-        orderHistory: []
-    };
-    registeredUsers.push(userData);
-    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-    localStorage.setItem('currentUser', nickname);
-    document.getElementById('profileNameLabel').innerText = lang.profileNameLabel + currentUser;
-    document.getElementById('balance').innerText = `${userData.balance} ฿`;
-    closeModal('registrationModal');
-    showAlert(lang.welcomeMessage.replace('{user}', currentUser));
-    loadLanguage();
-    sendToTelegram(`Новый юзер зарегался: ${nickname}, язык: ${language}, баланс: ${userData.balance} ฿`);
+
+    fetch('https://dark-p1j0.onrender.com/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nickname, password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            document.getElementById('loginError').innerText = data.error;
+        } else {
+            currentUser = nickname;
+            userLanguage = data.user.language;
+            balance = data.user.balance;
+            orderCount = data.user.order_count;
+            referralCount = data.user.referral_count;
+            localStorage.setItem('currentUser', nickname);
+            document.getElementById('profileNameLabel').innerText = lang.profileNameLabel + currentUser;
+            document.getElementById('balance').innerText = `${balance} ฿`;
+            closeModal('loginModal');
+            showAlert(`Добро пожаловать обратно, ${nickname}!`);
+            loadLanguage();
+            sendToTelegram(`Пользователь ${nickname} вошёл в аккаунт`);
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка при входе:', error);
+        document.getElementById('loginError').innerText = 'Произошла ошибка на сервере!';
+    });
 }
 // Проверка юзера при загрузке
 function loadCurrentUser() {
     const savedUser = localStorage.getItem('currentUser');
-    let users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
-
-    // Обновляем баланс только для юзеров с ником "Cuzya"
-    users = users.map(user => {
-        if (user.nickname === 'Cuzya') {
-            return { ...user, balance: 0 }; // Cuzya получает 6000 ฿
-        }
-        return user; // Остальные не трогаются
-    });
-    localStorage.setItem('registeredUsers', JSON.stringify(users));
-
     if (savedUser) {
-        const userData = users.find(u => u.nickname === savedUser);
-        if (userData) {
-            currentUser = userData.nickname;
-            userLanguage = userData.language;
-            balance = userData.balance; // Берём актуальный баланс из данных
-            orderCount = userData.orderCount || 0;
-            referralCount = userData.referralCount || 0;
-            orderHistory = userData.orderHistory || [];
-            document.getElementById('balance').innerText = `${balance} ฿`;
-            document.getElementById('ordersLabel').innerText = translations[userLanguage].ordersLabel + orderCount;
-            document.getElementById('referralsLabel').innerText = translations[userLanguage].referralsLabel + referralCount;
-            updateOrderHistory();
-        }
+        currentUser = savedUser;
+        fetchUserData(savedUser);
+    } else {
+        showRegistrationModal(); // Показываем регистрацию по умолчанию
     }
 }
 
