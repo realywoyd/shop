@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Goa Shadow Bazaar</title>
+    <!-- Добавляем favicon (иконку мандалы) -->
+    <link rel="icon" type="image/png" href="images/mandala-icon.png">
     <style>
         body {
             margin: 0;
@@ -15,7 +17,9 @@
             scroll-behavior: smooth;
         }
         .header {
-            background: #4a0e0e url('https://i.postimg.cc/8PqLqL5V/fabric-texture.jpg');
+            /* Убираем ссылку на удалённое изображение, используем локальное или градиент */
+            background: #4a0e0e url('images/fabric-texture.jpg');
+            background: linear-gradient(45deg, #4a0e0e, #3c2f2f); /* Fallback */
             padding: 15px;
             text-align: center;
             border-bottom: 3px solid #d4af37;
@@ -66,7 +70,9 @@
             flex-wrap: wrap;
         }
         .nav-item {
-            background: url('https://i.postimg.cc/KjJ5nYpZ/scroll-bg.png');
+            /* Заменяем ссылку на локальное изображение */
+            background: url('images/scroll-bg.png');
+            background: linear-gradient(45deg, #3c2f2f, #4a0e0e); /* Fallback */
             background-size: cover;
             padding: 8px 15px;
             color: #d4af37;
@@ -88,7 +94,9 @@
         }
         .sidebar {
             width: 180px;
-            background: #3c2f2f url('https://i.postimg.cc/3JqXzqXz/indian-pattern.png');
+            /* Заменяем ссылку */
+            background: #3c2f2f url('images/indian-pattern.png');
+            background: #3c2f2f; /* Fallback */
             padding: 15px;
             border: 2px solid #d4af37;
             border-radius: 10px;
@@ -115,7 +123,9 @@
             100% { box-shadow: 5px 5px 15px rgba(212, 175, 55, 0.5), 0 0 20px rgba(255, 140, 0, 0.7); }
         }
         .tab {
-            background: url('https://i.postimg.cc/QxYkPqQv/paper-texture.jpg');
+            /* Заменяем ссылку */
+            background: url('images/paper-texture.jpg');
+            background: #4a0e0e; /* Fallback */
             padding: 10px;
             margin-bottom: 10px;
             color: #e0d0b0;
@@ -143,7 +153,9 @@
         }
         .section {
             display: none;
-            background: #3c2f2f url('https://i.postimg.cc/3JqXzqXz/indian-pattern.png');
+            /* Заменяем ссылку */
+            background: #3c2f2f url('images/indian-pattern.png');
+            background: #3c2f2f; /* Fallback */
             padding: 15px;
             border: 2px solid #d4af37;
             border-radius: 10px;
@@ -187,7 +199,9 @@
         .mandala-options {
             display: none;
             position: absolute;
-            background: #4a0e0e url('https://i.postimg.cc/3JqXzqXz/indian-pattern.png');
+            /* Заменяем ссылку */
+            background: #4a0e0e url('images/indian-pattern.png');
+            background: #4a0e0e; /* Fallback */
             border: 2px solid #d4af37;
             border-radius: 5px;
             padding: 10px;
@@ -228,7 +242,9 @@
             transform: translateX(-50%);
             width: 30px;
             height: 30px;
-            background: url('https://i.postimg.cc/7ZqXzqXz/mandala-icon.png') no-repeat center;
+            /* Заменяем ссылку */
+            background: url('images/mandala-icon.png') no-repeat center;
+            background: none; /* Fallback */
             background-size: contain;
             opacity: 0.5;
         }
@@ -241,7 +257,9 @@
             display: none;
         }
         .product-card, .job-card, .message-card {
-            background: url('https://i.postimg.cc/QxYkPqQv/paper-texture.jpg');
+            /* Заменяем ссылку */
+            background: url('images/paper-texture.jpg');
+            background: #4a0e0e; /* Fallback */
             border: 2px solid #d4af37;
             border-radius: 10px;
             padding: 10px;
@@ -294,7 +312,9 @@
             100% { transform: translateY(0); }
         }
         .profile-ledger {
-            background: url('https://i.postimg.cc/QxYkPqQv/paper-texture.jpg');
+            /* Заменяем ссылку */
+            background: url('images/paper-texture.jpg');
+            background: #4a0e0e; /* Fallback */
             padding: 15px;
             border: 2px solid #d4af37;
             border-radius: 10px;
@@ -310,7 +330,9 @@
             z-index: 100;
         }
         .modal-content {
-            background: #4a0e0e url('https://i.postimg.cc/3JqXzqXz/indian-pattern.png');
+            /* Заменяем ссылку */
+            background: #4a0e0e url('images/indian-pattern.png');
+            background: #4a0e0e; /* Fallback */
             width: 90%;
             max-width: 400px;
             margin: 15% auto;
@@ -354,7 +376,9 @@
         }
         /* Стили для формы авторизации/регистрации */
         .auth-modal-content {
-            background: #4a0e0e url('https://i.postimg.cc/3JqXzqXz/indian-pattern.png');
+            /* Заменяем ссылку */
+            background: #4a0e0e url('images/indian-pattern.png');
+            background: #4a0e0e; /* Fallback */
             width: 90%;
             max-width: 400px;
             margin: 15% auto;
@@ -532,7 +556,8 @@
                 background: linear-gradient(45deg, #1a0a0a, #0a1b0a);
             }
             .header {
-                background: #3a0e0e url('https://i.postimg.cc/8PqLqL5V/fabric-texture.jpg');
+                background: #3a0e0e url('images/fabric-texture.jpg');
+                background: linear-gradient(45deg, #3a0e0e, #4a0e0e); /* Fallback */
             }
             .nav {
                 background: rgba(0, 0, 0, 0.9);
@@ -1258,77 +1283,59 @@
                 openModal('depositModal');
                 return;
             }
-            currentUser.balance -= price;
+                        currentUser.balance -= price;
             currentUser.orders = (currentUser.orders || 0) + 1;
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             updateProfile();
-            const product = Object.values(products).flat().find(p => p.id === productId);
-            alert(translations[currentLanguage]['login-title'].includes('!') ? `Сделка оформлена на ${product.name} (${weight}g), пиздец тебе!` : `Deal made for ${product.name} (${weight}g), you’re screwed!`);
+            alert(translations[currentLanguage]['take-deal'].includes('Take') ? `Deal for ${productId} (${weight}g) confirmed! Check your messages for stash details.` : `Сделка по ${productId} (${weight}г) подтверждена! Чекай сообщения для деталей клада.`);
         }
 
         // Проверка авторизации перед подачей заявки на вакансию
-        function checkAuthBeforeApply(jobName) {
+        function checkAuthBeforeApply(jobTitle) {
             if (!currentUser) {
                 alert(translations[currentLanguage]['login-title'].includes('!') ? 'Войди, чтобы подать заявку, братишка!' : 'Login to apply, bro!');
                 openModal('authModal');
                 return;
             }
-            alert(translations[currentLanguage]['apply'].includes('Подать') ? `Заявка на "${jobName}" подана, жди ответа!` : `Application for "${jobName}" submitted, wait for a response!`);
+            alert(translations[currentLanguage]['apply'].includes('Apply') ? `Application for "${jobTitle}" submitted! Wait for a response.` : `Заявка на "${jobTitle}" отправлена! Жди ответа, братишка.`);
         }
 
         // Пополнение баланса
         function depositFunds() {
             if (!currentUser) {
-                alert(translations[currentLanguage]['login-title'].includes('!') ? 'Войди, чтобы пополнить баланс, братишка!' : 'Login to top up your balance, bro!');
-                closeModal('depositModal');
+                alert(translations[currentLanguage]['login-title'].includes('!') ? 'Войди, чтобы пополнить баланс, братишка!' : 'Login to deposit funds, bro!');
                 openModal('authModal');
                 return;
             }
-            currentUser.balance = (currentUser.balance || 0) + 10000;
+            currentUser.balance = (currentUser.balance || 0) + 5000; // Для теста добавляем 5000 ₹
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            alert(translations[currentLanguage]['deposit-title'].includes('!') ? 'Бабки ушли, жди клада, лошара!' : 'Money sent, wait for the stash, loser!');
-            closeModal('depositModal');
             updateProfile();
+            closeModal('depositModal');
+            alert(translations[currentLanguage]['deposit-button'].includes('Paid') ? 'Balance topped up by ₹5000! Now go make some deals.' : 'Баланс пополнен на ₹5000! Теперь воруй, братишка.');
         }
 
         // Переключение разделов
         function toggleSection(section) {
-            if (currentSection === section) {
-                if (section === 'catalog') {
-                    toggleSidebar();
-                }
-                return;
+            if (currentSection === section) return;
+
+            if (currentSection) {
+                document.getElementById(currentSection).classList.remove('active');
+                document.querySelector(`.nav-item[onclick="toggleSection('${currentSection}')"]`).classList.remove('active');
             }
-            if (currentSection) document.getElementById(currentSection).classList.remove('active');
             document.getElementById(section).classList.add('active');
+            document.querySelector(`.nav-item[onclick="toggleSection('${section}')"]`).classList.add('active');
             currentSection = section;
 
             if (section === 'catalog') {
-                if (currentTab) {
-                    document.getElementById(currentTab).classList.add('active');
-                    filterProducts(); // Обновляем отображение товаров
-                } else {
-                    document.getElementById('placeholder').style.display = 'block';
-                    document.getElementById('no-products').style.display = 'none';
-                }
-                if (!isSidebarOpen) toggleSidebar();
+                toggleSidebar();
             } else {
-                if (isSidebarOpen) toggleSidebar();
-                if (currentTab) {
-                    document.getElementById(currentTab).classList.remove('active');
-                    document.querySelector(`.tab[onclick="toggleTab('${currentTab}')"]`).classList.remove('active');
-                    const oldCards = document.getElementById(currentTab).querySelectorAll('.product-card');
-                    oldCards.forEach(card => card.classList.remove('visible'));
-                    currentTab = null;
-                }
-            }
-            if (section === 'profile') {
-                updateProfile();
+                const sidebar = document.getElementById('sidebar');
+                isSidebarOpen = false;
+                sidebar.classList.remove('open');
             }
         }
 
         // Переключение вкладок каталога
-                // Переключение вкладок каталога
         function toggleTab(tab) {
             if (currentTab === tab) return;
 
@@ -1422,6 +1429,127 @@
                 toggleSidebar();
             }
         });
+
+        // Добавляем фильтрацию по наличию и скидкам
+        function addFilters() {
+            const filterDiv = document.querySelector('.filter');
+            const inStockFilter = document.createElement('div');
+            inStockFilter.className = 'mandala-select';
+            inStockFilter.innerHTML = `
+                <button class="mandala-button" id="stock-button" data-i18n="stock-all">Наличие: Все</button>
+                <div class="mandala-options" id="stock-options">
+                    <div onclick="selectStock('all')" data-i18n="stock-all-option">Все</div>
+                    <div onclick="selectStock('in-stock')" data-i18n="in-stock">В наличии</div>
+                    <div onclick="selectStock('out-of-stock')" data-i18n="out-of-stock">Нет в наличии</div>
+                </div>
+            `;
+            const discountFilter = document.createElement('div');
+            discountFilter.className = 'mandala-select';
+            discountFilter.innerHTML = `
+                <button class="mandala-button" id="discount-button" data-i18n="discount-all">Скидки: Все</button>
+                <div class="mandala-options" id="discount-options">
+                    <div onclick="selectDiscount('all')" data-i18n="discount-all-option">Все</div>
+                    <div onclick="selectDiscount('with-discount')" data-i18n="with-discount">Со скидкой</div>
+                    <div onclick="selectDiscount('no-discount')" data-i18n="no-discount">Без скидки</div>
+                </div>
+            `;
+            filterDiv.appendChild(inStockFilter);
+            filterDiv.appendChild(discountFilter);
+
+            // Добавляем переводы для новых фильтров
+            translations.ru['stock-all'] = "Наличие: Все";
+            translations.ru['stock-all-option'] = "Все";
+            translations.ru['with-discount'] = "Со скидкой";
+            translations.ru['no-discount'] = "Без скидки";
+            translations.ru['discount-all'] = "Скидки: Все";
+            translations.ru['discount-all-option'] = "Все";
+            translations.en['stock-all'] = "Stock: All";
+            translations.en['stock-all-option'] = "All";
+            translations.en['with-discount'] = "With Discount";
+            translations.en['no-discount'] = "No Discount";
+            translations.en['discount-all'] = "Discounts: All";
+            translations.en['discount-all-option'] = "All";
+            translations.hi['stock-all'] = "स्टॉक: सभी";
+            translations.hi['stock-all-option'] = "सभी";
+            translations.hi['with-discount'] = "छूट के साथ";
+            translations.hi['no-discount'] = "छूट के बिना";
+            translations.hi['discount-all'] = "छूट: सभी";
+            translations.hi['discount-all-option'] = "सभी";
+
+            setLanguage(currentLanguage); // Обновляем переводы
+        }
+
+        let selectedStock = 'all';
+        let selectedDiscount = 'all';
+
+        function selectStock(stock) {
+            selectedStock = stock;
+            document.querySelector('#stock-options').style.display = 'none';
+            const stockButton = document.getElementById('stock-button');
+            const stockText = stock === 'all' ? translations[currentLanguage]['stock-all-option'] : translations[currentLanguage][stock];
+            stockButton.innerText = `${translations[currentLanguage]['stock-all'].split(':')[0]}: ${stockText}`;
+            filterProducts();
+        }
+
+        function selectDiscount(discount) {
+            selectedDiscount = discount;
+            document.querySelector('#discount-options').style.display = 'none';
+            const discountButton = document.getElementById('discount-button');
+            const discountText = discount === 'all' ? translations[currentLanguage]['discount-all-option'] : translations[currentLanguage][discount];
+            discountButton.innerText = `${translations[currentLanguage]['discount-all'].split(':')[0]}: ${discountText}`;
+            filterProducts();
+        }
+
+        // Обновляем функцию filterProducts для учёта новых фильтров
+        function filterProducts() {
+            if (!currentTab) {
+                document.getElementById('placeholder').style.display = 'block';
+                document.getElementById('no-products').style.display = 'none';
+                return;
+            }
+
+            const cards = document.getElementById(currentTab).querySelectorAll('.product-card');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                card.style.display = 'none';
+                card.classList.remove('visible');
+            });
+
+            cards.forEach((card, index) => {
+                const cardDistrict = card.getAttribute('data-district');
+                const inStock = card.querySelector('p:nth-child(3)').innerText.includes(translations[currentLanguage]['in-stock']);
+                const hasDiscount = card.querySelector('.discount') !== null;
+
+                const districtMatch = selectedDistrict === 'all' || cardDistrict === selectedDistrict;
+                const stockMatch = selectedStock === 'all' || (selectedStock === 'in-stock' && inStock) || (selectedStock === 'out-of-stock' && !inStock);
+                const discountMatch = selectedDiscount === 'all' || (selectedDiscount === 'with-discount' && hasDiscount) || (selectedDiscount === 'no-discount' && !hasDiscount);
+
+                if (districtMatch && stockMatch && discountMatch) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                    }, index * 200);
+                    visibleCount++;
+                }
+            });
+
+            document.getElementById('no-products').style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+        // Инициализация фильтров при загрузке
+        window.onload = function() {
+            const loader = document.getElementById('loader');
+            loader.style.display = 'block';
+            setTimeout(() => {
+                loader.style.display = 'none';
+                initProducts();
+                checkAuth();
+                toggleSection('catalog');
+                setLanguage('ru');
+                addFilters(); // Добавляем фильтры
+            }, 1000);
+        };
     </script>
 </body>
 </html>
