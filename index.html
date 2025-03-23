@@ -44,7 +44,7 @@
         }
         .language-switcher {
             position: absolute;
-            top: 40px; /* Сдвигаем ниже, на уровень текста "Тёмные сделки Гоа" */
+            top: 50px; /* Сдвигаем ещё ниже */
             right: 15px;
         }
         .language-button {
@@ -104,7 +104,6 @@
             top: 0;
             transition: left 1s ease-in-out, box-shadow 1s ease-in-out;
             box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
-            display: none;
             z-index: 10;
             overflow-y: auto;
             max-height: 80vh;
@@ -543,7 +542,7 @@
                 padding: 4px 8px;
             }
             .language-switcher {
-                top: 35px; /* Корректируем для мобильных */
+                top: 45px; /* Корректируем для мобильных */
             }
         }
         @media (prefers-color-scheme: dark) {
@@ -710,6 +709,8 @@
         let touchEndX = 0;
         let currentUser = null;
         let currentLanguage = 'ru';
+        let selectedStock = 'all';
+        let selectedDiscount = 'all';
 
         const translations = {
             ru: {
@@ -1149,18 +1150,6 @@
             reviews.style.display = isVisible ? 'none' : 'block';
         }
 
-        window.onload = function() {
-            const loader = document.getElementById('loader');
-            loader.style.display = 'block';
-            setTimeout(() => {
-                loader.style.display = 'none';
-                initProducts();
-                checkAuth();
-                toggleSection('catalog');
-                setLanguage('ru');
-            }, 1000);
-        };
-
         function checkAuth() {
             const user = localStorage.getItem('currentUser');
             if (user) {
@@ -1221,71 +1210,67 @@
                 return;
             }
 
-            if (password !== confirmPassword) {
+                        if (password !== confirmPassword) {
                 alert('Пароли не совпадают, проверьте ещё раз.');
                 return;
             }
 
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            if (users.some(user => user.username === username)) {
-                alert('Такой пользователь уже существует, выберите другое имя.');
+            const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+            if (existingUsers.some(user => user.username === username)) {
+                alert('Пользователь с таким именем уже существует.');
                 return;
             }
 
-            const newUser = { username, password, balance: 0, orders: 0, referralBonus: 0 };
+            const newUser = {
+                username,
+                password,
+                balance: referralCode ? 1000 : 0, // Бонус за реферальный код
+                referralCode: btoa(username).slice(0, 8),
+                referralBonus: 0,
+                orders: 0
+            };
+
             if (referralCode) {
-                const referrer = users.find(user => user.referralCode === referralCode);
+                const referrer = existingUsers.find(user => user.referralCode === referralCode);
                 if (referrer) {
                     referrer.referralBonus = (referrer.referralBonus || 0) + 1000;
-                    newUser.balance = 500;
-                    localStorage.setItem('users', JSON.stringify(users));
+                    existingUsers[existingUsers.findIndex(user => user.referralCode === referralCode)] = referrer;
                 }
             }
 
-            newUser.referralCode = btoa(username).slice(0, 8);
-            users.push(newUser);
-            localStorage.setItem('users', JSON.stringify(users));
+            existingUsers.push(newUser);
+            localStorage.setItem('users', JSON.stringify(existingUsers));
             localStorage.setItem('currentUser', JSON.stringify(newUser));
             currentUser = newUser;
             closeModal('authModal');
             updateProfile();
-            alert('Вы успешно зарегистрированы! Теперь войдите и начните пользоваться сервисом.');
+            alert('Регистрация прошла успешно! Добро пожаловать.');
         }
 
         function login() {
             const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
 
-            if (!username || !password) {
-                alert('Пожалуйста, заполните все поля.');
-                return;
-            }
-
             const users = JSON.parse(localStorage.getItem('users')) || [];
-            const user = users.find(user => user.username === username && user.password === password);
+            const user = users.find(u => u.username === username && u.password === password);
 
             if (!user) {
-                alert('Неверный логин или пароль, попробуйте снова.');
+                alert('Неверное имя пользователя или пароль.');
                 return;
-            }
-
-            if (!user.referralCode) {
-                user.referralCode = btoa(user.username).slice(0, 8);
-                localStorage.setItem('users', JSON.stringify(users));
             }
 
             localStorage.setItem('currentUser', JSON.stringify(user));
             currentUser = user;
             closeModal('authModal');
             updateProfile();
-            alert('Вы успешно вошли! Теперь можете пользоваться сервисом.');
+            alert('Вход выполнен успешно!');
         }
 
         function logout() {
             localStorage.removeItem('currentUser');
             currentUser = null;
             updateProfile();
-            alert('Вы вышли из аккаунта. Заходите снова!');
+            alert('Вы вышли из аккаунта.');
         }
 
         function showLoginForm() {
@@ -1296,46 +1281,6 @@
         function showRegisterForm() {
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('registerForm').style.display = 'block';
-        }
-
-        function checkAuthBeforeDeal(productId, weight, price) {
-            if (!currentUser) {
-                alert('Пожалуйста, войдите, чтобы оформить сделку.');
-                openModal('authModal');
-                return;
-            }
-            if (currentUser.balance < price) {
-                alert('Недостаточно средств, пополните баланс.');
-                openModal('depositModal');
-                return;
-            }
-            currentUser.balance -= price;
-            currentUser.orders = (currentUser.orders || 0) + 1;
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            updateProfile();
-            alert(`Сделка по ${productId} (${weight}г) подтверждена! Проверьте сообщения для деталей.`);
-        }
-
-        function checkAuthBeforeApply(jobTitle) {
-            if (!currentUser) {
-                alert('Пожалуйста, войдите, чтобы подать заявку.');
-                openModal('authModal');
-                return;
-            }
-            alert(`Заявка на "${jobTitle}" отправлена! Ожидайте ответа.`);
-        }
-
-        function depositFunds() {
-            if (!currentUser) {
-                alert('Пожалуйста, войдите, чтобы пополнить баланс.');
-                openModal('authModal');
-                return;
-            }
-            currentUser.balance = (currentUser.balance || 0) + 5000;
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            updateProfile();
-            closeModal('depositModal');
-            alert('Баланс пополнен на ₹5000! Теперь можете оформлять сделки.');
         }
 
         function toggleSection(section) {
@@ -1349,47 +1294,55 @@
             document.querySelector(`.nav-item[onclick="toggleSection('${section}')"]`).classList.add('active');
             currentSection = section;
 
+            const sidebar = document.getElementById('sidebar');
             if (section === 'catalog') {
-                toggleSidebar();
+                // Если переходим в каталог, открываем сайдбар, если он закрыт
+                if (!isSidebarOpen) {
+                    toggleSidebar();
+                }
             } else {
-                const sidebar = document.getElementById('sidebar');
+                // При переходе в другие разделы закрываем сайдбар
                 isSidebarOpen = false;
                 sidebar.classList.remove('open');
+                sidebar.style.display = 'none';
+            }
+
+            // Для раздела "Вакансии" добавим отображение карточек
+            if (section === 'jobs') {
+                const jobCards = document.querySelectorAll('.job-card');
+                jobCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                    }, index * 200);
+                });
             }
         }
 
         function toggleTab(tab) {
-            if (currentTab === tab) return;
-
-            document.getElementById('placeholder').style.display = 'none';
-            document.getElementById('no-products').style.display = 'none';
-
             if (currentTab) {
                 document.getElementById(currentTab).classList.remove('active');
                 document.querySelector(`.tab[onclick="toggleTab('${currentTab}')"]`).classList.remove('active');
-                const oldCards = document.getElementById(currentTab).querySelectorAll('.product-card');
-                oldCards.forEach(card => card.classList.remove('visible'));
             }
             document.getElementById(tab).classList.add('active');
-            document.querySelector(`.tab[onclick="toggleTab('${tab}')"]`).classList.add(            'active');
+            document.querySelector(`.tab[onclick="toggleTab('${tab}')"]`).classList.add('active');
             currentTab = tab;
 
             // Закрываем сайдбар при выборе вкладки
             const sidebar = document.getElementById('sidebar');
             isSidebarOpen = false;
             sidebar.classList.remove('open');
+            sidebar.style.display = 'none';
 
             filterProducts();
         }
 
-        // Переключение сайдбара
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             isSidebarOpen = !isSidebarOpen;
             sidebar.classList.toggle('open', isSidebarOpen);
+            sidebar.style.display = isSidebarOpen ? 'block' : 'none';
         }
 
-        // Фильтрация по району
         function toggleMandala(type) {
             const options = document.getElementById(`${type}-options`);
             options.style.display = options.style.display === 'block' ? 'none' : 'block';
@@ -1440,7 +1393,6 @@
             document.getElementById('no-products').style.display = visibleCount === 0 ? 'block' : 'none';
         }
 
-        // Открытие/закрытие модалок
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'block';
         }
@@ -1449,7 +1401,46 @@
             document.getElementById(modalId).style.display = 'none';
         }
 
-        // Свайп для сайдбара
+        function checkAuthBeforeDeal(productId, weight, price) {
+            if (!currentUser) {
+                alert('Пожалуйста, войдите, чтобы оформить сделку.');
+                openModal('authModal');
+                return;
+            }
+            if (currentUser.balance < price) {
+                alert('Недостаточно средств, пополните баланс.');
+                openModal('depositModal');
+                return;
+            }
+            currentUser.balance -= price;
+            currentUser.orders = (currentUser.orders || 0) + 1;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            updateProfile();
+            alert(`Сделка по ${productId} (${weight}г) подтверждена! Проверьте сообщения для деталей.`);
+        }
+
+        function checkAuthBeforeApply(jobTitle) {
+            if (!currentUser) {
+                alert('Пожалуйста, войдите, чтобы подать заявку.');
+                openModal('authModal');
+                return;
+            }
+            alert(`Заявка на "${jobTitle}" отправлена! Ожидайте ответа.`);
+        }
+
+        function depositFunds() {
+            if (!currentUser) {
+                alert('Пожалуйста, войдите, чтобы пополнить баланс.');
+                openModal('authModal');
+                return;
+            }
+            currentUser.balance = (currentUser.balance || 0) + 5000;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            updateProfile();
+            closeModal('depositModal');
+            alert('Баланс пополнен на ₹5000! Теперь можете оформлять сделки.');
+        }
+
         const sidebar = document.getElementById('sidebar');
         sidebar.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
@@ -1462,7 +1453,6 @@
             }
         });
 
-        // Добавляем фильтрацию по наличию и скидкам
         function addFilters() {
             const filterDiv = document.querySelector('.filter');
             const inStockFilter = document.createElement('div');
@@ -1491,9 +1481,6 @@
             setLanguage(currentLanguage);
         }
 
-        let selectedStock = 'all';
-        let selectedDiscount = 'all';
-
         function selectStock(stock) {
             selectedStock = stock;
             document.querySelector('#stock-options').style.display = 'none';
@@ -1512,7 +1499,6 @@
             filterProducts();
         }
 
-        // Инициализация фильтров при загрузке
         window.onload = function() {
             const loader = document.getElementById('loader');
             loader.style.display = 'block';
