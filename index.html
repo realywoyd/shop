@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shadow Goa</title>
-    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==">
+    <link rel="icon" type="image/png" href="images/mandala-icon.png">
     <style>
         body {
             margin: 0;
@@ -17,14 +17,14 @@
         }
         .header {
             background: linear-gradient(45deg, #4a0e0e, #3c2f2f);
-            padding: 10px;
+            padding: 15px;
             text-align: center;
             border-bottom: 3px solid #d4af37;
             box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
             position: relative;
         }
         .logo {
-            font-size: 24px;
+            font-size: 32px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -35,34 +35,23 @@
             50% { text-shadow: 0 0 15px #d4af37, 0 0 25px #ff8c00; }
             100% { text-shadow: 0 0 5px #d4af37; }
         }
-        @media (prefers-reduced-motion: reduce) {
-            @keyframes glow {
-                0%, 100% { text-shadow: 0 0 5px #d4af37; }
-            }
-            @keyframes pulse {
-                0%, 100% { box-shadow: 5px 5px 15px rgba(212, 175, 55, 0.5); }
-            }
-            @keyframes wave {
-                0%, 100% { transform: translateY(0); }
-            }
-        }
         .header-text {
-            font-size: 12px;
+            font-size: 14px;
             color: #e0d0b0;
         }
         .language-switcher {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 15px;
+            right: 15px;
         }
         .language-button {
             background: linear-gradient(45deg, #d4af37, #ff8c00);
             color: #2b0a0a;
-            padding: 4px 8px;
+            padding: 5px 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 10px;
+            font-size: 12px;
             margin-left: 5px;
             transition: transform 0.3s;
         }
@@ -72,18 +61,19 @@
         .nav {
             display: flex;
             justify-content: center;
-            gap: 5px;
-            padding: 5px 0;
+            gap: 10px;
+            padding: 10px 0;
             background: rgba(0, 0, 0, 0.7);
             flex-wrap: wrap;
         }
         .nav-item {
             background: linear-gradient(45deg, #3c2f2f, #4a0e0e);
-            padding: 6px 10px;
+            background-size: cover;
+            padding: 8px 15px;
             color: #d4af37;
             cursor: pointer;
             transition: transform 0.3s;
-            font-size: 12px;
+            font-size: 14px;
             border-radius: 5px;
         }
         .nav-item:hover {
@@ -91,28 +81,45 @@
         }
         .main-container {
             max-width: 100%;
-            width: 100%;
-            margin: 0 auto;
-            padding: 5px;
+            margin: 10px auto;
+            padding: 10px;
             display: flex;
             flex-direction: row;
-            gap: 10px;
-            justify-content: flex-start;
-            box-sizing: border-box;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .sidebar-toggle {
+            display: none;
+            background: linear-gradient(45deg, #d4af37, #ff8c00);
+            color: #2b0a0a;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+            font-size: 14px;
+            margin: 0 auto 10px;
+            text-align: center;
+        }
+        .sidebar-toggle:hover {
+            transform: scale(1.05);
         }
         .sidebar {
-            width: 160px;
+            width: 180px;
             background: #3c2f2f;
-            padding: 10px;
+            padding: 15px;
             border: 2px solid #d4af37;
             border-radius: 10px;
             height: fit-content;
-            transition: box-shadow 1s ease-in-out;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+            z-index: 10;
             overflow-y: auto;
-            max-height: 70vh;
+            max-height: 80vh;
         }
         .sidebar.open {
+            transform: translateX(0);
             box-shadow: 5px 5px 15px rgba(212, 175, 55, 0.5), 0 0 20px rgba(255, 140, 0, 0.7);
             animation: pulse 2s infinite;
         }
@@ -121,43 +128,10 @@
             50% { box-shadow: 5px 5px 15px rgba(212, 175, 55, 0.8), 0 0 30px rgba(255, 140, 0, 1); }
             100% { box-shadow: 5px 5px 15px rgba(212, 175, 55, 0.5), 0 0 20px rgba(255, 140, 0, 0.7); }
         }
-        .content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            width: 100%;
-            max-width: 100%;
-            min-height: 300px;
-            padding: 5px;
-            box-sizing: border-box;
-        }
-        .section {
-            display: none;
-            background: #3c2f2f;
-            padding: 10px;
-            border: 2px solid #d4af37;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-            width: 100%;
-            max-width: 100%;
-            box-sizing: border-box;
-        }
-        .section.active {
-            display: block;
-        }
-        .catalog-tab {
-            display: none;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .catalog-tab.active {
-            display: block;
-        }
         .tab {
             background: #4a0e0e;
-            padding: 8px;
-            margin-bottom: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
             color: #e0d0b0;
             cursor: pointer;
             border: 1px solid #d4af37;
@@ -165,33 +139,61 @@
             transition: background 0.3s, transform 0.3s;
             text-align: center;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            font-size: 12px;
+            font-size: 14px;
         }
         .tab:hover, .tab.active {
             background: #ff8c00;
             color: #2b0a0a;
             transform: scale(1.05);
         }
+        .content {
+            max-width: 100%;
+            width: calc(100% - 220px);
+            padding: 10px;
+        }
+        .section {
+            display: none;
+            background: #3c2f2f;
+            padding: 15px;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+            width: 100%;
+            max-width: 100%;
+        }
+        .section.active {
+            display: block;
+        }
+        .catalog-tab {
+            display: none;
+            width: 100%;
+        }
+        .catalog-tab.active {
+            display: block;
+        }
         .filter {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             text-align: center;
             width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         .mandala-select {
             position: relative;
             display: inline-block;
-            margin: 0 3px;
         }
         .mandala-button {
             background: linear-gradient(45deg, #d4af37, #ff8c00);
             color: #2b0a0a;
-            padding: 6px 10px;
+            padding: 8px 15px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             transition: transform 0.2s;
-            font-size: 12px;
+            font-size: 14px;
         }
         .mandala-button:hover {
             transform: scale(1.05);
@@ -202,27 +204,27 @@
             background: #4a0e0e;
             border: 2px solid #d4af37;
             border-radius: 5px;
-            padding: 8px;
+            padding: 10px;
             z-index: 10;
             left: 50%;
             transform: translateX(-50%);
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
         }
         .mandala-options div {
-            padding: 4px;
+            padding: 5px;
             color: #e0d0b0;
             cursor: pointer;
             transition: background 0.3s;
-            font-size: 12px;
+            font-size: 14px;
         }
         .mandala-options div:hover {
             background: #ff8c00;
         }
         .placeholder {
             color: #e0d0b0;
-            font-size: 14px;
+            font-size: 16px;
             text-align: center;
-            margin-top: 15px;
+            margin-top: 20px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
             position: relative;
             animation: mandalaFade 3s infinite;
@@ -234,9 +236,9 @@
         }
         .no-products {
             color: #e0d0b0;
-            font-size: 14px;
+            font-size: 16px;
             text-align: center;
-            margin-top: 15px;
+            margin-top: 20px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
             display: none;
         }
@@ -244,15 +246,13 @@
             background: #4a0e0e;
             border: 2px solid #d4af37;
             border-radius: 10px;
-            padding: 8px;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
             box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
             opacity: 0;
             transform: translateX(-20px) rotate(-5deg);
             transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
             cursor: pointer;
-            width: 100%;
-            box-sizing: border-box;
         }
         .product-card.visible, .job-card.visible, .message-card.visible {
             opacity: 1;
@@ -263,26 +263,31 @@
         }
         .product-card h3, .job-card h3, .message-card h3 {
             color: #ff8c00;
-            margin: 0 0 6px;
+            margin: 0 0 8px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            font-size: 14px;
+            font-size: 16px;
         }
         .product-card p, .job-card p, .message-card p {
             color: #e0d0b0;
-            margin: 4px 0;
-            font-size: 12px;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .weight-option p {
+            color: #ff8c00;
+            font-weight: bold;
+            margin: 5px 0;
         }
         .deal-button {
             background: linear-gradient(45deg, #d4af37, #ff8c00);
             color: #2b0a0a;
-            padding: 6px 10px;
+            padding: 8px 15px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s;
             animation: wave 2s infinite;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            font-size: 12px;
+            font-size: 14px;
             width: 100%;
         }
         .deal-button:hover {
@@ -297,16 +302,9 @@
         }
         .profile-ledger {
             background: #4a0e0e;
-            padding: 10px;
+            padding: 15px;
             border: 2px solid #d4af37;
             border-radius: 10px;
-            opacity: 0;
-            transform: translateX(-20px) rotate(-5deg);
-            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-        }
-        .profile-ledger.visible {
-            opacity: 1;
-            transform: translateX(0) rotate(0deg);
         }
         .modal {
             display: none;
@@ -321,9 +319,9 @@
         .modal-content {
             background: #4a0e0e;
             width: 90%;
-            max-width: 350px;
+            max-width: 400px;
             margin: 15% auto;
-            padding: 10px;
+            padding: 15px;
             border: 2px solid #d4af37;
             border-radius: 10px;
             text-align: center;
@@ -331,16 +329,16 @@
         }
         .modal-content h3 {
             color: #ff8c00;
-            font-size: 14px;
+            font-size: 16px;
         }
         .modal-content p {
             color: #e0d0b0;
-            font-size: 12px;
+            font-size: 14px;
         }
         .close {
             color: #d4af37;
             float: right;
-            font-size: 20px;
+            font-size: 24px;
             cursor: pointer;
         }
         .loader {
@@ -349,10 +347,10 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 30px;
-            height: 30px;
-            border: 3px solid #d4af37;
-            border-top: 3px solid #ff8c00;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #d4af37;
+            border-top: 4px solid #ff8c00;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             z-index: 101;
@@ -364,9 +362,9 @@
         .auth-modal-content {
             background: #4a0e0e;
             width: 90%;
-            max-width: 350px;
+            max-width: 400px;
             margin: 15% auto;
-            padding: 15px;
+            padding: 20px;
             border: 2px solid #d4af37;
             border-radius: 10px;
             text-align: center;
@@ -374,31 +372,28 @@
         }
         .auth-modal-content h3 {
             color: #ff8c00;
-            margin-bottom: 10px;
-            font-size: 14px;
+            margin-bottom: 15px;
         }
         .auth-modal-content input {
             display: block;
             width: 80%;
-            margin: 8px auto;
-            padding: 8px;
+            margin: 10px auto;
+            padding: 10px;
             background: #e0d0b0;
             border: 1px solid #d4af37;
             border-radius: 5px;
             color: #2b0a0a;
             font-family: 'Georgia', serif;
-            font-size: 12px;
         }
         .auth-modal-content button {
             background: linear-gradient(45deg, #d4af37, #ff8c00);
             color: #2b0a0a;
-            padding: 6px 10px;
+            padding: 8px 15px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: transform 0.3s;
             margin: 5px;
-            font-size: 12px;
         }
         .auth-modal-content button:hover {
             transform: scale(1.05);
@@ -407,8 +402,7 @@
             color: #d4af37;
             cursor: pointer;
             text-decoration: underline;
-            margin-top: 8px;
-            font-size: 12px;
+            margin-top: 10px;
         }
         .auth-modal-content .switch-form:hover {
             color: #ff8c00;
@@ -416,12 +410,12 @@
         .login-button, .register-button {
             background: linear-gradient(45deg, #d4af37, #ff8c00);
             color: #2b0a0a;
-            padding: 8px 15px;
+            padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: transform 0.3s;
-            font-size: 14px;
+            font-size: 16px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             margin: 5px;
         }
@@ -429,17 +423,17 @@
             transform: scale(1.05);
         }
         .reviews {
-            margin-top: 8px;
+            margin-top: 10px;
             border-top: 1px solid #d4af37;
-            padding-top: 8px;
+            padding-top: 10px;
             display: none;
         }
         .review {
             background: rgba(0, 0, 0, 0.3);
-            padding: 4px;
-            margin: 4px 0;
+            padding: 5px;
+            margin: 5px 0;
             border-radius: 5px;
-            font-size: 10px;
+            font-size: 12px;
             color: #e0d0b0;
         }
         .review p {
@@ -447,159 +441,118 @@
         }
         .rating {
             color: #ff8c00;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
         }
         .weights {
-            margin-top: 8px;
+            margin-top: 10px;
             border-top: 1px solid #d4af37;
-            padding-top: 8px;
+            padding-top: 10px;
             display: none;
         }
         .weight-option {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 4px 0;
-            padding: 4px;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            margin: 5px 0;
         }
         .weight-option p {
             margin: 0;
-            color: #e0d0b0;
-            font-size: 12px;
-        }
-        .price {
-            color: #ff8c00;
-            font-weight: bold;
-            font-size: 14px;
-            margin-left: 4px;
         }
         .discount {
             color: #ff4040;
             font-weight: bold;
-            margin: 4px 0;
-            font-size: 12px;
+            margin: 5px 0;
         }
         .referral-section {
-            margin-top: 10px;
+            margin-top: 15px;
             border-top: 1px solid #d4af37;
-            padding-top: 8px;
+            padding-top: 10px;
         }
         .referral-section p {
             color: #e0d0b0;
-            font-size: 12px;
+            font-size: 14px;
         }
         .referral-link {
             background: #4a0e0e;
-            padding: 4px;
+            padding: 5px;
             border-radius: 5px;
             word-break: break-all;
-            font-size: 12px;
-        }
-        .chat {
-            position: fixed;
-            bottom: 15px;
-            right: 15px;
-            background: #4a0e0e;
-            border: 2px solid #d4af37;
-            padding: 8px;
-            border-radius: 5px;
-            color: #e0d0b0;
-            font-size: 12px;
-            cursor: pointer;
-        }
-        .sidebar-toggle {
-            display: none;
-            background: linear-gradient(45deg, #d4af37, #ff8c00);
-            color: #2b0a0a;
-            padding: 6px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-            margin: 5px auto;
-            text-align: center;
         }
         @media (max-width: 768px) {
             .main-container {
                 flex-direction: column;
-                padding: 5px;
+                align-items: center;
             }
             .sidebar {
                 width: 100%;
-                max-width: 100%;
-                margin: 0 auto;
-                display: none;
+                max-width: 300px;
                 position: fixed;
                 top: 0;
                 left: 0;
                 height: 100%;
-                z-index: 100;
-                box-sizing: border-box;
-                max-height: none;
-            }
-            .sidebar.open {
+                transform: translateX(-100%);
                 display: block;
             }
-            .content {
-                max-width: 100%;
-                margin: 0 auto;
-                padding: 5px;
+            .sidebar.open {
+                transform: translateX(0);
             }
-            .section {
-                max-width: 100%;
+            .content {
+                width: 100%;
                 padding: 5px;
             }
             .sidebar-toggle {
                 display: block;
             }
-            .product-card {
-                padding: 5px;
-                margin-bottom: 8px;
+            .logo {
+                font-size: 24px;
             }
-            .product-card h3 {
+            .header-text {
                 font-size: 12px;
             }
-            .product-card p {
-                font-size: 10px;
-            }
-            .deal-button {
-                padding: 5px 8px;
-                font-size: 10px;
-            }
-            .mandala-button {
-                padding: 5px 8px;
-                font-size: 10px;
-            }
-            .mandala-options div {
-                font-size: 10px;
+            .nav-item {
+                font-size: 12px;
+                padding: 6px 10px;
             }
             .tab {
                 font-size: 12px;
-                padding: 6px;
+                padding: 8px;
             }
-        }
-        @media (max-width: 600px) {
-            body {
-                padding: 0;
+            .mandala-button {
+                font-size: 12px;
+                padding: 6px 12px;
             }
-            .main-container {
-                padding: 2px;
+            .mandala-options div {
+                font-size: 12px;
             }
-            .content {
-                padding: 2px;
+            .product-card h3, .job-card h3, .message-card h3 {
+                font-size: 14px;
             }
-            .section {
-                padding: 5px;
+            .product-card p, .job-card p, .message-card p {
+                font-size: 12px;
             }
-            .product-card {
-                padding: 4px;
+            .deal-button {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+            .login-button, .register-button {
+                font-size: 14px;
+                padding: 8px 15px;
+            }
+            .language-button {
+                font-size: 10px;
+                padding: 4px 8px;
             }
         }
         @media (prefers-color-scheme: dark) {
-            body { background: linear-gradient(45deg, #1a0a0a, #0a1b0a); }
-            .header { background: linear-gradient(45deg, #3a0e0e, #4a0e0e); }
-            .nav { background: rgba(0, 0, 0, 0.9); }
+            body {
+                background: linear-gradient(45deg, #1a0a0a, #0a1b0a);
+            }
+            .header {
+                background: linear-gradient(45deg, #3a0e0e, #4a0e0e);
+            }
+            .nav {
+                background: rgba(0, 0, 0, 0.9);
+            }
         }
     </style>
 </head>
@@ -621,11 +574,11 @@
         <div class="nav-item" onclick="toggleSection('messages')" data-i18n="nav-messages">Сообщения</div>
     </div>
     <div class="main-container">
-        <button class="sidebar-toggle" onclick="toggleSidebar()" data-i18n="sidebar-toggle">Открыть меню</button>
-        <div class="section catalog active" id="catalog">
+        <div class="section catalog" id="catalog">
+            <button class="sidebar-toggle" onclick="toggleSidebar()" data-i18n="sidebar-toggle">Открыть меню</button>
             <div class="sidebar" id="sidebar">
                 <div class="tab" onclick="toggleTab('marijuana')" data-i18n="tab-marijuana">Марихуана</div>
-                <div class="tab active" onclick="toggleTab('hashish')" data-i18n="tab-hashish">Гашиш</div>
+                <div class="tab" onclick="toggleTab('hashish')" data-i18n="tab-hashish">Гашиш</div>
                 <div class="tab" onclick="toggleTab('cocaine')" data-i18n="tab-cocaine">Кокаин</div>
                 <div class="tab" onclick="toggleTab('meth')" data-i18n="tab-meth">Метамфетамин</div>
                 <div class="tab" onclick="toggleTab('amphetamine')" data-i18n="tab-amphetamine">Амфетамин</div>
@@ -652,7 +605,7 @@
                 <div class="placeholder" id="placeholder" data-i18n="placeholder">Выберите категорию в меню слева</div>
                 <div class="no-products" id="no-products" data-i18n="no-products">Товаров в этом районе нет</div>
                 <div class="catalog-tab" id="marijuana"></div>
-                <div class="catalog-tab active" id="hashish"></div>
+                <div class="catalog-tab" id="hashish"></div>
                 <div class="catalog-tab" id="cocaine"></div>
                 <div class="catalog-tab" id="meth"></div>
                 <div class="catalog-tab" id="amphetamine"></div>
@@ -699,10 +652,10 @@
     <div class="modal" id="depositModal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('depositModal')">×</span>
-            <h3 data-i18n="deposit-title">Пополнение баланса</h3>
+            <h3 data-i18n="deposit-title">Пополни баланс, мудак!</h3>
             <p data-i18n="deposit-text1">Переведи ₹ через UPI или крипту (USDT, BTC) на этот адрес:</p>
             <p><strong>0xFakeWallet123456789</strong></p>
-            <p data-i18n="deposit-text2">После оплаты доступ к кладам откроется.</p>
+            <p data-i18n="deposit-text2">После оплаты доступ к кладам откроется. Жди, пиздец тебе!</p>
             <button class="deal-button" onclick="depositFunds()" data-i18n="deposit-button">Оплатил</button>
         </div>
     </div>
@@ -710,24 +663,23 @@
         <div class="auth-modal-content">
             <span class="close" onclick="closeModal('authModal')">×</span>
             <div id="loginForm">
-                <h3 data-i18n="login-title">Вход</h3>
+                <h3 data-i18n="login-title">Вход, братишка!</h3>
                 <input type="text" id="loginUsername" data-i18n="[placeholder]login-username">
                 <input type="password" id="loginPassword" data-i18n="[placeholder]login-password">
                 <button onclick="login()" data-i18n="login-button">Войти</button>
-                <p class="switch-form" onclick="showRegisterForm()" data-i18n="switch-to-register">Нет аккаунта? Регистрируйтесь немедленно.</p>
+                <p class="switch-form" onclick="showRegisterForm()" data-i18n="switch-to-register">Нет аккаунта? Регистрируйся, лох!</p>
             </div>
             <div id="registerForm" style="display: none;">
-                <h3 data-i18n="register-title">Регистрация</h3>
+                <h3 data-i18n="register-title">Регистрация, дебил!</h3>
                 <input type="text" id="regUsername" data-i18n="[placeholder]register-username">
                 <input type="password" id="regPassword" data-i18n="[placeholder]register-password">
                 <input type="password" id="regConfirmPassword" data-i18n="[placeholder]register-confirm-password">
                 <input type="text" id="regReferralCode" data-i18n="[placeholder]register-referral">
                 <button onclick="register()" data-i18n="register-button">Зарегистрироваться</button>
-                <p class="switch-form" onclick="showLoginForm()" data-i18n="switch-to-login">Уже есть аккаунт? Войдите сейчас.</p>
+                <p class="switch-form" onclick="showLoginForm()" data-i18n="switch-to-login">Уже есть аккаунт? Входи, дебил!</p>
             </div>
         </div>
     </div>
-    <div class="chat" onclick="alert('Свяжитесь с поддержкой через Telegram: @GoaShadowSupport')">Поддержка онлайн</div>
     <script>
         let currentSection = null;
         let currentTab = null;
@@ -765,6 +717,12 @@
                 "district-morjim": "Морджим",
                 "district-panaji": "Панаджи",
                 "district-arambol": "Арамболь",
+                "stock-all": "Наличие: Все",
+                "stock-all-option": "Все",
+                "discount-all": "Скидки: Все",
+                "discount-all-option": "Все",
+                "with-discount": "Со скидкой",
+                "no-discount": "Без скидки",
                 placeholder: "Выберите категорию в меню слева",
                 "no-products": "Товаров в этом районе нет",
                 "job1-title": "Курьер по пляжам Гоа",
@@ -781,45 +739,39 @@
                 "message1-text": 'Твой заказ "Goa Trance" спрятан у Tito’s Lane, Бага.',
                 "message2-title": "Пополни баланс",
                 "message2-text": 'Кидай ₹, чтобы забрать "Anjuna Haze" в Анджуне.',
-                "deposit-title": "Пополнение баланса",
-                "deposit-text1": "Переведите средства через UPI или криптовалюту (USDT, BTC) на указанный адрес:",
-                "deposit-text2": "Доступ к заказам откроется после оплаты.",
+                "deposit-title": "Пополни баланс, мудак!",
+                "deposit-text1": "Переведи ₹ через UPI или крипту (USDT, BTC) на этот адрес:",
+                "deposit-text2": "После оплаты доступ к кладам откроется. Жди, пиздец тебе!",
                 "deposit-button": "Оплатил",
-                "login-title": "Вход",
-                "login-username": "Имя пользователя",
+                "login-title": "Вход, братишка!",
+                "login-username": "Имя юзера",
                 "login-password": "Пароль",
                 "login-button": "Войти",
-                "switch-to-register": "Нет аккаунта? Регистрируйтесь немедленно.",
-                "register-title": "Регистрация",
-                "register-username": "Имя пользователя",
+                "switch-to-register": "Нет аккаунта? Регистрируйся, лох!",
+                "register-title": "Регистрация, дебил!",
+                "register-username": "Имя юзера",
                 "register-password": "Пароль",
-                "register-confirm-password": "Подтвердите пароль",
+                "register-confirm-password": "Подтверди пароль",
                 "register-referral": "Реферальный код (если есть)",
                 "register-button": "Зарегистрироваться",
-                "switch-to-login": "Уже есть аккаунт? Войдите сейчас.",
-                "profile-title": "Ваш учёт",
+                "switch-to-login": "Уже есть аккаунт? Входи, дебил!",
+                "profile-title": "Твой учёт",
                 "profile-name": "Имя",
                 "profile-balance": "Баланс",
                 "profile-orders": "Заказы",
                 "profile-referral-bonus": "Реферальные бонусы",
-                "profile-deposit": "Пополнить баланс",
-                "profile-logout": "Выйти",
-                "referral-link-text": "Ваша реферальная ссылка:",
-                "referral-invite": "Приглашайте друзей и получайте ₹1000 за каждого!",
-                "login-prompt": "Войти",
-                "register-prompt": "Регистрация",
+                "profile-deposit": "Пополнить",
+                "profile-logout": "Выйти 🚪",
+                "referral-link-text": "Твоя реферальная ссылка:",
+                "referral-invite": "Приглашай друзей и получай ₹1000 за каждого!",
+                "login-prompt": "Войти 🔑",
+                "register-prompt": "Регистрация 📝",
                 "in-stock": "В наличии",
                 "out-of-stock": "Нет в наличии",
-                "take-deal": "Оформить сделку",
+                "take-deal": "Take Deal",
                 "pre-order": "Предзаказ",
                 discount: "Скидка",
                 usdt: "USDT",
-                "stock-all": "Наличие: Все",
-                "stock-all-option": "Все",
-                "with-discount": "Со скидкой",
-                "no-discount": "Без скидки",
-                "discount-all": "Скидки: Все",
-                "discount-all-option": "Все",
                 "sidebar-toggle": "Открыть меню"
             },
             en: {
@@ -846,6 +798,12 @@
                 "district-morjim": "Morjim",
                 "district-panaji": "Panaji",
                 "district-arambol": "Arambol",
+                "stock-all": "Stock: All",
+                "stock-all-option": "All",
+                "discount-all": "Discounts: All",
+                "discount-all-option": "All",
+                "with-discount": "With Discount",
+                "no-discount": "No Discount",
                 placeholder: "Select a category from the menu on the left",
                 "no-products": "No products in this district",
                 "job1-title": "Beach Courier in Goa",
@@ -862,49 +820,43 @@
                 "message1-text": 'Your order "Goa Trance" is hidden at Tito’s Lane, Baga.',
                 "message2-title": "Top Up Balance",
                 "message2-text": 'Send ₹ to pick up "Anjuna Haze" in Anjuna.',
-                "deposit-title": "Deposit Funds",
-                "deposit-text1": "Transfer funds via UPI or cryptocurrency (USDT, BTC) to this address:",
-                "deposit-text2": "Access to orders will be granted after payment.",
+                "deposit-title": "Top Up Your Balance, Dude!",
+                "deposit-text1": "Transfer ₹ via UPI or crypto (USDT, BTC) to this address:",
+                "deposit-text2": "After payment, access to stashes will be granted. Wait, you’re screwed!",
                 "deposit-button": "Paid",
-                "login-title": "Login",
+                "login-title": "Login, Bro!",
                 "login-username": "Username",
                 "login-password": "Password",
                 "login-button": "Login",
-                "switch-to-register": "No account? Register now.",
-                "register-title": "Registration",
+                "switch-to-register": "No account? Register, loser!",
+                "register-title": "Register, Idiot!",
                 "register-username": "Username",
                 "register-password": "Password",
                 "register-confirm-password": "Confirm Password",
                 "register-referral": "Referral Code (if any)",
                 "register-button": "Register",
-                "switch-to-login": "Already have an account? Login now.",
+                "switch-to-login": "Already have an account? Login, idiot!",
                 "profile-title": "Your Ledger",
                 "profile-name": "Name",
                 "profile-balance": "Balance",
                 "profile-orders": "Orders",
                 "profile-referral-bonus": "Referral Bonuses",
                 "profile-deposit": "Deposit",
-                "profile-logout": "Logout",
+                "profile-logout": "Logout 🚪",
                 "referral-link-text": "Your Referral Link:",
                 "referral-invite": "Invite friends and earn ₹1000 for each!",
-                "login-prompt": "Login",
-                "register-prompt": "Register",
+                "login-prompt": "Login 🔑",
+                "register-prompt": "Register 📝",
                 "in-stock": "In Stock",
                 "out-of-stock": "Out of Stock",
                 "take-deal": "Take Deal",
                 "pre-order": "Pre-order",
                 discount: "Discount",
                 usdt: "USDT",
-                "stock-all": "Stock: All",
-                "stock-all-option": "All",
-                "with-discount": "With Discount",
-                "no-discount": "No Discount",
-                "discount-all": "Discounts: All",
-                "discount-all-option": "All",
                 "sidebar-toggle": "Open Menu"
             },
             hi: {
-                title: "Shadow Goa",
+                title: "शैडो गोवा",
                 subtitle: "गोवा की डार्क डील्स",
                 "nav-catalog": "सूची",
                 "nav-jobs": "नौकरियां",
@@ -927,6 +879,12 @@
                 "district-morjim": "मोरजिम",
                 "district-panaji": "पणजी",
                 "district-arambol": "अरंबोल",
+                "stock-all": "स्टॉक: सभी",
+                "stock-all-option": "सभी",
+                "discount-all": "छूट: सभी",
+                "discount-all-option": "सभी",
+                "with-discount": "छूट के साथ",
+                "no-discount": "छूट के बिना",
                 placeholder: "बाईं ओर मेनू से एक श्रेणी चुनें",
                 "no-products": "इस जिले में कोई उत्पाद नहीं हैं",
                 "job1-title": "गोवा के समुद्र तटों पर कूरियर",
@@ -943,45 +901,39 @@
                 "message1-text": 'आपका ऑर्डर "Goa Trance" टिटो लेन, बागा में छिपा है।',
                 "message2-title": "बैलेंस टॉप अप करें",
                 "message2-text": 'अंजुना में "Anjuna Haze" लेने के लिए ₹ भेजें।',
-                "deposit-title": "फंड जमा करें",
-                "deposit-text1": "UPI या क्रिप्टोकरेंसी (USDT, BTC) के माध्यम से इस पते पर धनराशि ट्रांसफर करें:",
-                "deposit-text2": "भुगतान के बाद ऑर्डर तक पहुंच मिलेगी।",
+                "deposit-title": "अपना बैलेंस टॉप अप करें, भाई!",
+                "deposit-text1": "इस पते पर UPI या क्रिप्टो (USDT, BTC) के माध्यम से ₹ ट्रांसफर करें:",
+                "deposit-text2": "भुगतान के बाद, खजानों तक पहुंच मिल जाएगी। इंतजार करें, तुम्हारी शामत आई है!",
                 "deposit-button": "भुगतान किया",
-                "login-title": "लॉगिन",
+                "login-title": "लॉगिन करें, भाई!",
                 "login-username": "उपयोगकर्ता नाम",
                 "login-password": "पासवर्ड",
-                "login-button": "लॉगिन करें",
-                "switch-to-register": "कोई खाता नहीं? अभी रजिस्टर करें।",
-                "register-title": "रजिस्ट्रेशन",
+                "login-button": "लॉगिन",
+                "switch-to-register": "कोई खाता नहीं? रजिस्टर करें, हारे हुए!",
+                "register-title": "रजिस्टर करें, मूर्ख!",
                 "register-username": "उपयोगकर्ता नाम",
                 "register-password": "पासवर्ड",
                 "register-confirm-password": "पासवर्ड की पुष्टि करें",
                 "register-referral": "रेफरल कोड (यदि कोई हो)",
-                "register-button": "रजिस्टर करें",
-                "switch-to-login": "पहले से खाता है? अभी लॉगिन करें।",
+                "register-button": "रजिस्टर",
+                "switch-to-login": "पहले से खाता है? लॉगिन करें, मूर्ख!",
                 "profile-title": "आपकी खाता बही",
                 "profile-name": "नाम",
                 "profile-balance": "बैलेंस",
                 "profile-orders": "ऑर्डर",
                 "profile-referral-bonus": "रेफरल बोनस",
                 "profile-deposit": "जमा करें",
-                "profile-logout": "लॉगआउट",
+                "profile-logout": "लॉगआउट 🚪",
                 "referral-link-text": "आपका रेफरल लिंक:",
                 "referral-invite": "दोस्तों को आमंत्रित करें और प्रत्येक के लिए ₹1000 कमाएं!",
-                "login-prompt": "लॉगिन",
-                "register-prompt": "रजिस्टर",
+                "login-prompt": "लॉगिन 🔑",
+                "register-prompt": "रजिस्टर 📝",
                 "in-stock": "स्टॉक में",
                 "out-of-stock": "स्टॉक में नहीं",
                 "take-deal": "डील लें",
                 "pre-order": "प्री-ऑर्डर",
                 discount: "छूट",
                 usdt: "USDT",
-                "stock-all": "स्टॉक: सभी",
-                "stock-all-option": "सभी",
-                "with-discount": "छूट के साथ",
-                "no-discount": "छूट के बिना",
-                "discount-all": "छूट: सभी",
-                "discount-all-option": "सभी",
                 "sidebar-toggle": "मेनू खोलें"
             }
         };
@@ -1001,45 +953,72 @@
             const districtButton = document.getElementById('district-button');
             const districtText = selectedDistrict === 'all' ? translations[lang]['district-all-option'] : translations[lang][`district-${selectedDistrict}`];
             districtButton.innerText = `${translations[lang]['district-all'].split(':')[0]}: ${districtText}`;
+            const stockButton = document.getElementById('stock-button');
+            const stockText = selectedStock === 'all' ? translations[lang]['stock-all-option'] : translations[lang][selectedStock];
+            stockButton.innerText = `${translations[lang]['stock-all'].split(':')[0]}: ${stockText}`;
+            const discountButton = document.getElementById('discount-button');
+            const discountText = selectedDiscount === 'all' ? translations[lang]['discount-all-option'] : translations[lang][selectedDiscount];
+            discountButton.innerText = `${translations[lang]['discount-all'].split(':')[0]}: ${discountText}`;
+            const toggleButton = document.querySelector('.sidebar-toggle');
+            toggleButton.innerText = isSidebarOpen ? translations[lang]['sidebar-toggle'].replace('Открыть', 'Закрыть').replace('Open', 'Close').replace('खोलें', 'बंद करें') : translations[lang]['sidebar-toggle'];
             initProducts();
             updateProfile();
-            const toggleButton = document.querySelector('.sidebar-toggle');
-            toggleButton.innerText = isSidebarOpen 
-                ? translations[lang]['sidebar-toggle'].replace('Открыть', 'Закрыть').replace('Open', 'Close').replace('खोलें', 'बंद करें')
-                : translations[lang]['sidebar-toggle'];
         }
 
         function generateWeights(category) {
             const weights = [];
             if (category === 'marijuana' || category === 'hashish') {
-                weights.push(10, 20, 50, 100);
+                weights.push(10);
+                const additionalWeights = [];
+                for (let i = 0; i < 4; i++) {
+                    const weight = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
+                    if (!additionalWeights.includes(weight) && weight !== 10) {
+                        additionalWeights.push(weight);
+                    }
+                }
+                weights.push(...additionalWeights.sort((a, b) => a - b));
             } else if (category === 'cocaine') {
-                weights.push(0.5, 1, 3, 5);
+                weights.push(0.5, 1);
+                const additionalWeights = [];
+                for (let i = 0; i < 3; i++) {
+                    const weight = Math.random() * (20 - 1) + 1;
+                    const roundedWeight = Math.round(weight * 2) / 2;
+                    if (!additionalWeights.includes(roundedWeight) && roundedWeight !== 0.5 && roundedWeight !== 1) {
+                        additionalWeights.push(roundedWeight);
+                    }
+                }
+                weights.push(...additionalWeights.sort((a, b) => a - b));
             } else {
-                weights.push(1, 5, 10, 20);
+                for (let i = 0; i < 5; i++) {
+                    const weight = Math.floor(Math.random() * (20 - 1 + 1)) + 1;
+                    if (!weights.includes(weight)) {
+                        weights.push(weight);
+                    }
+                }
+                weights.sort((a, b) => a - b);
             }
             return weights;
         }
 
         function generateReviews() {
             const positiveReviews = {
-                ru: ["Качество на высоте, рекомендую!", "Отличный товар, быстрая доставка!", "Сильный эффект, всё как обещано!", "Надёжный выбор, не подведёт!"],
-                en: ["Top quality, highly recommend!", "Great stuff, fast delivery!", "Strong effect, as promised!", "Reliable choice, won’t disappoint!"],
-                hi: ["उच्च गुणवत्ता, सुझाव देता हूँ!", "बढ़िया सामान, तेज डिलीवरी!", "मजबूत प्रभाव, जैसा वादा किया!", "भरोसेमंद विकल्प, निराश नहीं करेगा!"]
+                ru: ["Похер, братишка, стафф огонь!", "Качество пушка, бери не пожалеешь!", "Транс уносит, всё чётко!", "Стафф реально VHQ, рекомендую!", "Доставка быстрая, всё на месте!"],
+                en: ["Damn, bro, the stuff is fire!", "Quality is top-notch, you won’t regret it!", "Trance takes you away, all good!", "Stuff is really VHQ, recommend!", "Delivery is fast, everything’s in place!"],
+                hi: ["भाई, सामान जबरदस्त है!", "क्वालिटी शानदार है, पछतावा नहीं होगा!", "ट्रांस ले जाता है, सब ठीक है!", "सामान वाकई VHQ है, सुझाव देता हूँ!", "डिलीवरी तेज है, सब कुछ जगह पर है!"]
             };
             const negativeReviews = {
-                ru: ["Качество среднее, ожидал большего.", "Доставка задержалась."],
-                en: ["Average quality, expected more.", "Delivery was delayed."],
-                hi: ["औसत गुणवत्ता, और उम्मीद थी।", "डिलीवरी में देरी हुई।"]
+                ru: ["Похер, братишка, стафф палёный!", "Качество так себе, ожидал большего.", "Доставка долгая, пиздец тебе!", "Стафф не тянет, зря взял.", "Клад не на месте, мудак!"],
+                en: ["Damn, bro, the stuff is fake!", "Quality is meh, expected more.", "Delivery took forever, you’re screwed!", "Stuff doesn’t hit, waste of money.", "Stash wasn’t there, idiot!"],
+                hi: ["भाई, सामान नकली है!", "क्वालिटी ठीक-ठाक है, और उम्मीद थी।", "डिलीवरी में देरी हुई, तुम्हारी शामत आई!", "सामान अच्छा नहीं है, व्यर्थ लिया।", "खजाना वहाँ नहीं था, मूर्ख!"]
             };
             const reviews = [];
             for (let i = 0; i < 5; i++) {
-                const isPositive = Math.random() > 0.2;
-                const rating = isPositive ? 4 + Math.round(Math.random()) : 1 + Math.round(Math.random() * 2);
+                const isPositive = Math.random() > 0.4;
+                const rating = isPositive ? Math.floor(Math.random() * 2) + 4 : Math.floor(Math.random() * 3) + 1;
                 const reviewText = isPositive
                     ? positiveReviews[currentLanguage][Math.floor(Math.random() * positiveReviews[currentLanguage].length)]
                     : negativeReviews[currentLanguage][Math.floor(Math.random() * negativeReviews[currentLanguage].length)];
-                reviews.push({ user: "Аноним", text: reviewText, rating });
+                reviews.push({ user: `User${Math.floor(Math.random() * 100)}`, text: reviewText, rating });
             }
             return reviews;
         }
@@ -1099,8 +1078,8 @@
                         const pricePerGram = product.basePrice;
                         const price = Math.round(pricePerGram * weight);
                         let discount = 0;
-                        if ((category === 'marijuana' || category === 'hashish') && weight >= 50) {
-                            discount = 20;
+                        if ((category === 'marijuana' || category === 'hashish') && weight >= 20) {
+                            discount = 10;
                         } else if (category === 'cocaine' && weight >= 3) {
                             discount = 15;
                         }
@@ -1110,11 +1089,11 @@
                     card.innerHTML = `
                         <h3>${product.name}</h3>
                         <p>${product.description}</p>
-                        <p>${product.inStock ? translations[currentLanguage]['in-stock'] + ' (Осталось мало!)' : translations[currentLanguage]['out-of-stock']}</p>
+                        <p>${product.inStock ? translations[currentLanguage]['in-stock'] : translations[currentLanguage]['out-of-stock']}</p>
                         <div class="weights" id="weights-${product.id}">
                             ${weightOptions.map(option => `
                                 <div class="weight-option">
-                                    <p>${option.weight}g: <span class="price" data-base="${option.discountedPrice}">₹${option.discountedPrice}</span>${option.discount ? ` <span style="text-decoration: line-through; color: #e0d0b0;">₹${option.price}</span>` : ''} (~${Math.round(option.discountedPrice / 83)} ${translations[currentLanguage].usdt})</p>
+                                    <p>${option.weight}g: ₹${option.discountedPrice}${option.discount ? ` <span style="text-decoration: line-through; color: #e0d0b0;">₹${option.price}</span>` : ''} (~${Math.round(option.discountedPrice / 83)} ${translations[currentLanguage].usdt})</p>
                                     <button class="deal-button" onclick="event.stopPropagation(); checkAuthBeforeDeal('${product.id}', ${option.weight}, ${option.discountedPrice})">${product.inStock ? translations[currentLanguage]['take-deal'] : translations[currentLanguage]['pre-order']}</button>
                                 </div>
                                 ${option.discount ? `<p class="discount">${translations[currentLanguage].discount}: ${option.discount}%</p>` : ''}
@@ -1132,13 +1111,6 @@
                     container.appendChild(card);
                 });
             });
-            setInterval(() => {
-                document.querySelectorAll('.price').forEach(price => {
-                    const base = parseInt(price.getAttribute('data-base'));
-                    const fluctuation = Math.round(base * (0.95 + Math.random() * 0.1));
-                    price.textContent = `₹${fluctuation}`;
-                });
-            }, 10000);
         }
 
         function toggleProductDetails(card) {
@@ -1148,21 +1120,6 @@
             weights.style.display = isVisible ? 'none' : 'block';
             reviews.style.display = isVisible ? 'none' : 'block';
         }
-
-        window.onload = function() {
-            const loader = document.getElementById('loader');
-            loader.style.display = 'block';
-            setTimeout(() => {
-                loader.style.display = 'none';
-                initProducts();
-                checkAuth();
-                toggleSection('catalog');
-                setLanguage('ru');
-                addFilters();
-                const toggleButton = document.querySelector('.sidebar-toggle');
-                toggleButton.innerText = translations[currentLanguage]['sidebar-toggle'];
-            }, 1000);
-        };
 
         function checkAuth() {
             const user = localStorage.getItem('currentUser');
@@ -1220,22 +1177,22 @@
             const referralCode = document.getElementById('regReferralCode').value;
 
             if (!username || !password || !confirmPassword) {
-                alert(translations[currentLanguage]['register-title'] + " Заполните все поля.");
+                alert(translations[currentLanguage]['register-title'].includes('!') ? 'Заполни все поля, дебил!' : 'Fill all fields, idiot!');
                 return;
             }
 
             if (password !== confirmPassword) {
-                alert(translations[currentLanguage]['register-title'] + " Пароли не совпадают.");
+                alert(translations[currentLanguage]['register-title'].includes('!') ? 'Пароли не совпадают, лошара!' : 'Passwords do not match, loser!');
                 return;
             }
 
             const users = JSON.parse(localStorage.getItem('users')) || [];
             if (users.some(user => user.username === username)) {
-                alert(translations[currentLanguage]['register-title'] + " Пользователь уже существует.");
+                alert(translations[currentLanguage]['register-title'].includes('!') ? 'Такой юзер уже есть, придумай другой ник!' : 'This user already exists, choose another name!');
                 return;
             }
 
-            const newUser = { username, password, balance: 0, orders: 0, referralBonus: 0, token: btoa(Math.random().toString()) };
+            const newUser = { username, password, balance: 0, orders: 0, referralBonus: 0 };
             if (referralCode) {
                 const referrer = users.find(user => user.referralCode === referralCode);
                 if (referrer) {
@@ -1252,7 +1209,7 @@
             currentUser = newUser;
             closeModal('authModal');
             updateProfile();
-            alert(translations[currentLanguage]['register-title'] + " Регистрация завершена.");
+            alert(translations[currentLanguage]['register-title'].includes('!') ? 'Зарегистрирован, братишка! Теперь входи и воруй.' : 'Registered, bro! Now login and steal.');
         }
 
         function login() {
@@ -1260,7 +1217,7 @@
             const password = document.getElementById('loginPassword').value;
 
             if (!username || !password) {
-                alert(translations[currentLanguage]['login-title'] + " Заполните все поля.");
+                alert(translations[currentLanguage]['login-title'].includes('!') ? 'Заполни поля, дебил!' : 'Fill the fields, idiot!');
                 return;
             }
 
@@ -1268,24 +1225,27 @@
             const user = users.find(user => user.username === username && user.password === password);
 
             if (!user) {
-                alert(translations[currentLanguage]['login-title'] + " Неверные данные.");
+                alert(translations[currentLanguage]['login-title'].includes('!') ? 'Неверный логин или пароль, лошара!' : 'Invalid login or password, loser!');
                 return;
             }
 
-            user.token = btoa(Math.random().toString());
+            if (!user.referralCode) {
+                user.referralCode = btoa(user.username).slice(0, 8);
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+
             localStorage.setItem('currentUser', JSON.stringify(user));
-            localStorage.setItem('users', JSON.stringify(users));
             currentUser = user;
             closeModal('authModal');
             updateProfile();
-            alert(translations[currentLanguage]['login-title'] + " Вход выполнен.");
+            alert(translations[currentLanguage]['login-title'].includes('!') ? 'Вошёл, братишка! Теперь воруй.' : 'Logged in, bro! Now steal.');
         }
 
         function logout() {
             localStorage.removeItem('currentUser');
             currentUser = null;
             updateProfile();
-            alert(translations[currentLanguage]['profile-logout'] + " Выход выполнен.");
+            alert(translations[currentLanguage]['profile-logout'].includes('🚪') ? 'Вышел, братишка! Заходи ещё.' : 'Logged out, bro! Come back later.');
         }
 
         function showLoginForm() {
@@ -1300,60 +1260,34 @@
 
         function checkAuthBeforeDeal(productId, weight, price) {
             if (!currentUser) {
-                alert(translations[currentLanguage]['login-title'] + " Авторизуйтесь для оформления сделки.");
+                alert(translations[currentLanguage]['login-title'].includes('!') ? 'Войди, чтобы оформить сделку, братишка!' : 'Login to make a deal, bro!');
                 openModal('authModal');
                 return;
             }
             if (currentUser.balance < price) {
-                alert(translations[currentLanguage]['login-title'] + " Недостаточно средств. Пополните баланс.");
+                alert(translations[currentLanguage]['login-title'].includes('!') ? 'Недостаточно бабок, пополни баланс, лошара!' : 'Not enough money, top up your balance, loser!');
                 openModal('depositModal');
                 return;
             }
-            const modal = document.createElement('div');
-            modal.className = 'modal';
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <span class="close" onclick="this.parentElement.parentElement.remove()">×</span>
-                    <h3>Подтверждение сделки</h3>
-                    <p>Сделка по ${productId} (${weight}г) за ₹${price}. Истекает через: <span id="timer">5:00</span></p>
-                    <button class="deal-button" onclick="confirmDeal('${productId}', ${weight}, ${price}, this)">Подтвердить</button>
-                </div>
-            `;
-            document.body.appendChild(modal);
-            let timeLeft = 300;
-            const timer = modal.querySelector('#timer');
-            const interval = setInterval(() => {
-                timeLeft--;
-                timer.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`;
-                if (timeLeft <= 0) {
-                    clearInterval(interval);
-                    modal.remove();
-                    alert("Время сделки истекло.");
-                }
-            }, 1000);
-        }
-
-        function confirmDeal(productId, weight, price, button) {
             currentUser.balance -= price;
             currentUser.orders = (currentUser.orders || 0) + 1;
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             updateProfile();
-            button.parentElement.parentElement.remove();
-            alert(`Сделка по ${productId} (${weight}г) подтверждена. Проверьте сообщения для деталей.`);
+            alert(translations[currentLanguage]['take-deal'].includes('Take') ? `Deal for ${productId} (${weight}g) confirmed! Check your messages for stash details.` : `Сделка по ${productId} (${weight}г) подтверждена! Чекай сообщения для деталей клада.`);
         }
 
         function checkAuthBeforeApply(jobTitle) {
             if (!currentUser) {
-                alert(translations[currentLanguage]['login-title'] + " Авторизуйтесь для подачи заявки.");
+                alert(translations[currentLanguage]['login-title'].includes('!') ? 'Войди, чтобы подать заявку, братишка!' : 'Login to apply, bro!');
                 openModal('authModal');
                 return;
             }
-            alert(translations[currentLanguage]['apply'] + ` Заявка на "${jobTitle}" отправлена. Ожидайте ответа.`);
+            alert(translations[currentLanguage]['apply'].includes('Apply') ? `Application for "${jobTitle}" submitted! Wait for a response.` : `Заявка на "${jobTitle}" отправлена! Жди ответа, братишка.`);
         }
 
         function depositFunds() {
             if (!currentUser) {
-                alert(translations[currentLanguage]['login-title'] + " Авторизуйтесь для пополнения.");
+                alert(translations[currentLanguage]['login-title'].includes('!') ? 'Войди, чтобы пополнить баланс, братишка!' : 'Login to deposit funds, bro!');
                 openModal('authModal');
                 return;
             }
@@ -1361,8 +1295,7 @@
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             updateProfile();
             closeModal('depositModal');
-            const txId = `TXN${Math.random().toString(36).slice(2, 9).toUpperCase()}`;
-            alert(`Баланс пополнен на ₹5000. Ваш чек: ${txId}. Отправьте его в поддержку для подтверждения.`);
+            alert(translations[currentLanguage]['deposit-button'].includes('Paid') ? 'Balance topped up by ₹5000! Now go make some deals.' : 'Баланс пополнен на ₹5000! Теперь воруй, братишка.');
         }
 
         function toggleSection(section) {
@@ -1377,35 +1310,22 @@
             currentSection = section;
 
             if (section === 'catalog') {
-                toggleSidebar();
+                document.querySelector('.sidebar-toggle').style.display = 'block';
+                const cards = document.querySelectorAll('.job-card, .message-card');
+                cards.forEach(card => card.classList.remove('visible'));
             } else {
+                document.querySelector('.sidebar-toggle').style.display = 'none';
                 const sidebar = document.getElementById('sidebar');
                 isSidebarOpen = false;
                 sidebar.classList.remove('open');
                 const toggleButton = document.querySelector('.sidebar-toggle');
                 toggleButton.innerText = translations[currentLanguage]['sidebar-toggle'];
-            }
-
-            if (section === 'jobs') {
-                const jobCards = document.querySelectorAll('.job-card');
-                jobCards.forEach((card, index) => {
+                const cards = document.querySelectorAll(`#${section} .job-card, #${section} .message-card`);
+                cards.forEach((card, index) => {
                     setTimeout(() => {
                         card.classList.add('visible');
                     }, index * 200);
                 });
-            } else if (section === 'messages') {
-                const messageCards = document.querySelectorAll('.message-card');
-                messageCards.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.classList.add('visible');
-                    }, index * 200);
-                });
-            } else if (section === 'profile') {
-                updateProfile();
-                const profileContent = document.querySelector('.profile-ledger');
-                if (profileContent) {
-                    profileContent.classList.add('visible');
-                }
             }
         }
 
@@ -1433,165 +1353,127 @@
             isSidebarOpen = !isSidebarOpen;
             sidebar.classList.toggle('open', isSidebarOpen);
             const toggleButton = document.querySelector('.sidebar-toggle');
-            toggleButton.innerText = isSidebarOpen 
-                ? translations[currentLanguage]['sidebar-toggle'].replace('Открыть', 'Закрыть').replace('Open', 'Close').replace('खोलें', 'बंद करें')
-                : translations[currentLanguage]['sidebar-toggle'];
+            toggleButton.innerText = isSidebarOpen ? translations[currentLanguage]['sidebar-toggle'].replace('Открыть', 'Закрыть').replace('Open', 'Close').replace('खोलें', 'बंद करें') : translations[currentLanguage]['sidebar-toggle'];
+        }
+
+                function handleTouchStart(event) {
+            touchStartX = event.touches[0].clientX;
+        }
+
+        function handleTouchMove(event) {
+            touchEndX = event.touches[0].clientX;
+        }
+
+        function handleTouchEnd() {
+            const swipeDistance = touchEndX - touchStartX;
+            if (swipeDistance > 50 && !isSidebarOpen) {
+                toggleSidebar();
+            } else if (swipeDistance < -50 && isSidebarOpen) {
+                toggleSidebar();
+            }
+        }
+
+        function filterProducts() {
+            if (!currentTab) return;
+
+            const cards = document.querySelectorAll(`#${currentTab} .product-card`);
+            const noProductsMessage = document.getElementById('no-products');
+            let visibleCount = 0;
+
+            cards.forEach((card, index) => {
+                const districtMatch = selectedDistrict === 'all' || card.getAttribute('data-district') === selectedDistrict;
+                const stockMatch = selectedStock === 'all' || (selectedStock === 'in-stock' && card.querySelector('p:nth-child(3)').innerText === translations[currentLanguage]['in-stock']) || (selectedStock === 'out-of-stock' && card.querySelector('p:nth-child(3)').innerText === translations[currentLanguage]['out-of-stock']);
+                const discountMatch = selectedDiscount === 'all' || (selectedDiscount === 'with-discount' && card.querySelector('.discount')) || (selectedDiscount === 'no-discount' && !card.querySelector('.discount'));
+
+                if (districtMatch && stockMatch && discountMatch) {
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                    }, index * 200);
+                    visibleCount++;
+                } else {
+                    card.classList.remove('visible');
+                }
+            });
+
+            if (visibleCount === 0) {
+                noProductsMessage.style.display = 'block';
+            } else {
+                noProductsMessage.style.display = 'none';
+            }
         }
 
         function selectDistrict(district) {
             selectedDistrict = district;
-            document.querySelector('#district-options').style.display = 'none';
-            const districtButton = document.getElementById('district-button');
+            const button = document.getElementById('district-button');
             const districtText = district === 'all' ? translations[currentLanguage]['district-all-option'] : translations[currentLanguage][`district-${district}`];
-            districtButton.innerText = `${translations[currentLanguage]['district-all'].split(':')[0]}: ${districtText}`;
+            button.innerText = `${translations[currentLanguage]['district-all'].split(':')[0]}: ${districtText}`;
+            document.getElementById('district-options').style.display = 'none';
             filterProducts();
         }
 
-        function filterProducts() {
-        if (!currentTab) {
-            document.getElementById('placeholder').style.display = 'block';
-            document.getElementById('no-products').style.display = 'none';
-            return;
+        function selectStock(stock) {
+            selectedStock = stock;
+            const button = document.getElementById('stock-button');
+            const stockText = stock === 'all' ? translations[currentLanguage]['stock-all-option'] : translations[currentLanguage][stock];
+            button.innerText = `${translations[currentLanguage]['stock-all'].split(':')[0]}: ${stockText}`;
+            document.getElementById('stock-options').style.display = 'none';
+            filterProducts();
         }
 
-        const cards = document.getElementById(currentTab).querySelectorAll('.product-card');
-        let visibleCount = 0;
+        function selectDiscount(discount) {
+            selectedDiscount = discount;
+            const button = document.getElementById('discount-button');
+            const discountText = discount === 'all' ? translations[currentLanguage]['discount-all-option'] : translations[currentLanguage][discount];
+            button.innerText = `${translations[currentLanguage]['discount-all'].split(':')[0]}: ${discountText}`;
+            document.getElementById('discount-options').style.display = 'none';
+            filterProducts();
+        }
 
-        cards.forEach(card => {
-            card.style.display = 'none';
-            card.classList.remove('visible');
-        });
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            const isVisible = dropdown.style.display === 'block';
+            dropdown.style.display = isVisible ? 'none' : 'block';
+        }
 
-        cards.forEach((card, index) => {
-            const cardDistrict = card.getAttribute('data-district');
-            const inStock = card.querySelector('p:nth-child(3)').innerText.includes(translations[currentLanguage]['in-stock']);
-            const hasDiscount = card.querySelector('.discount') !== null;
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
 
-            const districtMatch = selectedDistrict === 'all' || cardDistrict === selectedDistrict;
-            const stockMatch = selectedStock === 'all' || (selectedStock === 'in-stock' && inStock) || (selectedStock === 'out-of-stock' && !inStock);
-            const discountMatch = selectedDiscount === 'all' || (selectedDiscount === 'with-discount' && hasDiscount) || (selectedDiscount === 'no-discount' && !hasDiscount);
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
 
-            if (districtMatch && stockMatch && discountMatch) {
-                card.style.display = 'block';
-                setTimeout(() => {
-                    card.classList.add('visible');
-                }, index * 200);
-                visibleCount++;
+        window.addEventListener('click', (event) => {
+            if (event.target.classList.contains('modal')) {
+                closeModal(event.target.id);
+            }
+            if (!event.target.closest('.mandala-select')) {
+                document.querySelectorAll('.mandala-options').forEach(dropdown => {
+                    dropdown.style.display = 'none';
+                });
             }
         });
 
-        if (visibleCount === 0) {
-            document.getElementById('no-products').style.display = 'block';
-        } else {
-            document.getElementById('no-products').style.display = 'none';
-        }
-    }
-
-    function addFilters() {
-        const filterDiv = document.querySelector('.filter');
-        const inStockFilter = document.createElement('div');
-        inStockFilter.className = 'mandala-select';
-        inStockFilter.innerHTML = `
-            <button class="mandala-button" id="stock-button" data-i18n="stock-all">Наличие: Все</button>
-            <div class="mandala-options" id="stock-options">
-                <div onclick="selectStock('all')" data-i18n="stock-all-option">Все</div>
-                <div onclick="selectStock('in-stock')" data-i18n="in-stock">В наличии</div>
-                <div onclick="selectStock('out-of-stock')" data-i18n="out-of-stock">Нет в наличии</div>
-            </div>
-        `;
-        const discountFilter = document.createElement('div');
-        discountFilter.className = 'mandala-select';
-        discountFilter.innerHTML = `
-            <button class="mandala-button" id="discount-button" data-i18n="discount-all">Скидки: Все</button>
-            <div class="mandala-options" id="discount-options">
-                <div onclick="selectDiscount('all')" data-i18n="discount-all-option">Все</div>
-                <div onclick="selectDiscount('with-discount')" data-i18n="with-discount">Со скидкой</div>
-                <div onclick="selectDiscount('no-discount')" data-i18n="no-discount">Без скидки</div>
-            </div>
-        `;
-        filterDiv.appendChild(inStockFilter);
-        filterDiv.appendChild(discountFilter);
-        setLanguage(currentLanguage);
-
-        // Добавляем обработчики для открытия/закрытия выпадающих списков
-        document.getElementById('stock-button').addEventListener('click', () => toggleMandala('stock'));
-        document.getElementById('discount-button').addEventListener('click', () => toggleMandala('discount'));
-        document.getElementById('district-button').addEventListener('click', () => toggleMandala('district'));
-    }
-
-    function selectStock(stock) {
-        selectedStock = stock;
-        document.querySelector('#stock-options').style.display = 'none';
-        const stockButton = document.getElementById('stock-button');
-        const stockText = stock === 'all' 
-            ? translations[currentLanguage]['stock-all-option'] 
-            : translations[currentLanguage][stock];
-        stockButton.innerText = `${translations[currentLanguage]['stock-all'].split(':')[0]}: ${stockText}`;
-        filterProducts();
-    }
-
-    function selectDiscount(discount) {
-        selectedDiscount = discount;
-        document.querySelector('#discount-options').style.display = 'none';
-        const discountButton = document.getElementById('discount-button');
-        const discountText = discount === 'all' 
-            ? translations[currentLanguage]['discount-all-option'] 
-            : translations[currentLanguage][discount];
-        discountButton.innerText = `${translations[currentLanguage]['discount-all'].split(':')[0]}: ${discountText}`;
-        filterProducts();
-    }
-
-    function toggleMandala(type) {
-        const options = document.getElementById(`${type}-options`);
-        options.style.display = options.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function openModal(modalId) {
-        document.getElementById(modalId).style.display = 'block';
-    }
-
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    }
-
-    // Обработчики для переключения вкладок в боковой панели
-    document.querySelectorAll('.sidebar .tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            const tabId = tab.getAttribute('onclick').match(/'([^']+)'/)[1];
-            toggleTab(tabId);
-        });
-    });
-
-    // Обработчики свайпа для боковой панели на мобильных устройствах
-    document.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
-    });
-
-    document.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
-        if (touchStartX - touchEndX > 50) {
-            const sidebar = document.getElementById('sidebar');
-            isSidebarOpen = false;
-            sidebar.classList.remove('open');
-            const toggleButton = document.querySelector('.sidebar-toggle');
-            toggleButton.innerText = translations[currentLanguage]['sidebar-toggle'];
-        } else if (touchEndX - touchStartX > 50) {
-            const sidebar = document.getElementById('sidebar');
-            isSidebarOpen = true;
-            sidebar.classList.add('open');
-            const toggleButton = document.querySelector('.sidebar-toggle');
-            toggleButton.innerText = translations[currentLanguage]['sidebar-toggle'].replace('Открыть', 'Закрыть').replace('Open', 'Close').replace('खोलें', 'बंद करें');
-        }
-    });
-
-    // Закрытие выпадающих списков при клике вне их
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.mandala-select')) {
-            document.querySelectorAll('.mandala-options').forEach(options => {
-                options.style.display = 'none';
+        document.querySelectorAll('.mandala-button').forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const dropdownId = button.id.replace('-button', '-options');
+                toggleDropdown(dropdownId);
             });
-        }
-    });
-</script>
+        });
+
+        document.getElementById('sidebar').addEventListener('touchstart', handleTouchStart);
+        document.getElementById('sidebar').addEventListener('touchmove', handleTouchMove);
+        document.getElementById('sidebar').addEventListener('touchend', handleTouchEnd);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+            setLanguage('ru');
+            initProducts();
+            toggleSection('catalog');
+        });
+    </script>
 </body>
 </html>
+
+       
