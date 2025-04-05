@@ -1,546 +1,100 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shadow Goa</title>
     <link rel="icon" type="image/png" href="images/mandala-icon.png">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(45deg, #2b0a0a, #1a2b1a);
-            font-family: 'Georgia', serif;
-            color: #d4af37;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-        .header {
-            background: linear-gradient(45deg, #4a0e0e, #3c2f2f);
-            padding: 15px;
-            text-align: center;
-            border-bottom: 3px solid #d4af37;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
-            position: relative;
-        }
-        .logo {
-            font-size: 32px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            animation: glow 2s infinite;
-        }
-        @keyframes glow {
-            0% { text-shadow: 0 0 5px #d4af37; }
-            50% { text-shadow: 0 0 15px #d4af37, 0 0 25px #ff8c00; }
-            100% { text-shadow: 0 0 5px #d4af37; }
-        }
-        .header-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-        }
-        .header-text {
-            font-size: 14px;
-            color: #e0d0b0;
-            margin: 0;
-        }
-        .language-switcher {
-            display: flex;
-            gap: 5px;
-        }
-        .language-button {
-            background: linear-gradient(45deg, #d4af37, #ff8c00);
-            color: #2b0a0a;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: transform 0.3s;
-        }
-        .language-button:hover {
-            transform: scale(1.05);
-        }
-        .nav {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            padding: 10px 0;
-            background: rgba(0, 0, 0, 0.7);
-            flex-wrap: wrap;
-        }
-        .nav-item {
-            background: linear-gradient(45deg, #3c2f2f, #4a0e0e);
-            padding: 8px 15px;
-            color: #d4af37;
-            cursor: pointer;
-            transition: transform 0.3s;
-            font-size: 14px;
-            border-radius: 5px;
-        }
-        .nav-item:hover {
-            transform: scale(1.1);
-        }
-        .main-container {
-            max-width: 100%;
-            margin: 10px auto;
-            padding: 10px;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            gap: 20px;
-        }
-        .sidebar {
-            width: 180px;
-            background: #3c2f2f;
-            padding: 15px;
-            border: 2px solid #d4af37;
-            border-radius: 10px;
-            height: fit-content;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
-            z-index: 10;
-            overflow-y: auto;
-            max-height: 80vh;
-            transform: translateX(-100%);
-        }
-        .sidebar.open {
-            transform: translateX(0);
-            box-shadow: 5px 5px 15px rgba(212, 175, 55, 0.5), 0 0 20px rgba(255, 140, 0, 0.7);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { box-shadow: 5px 5px 15px rgba(212, 175, 55, 0.5), 0 0 20px rgba(255, 140, 0, 0.7); }
-            50% { box-shadow: 5px 5px 15px rgba(212, 175, 55, 0.8), 0 0 30px rgba(255, 140, 0, 1); }
-            100% { box-shadow: 5px 5px 15px rgba(212, 175, 55, 0.5), 0 0 20px rgba(255, 140, 0, 0.7); }
-        }
-        .tab {
-            background: #4a0e0e;
-            padding: 10px;
-            margin-bottom: 10px;
-            color: #e0d0b0;
-            cursor: pointer;
-            border: 1px solid #d4af37;
-            border-radius: 5px;
-            transition: background 0.3s, transform 0.3s;
-            text-align: center;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            font-size: 14px;
-        }
-        .tab:hover, .tab.active {
-            background: #ff8c00;
-            color: #2b0a0a;
-            transform: scale(1.05);
-        }
-        .content {
-            max-width: 100%;
-            width: calc(100% - 220px);
-            padding: 10px;
-        }
-        .section {
-            display: none;
-            background: #3c2f2f;
-            padding: 15px;
-            border: 2px solid #d4af37;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-            width: 100%;
-            max-width: 100%;
-        }
-        .section.active {
-            display: block;
-        }
-        .catalog-tab {
-            display: none;
-            width: 100%;
-        }
-        .catalog-tab.active {
-            display: block;
-        }
-        .filter {
-            margin-bottom: 15px;
-            text-align: center;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .mandala-select {
-            position: relative;
-            display: inline-block;
-        }
-        .mandala-button {
-            background: linear-gradient(45deg, #d4af37, #ff8c00);
-            color: #2b0a0a;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s;
-            font-size: 14px;
-        }
-        .mandala-button:hover {
-            transform: scale(1.05);
-        }
-        .mandala-options {
-            display: none;
-            position: absolute;
-            background: #4a0e0e;
-            border: 2px solid #d4af37;
-            border-radius: 5px;
-            padding: 10px;
-            z-index: 10;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
-        }
-        .mandala-options div {
-            padding: 5px;
-            color: #e0d0b0;
-            cursor: pointer;
-            transition: background 0.3s;
-            font-size: 14px;
-        }
-        .mandala-options div:hover {
-            background: #ff8c00;
-        }
-        .placeholder {
-            color: #e0d0b0;
-            font-size: 16px;
-            text-align: center;
-            margin-top: 20px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            position: relative;
-            animation: mandalaFade 3s infinite;
-        }
-        @keyframes mandalaFade {
-            0% { opacity: 0.7; }
-            50% { opacity: 1; }
-            100% { opacity: 0.7; }
-        }
-        .no-products {
-            color: #e0d0b0;
-            font-size: 16px;
-            text-align: center;
-            margin-top: 20px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            display: none;
-        }
-        .product-card, .job-card, .message-card {
-            background: #4a0e0e;
-            border: 2px solid #d4af37;
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
-            opacity: 0;
-            transform: translateX(-20px) rotate(-5deg);
-            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-            cursor: pointer;
-        }
-        .product-card.visible, .job-card.visible, .message-card.visible {
-            opacity: 1;
-            transform: translateX(0) rotate(0deg);
-        }
-        .product-card:hover, .job-card:hover, .message-card:hover {
-            transform: translateY(-5px);
-        }
-        .product-card h3, .job-card h3, .message-card h3 {
-            color: #ff8c00;
-            margin: 0 0 8px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            font-size: 16px;
-        }
-        .product-card p, .job-card p, .message-card p {
-            color: #e0d0b0;
-            margin: 5px 0;
-            font-size: 14px;
-        }
-        .weight-option p {
-            color: #ff8c00;
-            font-weight: bold;
-            margin: 5px 0;
-        }
-        .deal-button {
-            background: linear-gradient(45deg, #d4af37, #ff8c00);
-            color: #2b0a0a;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-            animation: wave 2s infinite;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            font-size: 14px;
-            width: 100%;
-        }
-        .deal-button:hover {
-            background: #ff8c00;
-            animation: none;
-            transform: scale(1.05);
-        }
-        @keyframes wave {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
-            100% { transform: translateY(0); }
-        }
-        .profile-ledger {
-            background: #4a0e0e;
-            padding: 15px;
-            border: 2px solid #d4af37;
-            border-radius: 10px;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 100;
-        }
-        .modal-content {
-            background: #4a0e0e;
-            width: 90%;
-            max-width: 400px;
-            margin: 15% auto;
-            padding: 15px;
-            border: 2px solid #d4af37;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-        }
-        .modal-content h3 {
-            color: #ff8c00;
-            font-size: 16px;
-        }
-        .modal-content p {
-            color: #e0d0b0;
-            font-size: 14px;
-        }
-        .close {
-            color: #d4af37;
-            float: right;
-            font-size: 24px;
-            cursor: pointer;
-        }
-        .loader {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
-            border: 4px solid #d4af37;
-            border-top: 4px solid #ff8c00;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            z-index: 101;
-        }
-        @keyframes spin {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        .auth-modal-content {
-            background: #4a0e0e;
-            width: 90%;
-            max-width: 400px;
-            margin: 15% auto;
-            padding: 20px;
-            border: 2px solid #d4af37;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-        }
-        .auth-modal-content h3 {
-            color: #ff8c00;
-            margin-bottom: 15px;
-        }
-        .auth-modal-content input {
-            display: block;
-            width: 80%;
-            margin: 10px auto;
-            padding: 10px;
-            background: #e0d0b0;
-            border: 1px solid #d4af37;
-            border-radius: 5px;
-            color: #2b0a0a;
-            font-family: 'Georgia', serif;
-        }
-        .auth-modal-content button {
-            background: linear-gradient(45deg, #d4af37, #ff8c00);
-            color: #2b0a0a;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: transform 0.3s;
-            margin: 5px;
-        }
-        .auth-modal-content button:hover {
-            transform: scale(1.05);
-        }
-        .auth-modal-content .switch-form {
-            color: #d4af37;
-            cursor: pointer;
-            text-decoration: underline;
-            margin-top: 10px;
-        }
-        .auth-modal-content .switch-form:hover {
-            color: #ff8c00;
-        }
-        .login-button, .register-button {
-            background: linear-gradient(45deg, #d4af37, #ff8c00);
-            color: #2b0a0a;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: transform 0.3s;
-            font-size: 16px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            margin: 5px;
-        }
-        .login-button:hover, .register-button:hover {
-            transform: scale(1.05);
-        }
-        .reviews {
-            margin-top: 10px;
-            border-top: 1px solid #d4af37;
-            padding-top: 10px;
-            display: none;
-        }
-        .review {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 5px;
-            margin: 5px 0;
-            border-radius: 5px;
-            font-size: 12px;
-            color: #e0d0b0;
-        }
-        .review p {
-            margin: 0;
-        }
-        .rating {
-            color: #ff8c00;
-            margin-bottom: 5px;
-        }
-        .weights {
-            margin-top: 10px;
-            border-top: 1px solid #d4af37;
-            padding-top: 10px;
-            display: none;
-        }
-        .weight-option {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 5px 0;
-        }
-        .weight-option p {
-            margin: 0;
-        }
-        .discount {
-            color: #ff4040;
-            font-weight: bold;
-            margin: 5px 0;
-        }
-        .referral-section {
-            margin-top: 15px;
-            border-top: 1px solid #d4af37;
-            padding-top: 10px;
-        }
-        .referral-section p {
-            color: #e0d0b0;
-            font-size: 14px;
-        }
-        .referral-link {
-            background: #4a0e0e;
-            padding: 5px;
-            border-radius: 5px;
-            word-break: break-all;
-        }
+        /* Стили остаются без изменений, только адаптация текста под английский */
+        body { margin: 0; padding: 0; background: linear-gradient(45deg, #2b0a0a, #1a2b1a); font-family: 'Georgia', serif; color: #d4af37; overflow-x: hidden; scroll-behavior: smooth; }
+        .header { background: linear-gradient(45deg, #4a0e0e, #3c2f2f); padding: 15px; text-align: center; border-bottom: 3px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); position: relative; }
+        .logo { font-size: 32px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; animation: glow 2s infinite; }
+        @keyframes glow { 0% { text-shadow: 0 0 5px #d4af37; } 50% { text-shadow: 0 0 15px #d4af37, 0 0 25px #ff8c00; } 100% { text-shadow: 0 0 5px #d4af37; } }
+        .header-container { display: flex; justify-content: center; align-items: center; gap: 20px; }
+        .header-text { font-size: 14px; color: #e0d0b0; margin: 0; }
+        .language-switcher { display: flex; gap: 5px; }
+        .language-button { background: linear-gradient(45deg, #d4af37, #ff8c00); color: #2b0a0a; padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 12px; transition: transform 0.3s; }
+        .language-button:hover { transform: scale(1.05); }
+        .nav { display: flex; justify-content: center; gap: 10px; padding: 10px 0; background: rgba(0, 0, 0, 0.7); flex-wrap: wrap; }
+        .nav-item { background: linear-gradient(45deg, #3c2f2f, #4a0e0e); padding: 8px 15px; color: #d4af37; cursor: pointer; transition: transform 0.3s; font-size: 14px; border-radius: 5px; }
+        .nav-item:hover { transform: scale(1.1); }
+        .main-container { max-width: 100%; margin: 10px auto; padding: 10px; display: flex; flex-direction: row; justify-content: space-between; gap: 20px; }
+        .sidebar { width: 180px; background: #3c2f2f; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; height: fit-content; transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5); z-index: 10; overflow-y: auto; max-height: 80vh; transform: translateX(-100%); }
+        .sidebar.open { transform: translateX(0); box-shadow: 5px 5px 15px rgba(212, 175, 55, 0.5), 0 0 20px rgba(255, 140, 0, 0.7); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 5px 5px 15px rgba(212, 175, 55, 0.5), 0 0 20px rgba(255, 140, 0, 0.7); } 50% { box-shadow: 5px 5px 15px rgba(212, 175, 55, 0.8), 0 0 30px rgba(255, 140, 0, 1); } 100% { box-shadow: 5px 5px 15px rgba(212, 175, 55, 0.5), 0 0 20px rgba(255, 140, 0, 0.7); } }
+        .tab { background: #4a0e0e; padding: 10px; margin-bottom: 10px; color: #e0d0b0; cursor: pointer; border: 1px solid #d4af37; border-radius: 5px; transition: background 0.3s, transform 0.3s; text-align: center; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); font-size: 14px; }
+        .tab:hover, .tab.active { background: #ff8c00; color: #2b0a0a; transform: scale(1.05); }
+        .content { max-width: 100%; width: calc(100% - 220px); padding: 10px; }
+        .section { display: none; background: #3c2f2f; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); width: 100%; max-width: 100%; }
+        .section.active { display: block; }
+        .catalog-tab { display: none; width: 100%; }
+        .catalog-tab.active { display: block; }
+        .filter { margin-bottom: 15px; text-align: center; width: 100%; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .mandala-select { position: relative; display: inline-block; }
+        .mandala-button { background: linear-gradient(45deg, #d4af37, #ff8c00); color: #2b0a0a; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); transition: transform 0.2s; font-size: 14px; }
+        .mandala-button:hover { transform: scale(1.05); }
+        .mandala-options { display: none; position: absolute; background: #4a0e0e; border: 2px solid #d4af37; border-radius: 5px; padding: 10px; z-index: 10; left: 50%; transform: translateX(-50%); box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5); }
+        .mandala-options div { padding: 5px; color: #e0d0b0; cursor: pointer; transition: background 0.3s; font-size: 14px; }
+        .mandala-options div:hover { background: #ff8c00; }
+        .placeholder { color: #e0d0b0; font-size: 16px; text-align: center; margin-top: 20px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); position: relative; animation: mandalaFade 3s infinite; }
+        @keyframes mandalaFade { 0% { opacity: 0.7; } 50% { opacity: 1; } 100% { opacity: 0.7; } }
+        .no-products { color: #e0d0b0; font-size: 16px; text-align: center; margin-top: 20px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); display: none; }
+        .product-card, .job-card, .message-card { background: #4a0e0e; border: 2px solid #d4af37; border-radius: 10px; padding: 10px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); opacity: 0; transform: translateX(-20px) rotate(-5deg); transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; cursor: pointer; }
+        .product-card.visible, .job-card.visible, .message-card.visible { opacity: 1; transform: translateX(0) rotate(0deg); }
+        .product-card:hover, .job-card:hover, .message-card:hover { transform: translateY(-5px); }
+        .product-card h3, .job-card h3, .message-card h3 { color: #ff8c00; margin: 0 0 8px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); font-size: 16px; }
+        .product-card p, .job-card p, .message-card p { color: #e0d0b0; margin: 5px 0; font-size: 14px; }
+        .weight-option p { color: #ff8c00; font-weight: bold; margin: 5px 0; }
+        .deal-button { background: linear-gradient(45deg, #d4af37, #ff8c00); color: #2b0a0a; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; transition: all 0.3s; animation: wave 2s infinite; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); font-size: 14px; width: 100%; }
+        .deal-button:hover { background: #ff8c00; animation: none; transform: scale(1.05); }
+        @keyframes wave { 0% { transform: translateY(0); } 50% { transform: translateY(-3px); } 100% { transform: translateY(0); } }
+        .profile-ledger { background: #4a0e0e; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 100; }
+        .modal-content { background: #4a0e0e; width: 90%; max-width: 400px; margin: 15% auto; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); }
+        .modal-content h3 { color: #ff8c00; font-size: 16px; }
+        .modal-content p { color: #e0d0b0; font-size: 14px; }
+        .close { color: #d4af37; float: right; font-size: 24px; cursor: pointer; }
+        .loader { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; border: 4px solid #d4af37; border-top: 4px solid #ff8c00; border-radius: 50%; animation: spin 1s linear infinite; z-index: 101; }
+        @keyframes spin { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+        .auth-modal-content { background: #4a0e0e; width: 90%; max-width: 400px; margin: 15% auto; padding: 20px; border: 2px solid #d4af37; border-radius: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); }
+        .auth-modal-content h3 { color: #ff8c00; margin-bottom: 15px; }
+        .auth-modal-content input { display: block; width: 80%; margin: 10px auto; padding: 10px; background: #e0d0b0; border: 1px solid #d4af37; border-radius: 5px; color: #2b0a0a; font-family: 'Georgia', serif; }
+        .auth-modal-content select { display: block; width: 80%; margin: 10px auto; padding: 10px; background: #e0d0b0; border: 1px solid #d4af37; border-radius: 5px; color: #2b0a0a; font-family: 'Georgia', serif; }
+        .auth-modal-content button { background: linear-gradient(45deg, #d4af37, #ff8c00); color: #2b0a0a; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.3s; margin: 5px; }
+        .auth-modal-content button:hover { transform: scale(1.05); }
+        .auth-modal-content .switch-form { color: #d4af37; cursor: pointer; text-decoration: underline; margin-top: 10px; }
+        .auth-modal-content .switch-form:hover { color: #ff8c00; }
+        .login-button, .register-button { background: linear-gradient(45deg, #d4af37, #ff8c00); color: #2b0a0a; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.3s; font-size: 16px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); margin: 5px; }
+        .login-button:hover, .register-button:hover { transform: scale(1.05); }
+        .reviews { margin-top: 10px; border-top: 1px solid #d4af37; padding-top: 10px; display: none; }
+        .review { background: rgba(0, 0, 0, 0.3); padding: 5px; margin: 5px 0; border-radius: 5px; font-size: 12px; color: #e0d0b0; }
+        .review p { margin: 0; }
+        .rating { color: #ff8c00; margin-bottom: 5px; }
+        .weights { margin-top: 10px; border-top: 1px solid #d4af37; padding-top: 10px; display: none; }
+        .weight-option { display: flex; justify-content: space-between; align-items: center; margin: 5px 0; }
+        .weight-option p { margin: 0; }
+        .discount { color: #ff4040; font-weight: bold; margin: 5px 0; }
+        .referral-section { margin-top: 15px; border-top: 1px solid #d4af37; padding-top: 10px; }
+        .referral-section p { color: #e0d0b0; font-size: 14px; }
+        .referral-link { background: #4a0e0e; padding: 5px; border-radius: 5px; word-break: break-all; }
         @media (max-width: 768px) {
-            .main-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            .sidebar {
-                width: 100%;
-                max-width: 300px;
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100%;
-                transform: translateX(-100%);
-            }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .content {
-                width: 100%;
-                padding: 5px;
-            }
-            .logo {
-                font-size: 24px;
-            }
-            .header-container {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .header-text {
-                font-size: 12px;
-            }
-            .nav-item {
-                font-size: 12px;
-                padding: 6px 10px;
-            }
-            .tab {
-                font-size: 12px;
-                padding: 8px;
-            }
-            .mandala-button {
-                font-size: 12px;
-                padding: 6px 12px;
-            }
-            .mandala-options div {
-                font-size: 12px;
-            }
-            .product-card h3, .job-card h3, .message-card h3 {
-                font-size: 14px;
-            }
-            .product-card p, .job-card p, .message-card p {
-                font-size: 12px;
-            }
-            .deal-button {
-                font-size: 12px;
-                padding: 6px 12px;
-            }
-            .login-button, .register-button {
-                font-size: 14px;
-                padding: 8px 15px;
-            }
-            .language-button {
-                font-size: 10px;
-                padding: 4px 8px;
-            }
-        }
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: linear-gradient(45deg, #1a0a0a, #0a1b0a);
-            }
-            .header {
-                background: linear-gradient(45deg, #3a0e0e, #4a0e0e);
-            }
-            .nav {
-                background: rgba(0, 0, 0, 0.9);
-            }
+            .main-container { flex-direction: column; align-items: center; }
+            .sidebar { width: 100%; max-width: 300px; position: fixed; top: 0; left: 0; height: 100%; transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .content { width: 100%; padding: 5px; }
+            .logo { font-size: 24px; }
+            .header-container { flex-direction: column; gap: 10px; }
+            .header-text { font-size: 12px; }
+            .nav-item { font-size: 12px; padding: 6px 10px; }
+            .tab { font-size: 12px; padding: 8px; }
+            .mandala-button { font-size: 12px; padding: 6px 12px; }
+            .mandala-options div { font-size: 12px; }
+            .product-card h3, .job-card h3, .message-card h3 { font-size: 14px; }
+            .product-card p, .job-card p, .message-card p { font-size: 12px; }
+            .deal-button { font-size: 12px; padding: 6px 12px; }
+            .login-button, .register-button { font-size: 14px; padding: 8px 15px; }
+            .language-button { font-size: 10px; padding: 4px 8px; }
         }
     </style>
 </head>
@@ -549,66 +103,66 @@
     <div class="header">
         <div class="logo" data-i18n="title">Shadow Goa</div>
         <div class="header-container">
-            <div class="header-text" data-i18n="subtitle">Тёмные сделки Гоа</div>
+            <div class="header-text" data-i18n="subtitle">Dark Deals of Goa</div>
             <div class="language-switcher">
-                <button class="language-button" onclick="setLanguage('ru')">RU</button>
                 <button class="language-button" onclick="setLanguage('en')">EN</button>
+                <button class="language-button" onclick="setLanguage('ru')">RU</button>
                 <button class="language-button" onclick="setLanguage('hi')">HI</button>
             </div>
         </div>
     </div>
     <div class="nav">
-        <div class="nav-item" onclick="toggleSection('catalog')" data-i18n="nav-catalog">Каталог</div>
-        <div class="nav-item" onclick="toggleSection('jobs')" data-i18n="nav-jobs">Вакансии</div>
-        <div class="nav-item" onclick="toggleSection('profile')" data-i18n="nav-profile">Книга учёта</div>
-        <div class="nav-item" onclick="toggleSection('messages')" data-i18n="nav-messages">Сообщения</div>
+        <div class="nav-item" onclick="toggleSection('catalog')" data-i18n="nav-catalog">Catalog</div>
+        <div class="nav-item" onclick="toggleSection('jobs')" data-i18n="nav-jobs">Jobs</div>
+        <div class="nav-item" onclick="toggleSection('profile')" data-i18n="nav-profile">Profile</div>
+        <div class="nav-item" onclick="toggleSection('messages')" data-i18n="nav-messages">Messages</div>
     </div>
     <div class="main-container">
         <div class="section catalog" id="catalog">
             <div class="sidebar" id="sidebar">
-                <div class="tab" onclick="toggleTab('marijuana')" data-i18n="tab-marijuana">Марихуана</div>
-                <div class="tab" onclick="toggleTab('hashish')" data-i18n="tab-hashish">Гашиш</div>
-                <div class="tab" onclick="toggleTab('cocaine')" data-i18n="tab-cocaine">Кокаин</div>
-                <div class="tab" onclick="toggleTab('meth')" data-i18n="tab-meth">Метамфетамин</div>
-                <div class="tab" onclick="toggleTab('amphetamine')" data-i18n="tab-amphetamine">Амфетамин</div>
-                <div class="tab" onclick="toggleTab('mephedrone')" data-i18n="tab-mephedrone">Мефедрон</div>
-                <div class="tab" onclick="toggleTab('mdma')" data-i18n="tab-mdma">МДМА</div>
-                <div class="tab" onclick="toggleTab('lsd')" data-i18n="tab-lsd">ЛСД</div>
-                <div class="tab" onclick="toggleTab('heroin')" data-i18n="tab-heroin">Героин</div>
+                <div class="tab" onclick="toggleTab('marijuana')" data-i18n="tab-marijuana">Marijuana</div>
+                <div class="tab" onclick="toggleTab('hashish')" data-i18n="tab-hashish">Hashish</div>
+                <div class="tab" onclick="toggleTab('cocaine')" data-i18n="tab-cocaine">Cocaine</div>
+                <div class="tab" onclick="toggleTab('meth')" data-i18n="tab-meth">Methamphetamine</div>
+                <div class="tab" onclick="toggleTab('amphetamine')" data-i18n="tab-amphetamine">Amphetamine</div>
+                <div class="tab" onclick="toggleTab('mephedrone')" data-i18n="tab-mephedrone">Mephedrone</div>
+                <div class="tab" onclick="toggleTab('mdma')" data-i18n="tab-mdma">MDMA</div>
+                <div class="tab" onclick="toggleTab('lsd')" data-i18n="tab-lsd">LSD</div>
+                <div class="tab" onclick="toggleTab('heroin')" data-i18n="tab-heroin">Heroin</div>
             </div>
             <div class="content">
                 <div class="filter">
                     <div class="mandala-select">
-                        <button class="mandala-button" id="district-button" data-i18n="district-all">Район: Все</button>
+                        <button class="mandala-button" id="district-button" data-i18n="district-all">District: All</button>
                         <div class="mandala-options" id="district-options">
-                            <div onclick="selectDistrict('all')" data-i18n="district-all-option">Все районы</div>
-                            <div onclick="selectDistrict('anjuna')" data-i18n="district-anjuna">Анджуна</div>
-                            <div onclick="selectDistrict('baga')" data-i18n="district-baga">Бага</div>
-                            <div onclick="selectDistrict('calangute')" data-i18n="district-calangute">Калангут</div>
-                            <div onclick="selectDistrict('morjim')" data-i18n="district-morjim">Морджим</div>
-                            <div onclick="selectDistrict('panaji')" data-i18n="district-panaji">Панаджи</div>
-                            <div onclick="selectDistrict('arambol')" data-i18n="district-arambol">Арамболь</div>
+                            <div onclick="selectDistrict('all')" data-i18n="district-all-option">All Districts</div>
+                            <div onclick="selectDistrict('anjuna')" data-i18n="district-anjuna">Anjuna</div>
+                            <div onclick="selectDistrict('baga')" data-i18n="district-baga">Baga</div>
+                            <div onclick="selectDistrict('calangute')" data-i18n="district-calangute">Calangute</div>
+                            <div onclick="selectDistrict('morjim')" data-i18n="district-morjim">Morjim</div>
+                            <div onclick="selectDistrict('panaji')" data-i18n="district-panaji">Panaji</div>
+                            <div onclick="selectDistrict('arambol')" data-i18n="district-arambol">Arambol</div>
                         </div>
                     </div>
                     <div class="mandala-select">
-                        <button class="mandala-button" id="stock-button" data-i18n="stock-all">Наличие: Все</button>
+                        <button class="mandala-button" id="stock-button" data-i18n="stock-all">Stock: All</button>
                         <div class="mandala-options" id="stock-options">
-                            <div onclick="selectStock('all')" data-i18n="stock-all-option">Все</div>
-                            <div onclick="selectStock('in-stock')" data-i18n="in-stock">В наличии</div>
-                            <div onclick="selectStock('out-of-stock')" data-i18n="out-of-stock">Нет в наличии</div>
+                            <div onclick="selectStock('all')" data-i18n="stock-all-option">All</div>
+                            <div onclick="selectStock('in-stock')" data-i18n="in-stock">In Stock</div>
+                            <div onclick="selectStock('out-of-stock')" data-i18n="out-of-stock">Out of Stock</div>
                         </div>
                     </div>
                     <div class="mandala-select">
-                        <button class="mandala-button" id="discount-button" data-i18n="discount-all">Скидки: Все</button>
+                        <button class="mandala-button" id="discount-button" data-i18n="discount-all">Discounts: All</button>
                         <div class="mandala-options" id="discount-options">
-                            <div onclick="selectDiscount('all')" data-i18n="discount-all-option">Все</div>
-                            <div onclick="selectDiscount('with-discount')" data-i18n="with-discount">Со скидкой</div>
-                            <div onclick="selectDiscount('no-discount')" data-i18n="no-discount">Без скидки</div>
+                            <div onclick="selectDiscount('all')" data-i18n="discount-all-option">All</div>
+                            <div onclick="selectDiscount('with-discount')" data-i18n="with-discount">With Discount</div>
+                            <div onclick="selectDiscount('no-discount')" data-i18n="no-discount">No Discount</div>
                         </div>
                     </div>
                 </div>
-                <div class="placeholder" id="placeholder" data-i18n="placeholder">Выберите категорию в меню слева</div>
-                <div class="no-products" id="no-products" data-i18n="no-products">Товаров в этом районе нет</div>
+                <div class="placeholder" id="placeholder" data-i18n="placeholder">Select a category from the menu on the left</div>
+                <div class="no-products" id="no-products" data-i18n="no-products">No products in this district</div>
                 <div class="catalog-tab" id="marijuana"></div>
                 <div class="catalog-tab" id="hashish"></div>
                 <div class="catalog-tab" id="cocaine"></div>
@@ -622,22 +176,22 @@
         </div>
         <div class="section jobs" id="jobs">
             <div class="job-card">
-                <h3 data-i18n="job1-title">Курьер по пляжам Гоа</h3>
-                <p data-i18n="job1-desc">Обязанности: Развозить стафф по пляжам Анджуны и Баги.</p>
-                <p data-i18n="job1-salary">Оплата: ₹50000/месяц</p>
-                <button class="deal-button" onclick="checkAuthBeforeApply('Курьер по пляжам Гоа')" data-i18n="apply">Подать заявку</button>
+                <h3 data-i18n="job1-title">Beach Courier in Goa</h3>
+                <p data-i18n="job1-desc">Responsibilities: Deliver goods across Anjuna and Baga beaches.</p>
+                <p data-i18n="job1-salary">Salary: ₹50000/month</p>
+                <button class="deal-button" onclick="checkAuthBeforeApply('Beach Courier in Goa')" data-i18n="apply">Apply</button>
             </div>
             <div class="job-card">
-                <h3 data-i18n="job2-title">Химик для рейвов</h3>
-                <p data-i18n="job2-desc">Обязанности: Варить стафф для вечеринок в Арамболе.</p>
-                <p data-i18n="job2-salary">Оплата: ₹100000/месяц</p>
-                <button class="deal-button" onclick="checkAuthBeforeApply('Химик для рейвов')" data-i18n="apply">Подать заявку</button>
+                <h3 data-i18n="job2-title">Rave Chemist</h3>
+                <p data-i18n="job2-desc">Responsibilities: Prepare goods for parties in Arambol.</p>
+                <p data-i18n="job2-salary">Salary: ₹100000/month</p>
+                <button class="deal-button" onclick="checkAuthBeforeApply('Rave Chemist')" data-i18n="apply">Apply</button>
             </div>
             <div class="job-card">
-                <h3 data-i18n="job3-title">Смотритель клада</h3>
-                <p data-i18n="job3-desc">Обязанности: Прятать клады в Калангуте и следить за ними.</p>
-                <p data-i18n="job3-salary">Оплата: ₹40000/месяц</p>
-                <button class="deal-button" onclick="checkAuthBeforeApply('Смотритель клада')" data-i18n="apply">Подать заявку</button>
+                <h3 data-i18n="job3-title">Stash Keeper</h3>
+                <p data-i18n="job3-desc">Responsibilities: Hide stashes in Calangute and monitor them.</p>
+                <p data-i18n="job3-salary">Salary: ₹40000/month</p>
+                <button class="deal-button" onclick="checkAuthBeforeApply('Stash Keeper')" data-i18n="apply">Apply</button>
             </div>
         </div>
         <div class="section profile" id="profile">
@@ -645,43 +199,74 @@
         </div>
         <div class="section messages" id="messages">
             <div class="message-card">
-                <h3 data-i18n="message1-title">Клад готов</h3>
-                <p data-i18n="message1-text">Твой заказ "Goa Trance" спрятан у Tito’s Lane, Бага.</p>
+                <h3 data-i18n="message1-title">Stash Ready</h3>
+                <p data-i18n="message1-text">Your order "Goa Trance" is hidden at Tito’s Lane, Baga.</p>
             </div>
             <div class="message-card">
-                <h3 data-i18n="message2-title">Пополни баланс</h3>
-                <p data-i18n="message2-text">Кидай ₹, чтобы забрать "Anjuna Haze" в Анджуне.</p>
+                <h3 data-i18n="message2-title">Top Up Balance</h3>
+                <p data-i18n="message2-text">Send ₹ to pick up "Anjuna Haze" in Anjuna.</p>
             </div>
         </div>
     </div>
     <div class="modal" id="depositModal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('depositModal')">×</span>
-            <h3 data-i18n="deposit-title">Пополни баланс, мудак!</h3>
-            <p data-i18n="deposit-text1">Переведи ₹ через UPI или крипту (USDT, BTC) на этот адрес:</p>
-            <p><strong>0xFakeWallet123456789</strong></p>
-            <p data-i18n="deposit-text2">После оплаты доступ к кладам откроется. Жди, пиздец тебе!</p>
-            <button class="deal-button" onclick="depositFunds()" data-i18n="deposit-button">Оплатил</button>
+            <h3 data-i18n="deposit-title">Deposit Funds</h3>
+            <p data-i18n="deposit-text1">Select a cryptocurrency and enter the amount in INR (minimum 1000 INR):</p>
+            <select id="depositCrypto">
+                <option value="BTC">BTC (BEP20)</option>
+                <option value="ETH">ETH (ETH)</option>
+                <option value="USDT">USDT (TRC20)</option>
+                <option value="TON">TON (TON)</option>
+                <option value="SOL">SOL (Solana)</option>
+            </select>
+            <input type="number" id="depositAmount" min="1000" placeholder="Amount in INR">
+            <button class="deal-button" onclick="createDepositDeal()" data-i18n="deposit-button">Create Deal</button>
+            <div id="depositDetails" style="display: none;">
+                <p data-i18n="deposit-text2">Send the amount below to this address (valid for 30 minutes):</p>
+                <p id="depositCryptoAmount"></p>
+                <p id="depositAddress"></p>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="withdrawModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('withdrawModal')">×</span>
+            <h3 data-i18n="withdraw-title">Withdraw Funds</h3>
+            <p data-i18n="withdraw-text1">Select a cryptocurrency and enter the amount in INR:</p>
+            <select id="withdrawCrypto">
+                <option value="BTC">BTC (BEP20)</option>
+                <option value="ETH">ETH (ETH)</option>
+                <option value="USDT">USDT (TRC20)</option>
+                <option value="TON">TON (TON)</option>
+                <option value="SOL">SOL (Solana)</option>
+            </select>
+            <input type="number" id="withdrawAmount" min="1000" placeholder="Amount in INR">
+            <input type="text" id="withdrawAddress" placeholder="Your wallet address">
+            <button class="deal-button" onclick="createWithdrawDeal()" data-i18n="withdraw-button">Create Withdrawal</button>
+            <div id="withdrawDetails" style="display: none;">
+                <p data-i18n="withdraw-text2">Withdrawal request created. Processing within 24 hours.</p>
+            </div>
         </div>
     </div>
     <div class="modal" id="authModal">
         <div class="auth-modal-content">
             <span class="close" onclick="closeModal('authModal')">×</span>
             <div id="loginForm">
-                <h3 data-i18n="login-title">Вход, братишка!</h3>
+                <h3 data-i18n="login-title">Login</h3>
                 <input type="text" id="loginUsername" data-i18n="[placeholder]login-username">
                 <input type="password" id="loginPassword" data-i18n="[placeholder]login-password">
-                <button onclick="login()" data-i18n="login-button">Войти</button>
-                <p class="switch-form" onclick="showRegisterForm()" data-i18n="switch-to-register">Нет аккаунта? Регистрируйся, лох!</p>
+                <button onclick="login()" data-i18n="login-button">Login</button>
+                <p class="switch-form" onclick="showRegisterForm()" data-i18n="switch-to-register">No account? Register now!</p>
             </div>
             <div id="registerForm" style="display: none;">
-                <h3 data-i18n="register-title">Регистрация, дебил!</h3>
+                <h3 data-i18n="register-title">Register</h3>
                 <input type="text" id="regUsername" data-i18n="[placeholder]register-username">
                 <input type="password" id="regPassword" data-i18n="[placeholder]register-password">
                 <input type="password" id="regConfirmPassword" data-i18n="[placeholder]register-confirm-password">
                 <input type="text" id="regReferralCode" data-i18n="[placeholder]register-referral">
-                <button onclick="register()" data-i18n="register-button">Зарегистрироваться</button>
-                <p class="switch-form" onclick="showLoginForm()" data-i18n="switch-to-login">Уже есть аккаунт? Входи, дебил!</p>
+                <button onclick="register()" data-i18n="register-button">Register</button>
+                <p class="switch-form" onclick="showLoginForm()" data-i18n="switch-to-login">Already have an account? Login!</p>
             </div>
         </div>
     </div>
@@ -695,95 +280,15 @@
         let touchStartX = 0;
         let touchEndX = 0;
         let currentUser = null;
-        let currentLanguage = 'ru';
+        let currentLanguage = 'en';
 
         const translations = {
-            ru: {
-                title: "Shadow Goa",
-                subtitle: "Тёмные сделки Гоа",
-                "nav-catalog": "Каталог",
-                "nav-jobs": "Вакансии",
-                "nav-profile": "Книга учёта",
-                "nav-messages": "Сообщения",
-                "tab-marijuana": "Марихуана",
-                "tab-hashish": "Гашиш",
-                "tab-cocaine": "Кокаин",
-                "tab-meth": "Метамфетамин",
-                "tab-amphetamine": "Амфетамин",
-                "tab-mephedrone": "Мефедрон",
-                "tab-mdma": "МДМА",
-                "tab-lsd": "ЛСД",
-                "tab-heroin": "Героин",
-                "district-all": "Район: Все",
-                "district-all-option": "Все районы",
-                "district-anjuna": "Анджуна",
-                "district-baga": "Бага",
-                "district-calangute": "Калангут",
-                "district-morjim": "Морджим",
-                "district-panaji": "Панаджи",
-                "district-arambol": "Арамболь",
-                "stock-all": "Наличие: Все",
-                "stock-all-option": "Все",
-                "discount-all": "Скидки: Все",
-                "discount-all-option": "Все",
-                "with-discount": "Со скидкой",
-                "no-discount": "Без скидки",
-                placeholder: "Выберите категорию в меню слева",
-                "no-products": "Товаров в этом районе нет",
-                "job1-title": "Курьер по пляжам Гоа",
-                "job1-desc": "Обязанности: Развозить стафф по пляжам Анджуны и Баги.",
-                "job1-salary": "Оплата: ₹50000/месяц",
-                "job2-title": "Химик для рейвов",
-                "job2-desc": "Обязанности: Варить стафф для вечеринок в Арамболе.",
-                "job2-salary": "Оплата: ₹100000/месяц",
-                "job3-title": "Смотритель клада",
-                "job3-desc": "Обязанности: Прятать клады в Калангуте и следить за ними.",
-                "job3-salary": "Оплата: ₹40000/месяц",
-                apply: "Подать заявку",
-                "message1-title": "Клад готов",
-                "message1-text": "Твой заказ \"Goa Trance\" спрятан у Tito’s Lane, Бага.",
-                "message2-title": "Пополни баланс",
-                "message2-text": "Кидай ₹, чтобы забрать \"Anjuna Haze\" в Анджуне.",
-                "deposit-title": "Пополни баланс, мудак!",
-                "deposit-text1": "Переведи ₹ через UPI или крипту (USDT, BTC) на этот адрес:",
-                "deposit-text2": "После оплаты доступ к кладам откроется. Жди, пиздец тебе!",
-                "deposit-button": "Оплатил",
-                "login-title": "Вход, братишка!",
-                "login-username": "Имя юзера",
-                "login-password": "Пароль",
-                "login-button": "Войти",
-                "switch-to-register": "Нет аккаунта? Регистрируйся, лох!",
-                "register-title": "Регистрация, дебил!",
-                "register-username": "Имя юзера",
-                "register-password": "Пароль",
-                "register-confirm-password": "Подтверди пароль",
-                "register-referral": "Реферальный код (если есть)",
-                "register-button": "Зарегистрироваться",
-                "switch-to-login": "Уже есть аккаунт? Входи, дебил!",
-                "profile-title": "Твой учёт",
-                "profile-name": "Имя",
-                "profile-balance": "Баланс",
-                "profile-orders": "Заказы",
-                "profile-referral-bonus": "Реферальные бонусы",
-                "profile-deposit": "Пополнить",
-                "profile-logout": "Выйти 🚪",
-                "referral-link-text": "Твоя реферальная ссылка:",
-                "referral-invite": "Приглашай друзей и получай ₹1000 за каждого!",
-                "login-prompt": "Войти 🔑",
-                "register-prompt": "Регистрация 📝",
-                "in-stock": "В наличии",
-                "out-of-stock": "Нет в наличии",
-                "take-deal": "Take Deal",
-                "pre-order": "Предзаказ",
-                discount: "Скидка",
-                usdt: "USDT"
-            },
             en: {
                 title: "Shadow Goa",
                 subtitle: "Dark Deals of Goa",
                 "nav-catalog": "Catalog",
                 "nav-jobs": "Jobs",
-                "nav-profile": "Ledger",
+                "nav-profile": "Profile",
                 "nav-messages": "Messages",
                 "tab-marijuana": "Marijuana",
                 "tab-hashish": "Hashish",
@@ -804,6 +309,8 @@
                 "district-arambol": "Arambol",
                 "stock-all": "Stock: All",
                 "stock-all-option": "All",
+                "in-stock": "In Stock",
+                "out-of-stock": "Out of Stock",
                 "discount-all": "Discounts: All",
                 "discount-all-option": "All",
                 "with-discount": "With Discount",
@@ -811,51 +318,139 @@
                 placeholder: "Select a category from the menu on the left",
                 "no-products": "No products in this district",
                 "job1-title": "Beach Courier in Goa",
-                "job1-desc": "Responsibilities: Deliver stuff across Anjuna and Baga beaches.",
+                "job1-desc": "Responsibilities: Deliver goods across Anjuna and Baga beaches.",
                 "job1-salary": "Salary: ₹50000/month",
                 "job2-title": "Rave Chemist",
-                "job2-desc": "Responsibilities: Cook stuff for parties in Arambol.",
+                "job2-desc": "Responsibilities: Prepare goods for parties in Arambol.",
                 "job2-salary": "Salary: ₹100000/month",
                 "job3-title": "Stash Keeper",
                 "job3-desc": "Responsibilities: Hide stashes in Calangute and monitor them.",
                 "job3-salary": "Salary: ₹40000/month",
                 apply: "Apply",
                 "message1-title": "Stash Ready",
-                "message1-text": "Your order \"Goa Trance\" is hidden at Tito’s Lane, Baga.",
+                "message1-text": "Your order 'Goa Trance' is hidden at Tito’s Lane, Baga.",
                 "message2-title": "Top Up Balance",
-                "message2-text": "Send ₹ to pick up \"Anjuna Haze\" in Anjuna.",
-                "deposit-title": "Top Up Your Balance, Dude!",
-                "deposit-text1": "Transfer ₹ via UPI or crypto (USDT, BTC) to this address:",
-                "deposit-text2": "After payment, access to stashes will be granted. Wait, you’re screwed!",
-                "deposit-button": "Paid",
-                "login-title": "Login, Bro!",
+                "message2-text": "Send ₹ to pick up 'Anjuna Haze' in Anjuna.",
+                "deposit-title": "Deposit Funds",
+                "deposit-text1": "Select a cryptocurrency and enter the amount in INR (minimum 1000 INR):",
+                "deposit-text2": "Send the amount below to this address (valid for 30 minutes):",
+                "deposit-button": "Create Deal",
+                "withdraw-title": "Withdraw Funds",
+                "withdraw-text1": "Select a cryptocurrency and enter the amount in INR:",
+                "withdraw-text2": "Withdrawal request created. Processing within 24 hours.",
+                "withdraw-button": "Create Withdrawal",
+                "login-title": "Login",
                 "login-username": "Username",
                 "login-password": "Password",
                 "login-button": "Login",
-                "switch-to-register": "No account? Register, loser!",
-                "register-title": "Register, Idiot!",
+                "switch-to-register": "No account? Register now!",
+                "register-title": "Register",
                 "register-username": "Username",
                 "register-password": "Password",
                 "register-confirm-password": "Confirm Password",
-                "register-referral": "Referral Code (if any)",
+                "register-referral": "Referral Code (optional)",
                 "register-button": "Register",
-                "switch-to-login": "Already have an account? Login, idiot!",
-                "profile-title": "Your Ledger",
+                "switch-to-login": "Already have an account? Login!",
+                "profile-title": "Your Profile",
                 "profile-name": "Name",
                 "profile-balance": "Balance",
                 "profile-orders": "Orders",
-                "profile-referral-bonus": "Referral Bonuses",
+                "profile-referral-bonus": "Referral Earnings",
                 "profile-deposit": "Deposit",
+                "profile-withdraw": "Withdraw",
                 "profile-logout": "Logout 🚪",
                 "referral-link-text": "Your Referral Link:",
-                "referral-invite": "Invite friends and earn ₹1000 for each!",
+                "referral-invite": "Earn 10% of each deposit made by your invited users. Additionally, receive a 5g Marijuana (VHQ) bonus for every 5th invited user who deposits.",
                 "login-prompt": "Login 🔑",
                 "register-prompt": "Register 📝",
-                "in-stock": "In Stock",
-                "out-of-stock": "Out of Stock",
                 "take-deal": "Take Deal",
                 "pre-order": "Pre-order",
                 discount: "Discount",
+                usdt: "USDT"
+            },
+            ru: {
+                title: "Shadow Goa",
+                subtitle: "Тёмные сделки Гоа",
+                "nav-catalog": "Каталог",
+                "nav-jobs": "Вакансии",
+                "nav-profile": "Профиль",
+                "nav-messages": "Сообщения",
+                "tab-marijuana": "Марихуана",
+                "tab-hashish": "Гашиш",
+                "tab-cocaine": "Кокаин",
+                "tab-meth": "Метамфетамин",
+                "tab-amphetamine": "Амфетамин",
+                "tab-mephedrone": "Мефедрон",
+                "tab-mdma": "МДМА",
+                "tab-lsd": "ЛСД",
+                "tab-heroin": "Героин",
+                "district-all": "Район: Все",
+                "district-all-option": "Все районы",
+                "district-anjuna": "Анджуна",
+                "district-baga": "Бага",
+                "district-calangute": "Калангут",
+                "district-morjim": "Морджим",
+                "district-panaji": "Панаджи",
+                "district-arambol": "Арамболь",
+                "stock-all": "Наличие: Все",
+                "stock-all-option": "Все",
+                "in-stock": "В наличии",
+                "out-of-stock": "Нет в наличии",
+                "discount-all": "Скидки: Все",
+                "discount-all-option": "Все",
+                "with-discount": "Со скидкой",
+                "no-discount": "Без скидки",
+                placeholder: "Выберите категорию в меню слева",
+                "no-products": "Товаров в этом районе нет",
+                "job1-title": "Курьер по пляжам Гоа",
+                "job1-desc": "Обязанности: Доставлять товары по пляжам Анджуны и Баги.",
+                "job1-salary": "Оплата: ₹50000/месяц",
+                "job2-title": "Химик для рейвов",
+                "job2-desc": "Обязанности: Готовить товары для вечеринок в Арамболе.",
+                "job2-salary": "Оплата: ₹100000/месяц",
+                "job3-title": "Смотритель клада",
+                "job3-desc": "Обязанности: Прятать клады в Калангуте и следить за ними.",
+                "job3-salary": "Оплата: ₹40000/месяц",
+                apply: "Подать заявку",
+                "message1-title": "Клад готов",
+                "message1-text": "Ваш заказ 'Goa Trance' спрятан у Tito’s Lane, Бага.",
+                "message2-title": "Пополните баланс",
+                "message2-text": "Отправьте ₹, чтобы забрать 'Anjuna Haze' в Анджуне.",
+                "deposit-title": "Пополнение средств",
+                "deposit-text1": "Выберите криптовалюту и укажите сумму в INR (минимум 1000 INR):",
+                "deposit-text2": "Отправьте указанную сумму на этот адрес (действителен 30 минут):",
+                "deposit-button": "Создать сделку",
+                "withdraw-title": "Вывод средств",
+                "withdraw-text1": "Выберите криптовалюту и укажите сумму в INR:",
+                "withdraw-text2": "Запрос на вывод создан. Обработка в течение 24 часов.",
+                "withdraw-button": "Создать вывод",
+                "login-title": "Вход",
+                "login-username": "Имя пользователя",
+                "login-password": "Пароль",
+                "login-button": "Войти",
+                "switch-to-register": "Нет аккаунта? Зарегистрируйтесь!",
+                "register-title": "Регистрация",
+                "register-username": "Имя пользователя",
+                "register-password": "Пароль",
+                "register-confirm-password": "Подтвердите пароль",
+                "register-referral": "Реферальный код (опционально)",
+                "register-button": "Зарегистрироваться",
+                "switch-to-login": "Уже есть аккаунт? Войдите!",
+                "profile-title": "Ваш профиль",
+                "profile-name": "Имя",
+                "profile-balance": "Баланс",
+                "profile-orders": "Заказы",
+                "profile-referral-bonus": "Реферальные доходы",
+                "profile-deposit": "Пополнить",
+                "profile-withdraw": "Вывести",
+                "profile-logout": "Выйти 🚪",
+                "referral-link-text": "Ваша реферальная ссылка:",
+                "referral-invite": "Получайте 10% от каждого пополнения ваших приглашённых пользователей. За каждого 5-го пополнившего — бонус 5г марихуаны (VHQ).",
+                "login-prompt": "Войти 🔑",
+                "register-prompt": "Регистрация 📝",
+                "take-deal": "Взять сделку",
+                "pre-order": "Предзаказ",
+                discount: "Скидка",
                 usdt: "USDT"
             },
             hi: {
@@ -863,7 +458,7 @@
                 subtitle: "गोवा की डार्क डील्स",
                 "nav-catalog": "सूची",
                 "nav-jobs": "नौकरियां",
-                "nav-profile": "खाता बही",
+                "nav-profile": "प्रोफाइल",
                 "nav-messages": "संदेश",
                 "tab-marijuana": "मारिजुआना",
                 "tab-hashish": "हशीश",
@@ -884,6 +479,8 @@
                 "district-arambol": "अरंबोल",
                 "stock-all": "स्टॉक: सभी",
                 "stock-all-option": "सभी",
+                "in-stock": "स्टॉक में",
+                "out-of-stock": "स्टॉक में नहीं",
                 "discount-all": "छूट: सभी",
                 "discount-all-option": "सभी",
                 "with-discount": "छूट के साथ",
@@ -901,44 +498,74 @@
                 "job3-salary": "वेतन: ₹40000/माह",
                 apply: "आवेदन करें",
                 "message1-title": "खजाना तैयार है",
-                "message1-text": "आपका ऑर्डर \"Goa Trance\" टिटो लेन, बागा में छिपा है।",
+                "message1-text": "आपका ऑर्डर 'Goa Trance' टिटो लेन, बागा में छिपा है।",
                 "message2-title": "बैलेंस टॉप अप करें",
-                "message2-text": "अंजुना में \"Anjuna Haze\" लेने के लिए ₹ भेजें।",
-                "deposit-title": "अपना बैलेंस टॉप अप करें, भाई!",
-                "deposit-text1": "इस पते पर UPI या क्रिप्टो (USDT, BTC) के माध्यम से ₹ ट्रांसफर करें:",
-                "deposit-text2": "भुगतान के बाद, खजानों तक पहुंच मिल जाएगी। इंतजार करें, तुम्हारी शामत आई है!",
-                "deposit-button": "भुगतान किया",
-                "login-title": "लॉगिन करें, भाई!",
+                "message2-text": "अंजुना में 'Anjuna Haze' लेने के लिए ₹ भेजें।",
+                "deposit-title": "फंड जमा करें",
+                "deposit-text1": "क्रिप्टोकरेंसी चुनें और INR में राशि दर्ज करें (न्यूनतम 1000 INR):",
+                "deposit-text2": "नीचे दी गई राशि को इस पते पर भेजें (30 मिनट के लिए मान्य):",
+                "deposit-button": "डील बनाएं",
+                "withdraw-title": "फंड निकालें",
+                "withdraw-text1": "क्रिप्टोकरेंसी चुनें और INR में राशि दर्ज करें:",
+                "withdraw-text2": "निकासी अनुरोध बनाया गया। 24 घंटे के भीतर प्रसंस्करण।",
+                "withdraw-button": "निकासी बनाएं",
+                "login-title": "लॉगिन",
                 "login-username": "उपयोगकर्ता नाम",
                 "login-password": "पासवर्ड",
                 "login-button": "लॉगिन",
-                "switch-to-register": "कोई खाता नहीं? रजिस्टर करें, हारे हुए!",
-                "register-title": "रजिस्टर करें, मूर्ख!",
+                "switch-to-register": "कोई खाता नहीं? अभी रजिस्टर करें!",
+                "register-title": "रजिस्टर",
                 "register-username": "उपयोगकर्ता नाम",
                 "register-password": "पासवर्ड",
                 "register-confirm-password": "पासवर्ड की पुष्टि करें",
-                "register-referral": "रेफरल कोड (यदि कोई हो)",
+                "register-referral": "रेफरल कोड (वैकल्पिक)",
                 "register-button": "रजिस्टर",
-                "switch-to-login": "पहले से खाता है? लॉगिन करें, मूर्ख!",
-                "profile-title": "आपकी खाता बही",
+                "switch-to-login": "पहले से खाता है? लॉगिन करें!",
+                "profile-title": "आपका प्रोफाइल",
                 "profile-name": "नाम",
                 "profile-balance": "बैलेंस",
                 "profile-orders": "ऑर्डर",
-                "profile-referral-bonus": "रेफरल बोनस",
+                "profile-referral-bonus": "रेफरल आय",
                 "profile-deposit": "जमा करें",
+                "profile-withdraw": "निकालें",
                 "profile-logout": "लॉगआउट 🚪",
                 "referral-link-text": "आपका रेफरल लिंक:",
-                "referral-invite": "दोस्तों को आमंत्रित करें और प्रत्येक के लिए ₹1000 कमाएं!",
+                "referral-invite": "अपने आमंत्रित उपयोगकर्ताओं के प्रत्येक जमा से 10% कमाएं। हर 5वें जमा करने वाले उपयोगकर्ता के लिए 5g मारिजुआना (VHQ) बोनस प्राप्त करें।",
                 "login-prompt": "लॉगिन 🔑",
                 "register-prompt": "रजिस्टर 📝",
-                "in-stock": "स्टॉक में",
-                "out-of-stock": "स्टॉक में नहीं",
                 "take-deal": "डील लें",
                 "pre-order": "प्री-ऑर्डर",
                 discount: "छूट",
                 usdt: "USDT"
             }
         };
+
+        const cryptoAddresses = {
+            BTC: "bc1qfakeaddress123456789bep20",
+            ETH: "0xFakeEthAddress123456789",
+            USDT: "TRFakeUsdtAddress123456789",
+            TON: "EQFakeTonAddress123456789",
+            SOL: "FakeSolAddress123456789"
+        };
+
+        let exchangeRates = {};
+
+        async function fetchExchangeRates() {
+            try {
+                const response = await fetch('https://min-api.cryptocompare.com/data/price?fsym=INR&tsyms=BTC,ETH,USDT,TON,SOL&api_key=YOUR_CRYPTOCOMPARE_API_KEY');
+                const data = await response.json();
+                exchangeRates = {
+                    BTC: 1 / data.BTC,
+                    ETH: 1 / data.ETH,
+                    USDT: 1 / data.USDT,
+                    TON: 1 / data.TON,
+                    SOL: 1 / data.SOL
+                };
+            } catch (error) {
+                console.error('Error fetching exchange rates:', error);
+                exchangeRates = { BTC: 0.0000002, ETH: 0.00005, USDT: 0.012, TON: 0.25, SOL: 0.008 }; // Fallback rates
+            }
+        }
 
         function setLanguage(lang) {
             currentLanguage = lang;
@@ -972,9 +599,7 @@
                 const additionalWeights = [];
                 for (let i = 0; i < 4; i++) {
                     const weight = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
-                    if (!additionalWeights.includes(weight) && weight !== 10) {
-                        additionalWeights.push(weight);
-                    }
+                    if (!additionalWeights.includes(weight) && weight !== 10) additionalWeights.push(weight);
                 }
                 weights.push(...additionalWeights.sort((a, b) => a - b));
             } else if (category === 'cocaine') {
@@ -983,17 +608,13 @@
                 for (let i = 0; i < 3; i++) {
                     const weight = Math.random() * (20 - 1) + 1;
                     const roundedWeight = Math.round(weight * 2) / 2;
-                    if (!additionalWeights.includes(roundedWeight) && roundedWeight !== 0.5 && roundedWeight !== 1) {
-                        additionalWeights.push(roundedWeight);
-                    }
+                    if (!additionalWeights.includes(roundedWeight) && roundedWeight !== 0.5 && roundedWeight !== 1) additionalWeights.push(roundedWeight);
                 }
                 weights.push(...additionalWeights.sort((a, b) => a - b));
             } else {
                 for (let i = 0; i < 5; i++) {
                     const weight = Math.floor(Math.random() * (20 - 1 + 1)) + 1;
-                    if (!weights.includes(weight)) {
-                        weights.push(weight);
-                    }
+                    if (!weights.includes(weight)) weights.push(weight);
                 }
                 weights.sort((a, b) => a - b);
             }
@@ -1002,22 +623,20 @@
 
         function generateReviews() {
             const positiveReviews = {
-                ru: ["Похер, братишка, стафф огонь!", "Качество пушка, бери не пожалеешь!", "Транс уносит, всё чётко!", "Стафф реально VHQ, рекомендую!", "Доставка быстрая, всё на месте!"],
-                en: ["Damn, bro, the stuff is fire!", "Quality is top-notch, you won’t regret it!", "Trance takes you away, all good!", "Stuff is really VHQ, recommend!", "Delivery is fast, everything’s in place!"],
-                hi: ["भाई, सामान जबरदस्त है!", "क्वालिटी शानदार है, पछतावा नहीं होगा!", "ट्रांस ले जाता है, सब ठीक है!", "सामान वाकई VHQ है, सुझाव देता हूँ!", "डिलीवरी तेज है, सब कुछ जगह पर है!"]
+                en: ["Top-notch quality, worth every penny!", "Fast delivery, everything’s spot on!", "Pure VHQ, highly recommend!", "Smooth deal, no issues!", "Perfect stash, great service!"],
+                ru: ["Качество на высоте, стоит своих денег!", "Быстрая доставка, всё на месте!", "Чистый VHQ, рекомендую!", "Сделка прошла гладко, без проблем!", "Идеальный клад, отличный сервис!"],
+                hi: ["उच्च गुणवत्ता, हर पैसे के लायक!", "तेज डिलीवरी, सब कुछ सही!", "शुद्ध VHQ, बहुत सुझाव!", "सौदा सुचारू, कोई समस्या नहीं!", "सही खजाना, शानदार सेवा!"]
             };
             const negativeReviews = {
-                ru: ["Похер, братишка, стафф палёный!", "Качество так себе, ожидал большего.", "Доставка долгая, пиздец тебе!", "Стафф не тянет, зря взял.", "Клад не на месте, мудак!"],
-                en: ["Damn, bro, the stuff is fake!", "Quality is meh, expected more.", "Delivery took forever, you’re screwed!", "Stuff doesn’t hit, waste of money.", "Stash wasn’t there, idiot!"],
-                hi: ["भाई, सामान नकली है!", "क्वालिटी ठीक-ठाक है, और उम्मीद थी।", "डिलीवरी में देरी हुई, तुम्हारी शामत आई!", "सामान अच्छा नहीं है, व्यर्थ लिया।", "खजाना वहाँ नहीं था, मूर्ख!"]
+                en: ["Quality could be better, expected more.", "Delivery was slow, not impressed.", "Stash wasn’t great, disappointed.", "Deal took too long, not cool.", "Couldn’t find the stash, bad experience."],
+                ru: ["Качество могло быть лучше, ожидал большего.", "Доставка медленная, не впечатлён.", "Клад не очень, разочарован.", "Сделка затянулась, не круто.", "Не нашёл клад, плохой опыт."],
+                hi: ["गुणवत्ता बेहतर हो सकती थी, और उम्मीद थी।", "डिलीवरी धीमी थी, प्रभावित नहीं।", "खजाना अच्छा नहीं था, निराश।", "सौदा देर से हुआ, अच्छा नहीं।", "खजाना नहीं मिला, बुरा अनुभव।"]
             };
             const reviews = [];
             for (let i = 0; i < 5; i++) {
                 const isPositive = Math.random() > 0.4;
                 const rating = isPositive ? Math.floor(Math.random() * 2) + 4 : Math.floor(Math.random() * 3) + 1;
-                const reviewText = isPositive
-                    ? positiveReviews[currentLanguage][Math.floor(Math.random() * positiveReviews[currentLanguage].length)]
-                    : negativeReviews[currentLanguage][Math.floor(Math.random() * negativeReviews[currentLanguage].length)];
+                const reviewText = isPositive ? positiveReviews[currentLanguage][Math.floor(Math.random() * positiveReviews[currentLanguage].length)] : negativeReviews[currentLanguage][Math.floor(Math.random() * negativeReviews[currentLanguage].length)];
                 reviews.push({ user: `User${Math.floor(Math.random() * 100)}`, text: reviewText, rating });
             }
             return reviews;
@@ -1025,42 +644,42 @@
 
         const products = {
             marijuana: [
-                { id: 'anjuna-haze', name: 'Anjuna Haze (VHQ)', description: 'Трава с пляжей Анджуны, трансовая волна. 70% ТГК.', basePrice: 500, district: 'anjuna', inStock: true },
-                { id: 'baga-bud', name: 'Baga Bud (HQ)', description: 'Сочная трава с вечеринок Баги. 65% ТГК.', basePrice: 450, district: 'baga', inStock: false },
-                { id: 'arambol-green', name: 'Arambol Green (VHQ)', description: 'Хиппи-трава из Арамболя. 68% ТГК.', basePrice: 480, district: 'arambol', inStock: true }
+                { id: 'anjuna-haze', name: 'Anjuna Haze (VHQ)', description: 'Premium herb from Anjuna beaches, trance vibes. 70% THC.', basePrice: 500, district: 'anjuna', inStock: true },
+                { id: 'baga-bud', name: 'Baga Bud (HQ)', description: 'Juicy herb from Baga parties. 65% THC.', basePrice: 450, district: 'baga', inStock: false },
+                { id: 'arambol-green', name: 'Arambol Green (VHQ)', description: 'Hippie herb from Arambol. 68% THC.', basePrice: 480, district: 'arambol', inStock: true }
             ],
             hashish: [
-                { id: 'arambol-charas', name: 'Arambol Charas (VHQ)', description: 'Гашиш с хиппи-вайбом Арамболя. Мягкий и глубокий.', basePrice: 600, district: 'arambol', inStock: true },
-                { id: 'morjim-hash', name: 'Morjim Hash (HQ)', description: 'Гашиш с тихих пляжей Морджима. Глубокий релакс.', basePrice: 550, district: 'morjim', inStock: false }
+                { id: 'arambol-charas', name: 'Arambol Charas (VHQ)', description: 'Hash with Arambol’s hippie vibe. Smooth and deep.', basePrice: 600, district: 'arambol', inStock: true },
+                { id: 'morjim-hash', name: 'Morjim Hash (HQ)', description: 'Hash from Morjim’s quiet beaches. Deep relaxation.', basePrice: 550, district: 'morjim', inStock: false }
             ],
             cocaine: [
-                { id: 'baga-dust', name: 'Baga Dust (VHQ)', description: 'Кокс с вечеринок Баги. 95% чистоты, чистый взлёт.', basePrice: 12000, district: 'baga', inStock: true },
-                { id: 'calangute-snow', name: 'Calangute Snow (HQ)', description: 'Кокс с шумных улиц Калангута. 90% чистоты.', basePrice: 11000, district: 'calangute', inStock: true }
+                { id: 'baga-dust', name: 'Baga Dust (VHQ)', description: 'Coke from Baga parties. 95% purity, pure lift.', basePrice: 12000, district: 'baga', inStock: true },
+                { id: 'calangute-snow', name: 'Calangute Snow (HQ)', description: 'Coke from Calangute’s busy streets. 90% purity.', basePrice: 11000, district: 'calangute', inStock: true }
             ],
             meth: [
-                { id: 'morjim-rush', name: 'Morjim Rush (VHQ)', description: 'Мет с тихих пляжей Морджима. Быстрый и долгий кайф.', basePrice: 800, district: 'morjim', inStock: false },
-                { id: 'panaji-crystal', name: 'Panaji Crystal (HQ)', description: 'Мет с португальских улочек Панаджи. Чистый драйв.', basePrice: 750, district: 'panaji', inStock: true }
+                { id: 'morjim-rush', name: 'Morjim Rush (VHQ)', description: 'Meth from Morjim’s quiet beaches. Fast and long high.', basePrice: 800, district: 'morjim', inStock: false },
+                { id: 'panaji-crystal', name: 'Panaji Crystal (HQ)', description: 'Meth from Panaji’s Portuguese streets. Pure drive.', basePrice: 750, district: 'panaji', inStock: true }
             ],
             amphetamine: [
-                { id: 'calangute-speed', name: 'Calangute Speed (VHQ)', description: 'Амф с шумных улиц Калангута. Энергия на всю ночь.', basePrice: 650, district: 'calangute', inStock: true },
-                { id: 'baga-surge', name: 'Baga Surge (HQ)', description: 'Амф для вечеринок в Баге. Мощный заряд.', basePrice: 600, district: 'baga', inStock: true }
+                { id: 'calangute-speed', name: 'Calangute Speed (VHQ)', description: 'Amp from Calangute’s busy streets. Energy all night.', basePrice: 650, district: 'calangute', inStock: true },
+                { id: 'baga-surge', name: 'Baga Surge (HQ)', description: 'Amp for Baga parties. Strong boost.', basePrice: 600, district: 'baga', inStock: true }
             ],
             mephedrone: [
-                { id: 'panaji-spice', name: 'Panaji Spice (VHQ)', description: 'Меф с португальских улочек Панаджи. Эйфория и драйв.', basePrice: 700, district: 'panaji', inStock: true },
-                { id: 'anjuna-wave', name: 'Anjuna Wave (HQ)', description: 'Меф с транс-вайбом Анджуны. Эйфория на всю ночь.', basePrice: 650, district: 'anjuna', inStock: false }
+                { id: 'panaji-spice', name: 'Panaji Spice (VHQ)', description: 'Meph from Panaji’s Portuguese streets. Euphoria and drive.', basePrice: 700, district: 'panaji', inStock: true },
+                { id: 'anjuna-wave', name: 'Anjuna Wave (HQ)', description: 'Meph with Anjuna’s trance vibe. Euphoria all night.', basePrice: 650, district: 'anjuna', inStock: false }
             ],
             mdma: [
-                { id: 'baga-bliss', name: 'Baga Bliss (VHQ)', description: 'МДМА для вечеринок в Баге. Любовь и экстаз.', basePrice: 400, district: 'baga', inStock: true },
-                { id: 'anjuna-love', name: 'Anjuna Love (HQ)', description: 'МДМА с рейвов Анджуны. Чистая эйфория.', basePrice: 380, district: 'anjuna', inStock: true },
-                { id: 'calangute-glow', name: 'Calangute Glow (VHQ)', description: 'МДМА для тусовок в Калангуте. Яркие эмоции.', basePrice: 390, district: 'calangute', inStock: false }
+                { id: 'baga-bliss', name: 'Baga Bliss (VHQ)', description: 'MDMA for Baga parties. Love and ecstasy.', basePrice: 400, district: 'baga', inStock: true },
+                { id: 'anjuna-love', name: 'Anjuna Love (HQ)', description: 'MDMA from Anjuna raves. Pure euphoria.', basePrice: 380, district: 'anjuna', inStock: true },
+                { id: 'calangute-glow', name: 'Calangute Glow (VHQ)', description: 'MDMA for Calangute parties. Bright emotions.', basePrice: 390, district: 'calangute', inStock: false }
             ],
             lsd: [
-                { id: 'goa-trance', name: 'Goa Trance (VHQ)', description: 'LSD для гоанских рейвов. Глубокий трип под звёзды.', basePrice: 300, district: 'anjuna', inStock: true },
-                { id: 'arambol-vision', name: 'Arambol Vision (HQ)', description: 'LSD с хиппи-вайбом Арамболя. Яркие видения.', basePrice: 280, district: 'arambol', inStock: true }
+                { id: 'goa-trance', name: 'Goa Trance (VHQ)', description: 'LSD for Goan raves. Deep trip under the stars.', basePrice: 300, district: 'anjuna', inStock: true },
+                { id: 'arambol-vision', name: 'Arambol Vision (HQ)', description: 'LSD with Arambol’s hippie vibe. Vivid visions.', basePrice: 280, district: 'arambol', inStock: true }
             ],
             heroin: [
-                { id: 'arambol-ice', name: 'Arambol Ice (VHQ)', description: 'Героин с хиппи-вайбом Арамболя. 90% чистоты.', basePrice: 1500, district: 'arambol', inStock: true },
-                { id: 'panaji-drift', name: 'Panaji Drift (HQ)', description: 'Героин с португальских улочек Панаджи. 85% чистоты.', basePrice: 1400, district: 'panaji', inStock: false }
+                { id: 'arambol-ice', name: 'Arambol Ice (VHQ)', description: 'Heroin with Arambol’s hippie vibe. 90% purity.', basePrice: 1500, district: 'arambol', inStock: true },
+                { id: 'panaji-drift', name: 'Panaji Drift (HQ)', description: 'Heroin from Panaji’s Portuguese streets. 85% purity.', basePrice: 1400, district: 'panaji', inStock: false }
             ]
         };
 
@@ -1078,11 +697,8 @@
                         const pricePerGram = product.basePrice;
                         const price = Math.round(pricePerGram * weight);
                         let discount = 0;
-                        if ((category === 'marijuana' || category === 'hashish') && weight >= 20) {
-                            discount = 10;
-                        } else if (category === 'cocaine' && weight >= 3) {
-                            discount = 15;
-                        }
+                        if ((category === 'marijuana' || category === 'hashish') && weight >= 20) discount = 10;
+                        else if (category === 'cocaine' && weight >= 3) discount = 15;
                         const discountedPrice = discount ? Math.round(price * (1 - discount / 100)) : price;
                         return { weight, price, discountedPrice, discount, reviews: generateReviews() };
                     });
@@ -1129,6 +745,7 @@
                     currentUser.referralCode = btoa(currentUser.username).slice(0, 8);
                     localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 }
+                if (!currentUser.referralCount) currentUser.referralCount = 0;
             }
             updateProfile();
         }
@@ -1144,6 +761,7 @@
                         <p><span data-i18n="profile-orders">${translations[currentLanguage]['profile-orders']}</span>: ${currentUser.orders || 0}</p>
                         <p><span data-i18n="profile-referral-bonus">${translations[currentLanguage]['profile-referral-bonus']}</span>: ₹${currentUser.referralBonus || 0}</p>
                         <button class="deal-button" onclick="openModal('depositModal')" data-i18n="profile-deposit">${translations[currentLanguage]['profile-deposit']}</button>
+                        <button class="deal-button" onclick="openModal('withdrawModal')" data-i18n="profile-withdraw">${translations[currentLanguage]['profile-withdraw']}</button>
                         <button class="deal-button" onclick="logout()" data-i18n="profile-logout">${translations[currentLanguage]['profile-logout']}</button>
                         <div class="referral-section">
                             <p data-i18n="referral-link-text">${translations[currentLanguage]['referral-link-text']}</p>
@@ -1177,26 +795,30 @@
             const referralCode = document.getElementById('regReferralCode').value;
 
             if (!username || !password || !confirmPassword) {
-                alert(translations[currentLanguage]['register-title'].includes('!') ? 'Заполни все поля, дебил!' : 'Fill all fields, idiot!');
+                alert('Please fill all fields.');
                 return;
             }
 
             if (password !== confirmPassword) {
-                alert(translations[currentLanguage]['register-title'].includes('!') ? 'Пароли не совпадают, лошара!' : 'Passwords do not match, loser!');
+                alert('Passwords do not match.');
                 return;
             }
 
             const users = JSON.parse(localStorage.getItem('users')) || [];
             if (users.some(user => user.username === username)) {
-                alert(translations[currentLanguage]['register-title'].includes('!') ? 'Такой юзер уже есть, придумай другой ник!' : 'This user already exists, choose another name!');
+                alert('This username is already taken. Choose another one.');
                 return;
             }
 
-            const newUser = { username, password, balance: 0, orders: 0, referralBonus: 0 };
+            const newUser = { username, password, balance: 0, orders: 0, referralBonus: 0, referralCount: 0 };
             if (referralCode) {
                 const referrer = users.find(user => user.referralCode === referralCode);
                 if (referrer) {
-                    referrer.referralBonus = (referrer.referralBonus || 0) + 1000;
+                    referrer.referralCount = (referrer.referralCount || 0) + 1;
+                    if (referrer.referralCount % 5 === 0) {
+                        referrer.referralBonus = (referrer.referralBonus || 0) + 500; // 5g Marijuana VHQ ~ ₹500 value
+                        alert(`Referrer ${referrer.username} earned a 5g Marijuana (VHQ) bonus for 5 referrals!`);
+                    }
                     newUser.balance = 500;
                     localStorage.setItem('users', JSON.stringify(users));
                 }
@@ -1209,7 +831,7 @@
             currentUser = newUser;
             closeModal('authModal');
             updateProfile();
-            alert(translations[currentLanguage]['register-title'].includes('!') ? 'Зарегистрирован, братишка! Теперь входи и воруй.' : 'Registered, bro! Now login and steal.');
+            alert('Registration successful! You can now log in.');
         }
 
         function login() {
@@ -1217,7 +839,7 @@
             const password = document.getElementById('loginPassword').value;
 
             if (!username || !password) {
-                alert(translations[currentLanguage]['login-title'].includes('!') ? 'Заполни поля, дебил!' : 'Fill the fields, idiot!');
+                alert('Please fill all fields.');
                 return;
             }
 
@@ -1225,27 +847,25 @@
             const user = users.find(user => user.username === username && user.password === password);
 
             if (!user) {
-                alert(translations[currentLanguage]['login-title'].includes('!') ? 'Неверный логин или пароль, лошара!' : 'Invalid login or password, loser!');
+                alert('Invalid username or password.');
                 return;
             }
 
-            if (!user.referralCode) {
-                user.referralCode = btoa(user.username).slice(0, 8);
-                localStorage.setItem('users', JSON.stringify(users));
-            }
-
+            if (!user.referralCode) user.referralCode = btoa(user.username).slice(0, 8);
+            if (!user.referralCount) user.referralCount = 0;
+            localStorage.setItem('users', JSON.stringify(users));
             localStorage.setItem('currentUser', JSON.stringify(user));
             currentUser = user;
             closeModal('authModal');
             updateProfile();
-            alert(translations[currentLanguage]['login-title'].includes('!') ? 'Вошёл, братишка! Теперь воруй.' : 'Logged in, bro! Now steal.');
+            alert('Login successful!');
         }
 
         function logout() {
             localStorage.removeItem('currentUser');
             currentUser = null;
             updateProfile();
-            alert(translations[currentLanguage]['profile-logout'].includes('🚪') ? 'Вышел, братишка! Заходи ещё.' : 'Logged out, bro! Come back later.');
+            alert('You have been logged out.');
         }
 
         function showLoginForm() {
@@ -1258,14 +878,102 @@
             document.getElementById('registerForm').style.display = 'block';
         }
 
+        async function createDepositDeal() {
+            if (!currentUser) {
+                alert('Please log in to deposit funds.');
+                openModal('authModal');
+                return;
+            }
+
+            const crypto = document.getElementById('depositCrypto').value;
+            const amountINR = parseFloat(document.getElementById('depositAmount').value);
+            if (!amountINR || amountINR < 1000) {
+                alert('Please enter an amount of at least 1000 INR.');
+                return;
+            }
+
+            const loader = document.getElementById('loader');
+            loader.style.display = 'block';
+            await new Promise(resolve => setTimeout(resolve, 5000)); // 5 sec delay
+            loader.style.display = 'none';
+
+            const finalAmountINR = amountINR * 1.004; // 0.4% fee
+            const cryptoAmount = (finalAmountINR * exchangeRates[crypto]).toFixed(6);
+            const address = cryptoAddresses[crypto];
+
+            document.getElementById('depositCryptoAmount').innerText = `${cryptoAmount} ${crypto} (₹${Math.round(finalAmountINR)})`;
+            document.getElementById('depositAddress').innerText = `${address} (${crypto === 'BTC' ? 'BEP20' : crypto === 'ETH' ? 'ETH' : crypto === 'USDT' ? 'TRC20' : crypto === 'TON' ? 'TON' : 'Solana'})`;
+            document.getElementById('depositDetails').style.display = 'block';
+
+            setTimeout(() => {
+                document.getElementById('depositDetails').style.display = 'none';
+                alert('Deposit address expired.');
+            }, 30 * 60 * 1000); // 30 min
+
+            // Simulate deposit (for demo)
+            setTimeout(() => {
+                currentUser.balance = (currentUser.balance || 0) + amountINR;
+                const referrer = JSON.parse(localStorage.getItem('users')).find(u => u.referralCode === currentUser.referralCodeUsed);
+                if (referrer) {
+                    referrer.referralBonus = (referrer.referralBonus || 0) + amountINR * 0.1;
+                    referrer.referralCount = (referrer.referralCount || 0) + 1;
+                    if (referrer.referralCount % 5 === 0) {
+                        referrer.referralBonus += 500; // 5g Marijuana VHQ
+                        alert(`Referrer ${referrer.username} earned a 5g Marijuana (VHQ) bonus!`);
+                    }
+                    localStorage.setItem('users', JSON.stringify(JSON.parse(localStorage.getItem('users'))));
+                }
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateProfile();
+                closeModal('depositModal');
+                alert(`Balance topped up by ₹${amountINR}!`);
+            }, 10000); // Simulate confirmation
+        }
+
+        function createWithdrawDeal() {
+            if (!currentUser) {
+                alert('Please log in to withdraw funds.');
+                openModal('authModal');
+                return;
+            }
+
+            const crypto = document.getElementById('withdrawCrypto').value;
+            const amountINR = parseFloat(document.getElementById('withdrawAmount').value);
+            const address = document.getElementById('withdrawAddress').value;
+
+            if (!amountINR || amountINR < 1000) {
+                alert('Please enter an amount of at least 1000 INR.');
+                return;
+            }
+            if (!address) {
+                alert('Please enter a wallet address.');
+                return;
+            }
+            if (currentUser.balance < amountINR) {
+                alert('Insufficient balance.');
+                return;
+            }
+
+            const loader = document.getElementById('loader');
+            loader.style.display = 'block';
+            setTimeout(() => {
+                loader.style.display = 'none';
+                currentUser.balance -= amountINR;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateProfile();
+                document.getElementById('withdrawDetails').style.display = 'block';
+                setTimeout(() => closeModal('withdrawModal'), 3000);
+            }, 5000); // 5 sec delay
+        }
+
         function checkAuthBeforeDeal(productId, weight, price) {
             if (!currentUser) {
-                alert(translations[currentLanguage]['login-title'].includes('!') ? 'Войди, чтобы оформить сделку, братишка!' : 'Login to make a deal, bro!');
+                alert('Please log in to proceed with the deal.');
                 openModal('authModal');
                 return;
             }
             if (currentUser.balance < price) {
-                alert(translations[currentLanguage]['login-title'].includes('!') ? 'Недостаточно бабок, пополни баланс, лошара!' : 'Not enough money, top up your balance, loser!');
+                alert('Insufficient balance. Please deposit funds.');
                 openModal('depositModal');
                 return;
             }
@@ -1273,127 +981,94 @@
             currentUser.orders = (currentUser.orders || 0) + 1;
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             updateProfile();
-            alert(translations[currentLanguage]['take-deal'].includes('Take') ? `Deal for ${productId} (${weight}g) confirmed! Check your messages for stash details.` : `Сделка по ${productId} (${weight}г) подтверждена! Чекай сообщения для деталей клада.`);
+            alert(`Deal for ${productId} (${weight}g) confirmed! Check your messages for details.`);
         }
 
         function checkAuthBeforeApply(jobTitle) {
             if (!currentUser) {
-                alert(translations[currentLanguage]['login-title'].includes('!') ? 'Войди, чтобы подать заявку, братишка!' : 'Login to apply, bro!');
+                alert('Please log in to apply.');
                 openModal('authModal');
                 return;
             }
-            alert(translations[currentLanguage]['apply'].includes('Apply') ? `Application for "${jobTitle}" submitted! Wait for a response.` : `Заявка на "${jobTitle}" отправлена! Жди ответа, братишка.`);
+            alert(`Application for "${jobTitle}" submitted! Await further instructions.`);
         }
 
-        function depositFunds() {
-            if (!currentUser) {
-                alert(translations[currentLanguage]['login-title'].includes('!') ? 'Войди, чтобы пополнить баланс, братишка!' : 'Login to deposit funds, bro!');
-                openModal('authModal');
+                toggleSection(section) {
+            if (currentSection === section && section === 'catalog') {
+                const sidebar = document.getElementById('sidebar');
+                isSidebarOpen = !isSidebarOpen;
+                sidebar.classList.toggle('open', isSidebarOpen);
                 return;
             }
-            currentUser.balance = (currentUser.balance || 0) + 5000;
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            updateProfile();
-            closeModal('depositModal');
-            alert(translations[currentLanguage]['deposit-button'].includes('Paid') ? 'Balance topped up by ₹5000! Now go make some deals.' : 'Баланс пополнен на ₹5000! Теперь воруй, братишка.');
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            const newSection = document.getElementById(section);
+            newSection.classList.add('active');
+            currentSection = section;
+
+            if (section === 'catalog') {
+                const sidebar = document.getElementById('sidebar');
+                isSidebarOpen = true;
+                sidebar.classList.add('open');
+                if (!currentTab) toggleTab('marijuana');
+            } else {
+                const sidebar = document.getElementById('sidebar');
+                isSidebarOpen = false;
+                sidebar.classList.remove('open');
+            }
+
+            document.querySelectorAll('.nav-item').forEach(item => item.style.background = 'linear-gradient(45deg, #3c2f2f, #4a0e0e)');
+            document.querySelector(`.nav-item[onclick="toggleSection('${section}')"]`).style.background = 'linear-gradient(45deg, #d4af37, #ff8c00)';
+
+            if (section === 'jobs' || section === 'messages') {
+                setTimeout(() => {
+                    document.querySelectorAll(`#${section} .job-card, #${section} .message-card`).forEach(card => card.classList.add('visible'));
+                }, 100);
+            }
         }
-
-        function toggleSection(section) {
-    // Если секция уже активна, просто переключаем сайдбар для "catalog"
-    if (currentSection === section && section === 'catalog') {
-        const sidebar = document.getElementById('sidebar');
-        isSidebarOpen = !isSidebarOpen; // Переключаем состояние
-        sidebar.classList.toggle('open', isSidebarOpen);
-        return;
-    }
-
-    // Скрываем предыдущую секцию
-    if (currentSection) {
-        document.getElementById(currentSection).classList.remove('active');
-        document.querySelector(`.nav-item[onclick="toggleSection('${currentSection}')"]`).classList.remove('active');
-    }
-
-    // Показываем новую секцию
-    document.getElementById(section).classList.add('active');
-    document.querySelector(`.nav-item[onclick="toggleSection('${section}')"]`).classList.add('active');
-    currentSection = section;
-
-    const sidebar = document.getElementById('sidebar');
-    if (section === 'catalog') {
-        isSidebarOpen = true; // Открываем сайдбар при выборе "Каталог"
-        sidebar.classList.add('open');
-        document.getElementById('placeholder').style.display = 'block';
-        if (currentTab) {
-            document.getElementById(currentTab).classList.add('active');
-            filterProducts();
-        }
-    } else {
-        isSidebarOpen = false;
-        sidebar.classList.remove('open');
-        const cards = document.querySelectorAll(`#${section} .job-card, #${section} .message-card`);
-        cards.forEach((card, index) => {
-            setTimeout(() => {
-                card.classList.add('visible');
-            }, index * 200);
-        });
-    }
-}
 
         function toggleTab(tab) {
-            document.getElementById('placeholder').style.display = 'none';
-            document.getElementById('no-products').style.display = 'none';
-
-            if (currentTab) {
-                document.getElementById(currentTab).classList.remove('active');
-                document.querySelector(`.tab[onclick="toggleTab('${currentTab}')"]`).classList.remove('active');
-            }
-
+            if (currentTab === tab) return;
+            document.querySelectorAll('.catalog-tab').forEach(t => t.classList.remove('active'));
             document.getElementById(tab).classList.add('active');
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelector(`.tab[onclick="toggleTab('${tab}')"]`).classList.add('active');
             currentTab = tab;
-
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.remove('open');
-            isSidebarOpen = false;
-
+            document.getElementById('placeholder').style.display = 'none';
             filterProducts();
         }
 
         function filterProducts() {
-            if (!currentTab) return;
+            const container = document.getElementById(currentTab);
+            const cards = container.querySelectorAll('.product-card');
+            let hasVisible = false;
 
-            const cards = document.querySelectorAll(`#${currentTab} .product-card`);
-            let hasVisibleProducts = false;
+            cards.forEach(card => {
+                const district = card.getAttribute('data-district');
+                const inStock = card.querySelector('p:nth-child(3)').innerText === translations[currentLanguage]['in-stock'];
+                const hasDiscount = card.querySelector('.discount') !== null;
 
-            cards.forEach((card, index) => {
-                const districtMatch = selectedDistrict === 'all' || card.getAttribute('data-district') === selectedDistrict;
-                const stockMatch = selectedStock === 'all' || 
-                    (selectedStock === 'in-stock' && card.querySelector('p:nth-child(3)').innerText === translations[currentLanguage]['in-stock']) || 
-                    (selectedStock === 'out-of-stock' && card.querySelector('p:nth-child(3)').innerText === translations[currentLanguage]['out-of-stock']);
-                const discountMatch = selectedDiscount === 'all' || 
-                    (selectedDiscount === 'with-discount' && card.querySelector('.discount')) || 
-                    (selectedDiscount === 'no-discount' && !card.querySelector('.discount'));
+                const districtMatch = selectedDistrict === 'all' || selectedDistrict === district;
+                const stockMatch = selectedStock === 'all' || (selectedStock === 'in-stock' && inStock) || (selectedStock === 'out-of-stock' && !inStock);
+                const discountMatch = selectedDiscount === 'all' || (selectedDiscount === 'with-discount' && hasDiscount) || (selectedDiscount === 'no-discount' && !hasDiscount);
 
                 if (districtMatch && stockMatch && discountMatch) {
-                    setTimeout(() => {
-                        card.classList.add('visible');
-                    }, index * 200);
-                    hasVisibleProducts = true;
+                    card.style.display = 'block';
+                    hasVisible = true;
+                    setTimeout(() => card.classList.add('visible'), 50);
                 } else {
+                    card.style.display = 'none';
                     card.classList.remove('visible');
                 }
             });
 
-            if (!hasVisibleProducts) {
-                document.getElementById('no-products').style.display = 'block';
-            }
+            document.getElementById('no-products').style.display = hasVisible ? 'none' : 'block';
         }
 
-                function selectDistrict(district) {
+        function selectDistrict(district) {
             selectedDistrict = district;
             const button = document.getElementById('district-button');
-            const districtText = district === 'all' ? translations[currentLanguage]['district-all-option'] : translations[currentLanguage][`district-${district}`];
-            button.innerText = `${translations[currentLanguage]['district-all'].split(':')[0]}: ${districtText}`;
+            const text = district === 'all' ? translations[currentLanguage]['district-all-option'] : translations[currentLanguage][`district-${district}`];
+            button.innerText = `${translations[currentLanguage]['district-all'].split(':')[0]}: ${text}`;
             document.getElementById('district-options').style.display = 'none';
             filterProducts();
         }
@@ -1401,8 +1076,8 @@
         function selectStock(stock) {
             selectedStock = stock;
             const button = document.getElementById('stock-button');
-            const stockText = stock === 'all' ? translations[currentLanguage]['stock-all-option'] : translations[currentLanguage][stock];
-            button.innerText = `${translations[currentLanguage]['stock-all'].split(':')[0]}: ${stockText}`;
+            const text = stock === 'all' ? translations[currentLanguage]['stock-all-option'] : translations[currentLanguage][stock];
+            button.innerText = `${translations[currentLanguage]['stock-all'].split(':')[0]}: ${text}`;
             document.getElementById('stock-options').style.display = 'none';
             filterProducts();
         }
@@ -1410,8 +1085,8 @@
         function selectDiscount(discount) {
             selectedDiscount = discount;
             const button = document.getElementById('discount-button');
-            const discountText = discount === 'all' ? translations[currentLanguage]['discount-all-option'] : translations[currentLanguage][discount];
-            button.innerText = `${translations[currentLanguage]['discount-all'].split(':')[0]}: ${discountText}`;
+            const text = discount === 'all' ? translations[currentLanguage]['discount-all-option'] : translations[currentLanguage][discount];
+            button.innerText = `${translations[currentLanguage]['discount-all'].split(':')[0]}: ${text}`;
             document.getElementById('discount-options').style.display = 'none';
             filterProducts();
         }
@@ -1422,23 +1097,21 @@
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
+            if (modalId === 'depositModal') document.getElementById('depositDetails').style.display = 'none';
+            if (modalId === 'withdrawModal') document.getElementById('withdrawDetails').style.display = 'none';
         }
 
         document.querySelectorAll('.mandala-button').forEach(button => {
             button.addEventListener('click', (e) => {
                 const options = button.nextElementSibling;
-                const isVisible = options.style.display === 'block';
-                document.querySelectorAll('.mandala-options').forEach(opt => opt.style.display = 'none');
-                options.style.display = isVisible ? 'none' : 'block';
+                options.style.display = options.style.display === 'block' ? 'none' : 'block';
                 e.stopPropagation();
             });
         });
 
         document.addEventListener('click', (e) => {
             document.querySelectorAll('.mandala-options').forEach(options => {
-                if (!options.contains(e.target) && !options.previousElementSibling.contains(e.target)) {
-                    options.style.display = 'none';
-                }
+                if (!options.contains(e.target)) options.style.display = 'none';
             });
         });
 
@@ -1448,55 +1121,37 @@
 
         document.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-
-        function handleSwipe() {
-            const sidebar = document.getElementById('sidebar');
-            if (touchEndX - touchStartX > 50 && !isSidebarOpen && currentSection === 'catalog') {
-                isSidebarOpen = true;
-                sidebar.classList.add('open');
-            } else if (touchStartX - touchEndX > 50 && isSidebarOpen) {
-                isSidebarOpen = false;
-                sidebar.classList.remove('open');
+            if (currentSection === 'catalog') {
+                const sidebar = document.getElementById('sidebar');
+                if (touchStartX - touchEndX > 50 && isSidebarOpen) {
+                    isSidebarOpen = false;
+                    sidebar.classList.remove('open');
+                } else if (touchEndX - touchStartX > 50 && !isSidebarOpen) {
+                    isSidebarOpen = true;
+                    sidebar.classList.add('open');
+                }
             }
-        }
-
-        window.addEventListener('load', () => {
-    setLanguage('ru');
-    initProducts();
-    checkAuth();
-    // Активируем секцию "Каталог", но не открываем сайдбар
-    document.getElementById('catalog').classList.add('active');
-    document.querySelector(`.nav-item[onclick="toggleSection('catalog')"]`).classList.add('active');
-    currentSection = 'catalog';
-    const sidebar = document.getElementById('sidebar');
-    sidebar.classList.remove('open'); // Убеждаемся, что сайдбар закрыт
-    isSidebarOpen = false;
-    const loader = document.getElementById('loader');
-    loader.style.display = 'block';
-    setTimeout(() => {
-        loader.style.display = 'none';
-    }, 1000);
-});
-
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('mouseover', () => {
-                item.style.transform = 'scale(1.1)';
-            });
-            item.addEventListener('mouseout', () => {
-                item.style.transform = 'scale(1)';
-            });
         });
 
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('mouseover', () => {
-                tab.style.transform = 'scale(1.05)';
+        window.onload = async () => {
+            await fetchExchangeRates();
+            initProducts();
+            toggleSection('catalog');
+            setLanguage('en');
+            checkAuth();
+
+            document.querySelectorAll('.product-card, .job-card, .message-card').forEach(card => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                observer.observe(card);
             });
-            tab.addEventListener('mouseout', () => {
-                tab.style.transform = 'scale(1)';
-            });
-        });
+        };
     </script>
 </body>
 </html>
