@@ -20,7 +20,7 @@
         .nav-item:hover { transform: scale(1.1); }
         .nav-item.active { background: linear-gradient(45deg, #d4af37, #ff8c00); }
         .main-container { max-width: 100%; margin: 10px auto; padding: 10px; display: flex; flex-direction: row; justify-content: space-between; gap: 20px; }
-        .sidebar { width: 180px; background: #3c2f2f; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; height: fit-content; transition: transform 0.3s ease-in-out; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5); position: fixed; top: 0; left: 0; height: 100%; transform: translateX(-100%); }
+        .sidebar { width: 180px; background: #3c2f2f; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; height: fit-content; transition: transform 0.3s ease-in-out; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5); position: fixed; top: 0; left: 0; height: 100%; transform: translateX(-100%); z-index: 1000; }
         .sidebar.open { transform: translateX(0); }
         .tab { background: #4a0e0e; padding: 10px; margin-bottom: 10px; color: #e0d0b0; cursor: pointer; border: 1px solid #d4af37; border-radius: 5px; transition: background 0.3s, transform 0.3s; text-align: center; font-size: 14px; }
         .tab:hover, .tab.active { background: #ff8c00; color: #2b0a0a; transform: scale(1.05); }
@@ -46,6 +46,8 @@
         .weight-option p { color: #ff8c00; font-weight: bold; margin: 5px 0; }
         .deal-button { background: linear-gradient(45deg, #d4af37, #ff8c00); color: #2b0a0a; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; transition: all 0.3s; font-size: 14px; width: 100%; }
         .deal-button:hover { background: #ff8c00; transform: scale(1.05); }
+        .delivery-button { background: linear-gradient(45deg, #ff8c00, #d4af37); color: #2b0a0a; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; transition: all 0.3s; font-size: 14px; width: 100%; margin-top: 5px; }
+        .delivery-button:hover { background: #ff8c00; transform: scale(1.05); }
         .profile-ledger { background: #4a0e0e; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 100; }
         .modal-content { background: #4a0e0e; width: 90%; max-width: 400px; margin: 15% auto; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; text-align: center; }
@@ -173,19 +175,19 @@
             <div class="job-card">
                 <h3 data-i18n="job1-title">Beach Courier in Goa</h3>
                 <p data-i18n="job1-desc">Responsibilities: Deliver goods across Anjuna and Baga beaches.</p>
-                <p data-i18n="job1-salary">Salary: ₹50000/month</p>
+                <p data-i18n="job1-salary">Salary: ₹150000/month</p>
                 <button class="deal-button" onclick="checkAuthBeforeApply('Beach Courier in Goa')" data-i18n="apply">Apply</button>
             </div>
             <div class="job-card">
                 <h3 data-i18n="job2-title">Rave Chemist</h3>
                 <p data-i18n="job2-desc">Responsibilities: Prepare goods for parties in Arambol.</p>
-                <p data-i18n="job2-salary">Salary: ₹100000/month</p>
+                <p data-i18n="job2-salary">Salary: ₹250000/month</p>
                 <button class="deal-button" onclick="checkAuthBeforeApply('Rave Chemist')" data-i18n="apply">Apply</button>
             </div>
             <div class="job-card">
                 <h3 data-i18n="job3-title">Stash Keeper</h3>
                 <p data-i18n="job3-desc">Responsibilities: Hide stashes in Calangute and monitor them.</p>
-                <p data-i18n="job3-salary">Salary: ₹40000/month</p>
+                <p data-i18n="job3-salary">Salary: ₹120000/month</p>
                 <button class="deal-button" onclick="checkAuthBeforeApply('Stash Keeper')" data-i18n="apply">Apply</button>
             </div>
         </div>
@@ -316,13 +318,13 @@
                 "no-products": "No products in this district",
                 "job1-title": "Beach Courier in Goa",
                 "job1-desc": "Responsibilities: Deliver goods across Anjuna and Baga beaches.",
-                "job1-salary": "Salary: ₹50000/month",
+                "job1-salary": "Salary: ₹150000/month",
                 "job2-title": "Rave Chemist",
                 "job2-desc": "Responsibilities: Prepare goods for parties in Arambol.",
-                "job2-salary": "Salary: ₹100000/month",
+                "job2-salary": "Salary: ₹250000/month",
                 "job3-title": "Stash Keeper",
                 "job3-desc": "Responsibilities: Hide stashes in Calangute and monitor them.",
-                "job3-salary": "Salary: ₹40000/month",
+                "job3-salary": "Salary: ₹120000/month",
                 apply: "Apply",
                 "welcome-title": "Welcome to Shadow Goa",
                 "welcome-text": "Greetings! Use this service wisely and discreetly. Contact support via Telegram @ShadowGoaSupport for assistance.",
@@ -358,7 +360,8 @@
                 "referral-invite": "Earn 10% of each deposit made by your invited users. Additionally, receive a 5g Marijuana (VHQ) bonus for every 5th invited user who deposits.",
                 "login-prompt": "Login 🔑",
                 "register-prompt": "Register 📝",
-                "take-deal": "Take Deal",
+                "buy": "Buy",
+                "delivery": "Delivery (+20%)",
                 "pre-order": "Pre-order",
                 discount: "Discount",
                 usdt: "USDT",
@@ -401,13 +404,13 @@
                 "no-products": "Товаров в этом районе нет",
                 "job1-title": "Курьер по пляжам Гоа",
                 "job1-desc": "Обязанности: Доставлять товары по пляжам Анджуны и Баги.",
-                "job1-salary": "Оплата: ₹50000/месяц",
+                "job1-salary": "Оплата: ₹150000/месяц",
                 "job2-title": "Химик для рейвов",
                 "job2-desc": "Обязанности: Готовить товары для вечеринок в Арамболе.",
-                "job2-salary": "Оплата: ₹100000/месяц",
+                "job2-salary": "Оплата: ₹250000/месяц",
                 "job3-title": "Смотритель клада",
                 "job3-desc": "Обязанности: Прятать клады в Калангуте и следить за ними.",
-                "job3-salary": "Оплата: ₹40000/месяц",
+                "job3-salary": "Оплата: ₹120000/месяц",
                 apply: "Подать заявку",
                 "welcome-title": "Добро пожаловать в Shadow Goa",
                 "welcome-text": "Приветствуем! Используйте сервис с умом и осторожностью. Свяжитесь с поддержкой через Telegram @ShadowGoaSupport для помощи.",
@@ -443,7 +446,8 @@
                 "referral-invite": "Получайте 10% от каждого пополнения ваших приглашённых пользователей. За каждого 5-го пополнившего — бонус 5г марихуаны (VHQ).",
                 "login-prompt": "Войти 🔑",
                 "register-prompt": "Регистрация 📝",
-                "take-deal": "Взять сделку",
+                "buy": "Купить",
+                "delivery": "Доставка (+20%)",
                 "pre-order": "Предзаказ",
                 discount: "Скидка",
                 usdt: "USDT",
@@ -486,13 +490,13 @@
                 "no-products": "इस जिले में कोई उत्पाद नहीं हैं",
                 "job1-title": "गोवा के समुद्र तटों पर कूरियर",
                 "job1-desc": "जिम्मेदारियां: अंजुना और बागा समुद्र तटों पर सामान पहुंचाना।",
-                "job1-salary": "वेतन: ₹50000/माह",
+                "job1-salary": "वेतन: ₹150000/माह",
                 "job2-title": "रेव पार्टियों के लिए रसायनज्ञ",
                 "job2-desc": "जिम्मेदारियां: अरंबोल में पार्टियों के लिए सामान तैयार करना।",
-                "job2-salary": "वेतन: ₹100000/माह",
+                "job2-salary": "वेतन: ₹250000/माह",
                 "job3-title": "खजाने का रखवाला",
                 "job3-desc": "जिम्मेदारियां: कालंगुट में खजाने छिपाना और उनकी निगरानी करना।",
-                "job3-salary": "वेतन: ₹40000/माह",
+                "job3-salary": "वेतन: ₹120000/माह",
                 apply: "आवेदन करें",
                 "welcome-title": "शैडो गोवा में आपका स्वागत है",
                 "welcome-text": "नमस्ते! इस सेवा का उपयोग समझदारी और गोपनीयता के साथ करें। सहायता के लिए Telegram @ShadowGoaSupport से संपर्क करें।",
@@ -528,7 +532,8 @@
                 "referral-invite": "अपने आमंत्रित उपयोगकर्ताओं के प्रत्येक जमा से 10% कमाएं। हर 5वें जमा करने वाले उपयोगकर्ता के लिए 5g मारिजुआना (VHQ) बोनस प्राप्त करें।",
                 "login-prompt": "लॉगिन 🔑",
                 "register-prompt": "रजिस्टर 📝",
-                "take-deal": "डील लें",
+                "buy": "खरीदें",
+                "delivery": "डिलीवरी (+20%)",
                 "pre-order": "प्री-ऑर्डर",
                 discount: "छूट",
                 usdt: "USDT",
@@ -560,13 +565,13 @@
                 };
             } catch (error) {
                 console.error('Error fetching exchange rates:', error);
-                exchangeRates = { BTC: 0.0000002, ETH: 0.00005, USDT: 0.012, TON: 0.25, SOL: 0.008 }; // Fallback rates
+                exchangeRates = { BTC: 0.0000002, ETH: 0.00005, USDT: 0.012, TON: 0.25, SOL: 0.008 };
             }
         }
 
         async function sendTelegramNotification(message) {
-            const botToken = '7589545725:AAHoedAqoGh_k0WWdUs1rcBN1yddUtBFhsk'; // Замените на ваш токен бота
-            const chatId = '5956080955'; // Замените на ваш chat_id
+            const botToken = '7589545725:AAHoedAqoGh_k0WWdUs1rcBN1yddUtBFhsk';
+            const chatId = '5956080955';
             const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
             try {
                 await fetch(url, {
@@ -733,7 +738,8 @@
                             ${weightOptions.map(option => `
                                 <div class="weight-option">
                                     <p>${option.weight}g: ₹${option.discountedPrice}${option.discount ? ` <span style="text-decoration: line-through; color: #e0d0b0;">₹${option.price}</span>` : ''} (~${Math.round(option.discountedPrice / 83)} ${translations[currentLanguage].usdt})</p>
-                                    <button class="deal-button" onclick="event.stopPropagation(); checkAuthBeforeDeal('${product.id}', ${option.weight}, ${option.discountedPrice})">${product.inStock ? translations[currentLanguage]['take-deal'] : translations[currentLanguage]['pre-order']}</button>
+                                    <button class="deal-button" onclick="event.stopPropagation(); checkAuthBeforeDeal('${product.id}', ${option.weight}, ${option.discountedPrice}, false)">${product.inStock ? translations[currentLanguage]['buy'] : translations[currentLanguage]['pre-order']}</button>
+                                    <button class="delivery-button" onclick="event.stopPropagation(); checkAuthBeforeDeal('${product.id}', ${option.weight}, ${Math.round(option.discountedPrice * 1.2)}, true)">${translations[currentLanguage]['delivery']}</button>
                                 </div>
                                 ${option.discount ? `<p class="discount">${translations[currentLanguage].discount}: ${option.discount}%</p>` : ''}
                             `).join('')}
@@ -789,7 +795,7 @@
                         <button class="deal-button" onclick="logout()" data-i18n="profile-logout">${translations[currentLanguage]['profile-logout']}</button>
                         <div class="referral-section">
                             <p data-i18n="referral-link-text">${translations[currentLanguage]['referral-link-text']}</p>
-                            <p class="referral-link">goashadowbazaar.com/ref/${currentUser.referralCode}</p>
+                            <p class="referral-link">t.me/shadowgoabot?start=${currentUser.referralCode}</p>
                             <p data-i18n="referral-invite">${translations[currentLanguage]['referral-invite']}</p>
                         </div>
                     </div>
@@ -955,7 +961,7 @@
             }, 2000);
         }
 
-        function checkAuthBeforeDeal(productId, weight, price) {
+        function checkAuthBeforeDeal(productId, weight, price, isDelivery) {
             if (!currentUser) {
                 alert('Please log in.');
                 openModal('authModal');
@@ -970,8 +976,8 @@
             currentUser.orders = (currentUser.orders || 0) + 1;
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             updateProfile();
-            sendTelegramNotification(`${currentUser.username} took deal: ${productId} (${weight}g) for ₹${price}`);
-            showConfirmModal(`Deal for ${productId} (${weight}g) confirmed!`);
+            sendTelegramNotification(`${currentUser.username} ${isDelivery ? 'ordered delivery' : 'bought'}: ${productId} (${weight}g) for ₹${price}`);
+            showConfirmModal(`${isDelivery ? 'Delivery' : 'Purchase'} for ${productId} (${weight}g) confirmed!`);
         }
 
         function checkAuthBeforeApply(jobTitle) {
@@ -1013,6 +1019,8 @@
             currentTab = tab;
             document.getElementById('placeholder').style.display = 'none';
             filterProducts();
+            document.getElementById('sidebar').classList.remove('open');
+            isSidebarOpen = false;
             sendTelegramNotification(`${currentUser ? currentUser.username : 'Guest'} opened tab: ${tab}`);
         }
 
@@ -1105,38 +1113,28 @@
             touchStartX = e.changedTouches[0].screenX;
         });
 
-        document.addEventListener('touchend', (e) => {
+                document.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
-            if (currentSection === 'catalog') {
-                const sidebar = document.getElementById('sidebar');
-                if (touchStartX - touchEndX > 50 && isSidebarOpen) {
-                    isSidebarOpen = false;
-                    sidebar.classList.remove('open');
-                } else if (touchEndX - touchStartX > 50 && !isSidebarOpen) {
-                    isSidebarOpen = true;
-                    sidebar.classList.add('open');
-                }
-            }
+            handleSwipe();
         });
+
+        function handleSwipe() {
+            const sidebar = document.getElementById('sidebar');
+            if (touchStartX - touchEndX > 50 && currentSection === 'catalog' && isSidebarOpen) {
+                sidebar.classList.remove('open');
+                isSidebarOpen = false;
+            } else if (touchEndX - touchStartX > 50 && currentSection === 'catalog' && !isSidebarOpen) {
+                sidebar.classList.add('open');
+                isSidebarOpen = true;
+            }
+        }
 
         window.onload = async () => {
             await fetchExchangeRates();
-            initProducts();
-            setLanguage('en');
             checkAuth();
-            sendTelegramNotification(`${currentUser ? currentUser.username : 'Guest'} entered the app`);
-
-                        document.querySelectorAll('.product-card, .job-card, .message-card').forEach(card => {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('visible');
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.1 });
-                observer.observe(card);
-            });
+            setLanguage('en');
+            toggleSection('catalog');
+            initProducts();
         };
     </script>
 </body>
