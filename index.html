@@ -38,41 +38,191 @@
         .mandala-options div:hover { background: #ff8c00; }
         .placeholder { color: #e0d0b0; font-size: 16px; text-align: center; margin-top: 20px; }
         .no-products { color: #e0d0b0; font-size: 16px; text-align: center; margin-top: 20px; display: none; }
-        .product-card, .job-card, .message-card { background: #4a0e0e; border: 2px solid #d4af37; border-radius: 10px; padding: 10px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; cursor: pointer; }
-        .product-card.visible, .job-card.visible, .message-card.visible { opacity: 1; transform: translateX(0) rotate(0deg); }
-        .product-card:hover, .job-card:hover, .message-card:hover { transform: translateY(-5px); }
-        .product-card h3, .job-card h3, .message-card h3 { color: #ff8c00; margin: 0 0 8px; font-size: 16px; }
-        .product-card p, .job-card p, .message-card p { color: #e0d0b0; margin: 5px 0; font-size: 14px; }
-        .weight-option p { color: #ff8c00; font-weight: bold; margin: 5px 0; }
-        .deal-button { background: linear-gradient(45deg, #d4af37, #ff8c00); color: #2b0a0a; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; transition: all 0.3s; font-size: 14px; width: 100%; }
-        .deal-button:hover { background: #ff8c00; transform: scale(1.05); }
-        .delivery-button { background: linear-gradient(45deg, #ff8c00, #d4af37); color: #2b0a0a; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; transition: all 0.3s; font-size: 14px; width: 100%; margin-top: 5px; }
-        .delivery-button:hover { background: #ff8c00; transform: scale(1.05); }
+        .product-card { 
+            background: #4a0e0e; 
+            border: 2px solid #d4af37; 
+            border-radius: 10px; 
+            padding: 15px; 
+            margin-bottom: 15px; 
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); 
+            transition: transform 0.3s, box-shadow 0.3s; 
+            cursor: pointer; 
+            display: flex; 
+            flex-direction: row; 
+            gap: 15px; 
+            align-items: flex-start; 
+        }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.5); }
+        .product-image { width: 150px; height: 150px; object-fit: cover; border-radius: 8px; border: 1px solid #d4af37; }
+        .product-info { flex: 1; }
+        .product-card h3 { 
+            color: #ff8c00; 
+            margin: 0 0 10px; 
+            font-size: 18px; 
+            font-weight: bold; 
+            transition: color 0.3s; 
+        }
+        .product-card h3:hover { color: #d4af37; }
+        .product-card p { color: #e0d0b0; margin: 5px 0; font-size: 14px; }
+        .weights { 
+            margin-top: 15px; 
+            background: rgba(0, 0, 0, 0.2); 
+            padding: 10px; 
+            border-radius: 8px; 
+            display: none; 
+            transition: all 0.3s ease; 
+        }
+        .weight-option { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin: 8px 0; 
+            padding: 5px; 
+            background: #3c2f2f; 
+            border-radius: 5px; 
+        }
+        .weight-option p { 
+            color: #ff8c00; 
+            font-weight: bold; 
+            margin: 0; 
+            font-size: 14px; 
+        }
+        .deal-button, .delivery-button { 
+            background: linear-gradient(45deg, #d4af37, #ff8c00); 
+            color: #2b0a0a; 
+            padding: 6px 12px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            font-size: 12px; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
+        }
+        .deal-button:hover, .delivery-button:hover { 
+            background: linear-gradient(45deg, #ff8c00, #d4af37); 
+            transform: scale(1.05); 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
+        }
+        .delivery-button { background: linear-gradient(45deg, #ff8c00, #d4af37); margin-left: 5px; }
+        .reviews { 
+            margin-top: 15px; 
+            padding: 10px; 
+            background: rgba(0, 0, 0, 0.2); 
+            border-radius: 8px; 
+            display: none; 
+            transition: all 0.3s ease; 
+        }
+        .review { 
+            background: rgba(255, 255, 255, 0.05); 
+            padding: 8px; 
+            margin: 5px 0; 
+            border-radius: 5px; 
+            font-size: 12px; 
+            color: #e0d0b0; 
+        }
+        .review p { margin: 0; }
+        .rating { color: #ff8c00; margin-bottom: 5px; }
+        .discount { color: #ff4040; font-weight: bold; margin: 5px 0; font-size: 13px; }
         .profile-ledger { background: #4a0e0e; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 100; }
-        .modal-content { background: #4a0e0e; width: 90%; max-width: 400px; margin: 15% auto; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; text-align: center; }
+        .job-card, .message-card { 
+            background: #4a0e0e; 
+            border: 2px solid #d4af37; 
+            border-radius: 10px; 
+            padding: 10px; 
+            margin-bottom: 15px; 
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); 
+            transition: transform 0.3s; 
+        }
+        .job-card:hover, .message-card:hover { transform: translateY(-5px); }
+        .job-card h3, .message-card h3 { color: #ff8c00; margin: 0 0 8px; font-size: 16px; }
+        .job-card p, .message-card p { color: #e0d0b0; margin: 5px 0; font-size: 14px; }
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0, 0, 0, 0.8); 
+            z-index: 100; 
+        }
+        .modal-content { 
+            background: #4a0e0e; 
+            width: 90%; 
+            max-width: 400px; 
+            margin: 15% auto; 
+            padding: 15px; 
+            border: 2px solid #d4af37; 
+            border-radius: 10px; 
+            text-align: center; 
+        }
         .modal-content h3 { color: #ff8c00; font-size: 16px; }
         .modal-content p { color: #e0d0b0; font-size: 14px; }
         .close { color: #d4af37; float: right; font-size: 24px; cursor: pointer; }
-        .loader { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; border: 4px solid #d4af37; border-top: 4px solid #ff8c00; border-radius: 50%; animation: spin 1s linear infinite; z-index: 101; }
+        .loader { 
+            display: none; 
+            position: fixed; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            width: 40px; 
+            height: 40px; 
+            border: 4px solid #d4af37; 
+            border-top: 4px solid #ff8c00; 
+            border-radius: 50%; 
+            animation: spin 1s linear infinite; 
+            z-index: 101; 
+        }
         @keyframes spin { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
-        .auth-modal-content { background: #4a0e0e; width: 90%; max-width: 400px; margin: 15% auto; padding: 20px; border: 2px solid #d4af37; border-radius: 10px; text-align: center; }
+        .auth-modal-content { 
+            background: #4a0e0e; 
+            width: 90%; 
+            max-width: 400px; 
+            margin: 15% auto; 
+            padding: 20px; 
+            border: 2px solid #d4af37; 
+            border-radius: 10px; 
+            text-align: center; 
+        }
         .auth-modal-content h3 { color: #ff8c00; margin-bottom: 15px; }
-        .auth-modal-content input, .modal-content input, .modal-content select { display: block; width: 80%; margin: 10px auto; padding: 10px; background: linear-gradient(45deg, #3c2f2f, #4a0e0e); border: 1px solid #d4af37; border-radius: 5px; color: #e0d0b0; font-family: 'Georgia', serif; }
-        .auth-modal-content button, .modal-content button { background: linear-gradient(45deg, #d4af37, #ff8c00); color: #2b0a0a; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.3s; margin: 5px; }
+        .auth-modal-content input, .modal-content input, .modal-content select { 
+            display: block; 
+            width: 80%; 
+            margin: 10px auto; 
+            padding: 10px; 
+            background: linear-gradient(45deg, #3c2f2f, #4a0e0e); 
+            border: 1px solid #d4af37; 
+            border-radius: 5px; 
+            color: #e0d0b0; 
+            font-family: 'Georgia', serif; 
+        }
+        .auth-modal-content button, .modal-content button { 
+            background: linear-gradient(45deg, #d4af37, #ff8c00); 
+            color: #2b0a0a; 
+            padding: 8px 15px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            transition: transform 0.3s; 
+            margin: 5px; 
+        }
         .auth-modal-content button:hover, .modal-content button:hover { transform: scale(1.05); }
         .auth-modal-content .switch-form { color: #d4af37; cursor: pointer; text-decoration: underline; margin-top: 10px; }
         .auth-modal-content .switch-form:hover { color: #ff8c00; }
-        .login-button, .register-button { background: linear-gradient(45deg, #d4af37, #ff8c00); color: #2b0a0a; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.3s; font-size: 16px; margin: 5px; }
+        .login-button, .register-button { 
+            background: linear-gradient(45deg, #d4af37, #ff8c00); 
+            color: #2b0a0a; 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            transition: transform 0.3s; 
+            font-size: 16px; 
+            margin: 5px; 
+        }
         .login-button:hover, .register-button:hover { transform: scale(1.05); }
-        .reviews { margin-top: 10px; border-top: 1px solid #d4af37; padding-top: 10px; display: none; }
-        .review { background: rgba(0, 0, 0, 0.3); padding: 5px; margin: 5px 0; border-radius: 5px; font-size: 12px; color: #e0d0b0; }
-        .review p { margin: 0; }
-        .rating { color: #ff8c00; margin-bottom: 5px; }
-        .weights { margin-top: 10px; border-top: 1px solid #d4af37; padding-top: 10px; display: none; }
-        .weight-option { display: flex; justify-content: space-between; align-items: center; margin: 5px 0; }
-        .weight-option p { margin: 0; }
-        .discount { color: #ff4040; font-weight: bold; margin: 5px 0; }
         .referral-section { margin-top: 15px; border-top: 1px solid #d4af37; padding-top: 10px; }
         .referral-section p { color: #e0d0b0; font-size: 14px; }
         .referral-link { background: #4a0e0e; padding: 5px; border-radius: 5px; word-break: break-all; }
@@ -87,9 +237,11 @@
             .tab { font-size: 12px; padding: 8px; }
             .mandala-button { font-size: 12px; padding: 6px 12px; }
             .mandala-options div { font-size: 12px; }
-            .product-card h3, .job-card h3, .message-card h3 { font-size: 14px; }
-            .product-card p, .job-card p, .message-card p { font-size: 12px; }
-            .deal-button { font-size: 12px; padding: 6px 12px; }
+            .product-card { flex-direction: column; }
+            .product-image { width: 100%; height: auto; max-height: 200px; }
+            .product-card h3 { font-size: 16px; }
+            .product-card p { font-size: 12px; }
+            .deal-button, .delivery-button { font-size: 11px; padding: 5px 10px; }
             .login-button, .register-button { font-size: 14px; padding: 8px 15px; }
             .language-button { font-size: 10px; padding: 4px 8px; }
         }
@@ -120,11 +272,12 @@
                 <div class="tab" onclick="toggleTab('marijuana')" data-i18n="tab-marijuana">Marijuana</div>
                 <div class="tab" onclick="toggleTab('hashish')" data-i18n="tab-hashish">Hashish</div>
                 <div class="tab" onclick="toggleTab('cocaine')" data-i18n="tab-cocaine">Cocaine</div>
-                <div class="tab" onclick="toggleTab('meth')" data-i18n="tab-meth">Methamphetamine</div>
                 <div class="tab" onclick="toggleTab('amphetamine')" data-i18n="tab-amphetamine">Amphetamine</div>
+                <div class="tab" onclick="toggleTab('meth')" data-i18n="tab-meth">Methamphetamine</div>
                 <div class="tab" onclick="toggleTab('mephedrone')" data-i18n="tab-mephedrone">Mephedrone</div>
-                <div class="tab" onclick="toggleTab('mdma')" data-i18n="tab-mdma">MDMA</div>
+                <div class="tab" onclick="toggleTab('alpha')" data-i18n="tab-alpha">Alpha-PVP</div>
                 <div class="tab" onclick="toggleTab('lsd')" data-i18n="tab-lsd">LSD</div>
+                <div class="tab" onclick="toggleTab('mdma')" data-i18n="tab-mdma">MDMA</div>
                 <div class="tab" onclick="toggleTab('heroin')" data-i18n="tab-heroin">Heroin</div>
             </div>
             <div class="content">
@@ -163,11 +316,12 @@
                 <div class="catalog-tab" id="marijuana"></div>
                 <div class="catalog-tab" id="hashish"></div>
                 <div class="catalog-tab" id="cocaine"></div>
-                <div class="catalog-tab" id="meth"></div>
                 <div class="catalog-tab" id="amphetamine"></div>
+                <div class="catalog-tab" id="meth"></div>
                 <div class="catalog-tab" id="mephedrone"></div>
-                <div class="catalog-tab" id="mdma"></div>
+                <div class="catalog-tab" id="alpha"></div>
                 <div class="catalog-tab" id="lsd"></div>
+                <div class="catalog-tab" id="mdma"></div>
                 <div class="catalog-tab" id="heroin"></div>
             </div>
         </div>
@@ -295,6 +449,7 @@
                 "tab-meth": "Methamphetamine",
                 "tab-amphetamine": "Amphetamine",
                 "tab-mephedrone": "Mephedrone",
+                "tab-alpha": "Alpha-PVP",
                 "tab-mdma": "MDMA",
                 "tab-lsd": "LSD",
                 "tab-heroin": "Heroin",
@@ -381,6 +536,7 @@
                 "tab-meth": "Метамфетамин",
                 "tab-amphetamine": "Амфетамин",
                 "tab-mephedrone": "Мефедрон",
+                "tab-alpha": "Альфа-PVP",
                 "tab-mdma": "МДМА",
                 "tab-lsd": "ЛСД",
                 "tab-heroin": "Героин",
@@ -467,6 +623,7 @@
                 "tab-meth": "मेथमफेटामाइन",
                 "tab-amphetamine": "एम्फेटामाइन",
                 "tab-mephedrone": "मेफेड्रोन",
+                "tab-alpha": "अल्फा-PVP",
                 "tab-mdma": "एमडीएमए",
                 "tab-lsd": "एलएसडी",
                 "tab-heroin": "हेरोइन",
@@ -670,41 +827,54 @@
 
         const products = {
             marijuana: [
-                { id: 'anjuna-haze', name: 'Anjuna Haze (VHQ)', description: 'Premium herb from Anjuna beaches.', basePrice: 500, district: 'anjuna', inStock: true },
-                { id: 'baga-bud', name: 'Baga Bud (HQ)', description: 'Juicy herb from Baga parties.', basePrice: 450, district: 'baga', inStock: false },
-                { id: 'arambol-green', name: 'Arambol Green (VHQ)', description: 'Hippie herb from Arambol.', basePrice: 480, district: 'arambol', inStock: true }
+                { id: 'weed-1', name: 'OG Kush 70% (VHQ)', description: 'Мощный сорт! Шишки OG Kush непременно оценят любители сортов помощнее. Они приносят убойный всепоглощающий стоун эффект, который моментально переводит тело в горизонтальное положение. Приходит полная телесная и душевная релаксация, однако разум остается ясным. Это отличный вариант для отдыха и долгих размышлений на жизненно важные темы. Сознание устремляется вдаль, пока тело нежится на мягком диване.', basePrice: 500, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/nMGvf409/jamaican-haze.jpg' },
+                { id: 'weed-2', name: 'Apple Betty VHQ', description: 'Терпеновый профиль сорта конопли Apple Betty способен согреть даже самое холодное сердце. Приятный аромат яблочного пирога с нотками корицы и шоколада отлично гармонирует с оттенками дерева и утонченной сладостью во вкусе. После первого же вдоха даже опытный стоунер будет удивлен тяжелой эйфорией, которую дарит старая тетушка Apple Betty. Как только вы перестанете сопротивляться и полностью погрузитесь в ее теплые объятия, нежные руки увлекут вас на мягкий диван и подарят небывалые психоделические ощущения. Все шишки выращены по технологии. Все пролечены и высушены как надо! Не пресс!', basePrice: 550, district: 'baga', inStock: true, image: 'https://i.postimg.cc/7ZNQG0pN/Apple-Betty.jpg' },
+                { id: 'weed-3', name: 'Lemon Haze', description: 'Сорт с легендарной родословной, вобравший лучшие качества Lemon Skunk и Super Silver Haze. 70% Сатива / 30% Индика. Отличается интенсивным лимонным вкусом с классическим хейзовым оттенком. Воздействие мощное и длительное, характеризующееся позитивным энергетическим подъемом, побуждением к творчеству и общению, с приятными волнами в теле и кристально прозрачным сознанием.', basePrice: 480, district: 'calangute', inStock: true, image: 'https://i.postimg.cc/7ZBdtSmZ/Lemon-Haze-1.jpg' },
+                { id: 'weed-4', name: 'BubbleGum', description: 'Этот легендарный классический стрейн известен своим изысканным кисло-сладким фруктово-ягодным вкусом. Bubblegum действительно напоминает ту самую жевательную резинку из детства. Отчасти бешеную популярность сорту снискал именно его аромат — ведь для индики, как известно, сладкие или фруктовые оттенки не характерны. Действие Bubblegum не менее радостно, чем весёлый вкус. Смешанный сативно-индичный хай создаёт ощущение сказки, возврата к чему-то светлому из детства. Это стоит попробовать.', basePrice: 520, district: 'arambol', inStock: false, image: 'https://i.postimg.cc/HnGf4H30/2.jpg' }
             ],
             hashish: [
-                { id: 'arambol-charas', name: 'Arambol Charas (VHQ)', description: 'Hash with Arambol’s hippie vibe.', basePrice: 600, district: 'arambol', inStock: true },
-                { id: 'morjim-hash', name: 'Morjim Hash (HQ)', description: 'Hash from Morjim’s quiet beaches.', basePrice: 550, district: 'morjim', inStock: false }
+                { id: 'hash-1', name: 'Ice-o-lator (VHQ)', description: 'Премиум гашиш, бархатный эффект', basePrice: 600, district: 'morjim', inStock: true, image: 'https://i.postimg.cc/sD11WBq4/image.jpg' },
+                { id: 'hash-2', name: 'Moroccan Spice (HQ)', description: 'Марокканский гашиш с пряным ароматом', basePrice: 550, district: 'panaji', inStock: true, image: 'https://i.postimg.cc/KjjctVq8/image.png' },
+                { id: 'hash-3', name: 'Euro (MQ)', description: 'Европейский, сбалансированный приход', basePrice: 500, district: 'anjuna', inStock: false, image: 'https://i.postimg.cc/2ygYh5L0/image.jpg' }
             ],
             cocaine: [
-                { id: 'baga-dust', name: 'Baga Dust (VHQ)', description: 'Coke from Baga parties.', basePrice: 12000, district: 'baga', inStock: true },
-                { id: 'calangute-snow', name: 'Calangute Snow (HQ)', description: 'Coke from Calangute’s streets.', basePrice: 11000, district: 'calangute', inStock: true }
-            ],
-            meth: [
-                { id: 'morjim-rush', name: 'Morjim Rush (VHQ)', description: 'Meth from Morjim’s beaches.', basePrice: 800, district: 'morjim', inStock: false },
-                { id: 'panaji-crystal', name: 'Panaji Crystal (HQ)', description: 'Meth from Panaji’s streets.', basePrice: 750, district: 'panaji', inStock: true }
+                { id: 'coke-1', name: 'Bolivian Fishscale (VHQ)', description: 'Боливийский кокаин, топовый 95%+', basePrice: 12000, district: 'baga', inStock: true, image: 'https://i.postimg.cc/3W512jLd/image.jpg' },
+                { id: 'coke-2', name: 'Colombian Snow (HQ)', description: 'Колумбийский снег, чистый и мощный', basePrice: 11000, district: 'calangute', inStock: true, image: 'https://i.postimg.cc/xTLDh6Vp/2.jpg' }
             ],
             amphetamine: [
-                { id: 'calangute-speed', name: 'Calangute Speed (VHQ)', description: 'Amp from Calangute’s streets.', basePrice: 650, district: 'calangute', inStock: true },
-                { id: 'baga-surge', name: 'Baga Surge (HQ)', description: 'Amp for Baga parties.', basePrice: 600, district: 'baga', inStock: true }
+                { id: 'amph-1', name: 'White Rabbit (VHQ)', description: 'Чистейший амфетамин, чистая энергия', basePrice: 650, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/3Jgrmg9p/image.jpg' },
+                { id: 'amph-2', name: 'Red Rush (HQ)', description: 'Красный заряд, стабильный драйв', basePrice: 600, district: 'baga', inStock: true, image: 'https://i.postimg.cc/90y2PhPV/image.jpg' },
+                { id: 'amph-3', name: 'Yellow Spark (MQ)', description: 'Жёлтая искра, средний подъём', basePrice: 550, district: 'calangute', inStock: false, image: 'https://i.postimg.cc/BvtGYD5m/image.jpg' },
+                { id: 'amph-4', name: 'Grey Haze (LQ)', description: 'Серая дымка, базовый вариант', basePrice: 500, district: 'morjim', inStock: true, image: 'https://i.postimg.cc/qMX0zpMx/image.jpg' }
+            ],
+            meth: [
+                { id: 'meth-1', name: 'Mountain Ice (VHQ)', description: 'Горный лёд, кристальная чистота', basePrice: 800, district: 'panaji', inStock: true, image: 'https://i.postimg.cc/dVPkKsNR/image.jpg' },
+                { id: 'meth-2', name: 'Blue Flame (HQ)', description: 'Синее пламя, долгий эффект', basePrice: 750, district: 'arambol', inStock: false, image: 'https://i.postimg.cc/765jVVNV/image.jpg' }
             ],
             mephedrone: [
-                { id: 'panaji-spice', name: 'Panaji Spice (VHQ)', description: 'Meph from Panaji’s streets.', basePrice: 700, district: 'panaji', inStock: true },
-                { id: 'anjuna-wave', name: 'Anjuna Wave (HQ)', description: 'Meph with Anjuna’s vibe.', basePrice: 650, district: 'anjuna', inStock: false }
+                { id: 'meph-1', name: 'Meph Crystal (VHQ)', description: 'Меф кристалл, чистейший кайф', basePrice: 700, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/4NMvHRLn/image.jpg' },
+                { id: 'meph-2', name: 'White Surge (HQ)', description: 'Белый всплеск, стабильный эффект', basePrice: 650, district: 'baga', inStock: true, image: 'https://i.postimg.cc/prxYTVyF/image.jpg' },
+                { id: 'meph-3', name: 'Grey Mist (MQ)', description: 'Меф, средний уровень', basePrice: 600, district: 'calangute', inStock: false, image: 'https://i.postimg.cc/ZqLycGc8/vava.jpg' }
             ],
-            mdma: [
-                { id: 'baga-bliss', name: 'Baga Bliss (VHQ)', description: 'MDMA for Baga parties.', basePrice: 400, district: 'baga', inStock: true },
-                { id: 'anjuna-love', name: 'Anjuna Love (HQ)', description: 'MDMA from Anjuna raves.', basePrice: 380, district: 'anjuna', inStock: true }
+            alpha: [
+                { id: 'alpha-1', name: 'Flakka Fire (VHQ)', description: 'Огненная флакка, чистый Альфа-PVP', basePrice: 750, district: 'morjim', inStock: true, image: 'https://i.postimg.cc/hjmpv3rH/image.jpg' },
+                { id: 'alpha-2', name: 'Blue Haze (HQ)', description: 'Синяя дымка, мощный заряд', basePrice: 700, district: 'panaji', inStock: true, image: 'https://i.postimg.cc/4x3PV3Pv/image.jpg' },
+                { id: 'alpha-3', name: 'Green Dust (MQ)', description: 'Зелёная пыль, средний эффект', basePrice: 650, district: 'arambol', inStock: false, image: 'https://i.postimg.cc/TwHC3LBH/image.jpg' },
+                { id: 'alpha-4', name: 'Crystal Fury (VHQ)', description: 'Кристальная ярость, топовый PVP', basePrice: 780, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/yNLw0Nw0/image.jpg' }
             ],
             lsd: [
-                { id: 'goa-trance', name: 'Goa Trance (VHQ)', description: 'LSD for Goan raves.', basePrice: 300, district: 'anjuna', inStock: true },
-                { id: 'arambol-vision', name: 'Arambol Vision (HQ)', description: 'LSD with Arambol’s vibe.', basePrice: 280, district: 'arambol', inStock: true }
+                { id: 'lsd-1', name: 'Cosmic Tabs (VHQ)', description: 'LSD250, чистый трип', basePrice: 300, district: 'baga', inStock: true, image: 'https://i.postimg.cc/yNHGMRzm/250.jpg' },
+                { id: 'lsd-2', name: 'Neon Drops (HQ)', description: 'LSD190, яркий опыт', basePrice: 280, district: 'calangute', inStock: true, image: 'https://i.postimg.cc/Xqp1fcwb/image.jpg' }
+            ],
+            mdma: [
+                { id: 'mdma-1', name: 'Crystal Love (VHQ)', description: 'Кристальная любовь, чистый МДМА', basePrice: 400, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/521GGvJw/image.jpg' },
+                { id: 'mdma-2', name: 'Pink Hearts (HQ)', description: 'Розовые сердца, стабильный кайф', basePrice: 380, district: 'baga', inStock: true, image: 'https://i.postimg.cc/Z5y9Gt5t/image.jpg' },
+                { id: 'mdma-3', name: 'Ecstasy Givenchy (VHQ Tabs)', description: 'Givenchy, топовые пилсы', basePrice: 420, district: 'calangute', inStock: true, image: 'https://i.postimg.cc/SRCT1QtT/image.jpg' },
+                { id: 'mdma-4', name: 'Street Pills', description: 'Уличные пилсы, бюджетный экстази', basePrice: 350, district: 'morjim', inStock: false, image: 'https://i.postimg.cc/52j5jR9n/image.jpg' }
             ],
             heroin: [
-                { id: 'arambol-ice', name: 'Arambol Ice (VHQ)', description: 'Heroin with Arambol’s vibe.', basePrice: 1500, district: 'arambol', inStock: true },
-                { id: 'panaji-drift', name: 'Panaji Drift (HQ)', description: 'Heroin from Panaji’s streets.', basePrice: 1400, district: 'panaji', inStock: false }
+                { id: 'heroin-1', name: 'Afghan Silk (VHQ)', description: 'Афганский шёлк, глубокий приход', basePrice: 1500, district: 'panaji', inStock: true, image: 'https://i.postimg.cc/gkX1RN0k/image.jpg' },
+                { id: 'heroin-2', name: 'White Lotus (HQ)', description: 'Белый лотос, чистый эффект', basePrice: 1400, district: 'arambol', inStock: true, image: 'https://i.postimg.cc/Nj8J7VvY/image.jpg' }
             ]
         };
 
@@ -731,26 +901,31 @@
                         return { weight, price, discountedPrice, discount, reviews: generateReviews() };
                     });
                     card.innerHTML = `
-                        <h3>${product.name}</h3>
-                        <p>${product.description}</p>
-                        <p>${product.inStock ? translations[currentLanguage]['in-stock'] : translations[currentLanguage]['out-of-stock']}</p>
-                        <div class="weights" id="weights-${product.id}">
-                            ${weightOptions.map(option => `
-                                <div class="weight-option">
-                                    <p>${option.weight}g: ₹${option.discountedPrice}${option.discount ? ` <span style="text-decoration: line-through; color: #e0d0b0;">₹${option.price}</span>` : ''} (~${Math.round(option.discountedPrice / 83)} ${translations[currentLanguage].usdt})</p>
-                                    <button class="deal-button" onclick="event.stopPropagation(); checkAuthBeforeDeal('${product.id}', ${option.weight}, ${option.discountedPrice}, false)">${product.inStock ? translations[currentLanguage]['buy'] : translations[currentLanguage]['pre-order']}</button>
-                                    <button class="delivery-button" onclick="event.stopPropagation(); checkAuthBeforeDeal('${product.id}', ${option.weight}, ${Math.round(option.discountedPrice * 1.2)}, true)">${translations[currentLanguage]['delivery']}</button>
-                                </div>
-                                ${option.discount ? `<p class="discount">${translations[currentLanguage].discount}: ${option.discount}%</p>` : ''}
-                            `).join('')}
-                        </div>
-                        <div class="reviews" id="reviews-${product.id}">
-                            ${weightOptions[0].reviews.map(review => `
-                                <div class="review">
-                                    <p class="rating">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</p>
-                                    <p><strong>${review.user}:</strong> ${review.text}</p>
-                                </div>
-                            `).join('')}
+                        <img src="${product.image}" class="product-image" alt="${product.name}">
+                        <div class="product-info">
+                            <h3>${product.name}</h3>
+                            <p>${product.description}</p>
+                            <p>${product.inStock ? translations[currentLanguage]['in-stock'] : translations[currentLanguage]['out-of-stock']}</p>
+                            <div class="weights" id="weights-${product.id}">
+                                ${weightOptions.map(option => `
+                                    <div class="weight-option">
+                                        <p>${option.weight}g: ₹${option.discountedPrice}${option.discount ? ` <span style="text-decoration: line-through; color: #e0d0b0;">₹${option.price}</span>` : ''} (~${Math.round(option.discountedPrice / 83)} ${translations[currentLanguage].usdt})</p>
+                                        <div>
+                                            <button class="deal-button" onclick="event.stopPropagation(); checkAuthBeforeDeal('${product.id}', ${option.weight}, ${option.discountedPrice}, false)">${product.inStock ? translations[currentLanguage]['buy'] : translations[currentLanguage]['pre-order']}</button>
+                                            <button class="delivery-button" onclick="event.stopPropagation(); checkAuthBeforeDeal('${product.id}', ${option.weight}, ${Math.round(option.discountedPrice * 1.2)}, true)">${translations[currentLanguage]['delivery']}</button>
+                                        </div>
+                                    </div>
+                                    ${option.discount ? `<p class="discount">${translations[currentLanguage].discount}: ${option.discount}%</p>` : ''}
+                                `).join('')}
+                            </div>
+                            <div class="reviews" id="reviews-${product.id}">
+                                ${weightOptions[0].reviews.map(review => `
+                                    <div class="review">
+                                        <p class="rating">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</p>
+                                        <p><strong>${review.user}:</strong> ${review.text}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
                         </div>
                     `;
                     container.appendChild(card);
@@ -854,31 +1029,27 @@
 
         function login() {
             const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
-
+            const             password = document.getElementById('loginPassword').value;
             const users = JSON.parse(localStorage.getItem('users')) || [];
-            const user = users.find(user => user.username === username && user.password === password);
-
-            if (!user) {
-                alert('Invalid credentials.');
-                return;
+            const user = users.find(u => u.username === username && u.password === password);
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                currentUser = user;
+                closeModal('authModal');
+                updateProfile();
+                sendTelegramNotification(`${username} logged in`);
+                showConfirmModal('Login successful!');
+            } else {
+                alert('Invalid username or password.');
             }
-
-            if (!user.referralCode) user.referralCode = btoa(user.username).slice(0, 8);
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            currentUser = user;
-            closeModal('authModal');
-            updateProfile();
-            sendTelegramNotification(`${username} logged in`);
-            showConfirmModal('Login successful!');
         }
 
         function logout() {
-            sendTelegramNotification(`${currentUser.username} logged out`);
             localStorage.removeItem('currentUser');
             currentUser = null;
             updateProfile();
-            showConfirmModal('Logged out.');
+            sendTelegramNotification('User logged out');
+            showConfirmModal('Logged out successfully!');
         }
 
         function showLoginForm() {
@@ -891,194 +1062,8 @@
             document.getElementById('registerForm').style.display = 'block';
         }
 
-        async function createDepositDeal() {
-            if (!currentUser) {
-                alert('Please log in.');
-                openModal('authModal');
-                return;
-            }
-
-            const crypto = document.getElementById('depositCrypto').value;
-            const amountINR = parseFloat(document.getElementById('depositAmount').value);
-            if (!amountINR || amountINR < 1000) {
-                alert('Minimum deposit is 1000 INR.');
-                return;
-            }
-
-            const loader = document.getElementById('loader');
-            loader.style.display = 'block';
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            loader.style.display = 'none';
-
-            const finalAmountINR = amountINR * 1.004;
-            const cryptoAmount = (finalAmountINR * exchangeRates[crypto]).toFixed(6);
-            const address = cryptoAddresses[crypto];
-
-            document.getElementById('depositCryptoAmount').innerText = `${cryptoAmount} ${crypto} (₹${Math.round(finalAmountINR)})`;
-            document.getElementById('depositAddress').innerText = `${address}`;
-            document.getElementById('depositDetails').style.display = 'block';
-
-            sendTelegramNotification(`${currentUser.username} requested deposit: ${cryptoAmount} ${crypto} (₹${amountINR}) to ${address}`);
-            setTimeout(() => {
-                closeModal('depositModal');
-                showConfirmModal(`Deposit request for ₹${amountINR} created. Awaiting confirmation.`);
-            }, 2000);
-        }
-
-        function createWithdrawDeal() {
-            if (!currentUser) {
-                alert('Please log in.');
-                openModal('authModal');
-                return;
-            }
-
-            const crypto = document.getElementById('withdrawCrypto').value;
-            const amountINR = parseFloat(document.getElementById('withdrawAmount').value);
-            const address = document.getElementById('withdrawAddress').value;
-
-            if (!amountINR || amountINR < 1000 || !address) {
-                alert('Enter valid amount (min 1000 INR) and address.');
-                return;
-            }
-            if (currentUser.balance < amountINR) {
-                alert('Insufficient balance.');
-                return;
-            }
-
-            const loader = document.getElementById('loader');
-            loader.style.display = 'block';
-            setTimeout(() => {
-                loader.style.display = 'none';
-                sendTelegramNotification(`${currentUser.username} requested withdrawal: ₹${amountINR} to ${address} (${crypto})`);
-                currentUser.balance -= amountINR;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                updateProfile();
-                document.getElementById('withdrawDetails').style.display = 'block';
-                setTimeout(() => {
-                    closeModal('withdrawModal');
-                    showConfirmModal(`Withdrawal request for ₹${amountINR} created. Processing within 24 hours.`);
-                }, 2000);
-            }, 2000);
-        }
-
-        function checkAuthBeforeDeal(productId, weight, price, isDelivery) {
-            if (!currentUser) {
-                alert('Please log in.');
-                openModal('authModal');
-                return;
-            }
-            if (currentUser.balance < price) {
-                alert('Insufficient balance.');
-                openModal('depositModal');
-                return;
-            }
-            currentUser.balance -= price;
-            currentUser.orders = (currentUser.orders || 0) + 1;
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            updateProfile();
-            sendTelegramNotification(`${currentUser.username} ${isDelivery ? 'ordered delivery' : 'bought'}: ${productId} (${weight}g) for ₹${price}`);
-            showConfirmModal(`${isDelivery ? 'Delivery' : 'Purchase'} for ${productId} (${weight}g) confirmed!`);
-        }
-
-        function checkAuthBeforeApply(jobTitle) {
-            if (!currentUser) {
-                alert('Please log in.');
-                openModal('authModal');
-                return;
-            }
-            sendTelegramNotification(`${currentUser.username} applied for job: ${jobTitle}`);
-            showConfirmModal(`Application for "${jobTitle}" submitted!`);
-        }
-
-        function toggleSection(section) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById(section).classList.add('active');
-            currentSection = section;
-
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            document.querySelector(`.nav-item[onclick="toggleSection('${section}')"]`).classList.add('active');
-
-            const sidebar = document.getElementById('sidebar');
-            if (section === 'catalog') {
-                isSidebarOpen = true;
-                sidebar.classList.add('open');
-                if (!currentTab) toggleTab('marijuana');
-            } else {
-                isSidebarOpen = false;
-                sidebar.classList.remove('open');
-            }
-            sendTelegramNotification(`${currentUser ? currentUser.username : 'Guest'} opened section: ${section}`);
-        }
-
-        function toggleTab(tab) {
-            if (currentTab === tab) return;
-            document.querySelectorAll('.catalog-tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(tab).classList.add('active');
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelector(`.tab[onclick="toggleTab('${tab}')"]`).classList.add('active');
-            currentTab = tab;
-            document.getElementById('placeholder').style.display = 'none';
-            filterProducts();
-            document.getElementById('sidebar').classList.remove('open');
-            isSidebarOpen = false;
-            sendTelegramNotification(`${currentUser ? currentUser.username : 'Guest'} opened tab: ${tab}`);
-        }
-
-        function filterProducts() {
-            if (!currentTab) return;
-            const container = document.getElementById(currentTab);
-            const cards = container.querySelectorAll('.product-card');
-            let hasVisible = false;
-
-            cards.forEach(card => {
-                const district = card.getAttribute('data-district');
-                const inStock = card.querySelector('p:nth-child(3)').innerText === translations[currentLanguage]['in-stock'];
-                const hasDiscount = card.querySelector('.discount') !== null;
-
-                const districtMatch = selectedDistrict === 'all' || selectedDistrict === district;
-                const stockMatch = selectedStock === 'all' || (selectedStock === 'in-stock' && inStock) || (selectedStock === 'out-of-stock' && !inStock);
-                const discountMatch = selectedDiscount === 'all' || (selectedDiscount === 'with-discount' && hasDiscount) || (selectedDiscount === 'no-discount' && !hasDiscount);
-
-                if (districtMatch && stockMatch && discountMatch) {
-                    card.style.display = 'block';
-                    hasVisible = true;
-                    setTimeout(() => card.classList.add('visible'), 50);
-                } else {
-                    card.style.display = 'none';
-                    card.classList.remove('visible');
-                }
-            });
-
-            document.getElementById('no-products').style.display = hasVisible ? 'none' : 'block';
-        }
-
-        function selectDistrict(district) {
-            selectedDistrict = district;
-            updateFilters();
-            document.getElementById('district-options').style.display = 'none';
-            filterProducts();
-            sendTelegramNotification(`${currentUser ? currentUser.username : 'Guest'} selected district: ${district}`);
-        }
-
-        function selectStock(stock) {
-            selectedStock = stock;
-            updateFilters();
-            document.getElementById('stock-options').style.display = 'none';
-            filterProducts();
-            sendTelegramNotification(`${currentUser ? currentUser.username : 'Guest'} selected stock: ${stock}`);
-        }
-
-        function selectDiscount(discount) {
-            selectedDiscount = discount;
-            updateFilters();
-            document.getElementById('discount-options').style.display = 'none';
-            filterProducts();
-            sendTelegramNotification(`${currentUser ? currentUser.username : 'Guest'} selected discount: ${discount}`);
-        }
-
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'block';
-            sendTelegramNotification(`${currentUser ? currentUser.username : 'Guest'} opened modal: ${modalId}`);
         }
 
         function closeModal(modalId) {
@@ -1090,6 +1075,80 @@
         function showConfirmModal(message) {
             document.getElementById('confirmMessage').innerText = message;
             openModal('confirmModal');
+        }
+
+        function toggleSection(section) {
+            if (currentSection === section) return;
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(section).classList.add('active');
+            document.querySelector(`.nav-item[onclick="toggleSection('${section}')"]`).classList.add('active');
+            currentSection = section;
+            if (section !== 'catalog') {
+                document.getElementById('sidebar').classList.remove('open');
+                isSidebarOpen = false;
+            }
+        }
+
+        function toggleTab(tab) {
+            if (currentTab === tab) return;
+            document.querySelectorAll('.catalog-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            document.querySelector(`.tab[onclick="toggleTab('${tab}')"]`).classList.add('active');
+            currentTab = tab;
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('sidebar').classList.remove('open');
+            isSidebarOpen = false;
+            filterProducts();
+        }
+
+        function selectDistrict(district) {
+            selectedDistrict = district;
+            updateFilters();
+            filterProducts();
+            document.getElementById('district-options').style.display = 'none';
+        }
+
+        function selectStock(stock) {
+            selectedStock = stock;
+            updateFilters();
+            filterProducts();
+            document.getElementById('stock-options').style.display = 'none';
+        }
+
+        function selectDiscount(discount) {
+            selectedDiscount = discount;
+            updateFilters();
+            filterProducts();
+            document.getElementById('discount-options').style.display = 'none';
+        }
+
+        function filterProducts() {
+            let hasProducts = false;
+            Object.keys(products).forEach(category => {
+                const container = document.getElementById(category);
+                const cards = container.querySelectorAll('.product-card');
+                cards.forEach(card => {
+                    const district = card.getAttribute('data-district');
+                    const productId = card.querySelector('.deal-button').getAttribute('onclick').match(/'([^']+)'/)[1];
+                    const product = products[category].find(p => p.id === productId);
+                    const inStock = product.inStock;
+                    const hasDiscount = card.querySelector('.discount') !== null;
+
+                    const districtMatch = selectedDistrict === 'all' || district === selectedDistrict;
+                    const stockMatch = selectedStock === 'all' || (selectedStock === 'in-stock' && inStock) || (selectedStock === 'out-of-stock' && !inStock);
+                    const discountMatch = selectedDiscount === 'all' || (selectedDiscount === 'with-discount' && hasDiscount) || (selectedDiscount === 'no-discount' && !hasDiscount);
+
+                    if (districtMatch && stockMatch && discountMatch) {
+                        card.style.display = 'flex';
+                        hasProducts = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+            document.getElementById('no-products').style.display = hasProducts || !currentTab ? 'none' : 'block';
         }
 
         document.querySelectorAll('.mandala-button').forEach(button => {
@@ -1106,14 +1165,116 @@
             });
         });
 
+        function checkAuthBeforeDeal(productId, weight, price, isDelivery) {
+            if (!currentUser) {
+                openModal('authModal');
+                showLoginForm();
+                return;
+            }
+            if (currentUser.balance < price) {
+                showConfirmModal('Insufficient balance. Please deposit funds.');
+                return;
+            }
+            createDeal(productId, weight, price, isDelivery);
+        }
+
+        function checkAuthBeforeApply(jobTitle) {
+            if (!currentUser) {
+                openModal('authModal');
+                showLoginForm();
+                return;
+            }
+            applyForJob(jobTitle);
+        }
+
+        function createDeal(productId, weight, price, isDelivery) {
+            showLoader();
+            setTimeout(() => {
+                currentUser.balance -= price;
+                currentUser.orders = (currentUser.orders || 0) + 1;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                const userIndex = users.findIndex(u => u.username === currentUser.username);
+                if (userIndex !== -1) users[userIndex] = currentUser;
+                localStorage.setItem('users', JSON.stringify(users));
+                updateProfile();
+                const product = Object.values(products).flat().find(p => p.id === productId);
+                sendTelegramNotification(`${currentUser.username} purchased ${product.name} (${weight}g) for ₹${price}${isDelivery ? ' with delivery' : ''}`);
+                showConfirmModal(`Purchase successful! ${isDelivery ? 'Delivery' : 'Pickup'} details will be sent to your Telegram.`);
+                hideLoader();
+            }, 1000);
+        }
+
+        function applyForJob(jobTitle) {
+            showLoader();
+            setTimeout(() => {
+                sendTelegramNotification(`${currentUser.username} applied for ${jobTitle}`);
+                showConfirmModal(`Application for ${jobTitle} submitted! Check Telegram for further instructions.`);
+                hideLoader();
+            }, 1000);
+        }
+
+        function createDepositDeal() {
+            const crypto = document.getElementById('depositCrypto').value;
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+            if (isNaN(amount) || amount < 1000) {
+                showConfirmModal('Please enter a valid amount (minimum 1000 INR).');
+                return;
+            }
+            showLoader();
+            setTimeout(() => {
+                const cryptoAmount = (amount * exchangeRates[crypto]).toFixed(6);
+                document.getElementById('depositCryptoAmount').innerText = `${cryptoAmount} ${crypto}`;
+                document.getElementById('depositAddress').innerText = cryptoAddresses[crypto];
+                document.getElementById('depositDetails').style.display = 'block';
+                sendTelegramNotification(`${currentUser.username} created a deposit deal: ${cryptoAmount} ${crypto} (₹${amount})`);
+                hideLoader();
+            }, 1000);
+        }
+
+        function createWithdrawDeal() {
+            const crypto = document.getElementById('withdrawCrypto').value;
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            const address = document.getElementById('withdrawAddress').value;
+            if (isNaN(amount) || amount < 1000 || !address) {
+                showConfirmModal('Please enter a valid amount (minimum 1000 INR) and address.');
+                return;
+            }
+            if (currentUser.balance < amount) {
+                showConfirmModal('Insufficient balance.');
+                return;
+            }
+            showLoader();
+            setTimeout(() => {
+                currentUser.balance -= amount;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                const userIndex = users.findIndex(u => u.username === currentUser.username);
+                if (userIndex !== -1) users[userIndex] = currentUser;
+                localStorage.setItem('users', JSON.stringify(users));
+                updateProfile();
+                document.getElementById('withdrawDetails').style.display = 'block';
+                sendTelegramNotification(`${currentUser.username} requested withdrawal: ${amount} INR to ${crypto} (${address})`);
+                hideLoader();
+            }, 1000);
+        }
+
+        function showLoader() {
+            document.getElementById('loader').style.display = 'block';
+        }
+
+        function hideLoader() {
+            document.getElementById('loader').style.display = 'none';
+        }
+
         let touchStartX = 0;
         let touchEndX = 0;
 
         document.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
+            touchStartX = e.touches[0].screenX;
         });
 
-                document.addEventListener('touchend', (e) => {
+        document.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
             handleSwipe();
         });
