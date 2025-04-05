@@ -35,14 +35,20 @@
             50% { text-shadow: 0 0 15px #d4af37, 0 0 25px #ff8c00; }
             100% { text-shadow: 0 0 5px #d4af37; }
         }
+        .header-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
         .header-text {
             font-size: 14px;
             color: #e0d0b0;
-            margin: 5px 0;
+            margin: 0;
         }
         .language-switcher {
-            text-align: center;
-            margin-top: 5px;
+            display: flex;
+            gap: 5px;
         }
         .language-button {
             background: linear-gradient(45deg, #d4af37, #ff8c00);
@@ -52,7 +58,6 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 12px;
-            margin: 0 5px;
             transition: transform 0.3s;
         }
         .language-button:hover {
@@ -485,6 +490,10 @@
             .logo {
                 font-size: 24px;
             }
+            .header-container {
+                flex-direction: column;
+                gap: 10px;
+            }
             .header-text {
                 font-size: 12px;
             }
@@ -539,11 +548,13 @@
     <div class="loader" id="loader"></div>
     <div class="header">
         <div class="logo" data-i18n="title">Shadow Goa</div>
-        <div class="header-text" data-i18n="subtitle">Тёмные сделки Гоа</div>
-        <div class="language-switcher">
-            <button class="language-button" onclick="setLanguage('ru')">RU</button>
-            <button class="language-button" onclick="setLanguage('en')">EN</button>
-            <button class="language-button" onclick="setLanguage('hi')">HI</button>
+        <div class="header-container">
+            <div class="header-text" data-i18n="subtitle">Тёмные сделки Гоа</div>
+            <div class="language-switcher">
+                <button class="language-button" onclick="setLanguage('ru')">RU</button>
+                <button class="language-button" onclick="setLanguage('en')">EN</button>
+                <button class="language-button" onclick="setLanguage('hi')">HI</button>
+            </div>
         </div>
     </div>
     <div class="nav">
@@ -730,9 +741,9 @@
                 "job3-salary": "Оплата: ₹40000/месяц",
                 apply: "Подать заявку",
                 "message1-title": "Клад готов",
-                "message1-text": 'Твой заказ "Goa Trance" спрятан у Tito’s Lane, Бага.',
+                "message1-text": "Твой заказ \"Goa Trance\" спрятан у Tito’s Lane, Бага.",
                 "message2-title": "Пополни баланс",
-                "message2-text": 'Кидай ₹, чтобы забрать "Anjuna Haze" в Анджуне.',
+                "message2-text": "Кидай ₹, чтобы забрать \"Anjuna Haze\" в Анджуне.",
                 "deposit-title": "Пополни баланс, мудак!",
                 "deposit-text1": "Переведи ₹ через UPI или крипту (USDT, BTC) на этот адрес:",
                 "deposit-text2": "После оплаты доступ к кладам откроется. Жди, пиздец тебе!",
@@ -810,9 +821,9 @@
                 "job3-salary": "Salary: ₹40000/month",
                 apply: "Apply",
                 "message1-title": "Stash Ready",
-                "message1-text": 'Your order "Goa Trance" is hidden at Tito’s Lane, Baga.',
+                "message1-text": "Your order \"Goa Trance\" is hidden at Tito’s Lane, Baga.",
                 "message2-title": "Top Up Balance",
-                "message2-text": 'Send ₹ to pick up "Anjuna Haze" in Anjuna.',
+                "message2-text": "Send ₹ to pick up \"Anjuna Haze\" in Anjuna.",
                 "deposit-title": "Top Up Your Balance, Dude!",
                 "deposit-text1": "Transfer ₹ via UPI or crypto (USDT, BTC) to this address:",
                 "deposit-text2": "After payment, access to stashes will be granted. Wait, you’re screwed!",
@@ -890,9 +901,9 @@
                 "job3-salary": "वेतन: ₹40000/माह",
                 apply: "आवेदन करें",
                 "message1-title": "खजाना तैयार है",
-                "message1-text": 'आपका ऑर्डर "Goa Trance" टिटो लेन, बागा में छिपा है।',
+                "message1-text": "आपका ऑर्डर \"Goa Trance\" टिटो लेन, बागा में छिपा है।",
                 "message2-title": "बैलेंस टॉप अप करें",
-                "message2-text": 'अंजुना में "Anjuna Haze" लेने के लिए ₹ भेजें।',
+                "message2-text": "अंजुना में \"Anjuna Haze\" लेने के लिए ₹ भेजें।",
                 "deposit-title": "अपना बैलेंस टॉप अप करें, भाई!",
                 "deposit-text1": "इस पते पर UPI या क्रिप्टो (USDT, BTC) के माध्यम से ₹ ट्रांसफर करें:",
                 "deposit-text2": "भुगतान के बाद, खजानों तक पहुंच मिल जाएगी। इंतजार करें, तुम्हारी शामत आई है!",
@@ -1302,11 +1313,10 @@
             if (section === 'catalog') {
                 isSidebarOpen = true;
                 sidebar.classList.add('open');
+                document.getElementById('placeholder').style.display = 'block';
                 if (currentTab) {
                     document.getElementById(currentTab).classList.add('active');
                     filterProducts();
-                } else {
-                    document.getElementById('placeholder').style.display = 'block';
                 }
             } else {
                 isSidebarOpen = false;
@@ -1370,7 +1380,7 @@
             }
         }
 
-        function selectDistrict(district) {
+                function selectDistrict(district) {
             selectedDistrict = district;
             const button = document.getElementById('district-button');
             const districtText = district === 'all' ? translations[currentLanguage]['district-all-option'] : translations[currentLanguage][`district-${district}`];
@@ -1388,7 +1398,7 @@
             filterProducts();
         }
 
-                function selectDiscount(discount) {
+        function selectDiscount(discount) {
             selectedDiscount = discount;
             const button = document.getElementById('discount-button');
             const discountText = discount === 'all' ? translations[currentLanguage]['discount-all-option'] : translations[currentLanguage][discount];
@@ -1447,12 +1457,16 @@
             setLanguage('ru');
             initProducts();
             checkAuth();
-            toggleSection('catalog');
+            toggleSection('catalog'); // По умолчанию открываем "Каталог", но сайдбар закрыт
             const loader = document.getElementById('loader');
             loader.style.display = 'block';
             setTimeout(() => {
                 loader.style.display = 'none';
             }, 1000);
+            // Убеждаемся, что сайдбар изначально закрыт
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.remove('open');
+            isSidebarOpen = false;
         });
 
         document.querySelectorAll('.nav-item').forEach(item => {
