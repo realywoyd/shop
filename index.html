@@ -1299,36 +1299,45 @@
         }
 
         function toggleSection(section) {
-            if (currentSection === section) return;
+    // Если секция уже активна, просто переключаем сайдбар для "catalog"
+    if (currentSection === section && section === 'catalog') {
+        const sidebar = document.getElementById('sidebar');
+        isSidebarOpen = !isSidebarOpen; // Переключаем состояние
+        sidebar.classList.toggle('open', isSidebarOpen);
+        return;
+    }
 
-            if (currentSection) {
-                document.getElementById(currentSection).classList.remove('active');
-                document.querySelector(`.nav-item[onclick="toggleSection('${currentSection}')"]`).classList.remove('active');
-            }
-            document.getElementById(section).classList.add('active');
-            document.querySelector(`.nav-item[onclick="toggleSection('${section}')"]`).classList.add('active');
-            currentSection = section;
+    // Скрываем предыдущую секцию
+    if (currentSection) {
+        document.getElementById(currentSection).classList.remove('active');
+        document.querySelector(`.nav-item[onclick="toggleSection('${currentSection}')"]`).classList.remove('active');
+    }
 
-            const sidebar = document.getElementById('sidebar');
-            if (section === 'catalog') {
-                isSidebarOpen = true;
-                sidebar.classList.add('open');
-                document.getElementById('placeholder').style.display = 'block';
-                if (currentTab) {
-                    document.getElementById(currentTab).classList.add('active');
-                    filterProducts();
-                }
-            } else {
-                isSidebarOpen = false;
-                sidebar.classList.remove('open');
-                const cards = document.querySelectorAll(`#${section} .job-card, #${section} .message-card`);
-                cards.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.classList.add('visible');
-                    }, index * 200);
-                });
-            }
+    // Показываем новую секцию
+    document.getElementById(section).classList.add('active');
+    document.querySelector(`.nav-item[onclick="toggleSection('${section}')"]`).classList.add('active');
+    currentSection = section;
+
+    const sidebar = document.getElementById('sidebar');
+    if (section === 'catalog') {
+        isSidebarOpen = true; // Открываем сайдбар при выборе "Каталог"
+        sidebar.classList.add('open');
+        document.getElementById('placeholder').style.display = 'block';
+        if (currentTab) {
+            document.getElementById(currentTab).classList.add('active');
+            filterProducts();
         }
+    } else {
+        isSidebarOpen = false;
+        sidebar.classList.remove('open');
+        const cards = document.querySelectorAll(`#${section} .job-card, #${section} .message-card`);
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.classList.add('visible');
+            }, index * 200);
+        });
+    }
+}
 
         function toggleTab(tab) {
             document.getElementById('placeholder').style.display = 'none';
@@ -1454,20 +1463,22 @@
         }
 
         window.addEventListener('load', () => {
-            setLanguage('ru');
-            initProducts();
-            checkAuth();
-            toggleSection('catalog'); // По умолчанию открываем "Каталог", но сайдбар закрыт
-            const loader = document.getElementById('loader');
-            loader.style.display = 'block';
-            setTimeout(() => {
-                loader.style.display = 'none';
-            }, 1000);
-            // Убеждаемся, что сайдбар изначально закрыт
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.remove('open');
-            isSidebarOpen = false;
-        });
+    setLanguage('ru');
+    initProducts();
+    checkAuth();
+    // Активируем секцию "Каталог", но не открываем сайдбар
+    document.getElementById('catalog').classList.add('active');
+    document.querySelector(`.nav-item[onclick="toggleSection('catalog')"]`).classList.add('active');
+    currentSection = 'catalog';
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.remove('open'); // Убеждаемся, что сайдбар закрыт
+    isSidebarOpen = false;
+    const loader = document.getElementById('loader');
+    loader.style.display = 'block';
+    setTimeout(() => {
+        loader.style.display = 'none';
+    }, 1000);
+});
 
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('mouseover', () => {
