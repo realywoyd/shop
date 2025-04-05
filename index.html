@@ -20,8 +20,26 @@
         .nav-item:hover { transform: scale(1.1); }
         .nav-item.active { background: linear-gradient(45deg, #d4af37, #ff8c00); }
         .main-container { max-width: 100%; margin: 10px auto; padding: 10px; display: flex; flex-direction: row; justify-content: space-between; gap: 20px; }
-        .sidebar { width: 180px; background: #3c2f2f; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; height: fit-content; transition: transform 0.3s ease-in-out; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5); position: fixed; top: 0; left: 0; height: 100%; transform: translateX(-100%); z-index: 1000; }
-        .sidebar.open { transform: translateX(0); }
+        .sidebar {
+    width: 180px;
+    background: #3c2f2f;
+    padding: 15px;
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    height: fit-content;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translateX(-100%); /* По умолчанию скрыт */
+    z-index: 1000;
+}
+
+.sidebar.open {
+    transform: translateX(0); /* Показываем только при .open */
+}
         .tab { background: #4a0e0e; padding: 10px; margin-bottom: 10px; color: #e0d0b0; cursor: pointer; border: 1px solid #d4af37; border-radius: 5px; transition: background 0.3s, transform 0.3s; text-align: center; font-size: 14px; }
         .tab:hover, .tab.active { background: #ff8c00; color: #2b0a0a; transform: scale(1.05); }
         .content { max-width: 100%; width: calc(100% - 20px); padding: 10px; }
@@ -1051,22 +1069,30 @@
         }
 
         function toggleSection(sectionId) {
-            if (currentSection === sectionId) return;
-            const sections = document.querySelectorAll('.section');
-            const navItems = document.querySelectorAll('.nav-item');
-            sections.forEach(section => section.classList.remove('active'));
-            navItems.forEach(item => item.classList.remove('active'));
-            document.getElementById(sectionId).classList.add('active');
-            document.querySelector(`.nav-item[onclick="toggleSection('${sectionId}')"]`).classList.add('active');
-            currentSection = sectionId;
-            if (sectionId === 'catalog') {
-                document.getElementById('sidebar').classList.add('open');
-                isSidebarOpen = true;
-            } else {
-                document.getElementById('sidebar').classList.remove('open');
-                isSidebarOpen = false;
-            }
-        }
+    if (currentSection === sectionId) return;
+    const sections = document.querySelectorAll('.section');
+    const navItems = document.querySelectorAll('.nav-item');
+    const sidebar = document.getElementById('sidebar');
+
+    // Убираем активность со всех секций и элементов навигации
+    sections.forEach(section => section.classList.remove('active'));
+    navItems.forEach(item => item.classList.remove('active'));
+
+    // Активируем выбранную секцию и её пункт в навигации
+    const newSection = document.getElementById(sectionId);
+    newSection.classList.add('active');
+    document.querySelector(`.nav-item[onclick="toggleSection('${sectionId}')"]`).classList.add('active');
+    currentSection = sectionId;
+
+    // Управляем sidebar: показываем только для Catalog
+    if (sectionId === 'catalog') {
+        sidebar.classList.add('open');
+        isSidebarOpen = true;
+    } else {
+        sidebar.classList.remove('open');
+        isSidebarOpen = false;
+    }
+}
 
         function toggleTab(tabId) {
             if (currentTab === tabId) return;
@@ -1269,7 +1295,6 @@
             await fetchExchangeRates();
             checkAuth();
             setLanguage('en');
-            toggleSection('catalog');
             initProducts();
         };
     </script>
