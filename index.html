@@ -20,11 +20,11 @@
         .nav-item:hover { transform: scale(1.1); }
         .nav-item.active { background: linear-gradient(45deg, #d4af37, #ff8c00); }
         .main-container { max-width: 100%; margin: 10px auto; padding: 10px; display: flex; flex-direction: row; justify-content: space-between; gap: 20px; }
-        .sidebar { width: 180px; background: #3c2f2f; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; height: fit-content; transition: transform 0.3s ease-in-out; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5); }
+        .sidebar { width: 180px; background: #3c2f2f; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; height: fit-content; transition: transform 0.3s ease-in-out; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5); position: fixed; top: 0; left: 0; height: 100%; transform: translateX(-100%); }
         .sidebar.open { transform: translateX(0); }
         .tab { background: #4a0e0e; padding: 10px; margin-bottom: 10px; color: #e0d0b0; cursor: pointer; border: 1px solid #d4af37; border-radius: 5px; transition: background 0.3s, transform 0.3s; text-align: center; font-size: 14px; }
         .tab:hover, .tab.active { background: #ff8c00; color: #2b0a0a; transform: scale(1.05); }
-        .content { max-width: 100%; width: calc(100% - 220px); padding: 10px; }
+        .content { max-width: 100%; width: calc(100% - 20px); padding: 10px; }
         .section { display: none; background: #3c2f2f; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); width: 100%; }
         .section.active { display: block; }
         .catalog-tab { display: none; width: 100%; }
@@ -38,7 +38,7 @@
         .mandala-options div:hover { background: #ff8c00; }
         .placeholder { color: #e0d0b0; font-size: 16px; text-align: center; margin-top: 20px; }
         .no-products { color: #e0d0b0; font-size: 16px; text-align: center; margin-top: 20px; display: none; }
-        .product-card, .job-card, .message-card { background: #4a0e0e; border: 2px solid #d4af37; border-radius: 10px; padding: 10px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); transition(opacity 0.5s ease-in-out, transform 0.5s ease-in-out); cursor: pointer; }
+        .product-card, .job-card, .message-card { background: #4a0e0e; border: 2px solid #d4af37; border-radius: 10px; padding: 10px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; cursor: pointer; }
         .product-card.visible, .job-card.visible, .message-card.visible { opacity: 1; transform: translateX(0) rotate(0deg); }
         .product-card:hover, .job-card:hover, .message-card:hover { transform: translateY(-5px); }
         .product-card h3, .job-card h3, .message-card h3 { color: #ff8c00; margin: 0 0 8px; font-size: 16px; }
@@ -56,10 +56,9 @@
         @keyframes spin { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
         .auth-modal-content { background: #4a0e0e; width: 90%; max-width: 400px; margin: 15% auto; padding: 20px; border: 2px solid #d4af37; border-radius: 10px; text-align: center; }
         .auth-modal-content h3 { color: #ff8c00; margin-bottom: 15px; }
-        .auth-modal-content input { display: block; width: 80%; margin: 10px auto; padding: 10px; background: #e0d0b0; border: 1px solid #d4af37; border-radius: 5px; color: #2b0a0a; }
-        .auth-modal-content select { display: block; width: 80%; margin: 10px auto; padding: 10px; background: #e0d0b0; border: 1px solid #d4af37; border-radius: 5px; color: #2b0a0a; }
-        .auth-modal-content button { background: linear-gradient(45deg, #d4af37, #ff8c00); color: #2b0a0a; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.3s; margin: 5px; }
-        .auth-modal-content button:hover { transform: scale(1.05); }
+        .auth-modal-content input, .modal-content input, .modal-content select { display: block; width: 80%; margin: 10px auto; padding: 10px; background: linear-gradient(45deg, #3c2f2f, #4a0e0e); border: 1px solid #d4af37; border-radius: 5px; color: #e0d0b0; font-family: 'Georgia', serif; }
+        .auth-modal-content button, .modal-content button { background: linear-gradient(45deg, #d4af37, #ff8c00); color: #2b0a0a; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.3s; margin: 5px; }
+        .auth-modal-content button:hover, .modal-content button:hover { transform: scale(1.05); }
         .auth-modal-content .switch-form { color: #d4af37; cursor: pointer; text-decoration: underline; margin-top: 10px; }
         .auth-modal-content .switch-form:hover { color: #ff8c00; }
         .login-button, .register-button { background: linear-gradient(45deg, #d4af37, #ff8c00); color: #2b0a0a; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.3s; font-size: 16px; margin: 5px; }
@@ -77,8 +76,7 @@
         .referral-link { background: #4a0e0e; padding: 5px; border-radius: 5px; word-break: break-all; }
         @media (max-width: 768px) {
             .main-container { flex-direction: column; align-items: center; }
-            .sidebar { width: 100%; max-width: 300px; position: fixed; top: 0; left: 0; height: 100%; transform: translateX(-100%); }
-            .sidebar.open { transform: translateX(0); }
+            .sidebar { width: 100%; max-width: 300px; }
             .content { width: 100%; padding: 5px; }
             .logo { font-size: 24px; }
             .header-container { flex-direction: column; gap: 10px; }
@@ -196,12 +194,8 @@
         </div>
         <div class="section messages" id="messages">
             <div class="message-card">
-                <h3 data-i18n="message1-title">Stash Ready</h3>
-                <p data-i18n="message1-text">Your order "Goa Trance" is hidden at Tito’s Lane, Baga.</p>
-            </div>
-            <div class="message-card">
-                <h3 data-i18n="message2-title">Top Up Balance</h3>
-                <p data-i18n="message2-text">Send ₹ to pick up "Anjuna Haze" in Anjuna.</p>
+                <h3 data-i18n="welcome-title">Welcome to Shadow Goa</h3>
+                <p data-i18n="welcome-text">Greetings! Use this service wisely and discreetly. Contact support via Telegram @ShadowGoaSupport for assistance.</p>
             </div>
         </div>
     </div>
@@ -267,13 +261,21 @@
             </div>
         </div>
     </div>
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('confirmModal')">×</span>
+            <h3 data-i18n="confirm-title">Confirm Action</h3>
+            <p id="confirmMessage"></p>
+            <button class="deal-button" onclick="closeModal('confirmModal')" data-i18n="confirm-button">OK</button>
+        </div>
+    </div>
     <script>
-        let currentSection = 'catalog';
+        let currentSection = null;
         let currentTab = null;
         let selectedDistrict = 'all';
         let selectedStock = 'all';
         let selectedDiscount = 'all';
-        let isSidebarOpen = true;
+        let isSidebarOpen = false;
         let currentUser = null;
         let currentLanguage = 'en';
 
@@ -322,10 +324,8 @@
                 "job3-desc": "Responsibilities: Hide stashes in Calangute and monitor them.",
                 "job3-salary": "Salary: ₹40000/month",
                 apply: "Apply",
-                "message1-title": "Stash Ready",
-                "message1-text": "Your order 'Goa Trance' is hidden at Tito’s Lane, Baga.",
-                "message2-title": "Top Up Balance",
-                "message2-text": "Send ₹ to pick up 'Anjuna Haze' in Anjuna.",
+                "welcome-title": "Welcome to Shadow Goa",
+                "welcome-text": "Greetings! Use this service wisely and discreetly. Contact support via Telegram @ShadowGoaSupport for assistance.",
                 "deposit-title": "Deposit Funds",
                 "deposit-text1": "Select a cryptocurrency and enter the amount in INR (minimum 1000 INR):",
                 "deposit-text2": "Send the amount below to this address (valid for 30 minutes):",
@@ -361,7 +361,9 @@
                 "take-deal": "Take Deal",
                 "pre-order": "Pre-order",
                 discount: "Discount",
-                usdt: "USDT"
+                usdt: "USDT",
+                "confirm-title": "Confirm Action",
+                "confirm-button": "OK"
             },
             ru: {
                 title: "Shadow Goa",
@@ -407,10 +409,8 @@
                 "job3-desc": "Обязанности: Прятать клады в Калангуте и следить за ними.",
                 "job3-salary": "Оплата: ₹40000/месяц",
                 apply: "Подать заявку",
-                "message1-title": "Клад готов",
-                "message1-text": "Ваш заказ 'Goa Trance' спрятан у Tito’s Lane, Бага.",
-                "message2-title": "Пополните баланс",
-                "message2-text": "Отправьте ₹, чтобы забрать 'Anjuna Haze' в Анджуне.",
+                "welcome-title": "Добро пожаловать в Shadow Goa",
+                "welcome-text": "Приветствуем! Используйте сервис с умом и осторожностью. Свяжитесь с поддержкой через Telegram @ShadowGoaSupport для помощи.",
                 "deposit-title": "Пополнение средств",
                 "deposit-text1": "Выберите криптовалюту и укажите сумму в INR (минимум 1000 INR):",
                 "deposit-text2": "Отправьте указанную сумму на этот адрес (действителен 30 минут):",
@@ -446,7 +446,9 @@
                 "take-deal": "Взять сделку",
                 "pre-order": "Предзаказ",
                 discount: "Скидка",
-                usdt: "USDT"
+                usdt: "USDT",
+                "confirm-title": "Подтвердите действие",
+                "confirm-button": "ОК"
             },
             hi: {
                 title: "शैडो गोवा",
@@ -492,10 +494,8 @@
                 "job3-desc": "जिम्मेदारियां: कालंगुट में खजाने छिपाना और उनकी निगरानी करना।",
                 "job3-salary": "वेतन: ₹40000/माह",
                 apply: "आवेदन करें",
-                "message1-title": "खजाना तैयार है",
-                "message1-text": "आपका ऑर्डर 'Goa Trance' टिटो लेन, बागा में छिपा है।",
-                "message2-title": "बैलेंस टॉप अप करें",
-                "message2-text": "अंजुना में 'Anjuna Haze' लेने के लिए ₹ भेजें।",
+                "welcome-title": "शैडो गोवा में आपका स्वागत है",
+                "welcome-text": "नमस्ते! इस सेवा का उपयोग समझदारी और गोपनीयता के साथ करें। सहायता के लिए Telegram @ShadowGoaSupport से संपर्क करें।",
                 "deposit-title": "फंड जमा करें",
                 "deposit-text1": "क्रिप्टोकरेंसी चुनें और INR में राशि दर्ज करें (न्यूनतम 1000 INR):",
                 "deposit-text2": "नीचे दी गई राशि को इस पते पर भेजें (30 मिनट के लिए मान्य):",
@@ -531,7 +531,9 @@
                 "take-deal": "डील लें",
                 "pre-order": "प्री-ऑर्डर",
                 discount: "छूट",
-                usdt: "USDT"
+                usdt: "USDT",
+                "confirm-title": "कार्रवाई की पुष्टि करें",
+                "confirm-button": "ठीक"
             }
         };
 
@@ -559,6 +561,24 @@
             } catch (error) {
                 console.error('Error fetching exchange rates:', error);
                 exchangeRates = { BTC: 0.0000002, ETH: 0.00005, USDT: 0.012, TON: 0.25, SOL: 0.008 }; // Fallback rates
+            }
+        }
+
+        async function sendTelegramNotification(message) {
+            const botToken = 'YOUR_TELEGRAM_BOT_TOKEN'; // Замените на ваш токен бота
+            const chatId = 'YOUR_CHAT_ID'; // Замените на ваш chat_id
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+            try {
+                await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: message
+                    })
+                });
+            } catch (error) {
+                console.error('Error sending Telegram notification:', error);
             }
         }
 
@@ -692,7 +712,10 @@
                     const card = document.createElement('div');
                     card.className = 'product-card';
                     card.setAttribute('data-district', product.district);
-                    card.addEventListener('click', () => toggleProductDetails(card));
+                    card.addEventListener('click', () => {
+                        toggleProductDetails(card);
+                        sendTelegramNotification(`${currentUser ? currentUser.username : 'Guest'} opened product: ${product.name}`);
+                    });
                     const weightOptions = weights.map(weight => {
                         const pricePerGram = product.basePrice;
                         const price = Math.round(pricePerGram * weight);
@@ -746,6 +769,7 @@
                     currentUser.referralCode = btoa(currentUser.username).slice(0, 8);
                     localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 }
+                sendTelegramNotification(`${currentUser.username} logged in`);
             }
             updateProfile();
         }
@@ -806,7 +830,7 @@
                     referrer.referralCount = (referrer.referralCount || 0) + 1;
                     if (referrer.referralCount % 5 === 0) {
                         referrer.referralBonus = (referrer.referralBonus || 0) + 500;
-                        alert(`Referrer ${referrer.username} earned a 5g Marijuana bonus!`);
+                        sendTelegramNotification(`Referrer ${referrer.username} earned a 5g Marijuana bonus!`);
                     }
                     localStorage.setItem('users', JSON.stringify(users));
                 }
@@ -818,7 +842,8 @@
             currentUser = newUser;
             closeModal('authModal');
             updateProfile();
-            alert('Registration successful!');
+            sendTelegramNotification(`${username} registered`);
+            showConfirmModal('Registration successful!');
         }
 
         function login() {
@@ -838,14 +863,16 @@
             currentUser = user;
             closeModal('authModal');
             updateProfile();
-            alert('Login successful!');
+            sendTelegramNotification(`${username} logged in`);
+            showConfirmModal('Login successful!');
         }
 
         function logout() {
+            sendTelegramNotification(`${currentUser.username} logged out`);
             localStorage.removeItem('currentUser');
             currentUser = null;
             updateProfile();
-            alert('Logged out.');
+            showConfirmModal('Logged out.');
         }
 
         function showLoginForm() {
@@ -885,13 +912,11 @@
             document.getElementById('depositAddress').innerText = `${address}`;
             document.getElementById('depositDetails').style.display = 'block';
 
+            sendTelegramNotification(`${currentUser.username} requested deposit: ${cryptoAmount} ${crypto} (₹${amountINR}) to ${address}`);
             setTimeout(() => {
-                currentUser.balance = (currentUser.balance || 0) + amountINR;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                updateProfile();
                 closeModal('depositModal');
-                alert(`Deposited ₹${amountINR}!`);
-            }, 3000);
+                showConfirmModal(`Deposit request for ₹${amountINR} created. Awaiting confirmation.`);
+            }, 2000);
         }
 
         function createWithdrawDeal() {
@@ -901,6 +926,7 @@
                 return;
             }
 
+            const crypto = document.getElementById('withdrawCrypto').value;
             const amountINR = parseFloat(document.getElementById('withdrawAmount').value);
             const address = document.getElementById('withdrawAddress').value;
 
@@ -917,11 +943,15 @@
             loader.style.display = 'block';
             setTimeout(() => {
                 loader.style.display = 'none';
+                sendTelegramNotification(`${currentUser.username} requested withdrawal: ₹${amountINR} to ${address} (${crypto})`);
                 currentUser.balance -= amountINR;
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 updateProfile();
                 document.getElementById('withdrawDetails').style.display = 'block';
-                setTimeout(() => closeModal('withdrawModal'), 2000);
+                setTimeout(() => {
+                    closeModal('withdrawModal');
+                    showConfirmModal(`Withdrawal request for ₹${amountINR} created. Processing within 24 hours.`);
+                }, 2000);
             }, 2000);
         }
 
@@ -940,7 +970,8 @@
             currentUser.orders = (currentUser.orders || 0) + 1;
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             updateProfile();
-            alert(`Deal for ${productId} (${weight}g) confirmed!`);
+            sendTelegramNotification(`${currentUser.username} took deal: ${productId} (${weight}g) for ₹${price}`);
+            showConfirmModal(`Deal for ${productId} (${weight}g) confirmed!`);
         }
 
         function checkAuthBeforeApply(jobTitle) {
@@ -949,7 +980,8 @@
                 openModal('authModal');
                 return;
             }
-            alert(`Application for "${jobTitle}" submitted!`);
+            sendTelegramNotification(`${currentUser.username} applied for job: ${jobTitle}`);
+            showConfirmModal(`Application for "${jobTitle}" submitted!`);
         }
 
         function toggleSection(section) {
@@ -969,6 +1001,7 @@
                 isSidebarOpen = false;
                 sidebar.classList.remove('open');
             }
+            sendTelegramNotification(`${currentUser ? currentUser.username : 'Guest'} opened section: ${section}`);
         }
 
         function toggleTab(tab) {
@@ -980,12 +1013,13 @@
             currentTab = tab;
             document.getElementById('placeholder').style.display = 'none';
             filterProducts();
+            sendTelegramNotification(`${currentUser ? currentUser.username : 'Guest'} opened tab: ${tab}`);
         }
 
         function filterProducts() {
             if (!currentTab) return;
             const container = document.getElementById(currentTab);
-                        const cards = container.querySelectorAll('.product-card');
+            const cards = container.querySelectorAll('.product-card');
             let hasVisible = false;
 
             cards.forEach(card => {
@@ -1015,6 +1049,7 @@
             updateFilters();
             document.getElementById('district-options').style.display = 'none';
             filterProducts();
+            sendTelegramNotification(`${currentUser ? currentUser.username : 'Guest'} selected district: ${district}`);
         }
 
         function selectStock(stock) {
@@ -1022,6 +1057,7 @@
             updateFilters();
             document.getElementById('stock-options').style.display = 'none';
             filterProducts();
+            sendTelegramNotification(`${currentUser ? currentUser.username : 'Guest'} selected stock: ${stock}`);
         }
 
         function selectDiscount(discount) {
@@ -1029,16 +1065,23 @@
             updateFilters();
             document.getElementById('discount-options').style.display = 'none';
             filterProducts();
+            sendTelegramNotification(`${currentUser ? currentUser.username : 'Guest'} selected discount: ${discount}`);
         }
 
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'block';
+            sendTelegramNotification(`${currentUser ? currentUser.username : 'Guest'} opened modal: ${modalId}`);
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
             if (modalId === 'depositModal') document.getElementById('depositDetails').style.display = 'none';
             if (modalId === 'withdrawModal') document.getElementById('withdrawDetails').style.display = 'none';
+        }
+
+        function showConfirmModal(message) {
+            document.getElementById('confirmMessage').innerText = message;
+            openModal('confirmModal');
         }
 
         document.querySelectorAll('.mandala-button').forEach(button => {
@@ -1079,11 +1122,11 @@
         window.onload = async () => {
             await fetchExchangeRates();
             initProducts();
-            toggleSection('catalog');
             setLanguage('en');
             checkAuth();
+            sendTelegramNotification(`${currentUser ? currentUser.username : 'Guest'} entered the app`);
 
-            document.querySelectorAll('.product-card, .job-card, .message-card').forEach(card => {
+                        document.querySelectorAll('.product-card, .job-card, .message-card').forEach(card => {
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
