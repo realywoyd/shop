@@ -68,7 +68,6 @@
         }
         .nav-item {
             background: linear-gradient(45deg, #3c2f2f, #4a0e0e);
-            background-size: cover;
             padding: 8px 15px;
             color: #d4af37;
             cursor: pointer;
@@ -100,6 +99,7 @@
             z-index: 10;
             overflow-y: auto;
             max-height: 80vh;
+            transform: translateX(-100%);
         }
         .sidebar.open {
             transform: translateX(0);
@@ -474,7 +474,6 @@
                 left: 0;
                 height: 100%;
                 transform: translateX(-100%);
-                display: block;
             }
             .sidebar.open {
                 transform: translateX(0);
@@ -967,7 +966,9 @@
                     }
                 }
                 weights.push(...additionalWeights.sort((a, b) => a - b));
-            } else if (category === 'cocaine') {
+            } else if (category === 'cocaine')
+
+{
                 weights.push(0.5, 1);
                 const additionalWeights = [];
                 for (let i = 0; i < 3; i++) {
@@ -1303,8 +1304,6 @@
             if (section === 'catalog') {
                 isSidebarOpen = true;
                 sidebar.classList.add('open');
-                const cards = document.querySelectorAll('.job-card, .message-card');
-                cards.forEach(card => card.classList.remove('visible'));
             } else {
                 isSidebarOpen = false;
                 sidebar.classList.remove('open');
@@ -1318,349 +1317,160 @@
         }
 
         function toggleTab(tab) {
-    if (currentTab === tab) return;
+            if (currentTab === tab) return;
 
-    document.getElementById('placeholder').style.display = 'none';
-    document.getElementById('no-products').style.display = 'none';
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('no-products').style.display = 'none';
 
-    if (currentTab) {
-        document.getElementById(currentTab).classList.remove('active');
-        document.querySelector(`.tab[onclick="toggleTab('${currentTab}')"]`).classList.remove('active');
-    }
+            if (currentTab) {
+                document.getElementById(currentTab).classList.remove('active');
+                document.querySelector(`.tab[onclick="toggleTab('${currentTab}')"]`).classList.remove('active');
+            }
 
-    document.getElementById(tab).classList.add('active');
-    document.querySelector(`.tab[onclick="toggleTab('${tab}')"]`).classList.add('active');
-    currentTab = tab;
+            document.getElementById(tab).classList.add('active');
+            document.querySelector(`.tab[onclick="toggleTab('${tab}')"]`).classList.add('active');
+            currentTab = tab;
 
-    filterProducts();
-}
+            // Скрываем сайдбар при выборе категории
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.remove('open');
+            isSidebarOpen = false;
 
-function filterProducts() {
-    if (!currentTab) return;
-
-    const cards = document.querySelectorAll(`#${currentTab} .product-card`);
-    let hasVisibleProducts = false;
-
-    cards.forEach((card, index) => {
-        const districtMatch = selectedDistrict === 'all' || card.getAttribute('data-district') === selectedDistrict;
-        const stockMatch = selectedStock === 'all' || 
-            (selectedStock === 'in-stock' && card.querySelector('p:nth-child(3)').innerText === translations[currentLanguage]['in-stock']) || 
-            (selectedStock === 'out-of-stock' && card.querySelector('p:nth-child(3)').innerText === translations[currentLanguage]['out-of-stock']);
-        const discountMatch = selectedDiscount === 'all' || 
-            (selectedDiscount === 'with-discount' && card.querySelector('.discount')) || 
-            (selectedDiscount === 'no-discount' && !card.querySelector('.discount'));
-
-        if (districtMatch && stockMatch && discountMatch) {
-            setTimeout(() => {
-                card.classList.add('visible');
-            }, index * 200);
-            hasVisibleProducts = true;
-        } else {
-            card.classList.remove('visible');
+            filterProducts();
         }
-    });
 
-    if (!hasVisibleProducts) {
-        document.getElementById('no-products').style.display = 'block';
-    }
-}
+        function filterProducts() {
+            if (!currentTab) return;
 
-function selectDistrict(district) {
-    selectedDistrict = district;
-    const button = document.getElementById('district-button');
-    const districtText = district === 'all' ? translations[currentLanguage]['district-all-option'] : translations[currentLanguage][`district-${district}`];
-    button.innerText = `${translations[currentLanguage]['district-all'].split(':')[0]}: ${districtText}`;
-    document.getElementById('district-options').style.display = 'none';
-    filterProducts();
-}
+            const cards = document.querySelectorAll(`#${currentTab} .product-card`);
+            let hasVisibleProducts = false;
 
-function selectStock(stock) {
-    selectedStock = stock;
-    const button = document.getElementById('stock-button');
-    const stockText = stock === 'all' ? translations[currentLanguage]['stock-all-option'] : translations[currentLanguage][stock];
-    button.innerText = `${translations[currentLanguage]['stock-all'].split(':')[0]}: ${stockText}`;
-    document.getElementById('stock-options').style.display = 'none';
-    filterProducts();
-}
+            cards.forEach((card, index) => {
+                const districtMatch = selectedDistrict === 'all' || card.getAttribute('data-district') === selectedDistrict;
+                const stockMatch = selectedStock === 'all' || 
+                    (selectedStock === 'in-stock' && card.querySelector('p:nth-child(3)').innerText === translations[currentLanguage]['in-stock']) || 
+                    (selectedStock === 'out-of-stock' && card.querySelector('p:nth-child(3)').innerText === translations[currentLanguage]['out-of-stock']);
+                const discountMatch = selectedDiscount === 'all' || 
+                    (selectedDiscount === 'with-discount' && card.querySelector('.discount')) || 
+                    (selectedDiscount === 'no-discount' && !card.querySelector('.discount'));
 
-function selectDiscount(discount) {
-    selectedDiscount = discount;
-    const button = document.getElementById('discount-button');
-    const discountText = discount === 'all' ? translations[currentLanguage]['discount-all-option'] : translations[currentLanguage][discount];
-    button.innerText = `${translations[currentLanguage]['discount-all'].split(':')[0]}: ${discountText}`;
-    document.getElementById('discount-options').style.display = 'none';
-    filterProducts();
-}
+                if (districtMatch && stockMatch && discountMatch) {
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                    }, index * 200);
+                    hasVisibleProducts = true;
+                } else {
+                    card.classList.remove('visible');
+                }
+            });
 
-document.getElementById('district-button').addEventListener('click', () => {
-    const options = document.getElementById('district-options');
-    options.style.display = options.style.display === 'block' ? 'none' : 'block';
-});
+            if (!hasVisibleProducts) {
+                document.getElementById('no-products').style.display = 'block';
+            }
+        }
 
-document.getElementById('stock-button').addEventListener('click', () => {
-    const options = document.getElementById('stock-options');
-    options.style.display = options.style.display === 'block' ? 'none' : 'block';
-});
+        function selectDistrict(district) {
+            selectedDistrict = district;
+            const button = document.getElementById('district-button');
+            const districtText = district === 'all' ? translations[currentLanguage]['district-all-option'] : translations[currentLanguage][`district-${district}`];
+            button.innerText = `${translations[currentLanguage]['district-all'].split(':')[0]}: ${districtText}`;
+            document.getElementById('district-options').style.display = 'none';
+            filterProducts();
+        }
 
-document.getElementById('discount-button').addEventListener('click', () => {
-    const options = document.getElementById('discount-options');
-    options.style.display = options.style.display === 'block' ? 'none' : 'block';
-});
+        function selectStock(stock) {
+            selectedStock = stock;
+            const button = document.getElementById('stock-button');
+            const stockText = stock === 'all' ? translations[currentLanguage]['stock-all-option'] : translations[currentLanguage][stock];
+            button.innerText = `${translations[currentLanguage]['stock-all'].split(':')[0]}: ${stockText}`;
+            document.getElementById('stock-options').style.display = 'none';
+            filterProducts();
+        }
 
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.mandala-select')) {
-        document.querySelectorAll('.mandala-options').forEach(options => {
-            options.style.display = 'none';
+                function selectDiscount(discount) {
+            selectedDiscount = discount;
+            const button = document.getElementById('discount-button');
+            const discountText = discount === 'all' ? translations[currentLanguage]['discount-all-option'] : translations[currentLanguage][discount];
+            button.innerText = `${translations[currentLanguage]['discount-all'].split(':')[0]}: ${discountText}`;
+            document.getElementById('discount-options').style.display = 'none';
+            filterProducts();
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        document.querySelectorAll('.mandala-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const options = button.nextElementSibling;
+                const isVisible = options.style.display === 'block';
+                document.querySelectorAll('.mandala-options').forEach(opt => opt.style.display = 'none');
+                options.style.display = isVisible ? 'none' : 'block';
+                e.stopPropagation();
+            });
         });
-    }
-});
 
-function openModal(modalId) {
-    document.getElementById(modalId).style.display = 'block';
-}
+        document.addEventListener('click', (e) => {
+            document.querySelectorAll('.mandala-options').forEach(options => {
+                if (!options.contains(e.target) && !options.previousElementSibling.contains(e.target)) {
+                    options.style.display = 'none';
+                }
+            });
+        });
 
-function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
-}
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
 
-function toggleProductDetails(card) {
-    const weights = card.querySelector('.weights');
-    const reviews = card.querySelector('.reviews');
-    const isVisible = weights.style.display === 'block';
-    weights.style.display = isVisible ? 'none' : 'block';
-    reviews.style.display = isVisible ? 'none' : 'block';
-}
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
 
-function checkAuth() {
-    const user = localStorage.getItem('currentUser');
-    if (user) {
-        currentUser = JSON.parse(user);
-        if (!currentUser.referralCode) {
-            currentUser.referralCode = btoa(currentUser.username).slice(0, 8);
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        function handleSwipe() {
+            const sidebar = document.getElementById('sidebar');
+            if (touchEndX - touchStartX > 50 && !isSidebarOpen && currentSection === 'catalog') {
+                isSidebarOpen = true;
+                sidebar.classList.add('open');
+            } else if (touchStartX - touchEndX > 50 && isSidebarOpen) {
+                isSidebarOpen = false;
+                sidebar.classList.remove('open');
+            }
         }
-    }
-    updateProfile();
-}
 
-function updateProfile() {
-    const profileContent = document.getElementById('profile-content');
-    if (currentUser) {
-        profileContent.innerHTML = `
-            <div class="profile-ledger">
-                <h3 data-i18n="profile-title">${translations[currentLanguage]['profile-title']}</h3>
-                <p><span data-i18n="profile-name">${translations[currentLanguage]['profile-name']}</span>: ${currentUser.username}</p>
-                <p><span data-i18n="profile-balance">${translations[currentLanguage]['profile-balance']}</span>: ₹${currentUser.balance || 0}</p>
-                <p><span data-i18n="profile-orders">${translations[currentLanguage]['profile-orders']}</span>: ${currentUser.orders || 0}</p>
-                <p><span data-i18n="profile-referral-bonus">${translations[currentLanguage]['profile-referral-bonus']}</span>: ₹${currentUser.referralBonus || 0}</p>
-                <button class="deal-button" onclick="openModal('depositModal')" data-i18n="profile-deposit">${translations[currentLanguage]['profile-deposit']}</button>
-                <button class="deal-button" onclick="logout()" data-i18n="profile-logout">${translations[currentLanguage]['profile-logout']}</button>
-                <div class="referral-section">
-                    <p data-i18n="referral-link-text">${translations[currentLanguage]['referral-link-text']}</p>
-                    <p class="referral-link">goashadowbazaar.com/ref/${currentUser.referralCode}</p>
-                    <p data-i18n="referral-invite">${translations[currentLanguage]['referral-invite']}</p>
-                </div>
-            </div>
-        `;
-    } else {
-        profileContent.innerHTML = `
-            <button class="login-button" onclick="openLoginModal()" data-i18n="login-prompt">${translations[currentLanguage]['login-prompt']}</button>
-            <button class="register-button" onclick="openRegisterModal()" data-i18n="register-prompt">${translations[currentLanguage]['register-prompt']}</button>
-        `;
-    }
-}
+        window.addEventListener('load', () => {
+            setLanguage('ru');
+            initProducts();
+            checkAuth();
+            toggleSection('catalog');
+            const loader = document.getElementById('loader');
+            loader.style.display = 'block';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 1000);
+        });
 
-function openLoginModal() {
-    showLoginForm();
-    openModal('authModal');
-}
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('mouseover', () => {
+                item.style.transform = 'scale(1.1)';
+            });
+            item.addEventListener('mouseout', () => {
+                item.style.transform = 'scale(1)';
+            });
+        });
 
-function openRegisterModal() {
-    showRegisterForm();
-    openModal('authModal');
-}
-
-function showLoginForm() {
-    document.getElementById('loginForm').style.display = 'block';
-    document.getElementById('registerForm').style.display = 'none';
-}
-
-function showRegisterForm() {
-    document.getElementById('loginForm').style.display = 'none';
-    document.getElementById('registerForm').style.display = 'block';
-}
-
-function register() {
-    const username = document.getElementById('regUsername').value;
-    const password = document.getElementById('regPassword').value;
-    const confirmPassword = document.getElementById('regConfirmPassword').value;
-    const referralCode = document.getElementById('regReferralCode').value;
-
-    if (!username || !password || !confirmPassword) {
-        alert(translations[currentLanguage]['register-title'].includes('!') ? 'Заполни все поля, дебил!' : 'Fill all fields, idiot!');
-        return;
-    }
-
-    if (password !== confirmPassword) {
-        alert(translations[currentLanguage]['register-title'].includes('!') ? 'Пароли не совпадают, лошара!' : 'Passwords do not match, loser!');
-        return;
-    }
-
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    if (users.some(user => user.username === username)) {
-        alert(translations[currentLanguage]['register-title'].includes('!') ? 'Такой юзер уже есть, придумай другой ник!' : 'This user already exists, choose another name!');
-        return;
-    }
-
-    const newUser = { username, password, balance: 0, orders: 0, referralBonus: 0 };
-    if (referralCode) {
-        const referrer = users.find(user => user.referralCode === referralCode);
-        if (referrer) {
-            referrer.referralBonus = (referrer.referralBonus || 0) + 1000;
-            newUser.balance = 500;
-            localStorage.setItem('users', JSON.stringify(users));
-        }
-    }
-
-    newUser.referralCode = btoa(username).slice(0, 8);
-    users.push(newUser);
-    localStorage.setItem('users', JSON.stringify(users));
-    localStorage.setItem('currentUser', JSON.stringify(newUser));
-    currentUser = newUser;
-    closeModal('authModal');
-    updateProfile();
-    alert(translations[currentLanguage]['register-title'].includes('!') ? 'Зарегистрирован, братишка! Входи в игру!' : 'Registered, bro! Get in the game!');
-}
-
-function login() {
-    const username = document.getElementById('loginUsername').value;
-    const password = document.getElementById('loginPassword').value;
-
-    if (!username || !password) {
-        alert(translations[currentLanguage]['login-title'].includes('!') ? 'Заполни все поля, братишка!' : 'Fill all fields, bro!');
-        return;
-    }
-
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const user = users.find(user => user.username === username && user.password === password);
-
-    if (!user) {
-        alert(translations[currentLanguage]['login-title'].includes('!') ? 'Неправильный юзер или пароль, дебил!' : 'Wrong username or password, idiot!');
-        return;
-    }
-
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    currentUser = user;
-    closeModal('authModal');
-    updateProfile();
-    alert(translations[currentLanguage]['login-title'].includes('!') ? 'Вошёл, братишка! Давай за стаффом!' : 'Logged in, bro! Let’s get some stuff!');
-}
-
-function logout() {
-    localStorage.removeItem('currentUser');
-    currentUser = null;
-    updateProfile();
-    alert(translations[currentLanguage]['profile-logout'].includes('!') ? 'Вышел, братишка! Возвращайся за стаффом!' : 'Logged out, bro! Come back for more stuff!');
-}
-
-function depositFunds() {
-    if (!currentUser) {
-        alert(translations[currentLanguage]['deposit-title'].includes('!') ? 'Сначала войди, дебил!' : 'Login first, idiot!');
-        closeModal('depositModal');
-        openLoginModal();
-        return;
-    }
-
-    document.getElementById('loader').style.display = 'block';
-    setTimeout(() => {
-        document.getElementById('loader').style.display = 'none';
-        currentUser.balance = (currentUser.balance || 0) + 5000;
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-        const userIndex = users.findIndex(user => user.username === currentUser.username);
-        if (userIndex !== -1) {
-            users[userIndex].balance = currentUser.balance;
-            localStorage.setItem('users', JSON.stringify(users));
-        }
-        closeModal('depositModal');
-        updateProfile();
-        alert(translations[currentLanguage]['deposit-title'].includes('!') ? 'Баланс пополнен, братишка! ₹5000 на счету!' : 'Balance topped up, bro! ₹5000 added!');
-    }, 2000);
-}
-
-function checkAuthBeforeDeal(productId, weight, price) {
-    if (!currentUser) {
-        alert(translations[currentLanguage]['login-prompt'].includes('!') ? 'Сначала войди, дебил!' : 'Login first, idiot!');
-        openLoginModal();
-        return;
-    }
-
-    if (currentUser.balance < price) {
-        alert(translations[currentLanguage]['deposit-title'].includes('!') ? 'Недостаточно ₹, пополни баланс, мудак!' : 'Not enough ₹, top up your balance, dude!');
-        openModal('depositModal');
-        return;
-    }
-
-    document.getElementById('loader').style.display = 'block';
-    setTimeout(() => {
-        document.getElementById('loader').style.display = 'none';
-        currentUser.balance -= price;
-        currentUser.orders = (currentUser.orders || 0) + 1;
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-        const userIndex = users.findIndex(user => user.username === currentUser.username);
-        if (userIndex !== -1) {
-            users[userIndex].balance = currentUser.balance;
-            users[userIndex].orders = currentUser.orders;
-            localStorage.setItem('users', JSON.stringify(users));
-        }
-        updateProfile();
-        alert(translations[currentLanguage]['take-deal'].includes('!') ? `Сделка оформлена, братишка! ${weight}g ${productId} за ₹${price}.` : `Deal confirmed, bro! ${weight}g ${productId} for ₹${price}.`);
-    }, 1500);
-}
-
-function checkAuthBeforeApply(jobTitle) {
-    if (!currentUser) {
-        alert(translations[currentLanguage]['login-prompt'].includes('!') ? 'Сначала войди, дебил!' : 'Login first, idiot!');
-        openLoginModal();
-        return;
-    }
-
-    document.getElementById('loader').style.display = 'block';
-    setTimeout(() => {
-        document.getElementById('loader').style.display = 'none';
-        alert(translations[currentLanguage]['apply'].includes('!') ? `Заявка на "${jobTitle}" отправлена, братишка! Жди ответа.` : `Application for "${jobTitle}" submitted, bro! Wait for a response.`);
-    }, 1500);
-}
-
-document.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-});
-
-document.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-});
-
-function handleSwipe() {
-    const sidebar = document.getElementById('sidebar');
-    const swipeDistance = touchEndX - touchStartX;
-
-    if (swipeDistance > 50 && !isSidebarOpen) {
-        sidebar.classList.add('open');
-        isSidebarOpen = true;
-    } else if (swipeDistance < -50 && isSidebarOpen) {
-        sidebar.classList.remove('open');
-        isSidebarOpen = false;
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    initProducts();
-    checkAuth();
-    setLanguage('ru');
-    toggleSection('catalog');
-});
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('mouseover', () => {
+                tab.style.transform = 'scale(1.05)';
+            });
+            tab.addEventListener('mouseout', () => {
+                tab.style.transform = 'scale(1)';
+            });
+        });
     </script>
 </body>
 </html>
