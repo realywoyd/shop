@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shadow Goa</title>
-    <link rel="icon" type="image/png" href="images/mandala-icon.png">
+    <link rel="icon" type="image/png" href="https://via.placeholder.com/32"> <!-- Замена отсутствующей иконки -->
     <style>
         body { margin: 0; padding: 0; background: linear-gradient(45deg, #2b0a0a, #1a2b1a); font-family: 'Georgia', serif; color: #d4af37; overflow-x: hidden; scroll-behavior: smooth; }
         .header { background: linear-gradient(45deg, #4a0e0e, #3c2f2f); padding: 15px; text-align: center; border-bottom: 3px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); }
@@ -997,19 +997,23 @@
                     referrer.referralCount = (referrer.referralCount || 0) + 1;
                     if (referrer.referralCount % 5 === 0) {
                         referrer.referralBonus = (referrer.referralBonus || 0) + 500;
-                        sendTelegramNotification(`Referrer ${referrer.username} earned a 5g Marijuana bonus!`);
+                        sendTelegramNotification(`Referrer ${referrer.username} earned 500 INR bonus for 5th referral: ${username}`);
                     }
                     localStorage.setItem('users', JSON.stringify(users));
+                } else {
+                    showConfirmModal('Invalid referral code.');
+                    return;
+                }
             }
 
             users.push(newUser);
             localStorage.setItem('users', JSON.stringify(users));
-            localStorage.setItem('currentUser', JSON.stringify(newUser));
             currentUser = newUser;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
             closeModal('authModal');
+            showConfirmModal('Registration successful! You are now logged in.');
+            sendTelegramNotification(`New user registered: ${username}${referralCode ? ` via referral ${referralCode}` : ''}`);
             updateProfile();
-            sendTelegramNotification(`${username} registered`);
-            showConfirmModal('Registration successful!');
         }
 
         function login() {
@@ -1018,12 +1022,11 @@
             const users = JSON.parse(localStorage.getItem('users')) || [];
             const user = users.find(u => u.username === username && u.password === password);
             if (user) {
-                localStorage.setItem('currentUser', JSON.stringify(user));
                 currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 closeModal('authModal');
-                updateProfile();
-                sendTelegramNotification(`${username} logged in`);
                 showConfirmModal('Login successful!');
+                updateProfile();
             } else {
                 showConfirmModal('Invalid username or password.');
             }
@@ -1033,8 +1036,8 @@
             localStorage.removeItem('currentUser');
             currentUser = null;
             updateProfile();
+            showConfirmModal('Logged out successfully.');
             sendTelegramNotification('User logged out');
-            showConfirmModal('Logged out successfully!');
         }
 
         function showLoginForm() {
@@ -1047,49 +1050,34 @@
             document.getElementById('registerForm').style.display = 'block';
         }
 
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            if (modalId === 'depositModal') document.getElementById('depositDetails').style.display = 'none';
-            if (modalId === 'withdrawModal') document.getElementById('withdrawDetails').style.display = 'none';
-        }
-
-        function showConfirmModal(message) {
-            document.getElementById('confirmMessage').innerText = message;
-            openModal('confirmModal');
-        }
-
-        function toggleSection(section) {
-            if (currentSection === section) return;
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(section).classList.add('active');
-            document.querySelector(`.nav-item[onclick="toggleSection('${section}')"]`).classList.add('active');
-            currentSection = section;
-
-            const sidebar = document.getElementById('sidebar');
-            if (section === 'catalog' && !isSidebarOpen) {
-                sidebar.classList.add('open');
+        function toggleSection(sectionId) {
+            if (currentSection === sectionId) return;
+            const sections = document.querySelectorAll('.section');
+            const navItems = document.querySelectorAll('.nav-item');
+            sections.forEach(section => section.classList.remove('active'));
+            navItems.forEach(item => item.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelector(`.nav-item[onclick="toggleSection('${sectionId}')"]`).classList.add('active');
+            currentSection = sectionId;
+            if (sectionId === 'catalog') {
+                document.getElementById('sidebar').classList.add('open');
                 isSidebarOpen = true;
-            } else if (section !== 'catalog') {
-                sidebar.classList.remove('open');
+            } else {
+                document.getElementById('sidebar').classList.remove('open');
                 isSidebarOpen = false;
             }
         }
 
-        function toggleTab(tab) {
-            if (currentTab === tab) return;
-            document.querySelectorAll('.catalog-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(tab).classList.add('active');
-            document.querySelector(`.tab[onclick="toggleTab('${tab}')"]`).classList.add('active');
-            currentTab = tab;
+        function toggleTab(tabId) {
+            if (currentTab === tabId) return;
+            const tabs = document.querySelectorAll('.tab');
+            const catalogTabs = document.querySelectorAll('.catalog-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            catalogTabs.forEach(tab => tab.classList.remove('active'));
+            document.querySelector(`.tab[onclick="toggleTab('${tabId}')"]`).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+            currentTab = tabId;
             document.getElementById('placeholder').style.display = 'none';
-            document.getElementById('sidebar').classList.remove('open');
-            isSidebarOpen = false;
             filterProducts();
         }
 
@@ -1115,54 +1103,33 @@
         }
 
         function filterProducts() {
-            let hasProducts = false;
-            Object.keys(products).forEach(category => {
-                const container = document.getElementById(category);
-                const cards = container.querySelectorAll('.product-card');
-                cards.forEach(card => {
-                    const district = card.getAttribute('data-district');
-                    const productId = card.querySelector('.deal-button').getAttribute('onclick').match(/'([^']+)'/)[1];
-                    const product = products[category].find(p => p.id === productId);
-                    const inStock = product.inStock;
-                    const hasDiscount = card.querySelector('.discount') !== null;
-
-                    const districtMatch = selectedDistrict === 'all' || district === selectedDistrict;
+            const catalogTabs = document.querySelectorAll('.catalog-tab');
+            catalogTabs.forEach(tab => {
+                const products = tab.querySelectorAll('.product-card');
+                let hasVisibleProducts = false;
+                products.forEach(product => {
+                    const district = product.getAttribute('data-district');
+                    const inStock = product.querySelector('p:nth-child(3)').innerText === translations[currentLanguage]['in-stock'];
+                    const hasDiscount = product.querySelector('.discount') !== null;
+                    const districtMatch = selectedDistrict === 'all' || selectedDistrict === district;
                     const stockMatch = selectedStock === 'all' || (selectedStock === 'in-stock' && inStock) || (selectedStock === 'out-of-stock' && !inStock);
                     const discountMatch = selectedDiscount === 'all' || (selectedDiscount === 'with-discount' && hasDiscount) || (selectedDiscount === 'no-discount' && !hasDiscount);
-
-                    if (districtMatch && stockMatch && discountMatch) {
-                        card.style.display = 'flex';
-                        hasProducts = true;
-                    } else {
-                        card.style.display = 'none';
-                    }
+                    product.style.display = districtMatch && stockMatch && discountMatch ? 'flex' : 'none';
+                    if (districtMatch && stockMatch && discountMatch) hasVisibleProducts = true;
                 });
+                const noProductsMessage = document.getElementById('no-products');
+                if (tab.classList.contains('active') && !hasVisibleProducts) {
+                    noProductsMessage.style.display = 'block';
+                } else {
+                    noProductsMessage.style.display = 'none';
+                }
             });
-            document.getElementById('no-products').style.display = hasProducts || !currentTab ? 'none' : 'block';
         }
-
-        document.querySelectorAll('.mandala-button').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const options = button.nextElementSibling;
-                options.style.display = options.style.display === 'block' ? 'none' : 'block';
-                e.stopPropagation();
-            });
-        });
-
-        document.addEventListener('click', (e) => {
-            document.querySelectorAll('.mandala-options').forEach(options => {
-                if (!options.contains(e.target)) options.style.display = 'none';
-            });
-        });
 
         function checkAuthBeforeDeal(productId, weight, price, isDelivery) {
             if (!currentUser) {
                 openModal('authModal');
                 showLoginForm();
-                return;
-            }
-            if (currentUser.balance < price) {
-                showConfirmModal('Insufficient balance. Please deposit funds.');
                 return;
             }
             createDeal(productId, weight, price, isDelivery);
@@ -1180,73 +1147,93 @@
         function createDeal(productId, weight, price, isDelivery) {
             showLoader();
             setTimeout(() => {
-                currentUser.balance -= price;
+                hideLoader();
+                currentUser.balance = (currentUser.balance || 0) - price;
                 currentUser.orders = (currentUser.orders || 0) + 1;
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                const users = JSON.parse(localStorage.getItem('users')) || [];
-                const userIndex = users.findIndex(u => u.username === currentUser.username);
-                if (userIndex !== -1) users[userIndex] = currentUser;
-                localStorage.setItem('users', JSON.stringify(users));
-                updateProfile();
                 const product = Object.values(products).flat().find(p => p.id === productId);
-                sendTelegramNotification(`${currentUser.username} purchased ${product.name} (${weight}${product.id.includes('lsd') || product.id.includes('mdma') ? 'pcs' : 'g'}) for ₹${price}${isDelivery ? ' with delivery' : ''}`);
-                showConfirmModal(`Purchase successful! ${isDelivery ? 'Delivery' : 'Pickup'} details will be sent to your Telegram.`);
-                hideLoader();
+                const dealType = isDelivery ? 'Delivery' : 'Pickup';
+                const unit = (product.category === 'lsd' || product.category === 'mdma') ? 'pcs' : 'g';
+                showConfirmModal(`Deal created: ${product.name} (${weight}${unit}) for ₹${price} (${dealType}). Check your messages for details.`);
+                sendTelegramNotification(`${currentUser.username} created a ${dealType} deal: ${product.name} (${weight}${unit}) for ₹${price}`);
+                updateProfile();
             }, 1000);
         }
 
         function applyForJob(jobTitle) {
             showLoader();
             setTimeout(() => {
-                sendTelegramNotification(`${currentUser.username} applied for ${jobTitle}`);
-                showConfirmModal(`Application for ${jobTitle} submitted! Check Telegram for further instructions.`);
                 hideLoader();
+                showConfirmModal(`Application for "${jobTitle}" submitted. Check your messages for updates.`);
+                sendTelegramNotification(`${currentUser.username} applied for job: ${jobTitle}`);
             }, 1000);
         }
 
         function createDepositDeal() {
             const crypto = document.getElementById('depositCrypto').value;
-            const amount = parseFloat(document.getElementById('depositAmount').value);
+            const amount = parseInt(document.getElementById('depositAmount').value);
             if (isNaN(amount) || amount < 1000) {
-                showConfirmModal('Please enter a valid amount (minimum 1000 INR).');
+                showConfirmModal('Minimum deposit is 1000 INR.');
                 return;
             }
             showLoader();
             setTimeout(() => {
+                hideLoader();
                 const cryptoAmount = (amount * exchangeRates[crypto]).toFixed(6);
                 document.getElementById('depositCryptoAmount').innerText = `${cryptoAmount} ${crypto}`;
                 document.getElementById('depositAddress').innerText = cryptoAddresses[crypto];
                 document.getElementById('depositDetails').style.display = 'block';
-                sendTelegramNotification(`${currentUser.username} created a deposit deal: ${cryptoAmount} ${crypto} (₹${amount})`);
-                hideLoader();
+                sendTelegramNotification(`${currentUser.username} created deposit: ${amount} INR (${cryptoAmount} ${crypto})`);
+                setTimeout(() => {
+                    currentUser.balance = (currentUser.balance || 0) + amount;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    updateProfile();
+                    closeModal('depositModal');
+                    showConfirmModal('Deposit successful!');
+                }, 5000); // Simulate blockchain confirmation
             }, 1000);
         }
 
         function createWithdrawDeal() {
             const crypto = document.getElementById('withdrawCrypto').value;
-            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            const amount = parseInt(document.getElementById('withdrawAmount').value);
             const address = document.getElementById('withdrawAddress').value;
-            if (isNaN(amount) || amount < 1000 || !address) {
-                showConfirmModal('Please enter a valid amount (minimum 1000 INR) and address.');
+            if (isNaN(amount) || amount < 1000) {
+                showConfirmModal('Minimum withdrawal is 1000 INR.');
                 return;
             }
-            if (currentUser.balance < amount) {
+            if (!address) {
+                showConfirmModal('Please enter a wallet address.');
+                return;
+            }
+            if ((currentUser.balance || 0) < amount) {
                 showConfirmModal('Insufficient balance.');
                 return;
             }
             showLoader();
             setTimeout(() => {
+                hideLoader();
                 currentUser.balance -= amount;
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                const users = JSON.parse(localStorage.getItem('users')) || [];
-                const userIndex = users.findIndex(u => u.username === currentUser.username);
-                if (userIndex !== -1) users[userIndex] = currentUser;
-                localStorage.setItem('users', JSON.stringify(users));
-                updateProfile();
                 document.getElementById('withdrawDetails').style.display = 'block';
-                sendTelegramNotification(`${currentUser.username} requested withdrawal: ${amount} INR to ${crypto} (${address})`);
-                hideLoader();
+                sendTelegramNotification(`${currentUser.username} requested withdrawal: ${amount} INR to ${crypto} address ${address}`);
+                updateProfile();
             }, 1000);
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            if (modalId === 'depositModal') document.getElementById('depositDetails').style.display = 'none';
+            if (modalId === 'withdrawModal') document.getElementById('withdrawDetails').style.display = 'none';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function showConfirmModal(message) {
+            document.getElementById('confirmMessage').innerText = message;
+            openModal('confirmModal');
         }
 
         function showLoader() {
@@ -1257,36 +1244,32 @@
             document.getElementById('loader').style.display = 'none';
         }
 
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        document.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].screenX;
+        document.getElementById('district-button').addEventListener('click', () => {
+            const options = document.getElementById('district-options');
+            options.style.display = options.style.display === 'block' ? 'none' : 'block';
         });
 
-        document.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
+        document.getElementById('stock-button').addEventListener('click', () => {
+            const options = document.getElementById('stock-options');
+            options.style.display = options.style.display === 'block' ? 'none' : 'block';
         });
 
-        function handleSwipe() {
-            const sidebar = document.getElementById('sidebar');
-            if (touchStartX - touchEndX > 50 && currentSection === 'catalog' && isSidebarOpen) {
-                sidebar.classList.remove('open');
-                isSidebarOpen = false;
-            } else if (touchEndX - touchStartX > 50 && currentSection === 'catalog' && !isSidebarOpen) {
-                sidebar.classList.add('open');
-                isSidebarOpen = true;
+        document.getElementById('discount-button').addEventListener('click', () => {
+            const options = document.getElementById('discount-options');
+            options.style.display = options.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.mandala-select')) {
+                document.querySelectorAll('.mandala-options').forEach(options => options.style.display = 'none');
             }
-        }
+        });
 
         window.onload = async () => {
             await fetchExchangeRates();
             checkAuth();
             setLanguage('en');
-            document.getElementById('catalog').classList.add('active');
-            document.querySelector('.nav-item[onclick="toggleSection(\'catalog\')"]').classList.add('active');
-            currentSection = 'catalog';
+            toggleSection('catalog');
             initProducts();
         };
     </script>
