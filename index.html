@@ -38,11 +38,11 @@
         .header-text {
             font-size: 14px;
             color: #e0d0b0;
+            margin: 5px 0;
         }
         .language-switcher {
-            position: absolute;
-            top: 15px;
-            right: 15px;
+            text-align: center;
+            margin-top: 5px;
         }
         .language-button {
             background: linear-gradient(45deg, #d4af37, #ff8c00);
@@ -52,7 +52,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 12px;
-            margin-left: 5px;
+            margin: 0 5px;
             transition: transform 0.3s;
         }
         .language-button:hover {
@@ -966,9 +966,7 @@
                     }
                 }
                 weights.push(...additionalWeights.sort((a, b) => a - b));
-            } else if (category === 'cocaine')
-
-{
+            } else if (category === 'cocaine') {
                 weights.push(0.5, 1);
                 const additionalWeights = [];
                 for (let i = 0; i < 3; i++) {
@@ -1304,6 +1302,12 @@
             if (section === 'catalog') {
                 isSidebarOpen = true;
                 sidebar.classList.add('open');
+                if (currentTab) {
+                    document.getElementById(currentTab).classList.add('active');
+                    filterProducts();
+                } else {
+                    document.getElementById('placeholder').style.display = 'block';
+                }
             } else {
                 isSidebarOpen = false;
                 sidebar.classList.remove('open');
@@ -1317,8 +1321,6 @@
         }
 
         function toggleTab(tab) {
-            if (currentTab === tab) return;
-
             document.getElementById('placeholder').style.display = 'none';
             document.getElementById('no-products').style.display = 'none';
 
@@ -1331,7 +1333,6 @@
             document.querySelector(`.tab[onclick="toggleTab('${tab}')"]`).classList.add('active');
             currentTab = tab;
 
-            // Скрываем сайдбар при выборе категории
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.remove('open');
             isSidebarOpen = false;
