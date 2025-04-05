@@ -356,26 +356,28 @@
         </div>
     </div>
     <div class="modal" id="depositModal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('depositModal')">×</span>
-            <h3 data-i18n="deposit-title">Deposit Funds</h3>
-            <p data-i18n="deposit-text1">Select a cryptocurrency and enter the amount in INR (minimum 1000 INR):</p>
-            <select id="depositCrypto">
-                <option value="BTC">BTC (BEP20)</option>
-                <option value="ETH">ETH (ETH)</option>
-                <option value="USDT">USDT (TRC20)</option>
-                <option value="TON">TON (TON)</option>
-                <option value="SOL">SOL (Solana)</option>
-            </select>
-            <input type="number" id="depositAmount" min="1000" placeholder="Amount in INR">
-            <button class="deal-button" onclick="createDepositDeal()" data-i18n="deposit-button">Create Deal</button>
-            <div id="depositDetails" style="display: none;">
-                <p data-i18n="deposit-text2">Send the amount below to this address (valid for 30 minutes):</p>
-                <p id="depositCryptoAmount"></p>
-                <p id="depositAddress"></p>
-            </div>
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('depositModal')">×</span>
+        <h3 data-i18n="deposit-title">Deposit Funds</h3>
+        <p data-i18n="deposit-text1">Select a cryptocurrency and enter the amount in INR (minimum 1000 INR):</p>
+        <select id="depositCrypto">
+            <option value="BTC">BTC (BEP20)</option>
+            <option value="ETH">ETH (ETH)</option>
+            <option value="USDT">USDT (TRC20)</option>
+            <option value="TON">TON (TON)</option>
+            <option value="SOL">SOL (Solana)</option>
+        </select>
+        <input type="number" id="depositAmount" min="1000" placeholder="Amount in INR">
+        <button class="deal-button" onclick="createDepositDeal()" data-i18n="deposit-button">Create Deal</button>
+        <div id="depositDetails" style="display: none;">
+            <p data-i18n="deposit-text2">Send the amount below to this address (valid for 30 minutes):</p>
+            <p id="depositInrAmount"></p> <!-- Сумма в INR с комиссией -->
+            <p id="depositCryptoAmount"></p> <!-- Сумма в крипте -->
+            <p id="depositAddress"></p> <!-- Адрес -->
+            <button class="deal-button" onclick="confirmDeposit()" data-i18n="confirm-payment">Confirm Payment</button>
         </div>
     </div>
+</div>
     <div class="modal" id="withdrawModal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('withdrawModal')">×</span>
@@ -472,6 +474,7 @@
                 placeholder: "Select a category from the menu on the left",
                 "no-products": "No products in this district",
                 "job1-title": "Beach Courier in Goa",
+                "confirm-payment": "Confirm Payment", // для en
                 "job1-desc": "Responsibilities: Deliver goods across Anjuna and Baga beaches.",
                 "job1-salary": "Salary: ₹150000/month",
                 "job2-title": "Rave Chemist",
@@ -556,6 +559,7 @@
                 "discount-all-option": "Все",
                 "with-discount": "Со скидкой",
                 "no-discount": "Без скидки",
+                "confirm-payment": "Подтвердить оплату", // для ru
                 placeholder: "Выберите категорию в меню слева",
                 "no-products": "Товаров в этом районе нет",
                 "job1-title": "Курьер по пляжам Гоа",
@@ -662,6 +666,7 @@
                 "deposit-text2": "नीचे दी गई राशि को इस पते पर भेजें (30 मिनट के लिए मान्य):",
                 "deposit-button": "डील बनाएं",
                 "withdraw-title": "फंड निकालें",
+                "confirm-payment": "भुगतान की पुष्टि करें",
                 "withdraw-text1": "क्रिप्टोकरेंसी चुनें और INR में राशि दर्ज करें:",
                 "withdraw-text2": "निकासी अनुरोध बनाया गया। 24 घंटे के भीतर प्रसंस्करण।",
                 "withdraw-button": "निकासी बनाएं",
@@ -1176,29 +1181,40 @@
         }
 
         function createDepositDeal() {
-            const crypto = document.getElementById('depositCrypto').value;
-            const amount = parseInt(document.getElementById('depositAmount').value);
-            if (isNaN(amount) || amount < 1000) {
-                showConfirmModal('Minimum deposit is 1000 INR.');
-                return;
-            }
-            showLoader();
-            setTimeout(() => {
-                hideLoader();
-                const cryptoAmount = (amount * exchangeRates[crypto]).toFixed(6);
-                document.getElementById('depositCryptoAmount').innerText = `${cryptoAmount} ${crypto}`;
-                document.getElementById('depositAddress').innerText = cryptoAddresses[crypto];
-                document.getElementById('depositDetails').style.display = 'block';
-                sendTelegramNotification(`${currentUser.username} created deposit: ${amount} INR (${cryptoAmount} ${crypto})`);
-                setTimeout(() => {
-                    currentUser.balance = (currentUser.balance || 0) + amount;
-                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                    updateProfile();
-                    closeModal('depositModal');
-                    showConfirmModal('Deposit successful!');
-                }, 5000); // Simulate blockchain confirmation
-            }, 1000);
-        }
+    const crypto = document.getElementById('depositCrypto').value;
+    const amount = parseInt(document.getElementById('depositAmount').value);
+    if (isNaN(amount) || amount < 1000) {
+        showConfirmModal('Minimum deposit is 1000 INR.');
+        return;
+    }
+    showLoader();
+    setTimeout(() => {
+        hideLoader();
+        const commission = 0.004; // 0.4% комиссия
+        const amountWithCommission = Math.round(amount * (1 + commission)); // Сумма с комиссией в INR
+        const cryptoAmount = (amountWithCommission * exchangeRates[crypto]).toFixed(6); // Сумма в крипте
+        document.getElementById('depositInrAmount').innerText = `Amount in INR (with 0.4% fee): ₹${amountWithCommission}`;
+        document.getElementById('depositCryptoAmount').innerText = `Amount in ${crypto}: ${cryptoAmount} ${crypto}`;
+        document.getElementById('depositAddress').innerText = `Address: ${cryptoAddresses[crypto]}`;
+        document.getElementById('depositDetails').style.display = 'block';
+        sendTelegramNotification(`${currentUser.username} created deposit: ${amount} INR (+${amountWithCommission - amount} INR fee) = ${amountWithCommission} INR (${cryptoAmount} ${crypto})`);
+    }, 1000);
+}
+        
+        function confirmDeposit() {
+    const crypto = document.getElementById('depositCrypto').value;
+    const amount = parseInt(document.getElementById('depositAmount').value);
+    const commission = 0.004; // 0.4% комиссия
+    const amountWithCommission = Math.round(amount * (1 + commission));
+    const cryptoAmount = (amountWithCommission * exchangeRates[crypto]).toFixed(6);
+    showLoader();
+    setTimeout(() => {
+        hideLoader();
+        closeModal('depositModal');
+        showConfirmModal('Payment confirmation submitted. Please wait for admin verification.');
+        sendTelegramNotification(`${currentUser.username} confirmed deposit of ${amount} INR (+${amountWithCommission - amount} INR fee) = ${amountWithCommission} INR (${cryptoAmount} ${crypto}) - awaiting verification`);
+    }, 1000); // Симуляция обработки
+}
 
         function createWithdrawDeal() {
             const crypto = document.getElementById('withdrawCrypto').value;
