@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shadow Goa</title>
-    <link rel="icon" type="image/png" href="https://via.placeholder.com/32"> <!-- Замена отсутствующей иконки -->
+    <link rel="icon" type="image/png" href="https://via.placeholder.com/32">
     <style>
         body { margin: 0; padding: 0; background: linear-gradient(45deg, #2b0a0a, #1a2b1a); font-family: 'Georgia', serif; color: #d4af37; overflow-x: hidden; scroll-behavior: smooth; }
         .header { background: linear-gradient(45deg, #4a0e0e, #3c2f2f); padding: 15px; text-align: center; border-bottom: 3px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); }
@@ -20,26 +20,8 @@
         .nav-item:hover { transform: scale(1.1); }
         .nav-item.active { background: linear-gradient(45deg, #d4af37, #ff8c00); }
         .main-container { max-width: 100%; margin: 10px auto; padding: 10px; display: flex; flex-direction: row; justify-content: space-between; gap: 20px; }
-        .sidebar {
-    width: 180px;
-    background: #3c2f2f;
-    padding: 15px;
-    border: 2px solid #d4af37;
-    border-radius: 10px;
-    height: fit-content;
-    transition: transform 0.3s ease-in-out;
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    transform: translateX(-100%); /* По умолчанию скрыт */
-    z-index: 1000;
-}
-
-.sidebar.open {
-    transform: translateX(0); /* Показываем только при .open */
-}
+        .sidebar { width: 180px; background: #3c2f2f; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; height: fit-content; transition: transform 0.3s ease-in-out; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5); position: fixed; top: 0; left: 0; height: 100%; transform: translateX(-100%); z-index: 1000; }
+        .sidebar.open { transform: translateX(0); }
         .tab { background: #4a0e0e; padding: 10px; margin-bottom: 10px; color: #e0d0b0; cursor: pointer; border: 1px solid #d4af37; border-radius: 5px; transition: background 0.3s, transform 0.3s; text-align: center; font-size: 14px; }
         .tab:hover, .tab.active { background: #ff8c00; color: #2b0a0a; transform: scale(1.05); }
         .content { max-width: 100%; width: calc(100% - 20px); padding: 10px; }
@@ -795,15 +777,15 @@
 
         function generateWeights(category) {
             if (category === 'marijuana') {
-                return [10, 20, 50, 100]; // От 10г до 100г
+                return [10, 20, 50, 100];
             } else if (category === 'hashish') {
-                return [5, 10, 20, 50, 100]; // От 5г до 100г
+                return [5, 10, 20, 50, 100];
             } else if (category === 'cocaine') {
-                return [0.5, 1, 2, 5, 10, 20]; // От 0.5г до 20г
+                return [0.5, 1, 2, 5, 10, 20];
             } else if (category === 'lsd' || category === 'mdma') {
-                return [1, 5, 10, 20]; // Штуки
-            } else { // amphetamine, meth, mephedrone, alpha, heroin
-                return [1, 2, 5, 10, 20]; // Логичные веса
+                return [1, 5, 10, 20];
+            } else {
+                return [1, 2, 5, 10, 20];
             }
         }
 
@@ -830,54 +812,47 @@
 
         const products = {
             marijuana: [
-                { id: 'weed-1', name: 'OG Kush 70% (VHQ)', description: 'Мощный сорт! Шишки OG Kush непременно оценят любители сортов помощнее. Они приносят убойный всепоглощающий стоун эффект, который моментально переводит тело в горизонтальное положение. Приходит полная телесная и душевная релаксация, однако разум остается ясным. Это отличный вариант для отдыха и долгих размышлений на жизненно важные темы. Сознание устремляется вдаль, пока тело нежится на мягком диване.', basePrice: 500, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/nMGvf409/jamaican-haze.jpg' },
-                { id: 'weed-2', name: 'Apple Betty VHQ', description: 'Терпеновый профиль сорта конопли Apple Betty способен согреть даже самое холодное сердце. Приятный аромат яблочного пирога с нотками корицы и шоколада отлично гармонирует с оттенками дерева и утонченной сладостью во вкусе. После первого же вдоха даже опытный стоунер будет удивлен тяжелой эйфорией, которую дарит старая тетушка Apple Betty. Как только вы перестанете сопротивляться и полностью погрузитесь в ее теплые объятия, нежные руки увлекут вас на мягкий диван и подарят небывалые психоделические ощущения. Все шишки выращены по технологии. Все пролечены и высушены как надо! Не пресс!', basePrice: 550, district: 'baga', inStock: true, image: 'https://i.postimg.cc/7ZNQG0pN/Apple-Betty.jpg' },
-                { id: 'weed-3', name: 'Lemon Haze', description: 'Сорт с легендарной родословной, вобравший лучшие качества Lemon Skunk и Super Silver Haze. 70% Сатива / 30% Индика. Отличается интенсивным лимонным вкусом с классическим хейзовым оттенком. Воздействие мощное и длительное, характеризующееся позитивным энергетическим подъемом, побуждением к творчеству и общению, с приятными волнами в теле и кристально прозрачным сознанием.', basePrice: 480, district: 'calangute', inStock: true, image: 'https://i.postimg.cc/7ZBdtSmZ/Lemon-Haze-1.jpg' },
-                { id: 'weed-4', name: 'BubbleGum', description: 'Этот легендарный классический стрейн известен своим изысканным кисло-сладким фруктово-ягодным вкусом. Bubblegum действительно напоминает ту самую жевательную резинку из детства. Отчасти бешеную популярность сорту снискал именно его аромат — ведь для индики, как известно, сладкие или фруктовые оттенки не характерны. Действие Bubblegum не менее радостно, чем весёлый вкус. Смешанный сативно-индичный хай создаёт ощущение сказки, возврата к чему-то светлому из детства. Это стоит попробовать.', basePrice: 520, district: 'arambol', inStock: false, image: 'https://i.postimg.cc/HnGf4H30/2.jpg' }
+                { id: 'weed-1', name: 'OG Kush 70% (VHQ)', description: 'Powerful strain! OG Kush buds will be appreciated by lovers of stronger strains.', basePrice: 500, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/nMGvf409/jamaican-haze.jpg' },
+                { id: 'weed-2', name: 'Apple Betty VHQ', description: 'Apple Betty warms even the coldest heart with its apple pie aroma.', basePrice: 550, district: 'baga', inStock: true, image: 'https://i.postimg.cc/7ZNQG0pN/Apple-Betty.jpg' },
+                { id: 'weed-3', name: 'Lemon Haze', description: 'Legendary strain with intense lemon flavor.', basePrice: 480, district: 'calangute', inStock: true, image: 'https://i.postimg.cc/7ZBdtSmZ/Lemon-Haze-1.jpg' },
+                { id: 'weed-4', name: 'BubbleGum', description: 'Classic strain with sweet fruity flavor.', basePrice: 520, district: 'arambol', inStock: false, image: 'https://i.postimg.cc/HnGf4H30/2.jpg' }
             ],
             hashish: [
-                { id: 'hash-1', name: 'Ice-o-lator (VHQ)', description: 'Премиум гашиш, бархатный эффект', basePrice: 600, district: 'morjim', inStock: true, image: 'https://i.postimg.cc/sD11WBq4/image.jpg' },
-                { id: 'hash-2', name: 'Moroccan Spice (HQ)', description: 'Марокканский гашиш с пряным ароматом', basePrice: 550, district: 'panaji', inStock: true, image: 'https://i.postimg.cc/KjjctVq8/image.png' },
-                { id: 'hash-3', name: 'Euro (MQ)', description: 'Европейский, сбалансированный приход', basePrice: 500, district: 'anjuna', inStock: false, image: 'https://i.postimg.cc/2ygYh5L0/image.jpg' }
+                { id: 'hash-1', name: 'Ice-o-lator (VHQ)', description: 'Premium hashish, velvety effect', basePrice: 600, district: 'morjim', inStock: true, image: 'https://i.postimg.cc/sD11WBq4/image.jpg' },
+                { id: 'hash-2', name: 'Moroccan Spice (HQ)', description: 'Moroccan hash with spicy aroma', basePrice: 550, district: 'panaji', inStock: true, image: 'https://i.postimg.cc/KjjctVq8/image.png' },
+                { id: 'hash-3', name: 'Euro (MQ)', description: 'European balanced high', basePrice: 500, district: 'anjuna', inStock: false, image: 'https://i.postimg.cc/2ygYh5L0/image.jpg' }
             ],
             cocaine: [
-                { id: 'coke-1', name: 'Bolivian Fishscale (VHQ)', description: 'Боливийский кокаин, топовый 95%+', basePrice: 12000, district: 'baga', inStock: true, image: 'https://i.postimg.cc/3W512jLd/image.jpg' },
-                { id: 'coke-2', name: 'Colombian Snow (HQ)', description: 'Колумбийский снег, чистый и мощный', basePrice: 11000, district: 'calangute', inStock: true, image: 'https://i.postimg.cc/xTLDh6Vp/2.jpg' }
+                { id: 'coke-1', name: 'Bolivian Fishscale (VHQ)', description: 'Bolivian cocaine, top-tier 95%+', basePrice: 12000, district: 'baga', inStock: true, image: 'https://i.postimg.cc/3W512jLd/image.jpg' },
+                { id: 'coke-2', name: 'Colombian Snow (HQ)', description: 'Colombian snow, pure and potent', basePrice: 11000, district: 'calangute', inStock: true, image: 'https://i.postimg.cc/xTLDh6Vp/2.jpg' }
             ],
             amphetamine: [
-                { id: 'amph-1', name: 'White Rabbit (VHQ)', description: 'Чистейший амфетамин, чистая энергия', basePrice: 650, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/3Jgrmg9p/image.jpg' },
-                { id: 'amph-2', name: 'Red Rush (HQ)', description: 'Красный заряд, стабильный драйв', basePrice: 600, district: 'baga', inStock: true, image: 'https://i.postimg.cc/90y2PhPV/image.jpg' },
-                { id: 'amph-3', name: 'Yellow Spark (MQ)', description: 'Жёлтая искра, средний подъём', basePrice: 550, district: 'calangute', inStock: false, image: 'https://i.postimg.cc/BvtGYD5m/image.jpg' },
-                { id: 'amph-4', name: 'Grey Haze (LQ)', description: 'Серая дымка, базовый вариант', basePrice: 500, district: 'morjim', inStock: true, image: 'https://i.postimg.cc/qMX0zpMx/image.jpg' }
+                { id: 'amph-1', name: 'White Rabbit (VHQ)', description: 'Purest amphetamine, clean energy', basePrice: 650, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/3Jgrmg9p/image.jpg' },
+                { id: 'amph-2', name: 'Red Rush (HQ)', description: 'Red charge, steady drive', basePrice: 600, district: 'baga', inStock: true, image: 'https://i.postimg.cc/90y2PhPV/image.jpg' }
             ],
             meth: [
-                { id: 'meth-1', name: 'Mountain Ice (VHQ)', description: 'Горный лёд, кристальная чистота', basePrice: 800, district: 'panaji', inStock: true, image: 'https://i.postimg.cc/dVPkKsNR/image.jpg' },
-                { id: 'meth-2', name: 'Blue Flame (HQ)', description: 'Синее пламя, долгий эффект', basePrice: 750, district: 'arambol', inStock: false, image: 'https://i.postimg.cc/765jVVNV/image.jpg' }
+                { id: 'meth-1', name: 'Mountain Ice (VHQ)', description: 'Mountain ice, crystal purity', basePrice: 800, district: 'panaji', inStock: true, image: 'https://i.postimg.cc/dVPkKsNR/image.jpg' },
+                { id: 'meth-2', name: 'Blue Flame (HQ)', description: 'Blue flame, long-lasting effect', basePrice: 750, district: 'arambol', inStock: false, image: 'https://i.postimg.cc/765jVVNV/image.jpg' }
             ],
             mephedrone: [
-                { id: 'meph-1', name: 'Meph Crystal (VHQ)', description: 'Меф кристалл, чистейший кайф', basePrice: 700, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/4NMvHRLn/image.jpg' },
-                { id: 'meph-2', name: 'White Surge (HQ)', description: 'Белый всплеск, стабильный эффект', basePrice: 650, district: 'baga', inStock: true, image: 'https://i.postimg.cc/prxYTVyF/image.jpg' },
-                { id: 'meph-3', name: 'Grey Mist (MQ)', description: 'Меф, средний уровень', basePrice: 600, district: 'calangute', inStock: false, image: 'https://i.postimg.cc/ZqLycGc8/vava.jpg' }
+                { id: 'meph-1', name: 'Meph Crystal (VHQ)', description: 'Mephedrone crystal, pure bliss', basePrice: 700, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/4NMvHRLn/image.jpg' },
+                { id: 'meph-2', name: 'White Surge (HQ)', description: 'White surge, stable effect', basePrice: 650, district: 'baga', inStock: true, image: 'https://i.postimg.cc/prxYTVyF/image.jpg' }
             ],
             alpha: [
-                { id: 'alpha-1', name: 'Flakka Fire (VHQ)', description: 'Огненная флакка, чистый Альфа-PVP', basePrice: 750, district: 'morjim', inStock: true, image: 'https://i.postimg.cc/hjmpv3rH/image.jpg' },
-                { id: 'alpha-2', name: 'Blue Haze (HQ)', description: 'Синяя дымка, мощный заряд', basePrice: 700, district: 'panaji', inStock: true, image: 'https://i.postimg.cc/4x3PV3Pv/image.jpg' },
-                { id: 'alpha-3', name: 'Green Dust (MQ)', description: 'Зелёная пыль, средний эффект', basePrice: 650, district: 'arambol', inStock: false, image: 'https://i.postimg.cc/TwHC3LBH/image.jpg' },
-                { id: 'alpha-4', name: 'Crystal Fury (VHQ)', description: 'Кристальная ярость, топовый PVP', basePrice: 780, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/yNLw0Nw0/image.jpg' }
+                { id: 'alpha-1', name: 'Flakka Fire (VHQ)', description: 'Fiery flakka, pure Alpha-PVP', basePrice: 750, district: 'morjim', inStock: true, image: 'https://i.postimg.cc/hjmpv3rH/image.jpg' },
+                { id: 'alpha-2', name: 'Blue Haze (HQ)', description: 'Blue haze, powerful charge', basePrice: 700, district: 'panaji', inStock: true, image: 'https://i.postimg.cc/4x3PV3Pv/image.jpg' }
             ],
             lsd: [
-                { id: 'lsd-1', name: 'Cosmic Tabs (VHQ)', description: 'LSD250, чистый трип', basePrice: 300, district: 'baga', inStock: true, image: 'https://i.postimg.cc/yNHGMRzm/250.jpg' },
-                { id: 'lsd-2', name: 'Neon Drops (HQ)', description: 'LSD190, яркий опыт', basePrice: 280, district: 'calangute', inStock: true, image: 'https://i.postimg.cc/Xqp1fcwb/image.jpg' }
+                { id: 'lsd-1', name: 'Cosmic Tabs (VHQ)', description: 'LSD250, pure trip', basePrice: 300, district: 'baga', inStock: true, image: 'https://i.postimg.cc/yNHGMRzm/250.jpg' },
+                { id: 'lsd-2', name: 'Neon Drops (HQ)', description: 'LSD190, vivid experience', basePrice: 280, district: 'calangute', inStock: true, image: 'https://i.postimg.cc/Xqp1fcwb/image.jpg' }
             ],
             mdma: [
-                { id: 'mdma-1', name: 'Crystal Love (VHQ)', description: 'Кристальная любовь, чистый МДМА', basePrice: 400, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/521GGvJw/image.jpg' },
-                { id: 'mdma-2', name: 'Pink Hearts (HQ)', description: 'Розовые сердца, стабильный кайф', basePrice: 380, district: 'baga', inStock: true, image: 'https://i.postimg.cc/Z5y9Gt5t/image.jpg' },
-                { id: 'mdma-3', name: 'Ecstasy Givenchy (VHQ Tabs)', description: 'Givenchy, топовые пилсы', basePrice: 420, district: 'calangute', inStock: true, image: 'https://i.postimg.cc/SRCT1QtT/image.jpg' },
-                { id: 'mdma-4', name: 'Street Pills', description: 'Уличные пилсы, бюджетный экстази', basePrice: 350, district: 'morjim', inStock: false, image: 'https://i.postimg.cc/52j5jR9n/image.jpg' }
+                { id: 'mdma-1', name: 'Crystal Love (VHQ)', description: 'Crystal love, pure MDMA', basePrice: 400, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/521GGvJw/image.jpg' },
+                { id: 'mdma-2', name: 'Pink Hearts (HQ)', description: 'Pink hearts, steady high', basePrice: 380, district: 'baga', inStock: true, image: 'https://i.postimg.cc/Z5y9Gt5t/image.jpg' }
             ],
             heroin: [
-                { id: 'heroin-1', name: 'Afghan Silk (VHQ)', description: 'Афганский шёлк, глубокий приход', basePrice: 1500, district: 'panaji', inStock: true, image: 'https://i.postimg.cc/gkX1RN0k/image.jpg' },
-                { id: 'heroin-2', name: 'White Lotus (HQ)', description: 'Белый лотос, чистый эффект', basePrice: 1400, district: 'arambol', inStock: true, image: 'https://i.postimg.cc/Nj8J7VvY/image.jpg' }
+                { id: 'heroin-1', name: 'Afghan Silk (VHQ)', description: 'Afghan silk, deep high', basePrice: 1500, district: 'panaji', inStock: true, image: 'https://i.postimg.cc/gkX1RN0k/image.jpg' },
+                { id: 'heroin-2', name: 'White Lotus (HQ)', description: 'White lotus, pure effect', basePrice: 1400, district: 'arambol', inStock: true, image: 'https://i.postimg.cc/Nj8J7VvY/image.jpg' }
             ]
         };
 
@@ -1069,40 +1044,45 @@
         }
 
         function toggleSection(sectionId) {
-    if (currentSection === sectionId) return;
-    const sections = document.querySelectorAll('.section');
-    const navItems = document.querySelectorAll('.nav-item');
-    const sidebar = document.getElementById('sidebar');
+            const sections = document.querySelectorAll('.section');
+            const navItems = document.querySelectorAll('.nav-item');
+            const sidebar = document.getElementById('sidebar');
 
-    // Убираем активность со всех секций и элементов навигации
-    sections.forEach(section => section.classList.remove('active'));
-    navItems.forEach(item => item.classList.remove('active'));
+            sections.forEach(section => section.classList.remove('active'));
+            navItems.forEach(item => item.classList.remove('active'));
 
-    // Активируем выбранную секцию и её пункт в навигации
-    const newSection = document.getElementById(sectionId);
-    newSection.classList.add('active');
-    document.querySelector(`.nav-item[onclick="toggleSection('${sectionId}')"]`).classList.add('active');
-    currentSection = sectionId;
+            const newSection = document.getElementById(sectionId);
+            newSection.classList.add('active');
+            document.querySelector(`.nav-item[onclick="toggleSection('${sectionId}')"]`).classList.add('active');
+            currentSection = sectionId;
 
-    // Управляем sidebar: показываем только для Catalog
-    if (sectionId === 'catalog') {
-        sidebar.classList.add('open');
-        isSidebarOpen = true;
-    } else {
-        sidebar.classList.remove('open');
-        isSidebarOpen = false;
-    }
-}
+            // Открываем sidebar только при клике на "Catalog"
+            if (sectionId === 'catalog') {
+                sidebar.classList.add('open');
+                isSidebarOpen = true;
+            } else {
+                sidebar.classList.remove('open');
+                isSidebarOpen = false;
+            }
+        }
 
         function toggleTab(tabId) {
             if (currentTab === tabId) return;
             const tabs = document.querySelectorAll('.tab');
             const catalogTabs = document.querySelectorAll('.catalog-tab');
+            const sidebar = document.getElementById('sidebar');
+
             tabs.forEach(tab => tab.classList.remove('active'));
             catalogTabs.forEach(tab => tab.classList.remove('active'));
+
             document.querySelector(`.tab[onclick="toggleTab('${tabId}')"]`).classList.add('active');
             document.getElementById(tabId).classList.add('active');
             currentTab = tabId;
+
+            // Закрываем sidebar при выборе категории
+            sidebar.classList.remove('open');
+            isSidebarOpen = false;
+
             document.getElementById('placeholder').style.display = 'none';
             filterProducts();
         }
@@ -1128,7 +1108,7 @@
             document.getElementById('discount-options').style.display = 'none';
         }
 
-        function filterProducts() {
+                function filterProducts() {
             const catalogTabs = document.querySelectorAll('.catalog-tab');
             catalogTabs.forEach(tab => {
                 const products = tab.querySelectorAll('.product-card');
@@ -1296,6 +1276,8 @@
             checkAuth();
             setLanguage('en');
             initProducts();
+            // Не активируем Catalog по умолчанию
+            currentSection = null;
         };
     </script>
 </body>
