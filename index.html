@@ -776,32 +776,17 @@
         }
 
         function generateWeights(category) {
-            const weights = [];
-            if (category === 'marijuana' || category === 'hashish') {
-                weights.push(10);
-                const additionalWeights = [];
-                for (let i = 0; i < 4; i++) {
-                    const weight = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
-                    if (!additionalWeights.includes(weight) && weight !== 10) additionalWeights.push(weight);
-                }
-                weights.push(...additionalWeights.sort((a, b) => a - b));
+            if (category === 'marijuana') {
+                return [10, 20, 50, 100]; // От 10г до 100г
+            } else if (category === 'hashish') {
+                return [5, 10, 20, 50, 100]; // От 5г до 100г
             } else if (category === 'cocaine') {
-                weights.push(0.5, 1);
-                const additionalWeights = [];
-                for (let i = 0; i < 3; i++) {
-                    const weight = Math.random() * (20 - 1) + 1;
-                    const roundedWeight = Math.round(weight * 2) / 2;
-                    if (!additionalWeights.includes(roundedWeight) && roundedWeight !== 0.5 && roundedWeight !== 1) additionalWeights.push(roundedWeight);
-                }
-                weights.push(...additionalWeights.sort((a, b) => a - b));
-            } else {
-                for (let i = 0; i < 5; i++) {
-                    const weight = Math.floor(Math.random() * (20 - 1 + 1)) + 1;
-                    if (!weights.includes(weight)) weights.push(weight);
-                }
-                weights.sort((a, b) => a - b);
+                return [0.5, 1, 2, 5, 10, 20]; // От 0.5г до 20г
+            } else if (category === 'lsd' || category === 'mdma') {
+                return [1, 5, 10, 20]; // Штуки
+            } else { // amphetamine, meth, mephedrone, alpha, heroin
+                return [1, 2, 5, 10, 20]; // Логичные веса
             }
-            return weights;
         }
 
         function generateReviews() {
@@ -892,14 +877,15 @@
                         sendTelegramNotification(`${currentUser ? currentUser.username : 'Guest'} opened product: ${product.name}`);
                     });
                     const weightOptions = weights.map(weight => {
-                        const pricePerGram = product.basePrice;
-                        const price = Math.round(pricePerGram * weight);
+                        const pricePerUnit = product.basePrice;
+                        const price = Math.round(pricePerUnit * weight);
                         let discount = 0;
-                        if ((category === 'marijuana' || category === 'hashish') && weight >= 20) discount = 10;
-                        else if (category === 'cocaine' && weight >= 3) discount = 15;
+                        if ((category === 'marijuana' || category === 'hashish') && weight >= 50) discount = 10;
+                        else if (category === 'cocaine' && weight >= 5) discount = 15;
                         const discountedPrice = discount ? Math.round(price * (1 - discount / 100)) : price;
                         return { weight, price, discountedPrice, discount, reviews: generateReviews() };
                     });
+                    const unit = (category === 'lsd' || category === 'mdma') ? 'pcs' : 'g';
                     card.innerHTML = `
                         <img src="${product.image}" class="product-image" alt="${product.name}">
                         <div class="product-info">
@@ -909,7 +895,7 @@
                             <div class="weights" id="weights-${product.id}">
                                 ${weightOptions.map(option => `
                                     <div class="weight-option">
-                                        <p>${option.weight}g: ₹${option.discountedPrice}${option.discount ? ` <span style="text-decoration: line-through; color: #e0d0b0;">₹${option.price}</span>` : ''} (~${Math.round(option.discountedPrice / 83)} ${translations[currentLanguage].usdt})</p>
+                                        <p>${option.weight}${unit}: ₹${option.discountedPrice}${option.discount ? ` <span style="text-decoration: line-through; color: #e0d0b0;">₹${option.price}</span>` : ''} (~${Math.round(option.discountedPrice / 83)} ${translations[currentLanguage].usdt})</p>
                                         <div>
                                             <button class="deal-button" onclick="event.stopPropagation(); checkAuthBeforeDeal('${product.id}', ${option.weight}, ${option.discountedPrice}, false)">${product.inStock ? translations[currentLanguage]['buy'] : translations[currentLanguage]['pre-order']}</button>
                                             <button class="delivery-button" onclick="event.stopPropagation(); checkAuthBeforeDeal('${product.id}', ${option.weight}, ${Math.round(option.discountedPrice * 1.2)}, true)">${translations[currentLanguage]['delivery']}</button>
@@ -990,17 +976,17 @@
             const referralCode = document.getElementById('regReferralCode').value;
 
             if (!username || !password || !confirmPassword) {
-                alert('Please fill all fields.');
+                showConfirmModal('Please fill all fields.');
                 return;
             }
             if (password !== confirmPassword) {
-                alert('Passwords do not match.');
+                showConfirmModal('Passwords do not match.');
                 return;
             }
 
             const users = JSON.parse(localStorage.getItem('users')) || [];
             if (users.some(user => user.username === username)) {
-                alert('Username already taken.');
+                showConfirmModal('Username already taken.');
                 return;
             }
 
@@ -1013,8 +999,7 @@
                         referrer.referralBonus = (referrer.referralBonus || 0) + 500;
                         sendTelegramNotification(`Referrer ${referrer.username} earned a 5g Marijuana bonus!`);
                     }
-                    localStorage.setItem('users', JSON.stringify(users));
-                }
+                    localStorage.setItem('            'users', JSON.stringify(users));
             }
 
             users.push(newUser);
@@ -1029,7 +1014,7 @@
 
         function login() {
             const username = document.getElementById('loginUsername').value;
-            const             password = document.getElementById('loginPassword').value;
+            const password = document.getElementById('loginPassword').value;
             const users = JSON.parse(localStorage.getItem('users')) || [];
             const user = users.find(u => u.username === username && u.password === password);
             if (user) {
@@ -1040,7 +1025,7 @@
                 sendTelegramNotification(`${username} logged in`);
                 showConfirmModal('Login successful!');
             } else {
-                alert('Invalid username or password.');
+                showConfirmModal('Invalid username or password.');
             }
         }
 
@@ -1078,36 +1063,36 @@
         }
 
         function toggleSection(section) {
-        if (currentSection === section) return;
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById(section).classList.add('active');
-        document.querySelector(`.nav-item[onclick="toggleSection('${section}')"]`).classList.add('active');
-        currentSection = section;
+            if (currentSection === section) return;
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(section).classList.add('active');
+            document.querySelector(`.nav-item[onclick="toggleSection('${section}')"]`).classList.add('active');
+            currentSection = section;
 
-        // Исправление: открываем сайдбар при выборе "catalog"
-        const sidebar = document.getElementById('sidebar');
-        if (section === 'catalog') {
-            sidebar.classList.add('open');
-            isSidebarOpen = true;
-        } else {
-            sidebar.classList.remove('open');
-            isSidebarOpen = false;
+            const sidebar = document.getElementById('sidebar');
+            if (section === 'catalog' && !isSidebarOpen) {
+                sidebar.classList.add('open');
+                isSidebarOpen = true;
+            } else if (section !== 'catalog') {
+                sidebar.classList.remove('open');
+                isSidebarOpen = false;
+            }
         }
-    }
 
-    function toggleTab(tab) {
-        if (currentTab === tab) return;
-        document.querySelectorAll('.catalog-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.getElementById(tab).classList.add('active');
-        document.querySelector(`.tab[onclick="toggleTab('${tab}')"]`).classList.add('active');
-        currentTab = tab;
-        document.getElementById('placeholder').style.display = 'none';
-        document.getElementById('sidebar').classList.remove('open');
-        isSidebarOpen = false;
-        filterProducts();
-    }
+        function toggleTab(tab) {
+            if (currentTab === tab) return;
+            document.querySelectorAll('.catalog-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            document.querySelector(`.tab[onclick="toggleTab('${tab}')"]`).classList.add('active');
+            currentTab = tab;
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('sidebar').classList.remove('open');
+            isSidebarOpen = false;
+            filterProducts();
+        }
+
         function selectDistrict(district) {
             selectedDistrict = district;
             updateFilters();
@@ -1204,7 +1189,7 @@
                 localStorage.setItem('users', JSON.stringify(users));
                 updateProfile();
                 const product = Object.values(products).flat().find(p => p.id === productId);
-                sendTelegramNotification(`${currentUser.username} purchased ${product.name} (${weight}g) for ₹${price}${isDelivery ? ' with delivery' : ''}`);
+                sendTelegramNotification(`${currentUser.username} purchased ${product.name} (${weight}${product.id.includes('lsd') || product.id.includes('mdma') ? 'pcs' : 'g'}) for ₹${price}${isDelivery ? ' with delivery' : ''}`);
                 showConfirmModal(`Purchase successful! ${isDelivery ? 'Delivery' : 'Pickup'} details will be sent to your Telegram.`);
                 hideLoader();
             }, 1000);
@@ -1296,12 +1281,14 @@
         }
 
         window.onload = async () => {
-        await fetchExchangeRates();
-        checkAuth();
-        setLanguage('en');
-        toggleSection('catalog'); // По умолчанию открываем каталог
-        initProducts();
-    };
+            await fetchExchangeRates();
+            checkAuth();
+            setLanguage('en');
+            document.getElementById('catalog').classList.add('active');
+            document.querySelector('.nav-item[onclick="toggleSection(\'catalog\')"]').classList.add('active');
+            currentSection = 'catalog';
+            initProducts();
+        };
     </script>
 </body>
 </html>
