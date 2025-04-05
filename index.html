@@ -1078,31 +1078,36 @@
         }
 
         function toggleSection(section) {
-            if (currentSection === section) return;
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(section).classList.add('active');
-            document.querySelector(`.nav-item[onclick="toggleSection('${section}')"]`).classList.add('active');
-            currentSection = section;
-            if (section !== 'catalog') {
-                document.getElementById('sidebar').classList.remove('open');
-                isSidebarOpen = false;
-            }
-        }
+        if (currentSection === section) return;
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById(section).classList.add('active');
+        document.querySelector(`.nav-item[onclick="toggleSection('${section}')"]`).classList.add('active');
+        currentSection = section;
 
-        function toggleTab(tab) {
-            if (currentTab === tab) return;
-            document.querySelectorAll('.catalog-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(tab).classList.add('active');
-            document.querySelector(`.tab[onclick="toggleTab('${tab}')"]`).classList.add('active');
-            currentTab = tab;
-            document.getElementById('placeholder').style.display = 'none';
-            document.getElementById('sidebar').classList.remove('open');
+        // Исправление: открываем сайдбар при выборе "catalog"
+        const sidebar = document.getElementById('sidebar');
+        if (section === 'catalog') {
+            sidebar.classList.add('open');
+            isSidebarOpen = true;
+        } else {
+            sidebar.classList.remove('open');
             isSidebarOpen = false;
-            filterProducts();
         }
+    }
 
+    function toggleTab(tab) {
+        if (currentTab === tab) return;
+        document.querySelectorAll('.catalog-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.getElementById(tab).classList.add('active');
+        document.querySelector(`.tab[onclick="toggleTab('${tab}')"]`).classList.add('active');
+        currentTab = tab;
+        document.getElementById('placeholder').style.display = 'none';
+        document.getElementById('sidebar').classList.remove('open');
+        isSidebarOpen = false;
+        filterProducts();
+    }
         function selectDistrict(district) {
             selectedDistrict = district;
             updateFilters();
@@ -1291,12 +1296,12 @@
         }
 
         window.onload = async () => {
-            await fetchExchangeRates();
-            checkAuth();
-            setLanguage('en');
-            toggleSection('catalog');
-            initProducts();
-        };
+        await fetchExchangeRates();
+        checkAuth();
+        setLanguage('en');
+        toggleSection('catalog'); // По умолчанию открываем каталог
+        initProducts();
+    };
     </script>
 </body>
 </html>
