@@ -1604,73 +1604,76 @@
         }
 
         function initProducts() {
-            if (!currentTab) return;
+    if (!currentTab) return;
 
-            const catalogTab = document.getElementById(currentTab);
-            catalogTab.innerHTML = '';
-            const filteredProducts = products[currentTab].filter(product => {
-                const matchesDistrict = selectedDistrict === 'all' || product.district === selectedDistrict;
-                const matchesStock = selectedStock === 'all' || (selectedStock === 'in-stock' && product.inStock) || (selectedStock === 'out-of-stock' && !product.inStock);
-                const matchesDiscount = selectedDiscount === 'all' || (selectedDiscount === 'with-discount' && Math.random() < 0.3) || (selectedDiscount === 'no-discount' && Math.random() >= 0.3);
-                return matchesDistrict && matchesStock && matchesDiscount;
+    const catalogTab = document.getElementById(currentTab);
+    catalogTab.innerHTML = '';
+    const filteredProducts = products[currentTab].filter(product => {
+        const matchesDistrict = selectedDistrict === 'all' || product.district === selectedDistrict;
+        const matchesStock = selectedStock === 'all' || (selectedStock === 'in-stock' && product.inStock) || (selectedStock === 'out-of-stock' && !product.inStock);
+        const matchesDiscount = selectedDiscount === 'all' || (selectedDiscount === 'with-discount' && Math.random() < 0.3) || (selectedDiscount === 'no-discount' && Math.random() >= 0.3);
+        return matchesDistrict && matchesStock && matchesDiscount;
+    });
+
+    const noProducts = document.getElementById('no-products');
+    if (filteredProducts.length === 0) {
+        noProducts.style.display = 'block';
+    } else {
+        noProducts.style.display = 'none';
+        filteredProducts.forEach(product => {
+            // Массив возможных скидок
+            const possibleDiscounts = [0, 5, 10, 15, 20];
+            // Случайный выбор скидки из массива (30% шанс на скидку, иначе 0%)
+            const discount = Math.random() < 0.3 ? possibleDiscounts[Math.floor(Math.random() * 4) + 1] : 0;
+            const finalPrice = discount ? product.basePrice * (1 - discount / 100) : product.basePrice;
+
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <img src="${product.image}" alt="${product.name}" class="product-image">
+                <div class="product-info">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    ${discount ? `<p class="discount">${translations[currentLanguage].discount}: ${discount}%</p>` : ''}
+                    <div class="weights" id="weights-${product.id}"></div>
+                    <div class="reviews" id="reviews-${product.id}"></div>
+                </div>
+            `;
+            card.onclick = (e) => {
+                if (e.target.tagName !== 'BUTTON') toggleProductDetails(product.id);
+            };
+            catalogTab.appendChild(card);
+
+            const weightsDiv = document.getElementById(`weights-${product.id}`);
+            const weights = generateWeights(currentTab);
+            weights.forEach(weight => {
+                const price = finalPrice * weight;
+                const weightOption = document.createElement('div');
+                weightOption.className = 'weight-option';
+                weightOption.innerHTML = `
+                    <p>${weight}${currentTab === 'lsd' || currentTab === 'mdma' ? ' tabs' : 'g'} - ₹${price.toLocaleString()}</p>
+                    ${product.inStock ? `
+                        <button class="deal-button" onclick="checkAuthBeforeDeal('${product.id}', ${weight}, ${price}, false, event)">${translations[currentLanguage].buy}</button>
+                        <button class="delivery-button" onclick="checkAuthBeforeDeal('${product.id}', ${weight}, ${price * 1.2}, true, event)">${translations[currentLanguage].delivery}</button>
+                    ` : `<button class="deal-button" onclick="checkAuthBeforeDeal('${product.id}', ${weight}, ${price}, false, event)">${translations[currentLanguage]['pre-order']}</button>`}
+                `;
+                weightsDiv.appendChild(weightOption);
             });
 
-            const noProducts = document.getElementById('no-products');
-            if (filteredProducts.length === 0) {
-                noProducts.style.display = 'block';
-            } else {
-                noProducts.style.display = 'none';
-                filteredProducts.forEach(product => {
-                    const discount = Math.random() < 0.3 ? Math.floor(Math.random() * 20) + 10 : 0;
-                    const finalPrice = discount ? product.basePrice * (1 - discount / 100) : product.basePrice;
-                    const card = document.createElement('div');
-                    card.className = 'product-card';
-                    card.innerHTML = `
-                        <img src="${product.image}" alt="${product.name}" class="product-image">
-                        <div class="product-info">
-                            <h3>${product.name}</h3>
-                            <p>${product.description}</p>
-                            ${discount ? `<p class="discount">${translations[currentLanguage].discount}: ${discount}%</p>` : ''}
-                            <div class="weights" id="weights-${product.id}"></div>
-                            <div class="reviews" id="reviews-${product.id}"></div>
-                        </div>
-                    `;
-                    card.onclick = (e) => {
-                        if (e.target.tagName !== 'BUTTON') toggleProductDetails(product.id);
-                    };
-                    catalogTab.appendChild(card);
-
-                    const weightsDiv = document.getElementById(`weights-${product.id}`);
-                    const weights = generateWeights(currentTab);
-                    weights.forEach(weight => {
-                        const price = finalPrice * weight;
-                        const weightOption = document.createElement('div');
-                        weightOption.className = 'weight-option';
-                        weightOption.innerHTML = `
-                            <p>${weight}${currentTab === 'lsd' || currentTab === 'mdma' ? ' tabs' : 'g'} - ₹${price.toLocaleString()}</p>
-                            ${product.inStock ? `
-                                <button class="deal-button" onclick="checkAuthBeforeDeal('${product.id}', ${weight}, ${price}, false, event)">${translations[currentLanguage].buy}</button>
-                                <button class="delivery-button" onclick="checkAuthBeforeDeal('${product.id}', ${weight}, ${price * 1.2}, true, event)">${translations[currentLanguage].delivery}</button>
-                            ` : `<button class="deal-button" onclick="checkAuthBeforeDeal('${product.id}', ${weight}, ${price}, false, event)">${translations[currentLanguage]['pre-order']}</button>`}
-                        `;
-                        weightsDiv.appendChild(weightOption);
-                    });
-
-                    const reviewsDiv = document.getElementById(`reviews-${product.id}`);
-                    const reviews = generateReviews(currentTab);
-                    reviews.forEach(review => {
-                        const reviewElement = document.createElement('div');
-                        reviewElement.className = 'review';
-                        reviewElement.innerHTML = `
-                            <p class="rating">★${'★'.repeat(review.rating - 1)}${'☆'.repeat(5 - review.rating)}</p>
-                            <p><strong>${review.user}</strong> (${review.lang}): ${review.text}</p>
-                        `;
-                        reviewsDiv.appendChild(reviewElement);
-                    });
-                });
-            }
-        }
-
+            const reviewsDiv = document.getElementById(`reviews-${product.id}`);
+            const reviews = generateReviews(currentTab);
+            reviews.forEach(review => {
+                const reviewElement = document.createElement('div');
+                reviewElement.className = 'review';
+                reviewElement.innerHTML = `
+                    <p class="rating">★${'★'.repeat(review.rating - 1)}${'☆'.repeat(5 - review.rating)}</p>
+                    <p><strong>${review.user}</strong> (${review.lang}): ${review.text}</p>
+                `;
+                reviewsDiv.appendChild(reviewElement);
+            });
+        });
+    }
+}
         function toggleProductDetails(productId) {
             const weights = document.getElementById(`weights-${productId}`);
             const reviews = document.getElementById(`reviews-${productId}`);
