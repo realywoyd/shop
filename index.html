@@ -1,1905 +1,258 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shadow Goa</title>
-    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/32/149/149452.png">
-    <style>
-        body { margin: 0; padding: 0; background: linear-gradient(45deg, #2b0a0a, #1a2b1a); font-family: 'Georgia', serif; color: #d4af37; overflow-x: hidden; scroll-behavior: smooth; }
-        .header { background: linear-gradient(45deg, #4a0e0e, #3c2f2f); padding: 15px; text-align: center; border-bottom: 3px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); }
-        .logo { font-size: 32px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; animation: glow 2s infinite; }
-        @keyframes glow { 0% { text-shadow: 0 0 5px #d4af37; } 50% { text-shadow: 0 0 15px #d4af37, 0 0 25px #ff8c00; } 100% { text-shadow: 0 0 5px #d4af37; } }
-        .header-container { display: flex; justify-content: center; align-items: center; gap: 20px; }
-        .header-text { font-size: 14px; color: #e0d0b0; margin: 0; }
-        .language-switcher { display: flex; gap: 5px; }
-        .language-button { background: linear-gradient(45deg, #d4af37, #ff8c00); color: #2b0a0a; padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 12px; transition: transform 0.3s; }
-        .language-button:hover { transform: scale(1.05); }
-        .nav { display: flex; justify-content: center; gap: 10px; padding: 10px 0; background: rgba(0, 0, 0, 0.7); flex-wrap: wrap; }
-        .nav-item { background: linear-gradient(45deg, #3c2f2f, #4a0e0e); padding: 8px 15px; color: #d4af37; cursor: pointer; transition: transform 0.3s; font-size: 14px; border-radius: 5px; }
-        .nav-item:hover { transform: scale(1.1); }
-        .nav-item.active { background: linear-gradient(45deg, #d4af37, #ff8c00); }
-        .main-container { max-width: 100%; margin: 10px auto; padding: 10px; display: flex; flex-direction: row; justify-content: space-between; gap: 20px; }
-        .sidebar { width: 180px; background: #3c2f2f; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; height: fit-content; transition: transform 0.3s ease-in-out; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5); position: fixed; top: 0; left: 0; height: 100%; transform: translateX(-100%); z-index: 1000; }
-        .sidebar.open { transform: translateX(0); }
-        .tab { background: #4a0e0e; padding: 10px; margin-bottom: 10px; color: #e0d0b0; cursor: pointer; border: 1px solid #d4af37; border-radius: 5px; transition: background 0.3s, transform 0.3s; text-align: center; font-size: 14px; }
-        .tab:hover, .tab.active { background: #ff8c00; color: #2b0a0a; transform: scale(1.05); }
-        .content { max-width: 100%; width: calc(100% - 20px); padding: 10px; }
-        .section { display: none; background: #3c2f2f; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); width: 100%; }
-        .section.active { display: block; }
-        .catalog-tab { display: none; width: 100%; }
-        .catalog-tab.active { display: block; }
-        .filter { margin-bottom: 15px; text-align: center; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-        .mandala-select { position: relative; display: inline-block; }
-        .mandala-button { background: linear-gradient(45deg, #d4af37, #ff8c00); color: #2b0a0a; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.2s; font-size: 14px; }
-        .mandala-button:hover { transform: scale(1.05); }
-        .mandala-options { display: none; position: absolute; background: #4a0e0e; border: 2px solid #d4af37; border-radius: 5px; padding: 10px; z-index: 10; left: 50%; transform: translateX(-50%); }
-        .mandala-options div { padding: 5px; color: #e0d0b0; cursor: pointer; transition: background 0.3s; font-size: 14px; }
-        .mandala-options div:hover { background: #ff8c00; }
-        .placeholder { color: #e0d0b0; font-size: 16px; text-align: center; margin-top: 20px; }
-        .no-products { color: #e0d0b0; font-size: 16px; text-align: center; margin-top: 20px; display: none; }
-        .product-card { 
-            background: #4a0e0e; 
-            border: 2px solid #d4af37; 
-            border-radius: 10px; 
-            padding: 15px; 
-            margin-bottom: 15px; 
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); 
-            transition: transform 0.3s, box-shadow 0.3s; 
-            cursor: pointer; 
-            display: flex; 
-            flex-direction: row; 
-            gap: 15px; 
-            align-items: flex-start; 
-        }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.5); }
-        .product-image { width: 150px; height: 150px; object-fit: cover; border-radius: 8px; border: 1px solid #d4af37; }
-        .product-info { flex: 1; }
-        .product-card h3 { 
-            color: #ff8c00; 
-            margin: 0 0 10px; 
-            font-size: 18px; 
-            font-weight: bold; 
-            transition: color 0.3s; 
-        }
-        .product-card h3:hover { color: #d4af37; }
-        .product-card p { color: #e0d0b0; margin: 5px 0; font-size: 14px; }
-        .weights { 
-            margin-top: 15px; 
-            background: rgba(0, 0, 0, 0.2); 
-            padding: 10px; 
-            border-radius: 8px; 
-            display: none; 
-            transition: all 0.3s ease; 
-        }
-        .weight-option { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin: 8px 0; 
-            padding: 5px; 
-            background: #3c2f2f; 
-            border-radius: 5px; 
-        }
-        .weight-option p { 
-            color: #ff8c00; 
-            font-weight: bold; 
-            margin: 0; 
-            font-size: 14px; 
-        }
-        .deal-button, .delivery-button { 
-            background: linear-gradient(45deg, #d4af37, #ff8c00); 
-            color: #2b0a0a; 
-            padding: 6px 12px; 
-            border: none; 
-            border-radius: 5px; 
-            cursor: pointer; 
-            transition: all 0.3s; 
-            font-size: 12px; 
-            font-weight: bold; 
-            text-transform: uppercase; 
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
-        }
-        .deal-button:hover, .delivery-button:hover { 
-            background: linear-gradient(45deg, #ff8c00, #d4af37); 
-            transform: scale(1.05); 
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
-        }
-        .delivery-button { background: linear-gradient(45deg, #ff8c00, #d4af37); margin-left: 5px; }
-        .reviews { 
-            margin-top: 15px; 
-            padding: 10px; 
-            background: rgba(0, 0, 0, 0.2); 
-            border-radius: 8px; 
-            display: none; 
-            transition: all 0.3s ease; 
-        }
-        .review { 
-            background: rgba(255, 255, 255, 0.05); 
-            padding: 8px; 
-            margin: 5px 0; 
-            border-radius: 5px; 
-            font-size: 12px; 
-            color: #e0d0b0; 
-        }
-        .review p { margin: 0; }
-        .rating { color: #ff8c00; margin-bottom: 5px; }
-        .discount { color: #ff4040; font-weight: bold; margin: 5px 0; font-size: 13px; }
-        .profile-ledger { background: #4a0e0e; padding: 15px; border: 2px solid #d4af37; border-radius: 10px; }
-        .job-card, .message-card { 
-            background: #4a0e0e; 
-            border: 2px solid #d4af37; 
-            border-radius: 10px; 
-            padding: 10px; 
-            margin-bottom: 15px; 
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); 
-            transition: transform 0.3s; 
-        }
-        .job-card:hover, .message-card:hover { transform: translateY(-5px); }
-        .job-card h3, .message-card h3 { color: #ff8c00; margin: 0 0 8px; font-size: 16px; }
-        .job-card p, .message-card p { color: #e0d0b0; margin: 5px 0; font-size: 14px; }
-        .modal { 
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0, 0, 0, 0.8); 
-            z-index: 100; 
-        }
-        .modal-content { 
-            background: #4a0e0e; 
-            width: 90%; 
-            max-width: 400px; 
-            margin: 15% auto; 
-            padding: 15px; 
-            border: 2px solid #d4af37; 
-            border-radius: 10px; 
-            text-align: center; 
-        }
-        .modal-content h3 { color: #ff8c00; font-size: 16px; }
-        .modal-content p { color: #e0d0b0; font-size: 14px; }
-        .close { color: #d4af37; float: right; font-size: 24px; cursor: pointer; }
-        .loader { 
-            display: none; 
-            position: fixed; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            width: 40px; 
-            height: 40px; 
-            border: 4px solid #d4af37; 
-            border-top: 4px solid #ff8c00; 
-            border-radius: 50%; 
-            animation: spin 1s linear infinite; 
-            z-index: 101; 
-        }
-        @keyframes spin { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
-        .auth-modal-content { 
-            background: #4a0e0e; 
-            width: 90%; 
-            max-width: 400px; 
-            margin: 15% auto; 
-            padding: 20px; 
-            border: 2px solid #d4af37; 
-            border-radius: 10px; 
-            text-align: center; 
-        }
-        .auth-modal-content h3 { color: #ff8c00; margin-bottom: 15px; }
-        .auth-modal-content input, .modal-content input, .modal-content select { 
-            display: block; 
-            width: 80%; 
-            margin: 10px auto; 
-            padding: 10px; 
-            background: linear-gradient(45deg, #3c2f2f, #4a0e0e); 
-            border: 1px solid #d4af37; 
-            border-radius: 5px; 
-            color: #e0d0b0; 
-            font-family: 'Georgia', serif; 
-        }
-        .auth-modal-content button, .modal-content button { 
-            background: linear-gradient(45deg, #d4af37, #ff8c00); 
-            color: #2b0a0a; 
-            padding: 8px 15px; 
-            border: none; 
-            border-radius: 5px; 
-            cursor: pointer; 
-            transition: transform 0.3s; 
-            margin: 5px; 
-        }
-        .auth-modal-content button:hover, .modal-content button:hover { transform: scale(1.05); }
-        .auth-modal-content .switch-form { color: #d4af37; cursor: pointer; text-decoration: underline; margin-top: 10px; }
-        .auth-modal-content .switch-form:hover { color: #ff8c00; }
-        .login-button, .register-button { 
-            background: linear-gradient(45deg, #d4af37, #ff8c00); 
-            color: #2b0a0a; 
-            padding: 10px 20px; 
-            border: none; 
-            border-radius: 5px; 
-            cursor: pointer; 
-            transition: transform 0.3s; 
-            font-size: 16px; 
-            margin: 5px; 
-        }
-        .login-button:hover, .register-button:hover { transform: scale(1.05); }
-        .referral-section { margin-top: 15px; border-top: 1px solid #d4af37; padding-top: 10px; }
-        .referral-section p { color: #e0d0b0; font-size: 14px; }
-        .referral-link { background: #4a0e0e; padding: 5px; border-radius: 5px; word-break: break-all; }
-        @media (max-width: 768px) {
-            .main-container { flex-direction: column; align-items: center; }
-            .sidebar { width: 100%; max-width: 300px; }
-            .content { width: 100%; padding: 5px; }
-            .logo { font-size: 24px; }
-            .header-container { flex-direction: column; gap: 10px; }
-            .header-text { font-size: 12px; }
-            .nav-item { font-size: 12px; padding: 6px 10px; }
-            .tab { font-size: 12px; padding: 8px; }
-            .mandala-button { font-size: 12px; padding: 6px 12px; }
-            .mandala-options div { font-size: 12px; }
-            .product-card { flex-direction: column; }
-            .product-image { width: 100%; height: auto; max-height: 200px; }
-            .product-card h3 { font-size: 16px; }
-            .product-card p { font-size: 12px; }
-            .deal-button, .delivery-button { font-size: 11px; padding: 5px 10px; }
-            .login-button, .register-button { font-size: 14px; padding: 8px 15px; }
-            .language-button { font-size: 10px; padding: 4px 8px; }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Package calculator sitefit fixed</title>
+<style>
+:root{--bg:#f8f1f3;--surface:#fff;--text:#171717;--muted:#5e5e5e;--line:#d6e6da;--line-strong:#8fb89a;--accent:#3d8b57;--accent-dark:#2f6f45;--accent-soft:#eaf5ed;--shadow:0 10px 30px rgba(57,96,69,.10)}
+*{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text);padding:40px 16px}
+.wrap{max-width:980px;margin:0 auto;background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.99));border:1px solid var(--line);border-radius:34px;box-shadow:var(--shadow);overflow:hidden;position:relative}
+.wrap:before{content:'';position:absolute;left:0;top:0;width:340px;height:340px;background:radial-gradient(circle,rgba(61,139,87,.11),transparent 68%)}
+.head{padding:42px 38px 20px;text-align:center;position:relative;z-index:1}
+.kicker{display:inline-block;background:var(--accent-soft);border:1px solid #d7ebdd;color:var(--accent);padding:8px 14px;border-radius:999px;font-size:13px;font-weight:700;margin-bottom:14px}
+h1{margin:0 0 10px;font-size:42px;line-height:1.05;font-weight:800;letter-spacing:-.03em}
+.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;padding:22px;position:relative;z-index:1}
+.panel,.card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:22px}
+.panel{background:linear-gradient(180deg,#fcfffd,#f7fbf8)}
+.group+.group{margin-top:18px;padding-top:18px;border-top:1px solid #edf3ee}
+.group h3,.card h3{margin:0 0 12px;font-size:18px;font-weight:800}
+.hint{margin:0 0 12px;color:var(--muted);font-size:14px;line-height:1.5;min-height:20px}
+.seg{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.btn{border:1.5px solid var(--line);background:#fff;border-radius:14px;min-height:54px;padding:10px 12px;cursor:pointer;transition:.18s ease;font-size:15px;font-weight:700;color:#333}
+.btn:hover{transform:translateY(-1px);border-color:var(--line-strong);background:#fbfefc}
+.btn.active{background:var(--accent-soft);color:var(--accent-dark);border-color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;background:#fafafa}
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,52px);gap:12px}
+.sw{width:52px;height:52px;border-radius:50%;border:2px solid #d7d7d7;cursor:pointer;background:var(--sw);transition:.18s ease}
+.sw.white{box-shadow:inset 0 0 0 1px #d8d8d8}
+.sw.transparent{background:linear-gradient(45deg,#efefef 25%,#fff 25%,#fff 50%,#efefef 50%,#efefef 75%,#fff 75%,#fff 100%);background-size:12px 12px}
+.sw.active{border-color:var(--accent);box-shadow:0 0 0 4px rgba(61,139,87,.14)}
+.sw:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.sum{display:grid;gap:14px}
+.badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.badge{border:1px solid #dfece2;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:700;color:#36523f;background:#fff}
+.row{display:flex;justify-content:space-between;gap:14px;padding-bottom:8px;border-bottom:1px dashed #e9efe9;font-size:15px;color:#444}
+.row:last-child{border-bottom:none;padding-bottom:0}
+.row strong{color:#191919}
+.formula{font-size:14px;color:var(--muted);line-height:1.55;margin-top:8px}
+.totalcard{background:linear-gradient(180deg,#f8fcf9,#eef7f1);border-color:#d8ebde}
+.total{font-size:40px;font-weight:900;color:var(--accent-dark);line-height:1;margin-top:6px}
+.muted{font-size:13px;color:var(--muted);line-height:1.55}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+.cta{border:none;border-radius:999px;padding:14px 20px;font-size:15px;font-weight:800;cursor:pointer}
+.primary{background:var(--accent);color:#fff}
+.secondary{background:#fff;color:var(--accent-dark);border:1px solid #dbeadf}
+.foot{padding:0 24px 24px;text-align:center;color:var(--muted);font-size:13px}
+@media (max-width:920px){.grid{grid-template-columns:1fr}h1{font-size:34px}}
+
+@media (max-width:820px){
+  .seg{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .swatches{grid-template-columns:repeat(5,52px);justify-content:start}
+}
+@media (max-width:560px){
+  body{padding:10px 8px}
+  .wrap{border-radius:22px}
+  .head{padding:18px 14px 10px}
+  .kicker{font-size:11px;padding:7px 12px;margin-bottom:10px}
+  h1{font-size:24px}
+  .grid{padding:10px;gap:10px}
+  .panel,.card{padding:14px;border-radius:18px}
+  .group+.group{margin-top:14px;padding-top:14px}
+  .group h3,.card h3{font-size:16px;margin-bottom:10px}
+  .seg{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .btn{min-height:46px;padding:8px 8px;font-size:13px;border-radius:12px}
+  .swatches{grid-template-columns:repeat(4,52px);gap:10px}
+  .sw{width:48px;height:48px}
+  .badges{gap:8px}
+  .badge{font-size:12px;padding:7px 10px}
+  .row{font-size:14px}
+  .formula,.muted{font-size:12px}
+  .total{font-size:28px}
+  .actions{gap:8px}
+  .cta{width:100%;padding:13px 16px;font-size:14px}
+}
+
+</style>
 </head>
 <body>
-    <div class="loader" id="loader"></div>
-    <div class="header">
-        <div class="logo" data-i18n="title">Shadow Goa</div>
-        <div class="header-container">
-            <div class="header-text" data-i18n="subtitle">Dark Deals of Goa</div>
-            <div class="language-switcher">
-                <button class="language-button" onclick="setLanguage('en')">EN</button>
-                <button class="language-button" onclick="setLanguage('ru')">RU</button>
-                <button class="language-button" onclick="setLanguage('hi')">HI</button>
-            </div>
-        </div>
-    </div>
-    <div class="nav">
-        <div class="nav-item" onclick="toggleSection('catalog')" data-i18n="nav-catalog">Catalog</div>
-        <div class="nav-item" onclick="toggleSection('jobs')" data-i18n="nav-jobs">Jobs</div>
-        <div class="nav-item" onclick="toggleSection('profile')" data-i18n="nav-profile">Profile</div>
-        <div class="nav-item" onclick="toggleSection('messages')" data-i18n="nav-messages">Messages</div>
-    </div>
-    <div class="main-container">
-        <div class="section catalog" id="catalog">
-            <div class="sidebar" id="sidebar">
-                <div class="tab" onclick="toggleTab('marijuana')" data-i18n="tab-marijuana">Marijuana</div>
-                <div class="tab" onclick="toggleTab('hashish')" data-i18n="tab-hashish">Hashish</div>
-                <div class="tab" onclick="toggleTab('cocaine')" data-i18n="tab-cocaine">Cocaine</div>
-                <div class="tab" onclick="toggleTab('amphetamine')" data-i18n="tab-amphetamine">Amphetamine</div>
-                <div class="tab" onclick="toggleTab('meth')" data-i18n="tab-meth">Methamphetamine</div>
-                <div class="tab" onclick="toggleTab('mephedrone')" data-i18n="tab-mephedrone">Mephedrone</div>
-                <div class="tab" onclick="toggleTab('alpha')" data-i18n="tab-alpha">Alpha-PVP</div>
-                <div class="tab" onclick="toggleTab('lsd')" data-i18n="tab-lsd">LSD</div>
-                <div class="tab" onclick="toggleTab('mdma')" data-i18n="tab-mdma">MDMA</div>
-                <div class="tab" onclick="toggleTab('heroin')" data-i18n="tab-heroin">Heroin</div>
-            </div>
-            <div class="content">
-                <div class="filter">
-                    <div class="mandala-select">
-                        <button class="mandala-button" id="district-button" data-i18n="district-all">District: All</button>
-                        <div class="mandala-options" id="district-options">
-                            <div onclick="selectDistrict('all')" data-i18n="district-all-option">All Districts</div>
-                            <div onclick="selectDistrict('anjuna')" data-i18n="district-anjuna">Anjuna</div>
-                            <div onclick="selectDistrict('baga')" data-i18n="district-baga">Baga</div>
-                            <div onclick="selectDistrict('calangute')" data-i18n="district-calangute">Calangute</div>
-                            <div onclick="selectDistrict('morjim')" data-i18n="district-morjim">Morjim</div>
-                            <div onclick="selectDistrict('panaji')" data-i18n="district-panaji">Panaji</div>
-                            <div onclick="selectDistrict('arambol')" data-i18n="district-arambol">Arambol</div>
-                        </div>
-                    </div>
-                    <div class="mandala-select">
-                        <button class="mandala-button" id="stock-button" data-i18n="stock-all">Stock: All</button>
-                        <div class="mandala-options" id="stock-options">
-                            <div onclick="selectStock('all')" data-i18n="stock-all-option">All</div>
-                            <div onclick="selectStock('in-stock')" data-i18n="in-stock">In Stock</div>
-                            <div onclick="selectStock('out-of-stock')" data-i18n="out-of-stock">Out of Stock</div>
-                        </div>
-                    </div>
-                    <div class="mandala-select">
-                        <button class="mandala-button" id="discount-button" data-i18n="discount-all">Discounts: All</button>
-                        <div class="mandala-options" id="discount-options">
-                            <div onclick="selectDiscount('all')" data-i18n="discount-all-option">All</div>
-                            <div onclick="selectDiscount('with-discount')" data-i18n="with-discount">With Discount</div>
-                            <div onclick="selectDiscount('no-discount')" data-i18n="no-discount">No Discount</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="placeholder" id="placeholder" data-i18n="placeholder">Select a category from the menu on the left</div>
-                <div class="no-products" id="no-products" data-i18n="no-products">No products in this district</div>
-                <div class="catalog-tab" id="marijuana"></div>
-                <div class="catalog-tab" id="hashish"></div>
-                <div class="catalog-tab" id="cocaine"></div>
-                <div class="catalog-tab" id="amphetamine"></div>
-                <div class="catalog-tab" id="meth"></div>
-                <div class="catalog-tab" id="mephedrone"></div>
-                <div class="catalog-tab" id="alpha"></div>
-                <div class="catalog-tab" id="lsd"></div>
-                <div class="catalog-tab" id="mdma"></div>
-                <div class="catalog-tab" id="heroin"></div>
-            </div>
-        </div>
-        <div class="section jobs" id="jobs">
-            <div class="job-card">
-                <h3 data-i18n="job1-title">Beach Courier in Goa</h3>
-                <p data-i18n="job1-desc">Responsibilities: Deliver goods across Anjuna and Baga beaches.</p>
-                <p data-i18n="job1-salary">Salary: ₹150000/month</p>
-                <button class="deal-button" onclick="checkAuthBeforeApply('Beach Courier in Goa')" data-i18n="apply">Apply</button>
-            </div>
-            <div class="job-card">
-                <h3 data-i18n="job2-title">Rave Chemist</h3>
-                <p data-i18n="job2-desc">Responsibilities: Prepare goods for parties in Arambol.</p>
-                <p data-i18n="job2-salary">Salary: ₹250000/month</p>
-                <button class="deal-button" onclick="checkAuthBeforeApply('Rave Chemist')" data-i18n="apply">Apply</button>
-            </div>
-            <div class="job-card">
-                <h3 data-i18n="job3-title">Stash Keeper</h3>
-                <p data-i18n="job3-desc">Responsibilities: Hide stashes in Calangute and monitor them.</p>
-                <p data-i18n="job3-salary">Salary: ₹120000/month</p>
-                <button class="deal-button" onclick="checkAuthBeforeApply('Stash Keeper')" data-i18n="apply">Apply</button>
-            </div>
-        </div>
-        <div class="section profile" id="profile">
-            <div id="profile-content"></div>
-        </div>
-        <div class="section messages" id="messages">
-            <div class="message-card">
-                <h3 data-i18n="welcome-title">Welcome to Shadow Goa</h3>
-                <p data-i18n="welcome-text">Greetings! Use this service wisely and discreetly. Contact support via Telegram @ShadowGoaSupport for assistance.</p>
-            </div>
-        </div>
-    </div>
-    <div class="modal" id="depositModal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('depositModal')">×</span>
-            <h3 data-i18n="deposit-title">Deposit Funds</h3>
-            <p data-i18n="deposit-text1">Select a cryptocurrency and enter the amount in INR (minimum 1000 INR):</p>
-            <select id="depositCrypto">
-                <option value="BTC">BTC (BEP20)</option>
-                <option value="ETH">ETH (ETH)</option>
-                <option value="USDT">USDT (TRC20)</option>
-                <option value="TON">TON (TON)</option>
-                <option value="SOL">SOL (Solana)</option>
-            </select>
-            <input type="number" id="depositAmount" min="1000" placeholder="Amount in INR">
-            <button class="deal-button" onclick="createDepositDeal()" data-i18n="deposit-button">Create Deal</button>
-            <div id="depositDetails" style="display: none;">
-                <p data-i18n="deposit-text2">Send the amount below to this address (valid for 30 minutes):</p>
-                <p id="depositInrAmount"></p>
-                <p id="depositCryptoAmount"></p>
-                <p id="depositAddress"></p>
-                <button class="deal-button" onclick="confirmDeposit()" data-i18n="confirm-payment">Confirm Payment</button>
-            </div>
-        </div>
-    </div>
-    <div class="modal" id="withdrawModal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('withdrawModal')">×</span>
-            <h3 data-i18n="withdraw-title">Withdraw Funds</h3>
-            <p data-i18n="withdraw-text1">Select a cryptocurrency and enter the amount in INR:</p>
-            <select id="withdrawCrypto">
-                <option value="BTC">BTC (BEP20)</option>
-                <option value="ETH">ETH (ETH)</option>
-                <option value="USDT">USDT (TRC20)</option>
-                <option value="TON">TON (TON)</option>
-                <option value="SOL">SOL (Solana)</option>
-            </select>
-            <input type="number" id="withdrawAmount" min="1000" placeholder="Amount in INR">
-            <input type="text" id="withdrawAddress" placeholder="Your wallet address">
-            <button class="deal-button" onclick="createWithdrawDeal()" data-i18n="withdraw-button">Create Withdrawal</button>
-            <div id="withdrawDetails" style="display: none;">
-                <p data-i18n="withdraw-text2">Withdrawal request created. Processing within 24 hours.</p>
-            </div>
-        </div>
-    </div>
-    <div class="modal" id="authModal">
-        <div class="auth-modal-content">
-            <span class="close" onclick="closeModal('authModal')">×</span>
-            <div id="loginForm">
-                <h3 data-i18n="login-title">Login</h3>
-                <input type="text" id="loginUsername" data-i18n="[placeholder]login-username">
-                <input type="password" id="loginPassword" data-i18n="[placeholder]login-password">
-                <button onclick="login()" data-i18n="login-button">Login</button>
-                <p class="switch-form" onclick="showRegisterForm()" data-i18n="switch-to-register">No account? Register now!</p>
-            </div>
-            <div id="registerForm" style="display: none;">
-                <h3 data-i18n="register-title">Register</h3>
-                <input type="text" id="regUsername" data-i18n="[placeholder]register-username">
-                <input type="password" id="regPassword" data-i18n="[placeholder]register-password">
-                <input type="password" id="regConfirmPassword" data-i18n="[placeholder]register-confirm-password">
-                <input type="text" id="regReferralCode" data-i18n="[placeholder]register-referral">
-                <button onclick="register()" data-i18n="register-button">Register</button>
-                <p class="switch-form" onclick="showLoginForm()" data-i18n="switch-to-login">Already have an account? Login!</p>
-            </div>
-        </div>
-    </div>
-    <div class="modal" id="confirmModal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('confirmModal')">×</span>
-            <h3 data-i18n="confirm-title">Confirm Action</h3>
-            <p id="confirmMessage"></p>
-            <button class="deal-button" onclick="closeModal('confirmModal')" data-i18n="confirm-button">OK</button>
-        </div>
-    </div>
-    <script>
-        let currentSection = null;
-        let currentTab = null;
-        let selectedDistrict = 'all';
-        let selectedStock = 'all';
-        let selectedDiscount = 'all';
-        let isSidebarOpen = false;
-        let currentUser = null;
-        let currentLanguage = 'en';
+<section class="wrap">
+  <div class="head">
+    <h1>Калькулятор стоимости пакетов</h1>
+  </div>
+  <div class="grid" id="packageCalculator"></div>
+</section>
+<script>
+const CFG = {
+  sizes: [
+    {id:'s225340v', label:'225 × 340'},
+    {id:'s300400_30', label:'300 × 400'},
+    {id:'s360450_30', label:'360 × 450'},
+    {id:'s380500_30', label:'380 × 500'},
+    {id:'s450500_30', label:'450 × 500'},
+    {id:'s600500_30', label:'600 × 500'},
+    {id:'s700500_30', label:'700 × 500'},
+    {id:'s300400_40', label:'300 × 400'},
+    {id:'s360450_40', label:'360 × 450'},
+    {id:'s390500_40', label:'390 × 500'},
+  ],
+  colors: [
+    {id:'white', label:'Белый', hex:'#ffffff', extra:'Белый'},
+    {id:'transparent', label:'Прозрачный', hex:'transparent', extra:'Прозрачный', transparent:true},
+    {id:'black', label:'Чёрный', hex:'#000000', extra:'Чёрный'},
+    {id:'darkblue', label:'Т-синий', hex:'#0016b8', extra:'Т-синий'},
+    {id:'lightblue', label:'Св.синий', hex:'#2020ff', extra:'Св.синий'},
+    {id:'blue', label:'Голубой', hex:'#4e7dff', extra:'Голубой'},
+    {id:'green', label:'Зелёный', hex:'#009b00', extra:'Зелёный'},
+    {id:'beige', label:'Бежевый', hex:'#f4d36c', extra:'Бежевый'},
+    {id:'red', label:'Красный', hex:'#ff1a0f', extra:'Красный'},
+    {id:'orange', label:'Оранжевый', hex:'#ff7f00', extra:'Оранжевый'},
+    {id:'purple', label:'Фиолетовый', hex:'#7d41c7', extra:'Фиолетовый'},
+    {id:'silver', label:'Серебро', hex:'#bebebe', extra:'Серебро'},
+    {id:'burgundy', label:'Бордовый', hex:'#9b0000', extra:'Бордовый'},
+    {id:'yellow', label:'Жёлтый', hex:'#ffd400', extra:'Жёлтый'}
+  ],
+  thicknesses: [{id:'70', label:'70 мкм'}],
+  qty: [100,200,300,500,1000,2000,3000,5000],
+  prices: {
+    s225340v:   {'white|70':4.7, 'black|70':4.6},
+    s300400_30: {'white|70':6.7},
+    s360450_30: {'white|70':8.45},
+    s380500_30: {'white|70':9.75},
+    s450500_30: {'white|70':11.4},
+    s600500_30: {'white|70':15.6},
+    s700500_30: {'white|70':18.7},
+    s300400_40: {'white|80':9.4, 'black|70':7.15, 'darkblue|70':8.3, 'lightblue|70':8.1, 'blue|70':9, 'green|70':8.3, 'beige|70':7.55, 'red|70':8.15, 'orange|70':8.1, 'burgundy|70':8.2, 'yellow|70':7.4},
+    s360450_40: {'transparent|70':9.7},
+    s390500_40: {'white|80':14, 'white|100':17, 'black|70':9.38, 'darkblue|70':11.6, 'lightblue|70':11.6, 'blue|70':12, 'green|70':11.5, 'beige|70':9.9, 'red|70':11, 'orange|70':11.2, 'silver|70':11.5, 'burgundy|70':11.9, 'yellow|70':10.4},
+  }
+};
 
-        const translations = {
-            en: {
-                title: "Shadow Goa",
-                subtitle: "Dark Deals of Goa",
-                "nav-catalog": "Catalog",
-                "nav-jobs": "Jobs",
-                "nav-profile": "Profile",
-                "nav-messages": "Messages",
-                "tab-marijuana": "Marijuana",
-                "tab-hashish": "Hashish",
-                "tab-cocaine": "Cocaine",
-                "tab-amphetamine": "Amphetamine",
-                "tab-meth": "Methamphetamine",
-                "tab-mephedrone": "Mephedrone",
-                "tab-alpha": "Alpha-PVP",
-                "tab-lsd": "LSD",
-                "tab-mdma": "MDMA",
-                "tab-heroin": "Heroin",
-                "district-all": "District: All",
-                "district-all-option": "All Districts",
-                "district-anjuna": "Anjuna",
-                "district-baga": "Baga",
-                "district-calangute": "Calangute",
-                "district-morjim": "Morjim",
-                "district-panaji": "Panaji",
-                "district-arambol": "Arambol",
-                "stock-all": "Stock: All",
-                "stock-all-option": "All",
-                "in-stock": "In Stock",
-                "out-of-stock": "Out of Stock",
-                "discount-all": "Discounts: All",
-                "discount-all-option": "All",
-                "with-discount": "With Discount",
-                "no-discount": "No Discount",
-                placeholder: "Select a category from the menu on the left",
-                "no-products": "No products in this district",
-                "job1-title": "Beach Courier in Goa",
-                "job1-desc": "Responsibilities: Deliver goods across Anjuna and Baga beaches.",
-                "job1-salary": "Salary: ₹150000/month",
-                "job2-title": "Rave Chemist",
-                "job2-desc": "Responsibilities: Prepare goods for parties in Arambol.",
-                "job2-salary": "Salary: ₹250000/month",
-                "job3-title": "Stash Keeper",
-                "job3-desc": "Responsibilities: Hide stashes in Calangute and monitor them.",
-                "job3-salary": "Salary: ₹120000/month",
-                apply: "Apply",
-                "welcome-title": "Welcome to Shadow Goa",
-                "welcome-text": "Greetings! Use this service wisely and discreetly. Contact support via Telegram @ShadowGoaSupport for assistance.",
-                "deposit-title": "Deposit Funds",
-                "deposit-text1": "Select a cryptocurrency and enter the amount in INR (minimum 1000 INR):",
-                "deposit-text2": "Send the amount below to this address (valid for 30 minutes):",
-                "deposit-button": "Create Deal",
-                "withdraw-title": "Withdraw Funds",
-                "withdraw-text1": "Select a cryptocurrency and enter the amount in INR:",
-                "withdraw-text2": "Withdrawal request created. Processing within 24 hours.",
-                "withdraw-button": "Create Withdrawal",
-                "login-title": "Login",
-                "login-username": "Username",
-                "login-password": "Password",
-                "login-button": "Login",
-                "switch-to-register": "No account? Register now!",
-                "register-title": "Register",
-                "register-username": "Username",
-                "register-password": "Password",
-                "register-confirm-password": "Confirm Password",
-                "register-referral": "Referral Code (optional)",
-                "register-button": "Register",
-                "switch-to-login": "Already have an account? Login!",
-                "profile-title": "Your Profile",
-                "profile-name": "Name",
-                "profile-balance": "Balance",
-                "profile-orders": "Orders",
-                "profile-referral-bonus": "Referral Earnings",
-                "profile-deposit": "Deposit",
-                "profile-withdraw": "Withdraw",
-                "profile-logout": "Logout 🚪",
-                "referral-link-text": "Your Referral Link:",
-                "referral-invite": "Earn 10% of each deposit made by your invited users. Additionally, receive a 5g Marijuana (VHQ) bonus for every 5th invited user who deposits.",
-                "login-prompt": "Login 🔑",
-                "register-prompt": "Register 📝",
-                "buy": "Buy",
-                "delivery": "Delivery (+20%)",
-                "pre-order": "Pre-order",
-                discount: "Discount",
-                usdt: "USDT",
-                "confirm-title": "Confirm Action",
-                "confirm-button": "OK",
-                "confirm-payment": "Confirm Payment"
-            },
-            ru: {
-                title: "Shadow Goa",
-                subtitle: "Тёмные сделки Гоа",
-                "nav-catalog": "Каталог",
-                "nav-jobs": "Вакансии",
-                "nav-profile": "Профиль",
-                "nav-messages": "Сообщения",
-                "tab-marijuana": "Марихуана",
-                "tab-hashish": "Гашиш",
-                "tab-cocaine": "Кокаин",
-                "tab-amphetamine": "Амфетамин",
-                "tab-meth": "Метамфетамин",
-                "tab-mephedrone": "Мефедрон",
-                "tab-alpha": "Альфа-PVP",
-                "tab-lsd": "ЛСД",
-                "tab-mdma": "МДМА",
-                "tab-heroin": "Героин",
-                "district-all": "Район: Все",
-                "district-all-option": "Все районы",
-                "district-anjuna": "Анджуна",
-                "district-baga": "Бага",
-                "district-calangute": "Калангут",
-                "district-morjim": "Морджим",
-                "district-panaji": "Панаджи",
-                "district-arambol": "Арамболь",
-                "stock-all": "Наличие: Все",
-                "stock-all-option": "Все",
-                "in-stock": "В наличии",
-                "out-of-stock": "Нет в наличии",
-                "discount-all": "Скидки: Все",
-                "discount-all-option": "Все",
-                "with-discount": "Со скидкой",
-                "no-discount": "Без скидки",
-                placeholder: "Выберите категорию в меню слева",
-                "no-products": "Товаров в этом районе нет",
-                "job1-title": "Курьер по пляжам Гоа",
-                "job1-desc": "Обязанности: Доставлять товары по пляжам Анджуны и Баги.",
-                "job1-salary": "Оплата: ₹150000/месяц",
-                "job2-title": "Химик для рейвов",
-                "job2-desc": "Обязанности: Готовить товары для вечеринок в Арамболе.",
-                "job2-salary": "Оплата: ₹250000/месяц",
-                "job3-title": "Смотритель клада",
-                "job3-desc": "Обязанности: Прятать клады в Калангуте и следить за ними.",
-                "job3-salary": "Оплата: ₹120000/месяц",
-                apply: "Подать заявку",
-                "welcome-title": "Добро пожаловать в Shadow Goa",
-                "welcome-text": "Приветствуем! Используйте сервис с умом и осторожностью. Свяжитесь с поддержкой через Telegram @ShadowGoaSupport для помощи.",
-                "deposit-title": "Пополнение средств",
-                "deposit-text1": "Выберите криптовалюту и укажите сумму в INR (минимум 1000 INR):",
-                "deposit-text2": "Отправьте указанную сумму на этот адрес (действителен 30 минут):",
-                "deposit-button": "Создать сделку",
-                "withdraw-title": "Вывод средств",
-                "withdraw-text1": "Выберите криптовалюту и укажите сумму в INR:",
-                "withdraw-text2": "Запрос на вывод создан. Обработка в течение 24 часов.",
-                "withdraw-button": "Создать вывод",
-                "login-title": "Вход",
-                "login-username": "Имя пользователя",
-                "login-password": "Пароль",
-                "login-button": "Войти",
-                "switch-to-register": "Нет аккаунта? Зарегистрируйтесь!",
-                "register-title": "Регистрация",
-                "register-username": "Имя пользователя",
-                "register-password": "Пароль",
-                "register-confirm-password": "Подтвердите пароль",
-                "register-referral": "Реферальный код (опционально)",
-                "register-button": "Зарегистрироваться",
-                "switch-to-login": "Уже есть аккаунт? Войдите!",
-                "profile-title": "Ваш профиль",
-                "profile-name": "Имя",
-                "profile-balance": "Баланс",
-                "profile-orders": "Заказы",
-                "profile-referral-bonus": "Реферальные доходы",
-                "profile-deposit": "Пополнить",
-                "profile-withdraw": "Вывести",
-                "profile-logout": "Выйти 🚪",
-                "referral-link-text": "Ваша реферальная ссылка:",
-                "referral-invite": "Получайте 10% от каждого пополнения ваших приглашённых пользователей. За каждого 5-го пополнившего — бонус 5г марихуаны (VHQ).",
-                "login-prompt": "Войти 🔑",
-                "register-prompt": "Регистрация 📝",
-                "buy": "Купить",
-                "delivery": "Доставка (+20%)",
-                "pre-order": "Предзаказ",
-                discount: "Скидка",
-                usdt: "USDT",
-                "confirm-title": "Подтвердите действие",
-                "confirm-button": "ОК",
-                "confirm-payment": "Подтвердить оплату"
-            },
-            hi: {
-                title: "शैडो गोवा",
-                subtitle: "गोवा की डार्क डील्स",
-                "nav-catalog": "सूची",
-                "nav-jobs": "नौकरियां",
-                "nav-profile": "प्रोफाइल",
-                "nav-messages": "संदेश",
-                "tab-marijuana": "मारिजुआना",
-                "tab-hashish": "हशीश",
-                "tab-cocaine": "कोकेन",
-                "tab-amphetamine": "एम्फेटामाइन",
-                "tab-meth": "मेथमफेटामाइन",
-                "tab-mephedrone": "मेफेड्रोन",
-                "tab-alpha": "अल्फा-PVP",
-                "tab-lsd": "एलएसडी",
-                "tab-mdma": "एमडीएमए",
-                "tab-heroin": "हेरोइन",
-                "district-all": "जिला: सभी",
-                "district-all-option": "सभी जिले",
-                "district-anjuna": "अंजुना",
-                "district-baga": "बागा",
-                "district-calangute": "कालंगुट",
-                "district-morjim": "मोरजिम",
-                "district-panaji": "पणजी",
-                "district-arambol": "अरंबोल",
-                "stock-all": "स्टॉक: सभी",
-                "stock-all-option": "सभी",
-                "in-stock": "स्टॉक में",
-                "out-of-stock": "स्टॉक में नहीं",
-                "discount-all": "छूट: सभी",
-                "discount-all-option": "सभी",
-                "with-discount": "छूट के साथ",
-                "no-discount": "छूट के बिना",
-                placeholder: "बाईं ओर मेनू से एक श्रेणी चुनें",
-                "no-products": "इस जिले में कोई उत्पाद नहीं हैं",
-                "job1-title": "गोवा के समुद्र तटों पर कूरियर",
-                "job1-desc": "जिम्मेदारियां: अंजुना और बागा समुद्र तटों पर सामान पहुंचाना।",
-                "job1-salary": "वेतन: ₹150000/माह",
-                "job2-title": "रेव पार्टियों के लिए रसायनज्ञ",
-                "job2-desc": "जिम्मेदारियां: अरंबोल में पार्टियों के लिए सामान तैयार करना।",
-                "job2-salary": "वेतन: ₹250000/माह",
-                "job3-title": "खजाने का रखवाला",
-                "job3-desc": "जिम्मेदारियां: कालंगुट में खजाने छिपाना और उनकी निगरानी करना।",
-                "job3-salary": "वेतन: ₹120000/माह",
-                apply: "आवेदन करें",
-                "welcome-title": "शैडो गोवा में आपका स्वागत है",
-                "welcome-text": "नमस्ते! इस सेवा का उपयोग समझदारी और गोपनीयता के साथ करें। सहायता के लिए Telegram @ShadowGoaSupport से संपर्क करें।",
-                "deposit-title": "फंड जमा करें",
-                "deposit-text1": "क्रिप्टोकरेंसी चुनें और INR में राशि दर्ज करें (न्यूनतम 1000 INR):",
-                "deposit-text2": "नीचे दी गई राशि को इस पते पर भेजें (30 मिनट के लिए मान्य):",
-                "deposit-button": "डील बनाएं",
-                "withdraw-title": "फंड निकालें",
-                "withdraw-text1": "क्रिप्टोकरेंसी चुनें और INR में राशि दर्ज करें:",
-                "withdraw-text2": "निकासी अनुरोध बनाया गया। 24 घंटे के भीतर प्रसंस्करण।",
-                "withdraw-button": "निकासी बनाएं",
-                "login-title": "लॉगिन",
-                "login-username": "उपयोगकर्ता नाम",
-                "login-password": "पासवर्ड",
-                "login-button": "लॉगिन",
-                "switch-to-register": "कोई खाता नहीं? अभी रजिस्टर करें!",
-                "register-title": "रजिस्टर",
-                "register-username": "उपयोगकर्ता नाम",
-                "register-password": "पासवर्ड",
-                "register-confirm-password": "पासवर्ड की पुष्टि करें",
-                "register-referral": "रेफरल कोड (वैकल्पिक)",
-                "register-button": "रजिस्टर",
-                "switch-to-login": "पहले से खाता है? लॉगिन करें!",
-                "profile-title": "आपका प्रोफाइल",
-                "profile-name": "नाम",
-                "profile-balance": "बैलेंस",
-                "profile-orders": "ऑर्डर",
-                "profile-referral-bonus": "रेफरल आय",
-                "profile-deposit": "जमा करें",
-                "profile-withdraw": "निकालें",
-                "profile-logout": "लॉगआउट 🚪",
-                "referral-link-text": "आपका रेफरल लिंक:",
-                "referral-invite": "अपने आमंत्रित उपयोगकर्ताओं के प्रत्येक जमा से 10% कमाएं। हर 5वें जमा करने वाले उपयोगकर्ता के लिए 5g मारिजुआना (VHQ) बोनस प्राप्त करें।",
-                "login-prompt": "लॉगिन 🔑",
-                "register-prompt": "रजिस्टर 📝",
-                "buy": "खरीदें",
-                "delivery": "डिलीवरी (+20%)",
-                "pre-order": "प्री-ऑर्डर",
-                discount: "छूट",
-                usdt: "USDT",
-                "confirm-title": "कार्रवाई की पुष्टि करें",
-                "confirm-button": "ठीक",
-                "confirm-payment": "भुगतान की पुष्टि करें"
-            }
-        };
+const money = v => new Intl.NumberFormat('ru-RU',{maximumFractionDigits:2}).format(v) + ' руб.';
+const n0 = v => new Intl.NumberFormat('ru-RU',{maximumFractionDigits:0}).format(v);
 
-        const cryptoAddresses = {
-            BTC: "bc1qxk53npp2g3gt3x93k93vqgq93v5nwp5cvuk7fn",
-            ETH: "0x0d6b8E631b6c99e5184d492F4bcf22c8B5F96009",
-            USDT: "TCZUbqocgdwWx7AJVf6Kk5bq6cQETbWu54",
-            TON: "UQDbG95o_-Cez1JtMvj0WXX-4iWeOHb1B0EeVgggkkYM5Hd-",
-            SOL: "HadNG2gWHYiep7GfuP9UzxZQdeKuhCfPQ6qqBNo19B3B"
-        };
-
-        let exchangeRates = {};
-
-        async function fetchExchangeRates() {
-            try {
-                const response = await fetch('https://min-api.cryptocompare.com/data/price?fsym=INR&tsyms=BTC,ETH,USDT,TON,SOL');
-                const data = await response.json();
-                exchangeRates = {
-                    BTC: 1 / data.BTC,
-                    ETH: 1 / data.ETH,
-                    USDT: 1 / data.USDT,
-                    TON: 1 / data.TON,
-                    SOL: 1 / data.SOL
-                };
-            } catch (error) {
-                console.error('Error fetching exchange rates:', error);
-                exchangeRates = { BTC: 0.0000002, ETH: 0.00005, USDT: 0.012, TON: 0.25, SOL: 0.008 };
-            }
-        }
-
-        async function sendTelegramNotification(message) {
-            const botToken = '7589545725:AAHoedAqoGh_k0WWdUs1rcBN1yddUtBFhsk';
-            const chatId = '5956080955';
-            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-            try {
-                await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: chatId,
-                        text: message
-                    })
-                });
-            } catch (error) {
-                console.error('Error sending Telegram notification:', error);
-            }
-        }
-
-        function setLanguage(lang) {
-            currentLanguage = lang;
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                const attr = key.startsWith('[placeholder]') ? 'placeholder' : null;
-                const translationKey = attr ? key.replace('[placeholder]', '') : key;
-                if (attr) {
-                    element.setAttribute(attr, translations[lang][translationKey]);
-                } else {
-                    element.innerText = translations[lang][translationKey];
-                }
-            });
-            updateFilters();
-            initProducts();
-            updateProfile();
-        }
-
-        function updateFilters() {
-            const districtButton = document.getElementById('district-button');
-            const districtText = selectedDistrict === 'all' ? translations[currentLanguage]['district-all-option'] : translations[currentLanguage][`district-${selectedDistrict}`];
-            districtButton.innerText = `${translations[currentLanguage]['district-all'].split(':')[0]}: ${districtText}`;
-
-            const stockButton = document.getElementById('stock-button');
-            const stockText = selectedStock === 'all' ? translations[currentLanguage]['stock-all-option'] : translations[currentLanguage][selectedStock];
-            stockButton.innerText = `${translations[currentLanguage]['stock-all'].split(':')[0]}: ${stockText}`;
-
-            const discountButton = document.getElementById('discount-button');
-            const discountText = selectedDiscount === 'all' ? translations[currentLanguage]['discount-all-option'] : translations[currentLanguage][selectedDiscount];
-            discountButton.innerText = `${translations[currentLanguage]['discount-all'].split(':')[0]}: ${discountText}`;
-        }
-
-        function generateWeights(category) {
-            if (category === 'marijuana') return [10, 20, 50, 100];
-            else if (category === 'hashish') return [5, 10, 20, 50, 100];
-            else if (category === 'cocaine') return [0.5, 1, 2, 5, 10, 20];
-            else if (category === 'lsd' || category === 'mdma') return [1, 5, 10, 20];
-            else return [1, 2, 5, 10, 20];
-        }
-
-        function generateReviews(category) {
-    const languages = ['en', 'ru', 'hi'];
-    const reviewTemplates = {
-        marijuana: {
-            en: {
-                positive: [
-                    "This strain hits smooth, perfect chill vibes.",
-                    "Taste is on point, earthy and strong.",
-                    "Got me relaxed in minutes, top quality buds.",
-                    "Smells amazing, worth every rupee.",
-                    "Best weed I’ve had in Goa, hands down.",
-                    "Nice high, not too heavy, just right."
-                ],
-                epicPositive: [
-                    "Holy shit, this OG Kush is like a tropical vacation in my lungs—smooth, potent, and smells like paradise. Best stash I’ve smoked in years."
-                ],
-                negative: [
-                    "Took forever to arrive, almost fell asleep waiting.",
-                    "Buds were dry, not fresh at all.",
-                    "Overpriced for this weak-ass high.",
-                    "Smelled like old socks, disappointing."
-                ],
-                epicNegative: [
-                    "What a fucking scam—waited 3 hours for delivery, and these buds are so dry I could use them as kindling. Total garbage."
-                ]
-            },
-            ru: {
-                positive: [
-                    "Шишки мягкие, расслабляет идеально.",
-                    "Вкус четкий, землистый, мощный.",
-                    "Расслабило за минуты, качество огонь.",
-                    "Пахнет шикарно, стоит своих денег.",
-                    "Лучшая трава в Гоа, без вопросов.",
-                    "Приятный приход, не грузит сильно."
-                ],
-                epicPositive: [
-                    "Бери и не думай, это просто пиздец как круто—шишки пахнут как лес после дождя, расслабляет так, что забыл про все свои проблемы."
-                ],
-                negative: [
-                    "Доставка вечность, чуть не уснул.",
-                    "Сухие шишки, совсем не свежие.",
-                    "Цена завышена для такого слабого эффекта.",
-                    "Пахнет как старые носки, разочарование."
-                ],
-                epicNegative: [
-                    "Твою мать, это что за хуйня? Ждал доставку полдня, а тут какие-то пересушенные ошметки, которые даже косяк не держат. Пиздец."
-                ]
-            },
-            hi: {
-                positive: [
-                    "यह स्ट्रेन बहुत स्मूथ है, शानदार वाइब्स।",
-                    "स्वाद शानदार, मिट्टी जैसा और मजबूत।",
-                    "मिनटों में आराम मिला, टॉप क्वालिटी।",
-                    "खुशबू कमाल की, पैसे वसूल।",
-                    "गोवा में सबसे अच्छी घास, बिल्कुल।",
-                    "हल्का नशा, बहुत अच्छा लगा。"
-                ],
-                epicPositive: [
-                    "वाह भाई, यह घास तो जन्नत है! एक कश में सारा टेंशन गायब, खुशबू ऐसी कि लगता है फूलों के बाग में बैठा हूँ।"
-                ],
-                negative: [
-                    "डिलीवरी में बहुत देर लगी, थक गया इंतज़ार में।",
-                    "कलियाँ सूखी थीं, ताज़ा नहीं।",
-                    "इस कमज़ोर नशे के लिए कीमत ज़्यादा है।",
-                    "पुराने मोज़े जैसी गंध, निराशाजनक।"
-                ],
-                epicNegative: [
-                    "अरे यार, यह क्या बकवास है? डिलीवरी के लिए आधा दिन गया, और यह सूखी घास तो चाय बनाने के भी लायक नहीं। पैसा बर्बाद।"
-                ]
-            }
-        },
-        hashish: {
-            en: {
-                positive: [
-                    "Velvety smooth, hits like a dream.",
-                    "Rich aroma, pure hash perfection.",
-                    "Melts your stress away, solid stuff.",
-                    "Potent as hell, love this hash.",
-                    "Clean burn, no harshness.",
-                    "Great for a slow, deep high."
-                ],
-                epicPositive: [
-                    "This hash is a goddamn masterpiece—smooth as silk, smells like heaven, and sends you into a deep, blissful void."
-                ],
-                negative: [
-                    "Tastes off, not what I expected.",
-                    "Delivery guy got lost, waited hours.",
-                    "Too crumbly, hard to work with.",
-                    "Weak buzz, overrated."
-                ],
-                epicNegative: [
-                    "Fucking disaster—hash crumbles like sand, tastes like burnt rubber, and the delivery guy probably smoked half of it himself."
-                ]
-            },
-            ru: {
-                positive: [
-                    "Бархатный эффект, приход как во сне.",
-                    "Глубокий аромат, чистый гашиш.",
-                    "Растопил весь стресс, отличная штука.",
-                    "Мощный, обожаю этот гаш.",
-                    "Чисто горит, без резкости.",
-                    "Идеально для долгого кайфа."
-                ],
-                epicPositive: [
-                    "Это просто охуенно—гаш мягкий как бархат, аромат сносит крышу, и кайф такой, что забываешь, где находишься."
-                ],
-                negative: [
-                    "Вкус странный, не то ожидал.",
-                    "Курьер заблудился, ждал часы.",
-                    "Слишком крошится, неудобно.",
-                    "Слабый эффект, переоценено."
-                ],
-                epicNegative: [
-                    "Твою мать, это что за хуйня? Ждал доставку полдня, а тут какие-то пересушенные ошметки, которые даже косяк не держат."
-                ]
-            },
-            hi: {
-                positive: [
-                    "मखमली असर, सपने जैसा नशा।",
-                    "गहरी खुशबू, शुद्ध हशीश।",
-                    "तनाव को पिघला देता है, शानदार।",
-                    "बहुत ताकतवर, यह हशीश पसंद है।",
-                    "साफ जलता है, कोई कड़वाहट नहीं।",
-                    "लंबे नशे के लिए शानदार।"
-                ],
-                epicPositive: [
-                    "यह हशीश तो कमाल है यार! एकदम मखमल जैसा, खुशबू से मन भर गया, और नशा ऐसा कि सारी दुनिया गायब हो गई।"
-                ],
-                negative: [
-                    "स्वाद अजीब है, उम्मीद से कम।",
-                    "डिलीवरी वाला भटक गया, घंटों इंतज़ार।",
-                    "बहुत बिखरता है, इस्तेमाल मुश्किल।",
-                    "कमज़ोर नशा, बढ़ा-चढ़ाया गया।"
-                ],
-                epicNegative: [
-                    "क्या बकवास है भाई, यह हशीश टूट-टूट कर बर्बाद हो गया, स्वाद जैसे जला हुआ टायर, और डिलीवरी ने तो जान ले ली।"
-                ]
-            }
-        },
-        cocaine: {
-            en: {
-                positive: [
-                    "Pure as snow, insane energy boost.",
-                    "Clean cut, no bullshit filler.",
-                    "Keeps you sharp all night, A+.",
-                    "Fastest rush I’ve ever had.",
-                    "Top shelf coke, worth the price.",
-                    "No jitters, just pure power."
-                ],
-                epicPositive: [
-                    "This coke is fucking unreal—clean as a whistle, hits like lightning, and kept me ruling the night like a goddamn king."
-                ],
-                negative: [
-                    "Cut with something, felt off.",
-                    "Delivery was a nightmare, so late.",
-                    "Not as strong as advertised.",
-                    "Burns the nose, low quality."
-                ],
-                epicNegative: [
-                    "Total rip-off—this shit’s cut with god-knows-what, burns like acid, and the delivery guy deserves a kick in the ass for being 2 hours late."
-                ]
-            },
-            ru: {
-                positive: [
-                    "Чистый как снег, энергия бешеная.",
-                    "Без примесей, четкий стафф.",
-                    "Держит в тонусе всю ночь, класс.",
-                    "Самый быстрый приход в жизни.",
-                    "Элитный кокс, цена оправдана.",
-                    "Без тремора, чистая сила."
-                ],
-                epicPositive: [
-                    "Это просто пиздец какой кайф—чистейший кокс, бьет как молния, всю ночь был на пике, как царь ебаный."
-                ],
-                negative: [
-                    "Разбавлен чем-то, странное чувство.",
-                    "Доставка — кошмар, опоздали.",
-                    "Не такой мощный, как обещали.",
-                    "Жжет нос, качество хромает."
-                ],
-                epicNegative: [
-                    "Полный пиздец—кокс разбодяженный, жжет как кислота, а доставка опоздала так, что я чуть не сдох от ожидания."
-                ]
-            },
-            hi: {
-                positive: [
-                    "बर्फ जैसा शुद्ध, जबरदस्त ऊर्जा।",
-                    "साफ कट, कोई मिलावट नहीं।",
-                    "रात भर चुस्त रखता है, शानदार।",
-                    "सबसे तेज़ नशा जो मैंने लिया।",
-                    "टॉप लेवल कोक, कीमत वसूल।",
-                    "कोई घबराहट नहीं, बस ताकत।"
-                ],
-                epicPositive: [
-                    "यह कोक तो गजब है भाई—एकदम शुद्ध, बिजली की तरह चढ़ता है, और रात भर मुझे बादशाह की तरह रखा।"
-                ],
-                negative: [
-                    "किसी चीज़ से मिलाया हुआ, अजीब लगा।",
-                    "डिलीवरी बहुत देर से, बुरा हाल।",
-                    "जैसा बताया, वैसा मज़बूत नहीं।",
-                    "नाक जलाता है, घटिया क्वालिटी।"
-                ],
-                epicNegative: [
-                    "ठगी का धंधा है—यह कोक मिलावटी है, नाक में आग लगा दी, और डिलीवरी वाला 2 घंटे लेट, हरामखोर।"
-                ]
-            }
-        },
-        amphetamine: {
-            en: {
-                positive: [
-                    "Keeps you wired for hours, clean energy.",
-                    "Focus is unreal, love this stuff.",
-                    "No crash, smooth ride all day.",
-                    "Pumps you up fast, solid amph.",
-                    "Pure and potent, gets shit done.",
-                    "Best for grinding, no distractions."
-                ],
-                epicPositive: [
-                    "This amph is a fucking godsend—kept me laser-focused for 12 hours straight, no crash, just pure productivity power."
-                ],
-                negative: [
-                    "Jittery as hell, not smooth.",
-                    "Took too long to kick in.",
-                    "Crash hit hard, not worth it.",
-                    "Tastes like chemicals, nasty."
-                ],
-                epicNegative: [
-                    "Piece of shit batch—shaky as fuck, took an hour to kick in, then crashed me into a sweaty, miserable pile of regret."
-                ]
-            },
-            ru: {
-                positive: [
-                    "Держит в тонусе часами, чистая энергия.",
-                    "Концентрация зверская, обожаю.",
-                    "Без отката, плавный эффект весь день.",
-                    "Быстро разгоняет, годный амф.",
-                    "Чистый и мощный, дела делаются.",
-                    "Идеально для работы, без отвлечений."
-                ],
-                epicPositive: [
-                    "Этот амф—просто спасение, держал меня в строю 12 часов без перерыва, никакого отката, чистая энергия для дел."
-                ],
-                negative: [
-                    "Трясет как черт, не плавно.",
-                    "Долго врубался, бесит.",
-                    "Откат жесткий, не стоит того.",
-                    "Вкус как химия, гадость."
-                ],
-                epicNegative: [
-                    "Хуйня полная—трясло как припадочного, час ждал эффекта, а потом такой откат, что я чуть не сдох от усталости."
-                ]
-            },
-            hi: {
-                positive: [
-                    "घंटों तक जगा रखता है, शुद्ध ऊर्जा।",
-                    "फोकस गजब का, यह माल पसंद है।",
-                    "कोई गिरावट नहीं, दिन भर स्मूथ।",
-                    "तेज़ी से चढ़ता है, बढ़िया एम्फ।",
-                    "शुद्ध और ताकतवर, काम हो जाता है।",
-                    "काम के लिए बेस्ट, कोई डिस्ट्रैक्शन नहीं।"
-                ],
-                epicPositive: [
-                    "यह एम्फ तो भगवान का तोहफा है—12 घंटे तक फोकस रहा, कोई थकान नहीं, बस शुद्ध काम करने की ताकत।"
-                ],
-                negative: [
-                    "बहुत घबराहट देता है, स्मूथ नहीं।",
-                    "चढ़ने में देर लगी, परेशान किया।",
-                    "गिरावट कड़वी थी, फायदा नहीं।",
-                    "केमिकल जैसा स्वाद, खराब।"
-                ],
-                epicNegative: [
-                    "क्या गंदा माल है—हाथ-पैर कांप रहे थे, असर आने में घंटा लगा, फिर ऐसा थका कि लग रहा था मर जाऊंगा।"
-                ]
-            }
-        },
-        meth: {
-            en: {
-                positive: [
-                    "Crystal clear high, unreal rush.",
-                    "Keeps you going for days, insane.",
-                    "Pure ice, hits like a truck.",
-                    "No impurities, top-tier meth.",
-                    "Energy through the roof, love it.",
-                    "Sharp and intense, perfect buzz."
-                ],
-                epicPositive: [
-                    "This meth is a fucking beast—crystal perfection, slams you with energy for days, and keeps you soaring like a goddamn eagle."
-                ],
-                negative: [
-                    "Crash was brutal, not fun.",
-                    "Delivery screwed up, waited ages.",
-                    "Too harsh, burned like hell.",
-                    "Weak batch, total letdown."
-                ],
-                epicNegative: [
-                    "Absolute dogshit—crash hit me like a train, delivery was a clown show, and this weak-ass batch barely got me off the couch."
-                ]
-            },
-            ru: {
-                positive: [
-                    "Кристальный приход, нереальный драйв.",
-                    "Держит сутками, безумие.",
-                    "Чистый лед, бьет как грузовик.",
-                    "Без примесей, элитный мет.",
-                    "Энергия зашкаливает, кайф.",
-                    "Резкий и мощный, идеальный эффект."
-                ],
-                epicPositive: [
-                    "Этот мет—зверь ебаный, кристальная чистота, бьет так, что три дня на ногах, как орел в небе, пиздец."
-                ],
-                negative: [
-                    "Откат зверский, не весело.",
-                    "Доставка облажалась, ждал вечность.",
-                    "Слишком жесткий, жжет пиздец.",
-                    "Слабая партия, полный облом."
-                ],
-                epicNegative: [
-                    "Говно редкостное—откат как поездом переехало, доставка клоунада, а эта слабая хуйня даже с дивана не подняла."
-                ]
-            },
-            hi: {
-                positive: [
-                    "क्रिस्टल साफ नशा, जबरदस्त रश।",
-                    "दिनों तक चलता है, गजब का।",
-                    "शुद्ध बर्फ, ट्रक जैसा हिट।",
-                    "कोई मिलावट नहीं, टॉप मेथ।",
-                    "ऊर्जा छत तक, बहुत पसंद।",
-                    "तीखा और तीव्र, परफेक्ट नशा।"
-                ],
-                epicPositive: [
-                    "यह मेथ तो शैतान है—शुद्ध क्रिस्टल, दिन रात ऊर्जा देता है, और मुझे आसमान में उड़ाता है जैसे बाज।"
-                ],
-                negative: [
-                    "गिरावट बहुत बुरी थी, मज़ा नहीं।",
-                    "डिलीवरी गड़बड़, बहुत इंतज़ार।",
-                    "बहुत कड़वा, जलन हुई।",
-                    "कमज़ोर बैच, निराशा ही मिली।"
-                ],
-                epicNegative: [
-                    "बकवास माल—गिरावट ने मुझे कुचल दिया, डिलीवरी एक मजाक थी, और यह कमज़ोर चीज़ तो बेकार ही रही।"
-                ]
-            }
-        },
-        mephedrone: {
-            en: {
-                positive: [
-                    "Euphoric as fuck, pure bliss.",
-                    "Smooth high, no rough edges.",
-                    "Lifts your mood instantly, great meph.",
-                    "Clean and strong, awesome stuff.",
-                    "Perfect party vibe, lasts long.",
-                    "Hits just right, total joy."
-                ],
-                epicPositive: [
-                    "This meph is pure fucking heaven—euphoria dripping from every pore, smooth as hell, and turned my night into a euphoric masterpiece."
-                ],
-                negative: [
-                    "Crash sucked, felt like shit.",
-                    "Late delivery killed the mood.",
-                    "Not potent enough, meh.",
-                    "Burned my nose, crap quality."
-                ],
-                epicNegative: [
-                    "Fucking trash—crash left me a wreck, delivery was a joke, and this weak shit barely tickled my brain. Waste of money."
-                ]
-            },
-            ru: {
-                positive: [
-                    "Эйфория пиздец, чистый кайф.",
-                    "Плавный приход, без косяков.",
-                    "Настроение взлетает, отличный меф.",
-                    "Чистый и мощный, классная штука.",
-                    "Идеально для тус, долго держит。",
-                    "Бьет как надо, сплошное счастье."
-                ],
-                epicPositive: [
-                    "Этот меф—чистый рай, мать его, эйфория хлещет из всех щелей, гладко как шелк, ночь стала шедевром кайфа."
-                ],
-                negative: [
-                    "Откат отстой, чувствовал себя дерьмом.",
-                    "Доставка опоздала, настроение убито.",
-                    "Слабоват, не впечатлил.",
-                    "Жжет нос, качество отстой."
-                ],
-                epicNegative: [
-                    "Дерьмо полное—откат раздавил, доставка как анекдот, а эта слабая хрень даже мозг не пощекотала. Деньги на ветер."
-                ]
-            },
-            hi: {
-                positive: [
-                    "जबरदस्त खुशी, शुद्ध आनंद।",
-                    "स्मूथ नशा, कोई खराबी नहीं।",
-                    "मूड तुरंत ऊपर, बढ़िया मेफ।",
-                    "साफ और ताकतवर, शानदार माल।",
-                    "पार्टी के लिए परफेक्ट, लंबा चलता है।",
-                    "बिल्कुल सही चढ़ता है, पूरा मज़ा।"
-                ],
-                epicPositive: [
-                    "यह मेफ तो स्वर्ग है यार—हर सांस में खुशी, एकदम स्मूथ, और मेरी रात को आनंद का ताज बना दिया।"
-                ],
-                negative: [
-                    "गिरावट खराब थी, बुरा लगा।",
-                    "देर से डिलीवरी, मूड खराब।",
-                    "काफी मज़बूत नहीं, ठीक-ठाक।",
-                    "नाक जलाता है, घटिया क्वालिटी।"
-                ],
-                epicNegative: [
-                    "कचरा है भाई—गिरावट ने तोड़ दिया, डिलीवरी हंसी का पात्र थी, और यह कमज़ोर माल तो दिमाग तक नहीं पहुंचा।"
-                ]
-            }
-        },
-        alpha: {
-            en: {
-                positive: [
-                    "Fiery rush, insane intensity.",
-                    "Keeps you wired, pure flakka.",
-                    "Hits hard and fast, love it.",
-                    "No bullshit, just power.",
-                    "Perfect for a wild night.",
-                    "Sharp high, total beast."
-                ],
-                epicPositive: [
-                    "This flakka is a goddamn inferno—rips through you like wildfire, keeps you buzzing like a maniac, absolute savage energy."
-                ],
-                negative: [
-                    "Too intense, freaked me out.",
-                    "Delivery was a total mess.",
-                    "Harsh as hell, not smooth.",
-                    "Weak shit, expected more."
-                ],
-                epicNegative: [
-                    "Fucking nightmare—too intense, had me paranoid as shit, delivery was a clusterfuck, and it burned my soul more than my nose."
-                ]
-            },
-            ru: {
-                positive: [
-                    "Огненный приход, бешеная сила.",
-                    "Держит в тонусе, чистая флакка.",
-                    "Бьет быстро и мощно, кайф.",
-                    "Без фигни, только мощь.",
-                    "Идеально для дикой ночи.",
-                    "Резкий кайф, зверская штука."
-                ],
-                epicPositive: [
-                    "Эта флакка—адский огонь, рвет как буря, держит в тонусе как психопата, чистая дикая энергия, пиздец."
-                ],
-                negative: [
-                    "Слишком жестко, напугало.",
-                    "Доставка — полный бардак.",
-                    "Жесткий пиздец, не плавно.",
-                    "Слабое дерьмо, ждал большего."
-                ],
-                epicNegative: [
-                    "Кошмар ебаный—слишком жестко, чуть с ума не сошел, доставка бардак, жгло так, что душа выгорела."
-                ]
-            },
-            hi: {
-                positive: [
-                    "आग जैसा रश, गजब की तीव्रता।",
-                    "जगा रखता है, शुद्ध फ्लक्का।",
-                    "तेज़ और जोरदार चढ़ता है, पसंद है।",
-                    "कोई बकवास नहीं, बस ताकत।",
-                    "जंगली रात के लिए परफेक्ट।",
-                    "तीखा नशा, जबरदस्त।"
-                ],
-                epicPositive: [
-                    "यह फ्लक्का तो आग का गोला है—जंगल की आग की तरह चढ़ता है, पागलपन की तरह जगा रखता है, शुद्ध जंगली ताकत।"
-                ],
-                negative: [
-                    "बहुत तीव्र, डर लग गया।",
-                    "डिलीवरी पूरी तरह गड़बड़ थी।",
-                    "बहुत कड़वा, स्मूथ नहीं।",
-                    "कमज़ोर माल, उम्मीद से कम।"
-                ],
-                epicNegative: [
-                    "बुरा सपना था—बहुत तेज़, डर से पागल हो गया, डिलीवरी गंदगी थी, और यह जलन आत्मा तक पहुंच गई।"
-                ]
-            }
-        },
-        lsd: {
-            en: {
-                positive: [
-                    "Mind-blowing trip, vivid colors.",
-                    "Smooth ride, no bad vibes.",
-                    "Pure acid, cosmic experience.",
-                    "Visuals were insane, top-notch.",
-                    "Perfect dose, total clarity.",
-                    "Best tabs I’ve dropped, unreal."
-                ],
-                epicPositive: [
-                    "This LSD is a fucking portal—colors exploding like fireworks, took me to the edge of the universe, hands down the best trip ever."
-                ],
-                negative: [
-                    "Weak trip, barely felt it.",
-                    "Delivery took ages, pissed off.",
-                    "Bad batch, gave me anxiety.",
-                    "Not worth the hype, lame."
-                ],
-                epicNegative: [
-                    "Total bullshit—weak as water, delivery dragged on forever, and this crap batch had me twitching with anxiety instead of tripping."
-                ]
-            },
-            ru: {
-                positive: [
-                    "Охуенный трип, яркие краски.",
-                    "Плавный полет, без напряга.",
-                    "Чистый кислый, космос в голове.",
-                    "Визуалы чумовые, высший класс.",
-                    "Идеальная доза, полная ясность.",
-                    "Лучшие таблы, нереально."
-                ],
-                epicPositive: [
-                    "Этот ЛСД—портал, блять, краски взрываются как салют, унесло на край вселенной, лучший трип в моей жизни."
-                ],
-                negative: [
-                    "Слабый трип, почти не взял.",
-                    "Доставка вечность, бесит.",
-                    "Плохая партия, тревога замучила.",
-                    "Не стоит шумихи, отстой."
-                ],
-                epicNegative: [
-                    "Полная хуйня—слабый как вода, доставка тянулась бесконечно, и эта дрянь вызвала панику вместо кайфа."
-                ]
-            },
-            hi: {
-                positive: [
-                    "दिमाग हिला देने वाला ट्रिप, चटक रंग।",
-                    "स्मूथ सफर, कोई बुरा वाइब नहीं।",
-                    "शुद्ध एसिड, ब्रह्मांडीय अनुभव।",
-                    "विज़ुअल्स गजब के, टॉप क्वालिटी।",
-                    "सही डोज़, पूरी साफगोई।",
-                    "सबसे अच्छी टैब्स, अवास्तविक।"
-                ],
-                epicPositive: [
-                    "यह एलएसडी तो दरवाज़ा है—रंग आतिशबाज़ी जैसे फटते हैं, मुझे ब्रह्मांड के किनारे ले गया, अब तक का बेस्ट ट्रिप।"
-                ],
-                negative: [
-                    "कमज़ोर ट्रिप, मुश्किल से लगा।",
-                    "डिलीवरी में बहुत देर, गुस्सा आया।",
-                    "खराब बैच, चिंता हो गई।",
-                    "हाइप के लायक नहीं, बेकार।"
-                ],
-                epicNegative: [
-                    "बकवास है—पानी जैसा कमज़ोर, डिलीवरी ने जान ले ली, और यह खराब माल ने ट्रिप की बजाय चिंता दी।"
-                ]
-            }
-        },
-        mdma: {
-            en: {
-                positive: [
-                    "Pure love, euphoric as hell.",
-                    "Smooth roll, perfect party vibe.",
-                    "Hits clean, no comedown issues.",
-                    "Best MDMA I’ve had, unreal.",
-                    "Lifts you up, total bliss.",
-                    "Strong and steady, amazing night."
-                ],
-                epicPositive: [
-                    "This MDMA is fucking divine—pure love pouring out, smooth roll all night, turned my party into a euphoric dreamscape."
-                ],
-                negative: [
-                    "Felt fake, no real buzz.",
-                    "Delivery fucked up, so late.",
-                    "Weak pills, total rip-off.",
-                    "Harsh comedown, not worth it."
-                ],
-                epicNegative: [
-                    "Utter garbage—felt like sugar pills, delivery was a shitshow, and the comedown hit me like a brick wall of despair."
-                ]
-            },
-            ru: {
-                positive: [
-                    "Чистая любовь, эйфория пиздец.",
-                    "Плавный приход, идеально для тус.",
-                    "Чисто бьет, без откатов.",
-                    "Лучший МДМА, нереально.",
-                    "Поднимает настроение, кайф полный.",
-                    "Мощный и ровный, ночь огонь."
-                ],
-                epicPositive: [
-                    "Этот МДМА—божественный, мать его, чистая любовь льется рекой, плавный приход сделал мою тусу сказкой."
-                ],
-                negative: [
-                    "Как будто подделка, эффекта нет.",
-                    "Доставка обосралась, опоздали.",
-                    "Слабые пилсы, развод полный.",
-                    "Жесткий откат, не стоит того."
-                ],
-                epicNegative: [
-                    "Дерьмо редкостное—как сахар сожрал, доставка пиздец, а откат вломил так, что я чуть не сдох от тоски."
-                ]
-            },
-            hi: {
-                positive: [
-                    "शुद्ध प्यार, जबरदस्त खुशी।",
-                    "स्मूथ रोल, परफेक्ट पार्टी वाइब।",
-                    "साफ चढ़ता है, कोई गिरावट नहीं।",
-                    "सबसे अच्छा एमडीएमए, अवास्तविक।",
-                    "मूड ऊपर करता है, पूरा आनंद।",
-                    "मज़बूत और स्थिर, शानदार रात।"
-                ],
-                epicPositive: [
-                    "यह एमडीएमए तो ईश्वर का वरदान है—शुद्ध प्यार बह रहा है, स्मूथ रोल ने मेरी पार्टी को खुशी का सपना बना दिया।"
-                ],
-                negative: [
-                    "नकली लगा, कोई असर नहीं।",
-                    "डिलीवरी गड़बड़, बहुत देर।",
-                    "कमज़ोर गोलियाँ, ठगी हुई।",
-                    "कड़वी गिरावट, फायदा नहीं।"
-                ],
-                epicNegative: [
-                    "घटिया माल—जैसे चीनी खा ली, डिलीवरी बकवास थी, और गिरावट ने मुझे उदासी के गड्ढे में डाल दिया।"
-                ]
-            }
-        },
-        heroin: {
-            en: {
-                positive: [
-                    "Deep, warm high, pure silk.",
-                    "Melts you into the couch, unreal.",
-                    "Smooth and heavy, top quality.",
-                    "Euphoria like nothing else, damn.",
-                    "Clean dope, hits just right.",
-                    "Best H I’ve had, total escape."
-                ],
-                epicPositive: [
-                    "This heroin is pure fucking gold—wraps you in a warm blanket of bliss, melts every worry away, best dope I’ve ever shot."
-                ],
-                negative: [
-                    "Weak as hell, barely felt it.",
-                    "Delivery was a disaster, late.",
-                    "Cut with junk, felt dirty.",
-                    "Not worth the cash, shitty batch."
-                ],
-                epicNegative: [
-                    "Fucking awful—weak as piss, delivery was a trainwreck, and this cut-to-shit batch left me feeling like a grimy mess."
-                ]
-            },
-            ru: {
-                positive: [
-                    "Глубокий теплый кайф, чистый шелк.",
-                    "Растекаешься по дивану, нереально.",
-                    "Плавный и тяжелый, топ качество.",
-                    "Эйфория ни с чем не сравнимая.",
-                    "Чистый гер, бьет как надо.",
-                    "Лучший гер, полный отрыв."
-                ],
-                epicPositive: [
-                    "Этот гер—золото, мать его, теплое одеяло кайфа, все заботы растворились, лучший стафф, что я колол."
-                ],
-                negative: [
-                    "Слабый пиздец, почти не взял.",
-                    "Доставка — катастрофа, опоздали.",
-                    "Разбавлен херней, грязное чувство.",
-                    "Денег не стоит, партия отстой."
-                ],
-                epicNegative: [
-                    "Пиздец какой отстой—слабый как моча, доставка катастрофа, и эта разбодяженная дрянь оставила только грязь внутри."
-                ]
-            },
-            hi: {
-                positive: [
-                    "गहरा गर्म नशा, शुद्ध रेशम।",
-                    "सोफे में पिघला देता है, अवास्तविक।",
-                    "स्मूथ और भारी, टॉप क्वालिटी।",
-                    "ऐसी खुशी जो कहीं नहीं, वाह।",
-                    "साफ माल, बिल्कुल सही चढ़ता है।",
-                    "सबसे अच्छा एच, पूरा सुकून।"
-                ],
-                epicPositive: [
-                    "यह एच तो सोना है भाई—गर्म कंबल की तरह लपेट लेता है, सारी चिंता पिघल गई, अब तक का सबसे अच्छा माल।"
-                ],
-                negative: [
-                    "बहुत कमज़ोर, कुछ लगा ही नहीं।",
-                    "डिलीवरी बेकार, देर हो गई।",
-                    "कचरे से मिलाया हुआ, गंदा लगा।",
-                    "पैसे के लायक नहीं, खराब बैच।"
-                ],
-                epicNegative: [
-                    "घटिया से घटिया—पानी जैसा कमज़ोर, डिलीवरी ने तो जान ले ली, और यह मिलावटी माल ने गंदगी का अहसास दिया।"
-                ]
-            }
-        }
-    };
-
-    const reviews = [];
-    for (let i = 0; i < 10; i++) {
-        const lang = languages[Math.floor(Math.random() * languages.length)];
-        const isPositive = Math.random() > 0.4;
-        const isEpic = Math.random() < 0.1;
-        const rating = isPositive ? Math.floor(Math.random() * 2) + 4 : Math.floor(Math.random() * 3) + 1;
-        const categoryReviews = reviewTemplates[category][lang];
-        
-        let reviewText;
-        if (isEpic) {
-            reviewText = categoryReviews[isPositive ? 'epicPositive' : 'epicNegative'][0];
-        } else {
-            reviewText = categoryReviews[isPositive ? 'positive' : 'negative'][
-                Math.floor(Math.random() * categoryReviews[isPositive ? 'positive' : 'negative'].length)
-            ];
-        }
-        reviews.push({ user: "Anonymous", text: reviewText, rating, lang });
+class Calc{
+  constructor(root){
+    this.root = root;
+    this.state = {size:'s300400_40', color:'black', thickness:'70', qty:1000};
+    this.ensureValidPair();
+    this.render();
+  }
+  get size(){return CFG.sizes.find(x=>x.id===this.state.size)}
+  get color(){return CFG.colors.find(x=>x.id===this.state.color)}
+  key(color=this.state.color, thickness=this.state.thickness){return `${color}|${thickness}`}
+  availableMap(){return CFG.prices[this.state.size] || {}}
+  availableKeys(){return Object.keys(this.availableMap())}
+  colorAvailable(colorId){
+    return this.availableKeys().some(k => k === `${colorId}|70`);
+  }
+  pairAvailable(colorId=this.state.color, thickId=this.state.thickness){
+    return Object.prototype.hasOwnProperty.call(this.availableMap(), `${colorId}|${thickId}`)
+  }
+  availableThicknessesForColor(colorId){
+    return CFG.thicknesses.filter(t => this.pairAvailable(colorId, t.id));
+  }
+  ensureValidPair(){
+    const first70 = this.availableKeys().find(k => k.endsWith('|70'));
+    if (this.pairAvailable() && this.state.thickness === '70') return;
+    if (first70){
+      const [color, thickness] = first70.split('|');
+      this.state.color = color;
+      this.state.thickness = thickness;
+      return;
     }
-    return reviews;
-}
+    const firstKey = this.availableKeys()[0];
+    if (!firstKey) return;
+    const [color, thickness] = firstKey.split('|');
+    this.state.color = color;
+    this.state.thickness = thickness;
+  }
+  calc(){
+    const unit = this.availableMap()[this.key()] || 0;
+    return {unit, total: unit * this.state.qty}
+  }
+  set(p){
+    this.state = {...this.state, ...p};
+    this.ensureValidPair();
+    this.render();
+  }
+  buttons(items, active, block, label, disabledFn=null){
+    return items.map(it => {
+      const v = typeof it === 'object' ? it.id : it;
+      const t = label ? label(it) : String(it);
+      const disabled = disabledFn ? disabledFn(it) : false;
+      return `<button type="button" class="btn ${v===active?'active':''}" data-block="${block}" data-value="${v}" ${disabled?'disabled':''}>${t}</button>`;
+    }).join('');
+  }
+  render(){
+    const c = this.calc();
+    this.root.innerHTML = `
+      <div class="panel">
+        <div class="group">
+          <h3>Размер пакета</h3>
+          <div class="seg">${this.buttons(CFG.sizes, this.state.size, 'size', i=>i.label)}</div>
+        </div>
 
-        const products = {
-            marijuana: [
-                { id: 'weed-1', name: 'OG Kush 70% (VHQ)', description: 'Powerful strain! OG Kush buds will be appreciated by lovers of stronger strains.', basePrice: 500, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/nMGvf409/jamaican-haze.jpg' },
-                { id: 'weed-2', name: 'Apple Betty VHQ', description: 'Apple Betty warms even the coldest heart with its apple pie aroma.', basePrice: 550, district: 'baga', inStock: true, image: 'https://i.postimg.cc/7ZNQG0pN/Apple-Betty.jpg' },
-                { id: 'weed-3', name: 'Lemon Haze', description: 'Legendary strain with intense lemon flavor.', basePrice: 480, district: 'calangute', inStock: true, image: 'https://i.postimg.cc/7ZBdtSmZ/Lemon-Haze-1.jpg' },
-                { id: 'weed-4', name: 'BubbleGum', description: 'Classic strain with sweet fruity flavor.', basePrice: 520, district: 'arambol', inStock: false, image: 'https://i.postimg.cc/HnGf4H30/2.jpg' }
-            ],
-            hashish: [
-                { id: 'hash-1', name: 'Ice-o-lator (VHQ)', description: 'Premium hashish, velvety effect', basePrice: 600, district: 'morjim', inStock: true, image: 'https://i.postimg.cc/sD11WBq4/image.jpg' },
-                { id: 'hash-2', name: 'Moroccan Spice (HQ)', description: 'Moroccan hash with spicy aroma', basePrice: 550, district: 'panaji', inStock: true, image: 'https://i.postimg.cc/KjjctVq8/image.png' },
-                { id: 'hash-3', name: 'Euro (MQ)', description: 'European balanced high', basePrice: 500, district: 'anjuna', inStock: false, image: 'https://i.postimg.cc/2ygYh5L0/image.jpg' }
-            ],
-            cocaine: [
-                { id: 'coke-1', name: 'Dominicano Fishscale (VHQ)', description: 'Dominicano cocaine, top-tier 95%+', basePrice: 12000, district: 'baga', inStock: true, image: 'https://i.postimg.cc/3W512jLd/image.jpg' },
-                { id: 'coke-2', name: 'Peru (HQ)', description: 'Peru snow, pure and potent', basePrice: 11000, district: 'calangute', inStock: true, image: 'https://i.postimg.cc/xTLDh6Vp/2.jpg' }
-            ],
-            amphetamine: [
-                { id: 'amph-1', name: 'White Rabbit (VHQ)', description: 'Purest amphetamine, clean energy', basePrice: 650, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/3Jgrmg9p/image.jpg' },
-                { id: 'amph-2', name: 'Red Rush (HQ)', description: 'Red charge, steady drive', basePrice: 600, district: 'baga', inStock: true, image: 'https://i.postimg.cc/90y2PhPV/image.jpg' }
-            ],
-            meth: [
-                                { id: 'meth-1', name: 'Blue Ice (VHQ)', description: 'Crystal clear methamphetamine, intense rush', basePrice: 800, district: 'calangute', inStock: true, image: 'https://i.postimg.cc/765jVVNV/image.jpg' },
-                { id: 'meth-2', name: 'White Fever (HQ)', description: 'Potent meth with a sharp kick', basePrice: 750, district: 'morjim', inStock: false, image: 'https://i.postimg.cc/9MhPm137/image.jpg' }
-            ],
-            mephedrone: [
-                { id: 'meph-1', name: 'Crystal Meph (VHQ)', description: 'Euphoric mephedrone, pure bliss', basePrice: 700, district: 'panaji', inStock: true, image: 'https://i.postimg.cc/4xxSZfvg/image.jpg' },
-                { id: 'meph-2', name: 'White Dust (HQ)', description: 'Smooth meph, uplifting high', basePrice: 650, district: 'arambol', inStock: true, image: 'https://i.postimg.cc/sgxwqnyf/image.jpg' }
-            ],
-            alpha: [
-                { id: 'alpha-1', name: 'Flakka Fire (VHQ)', description: 'Intense Alpha-PVP, fiery rush', basePrice: 720, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/hjmpv3rH/image.jpg' },
-                { id: 'alpha-2', name: 'Zombie Dust (HQ)', description: 'Strong flakka, wired energy', basePrice: 680, district: 'baga', inStock: false, image: 'https://i.postimg.cc/yNLw0Nw0/image.jpg' }
-            ],
-            lsd: [
-                { id: 'lsd-1', name: 'Cosmic Trip (VHQ)', description: 'Mind-blowing LSD, vivid trips', basePrice: 900, district: 'calangute', inStock: true, image: 'https://i.postimg.cc/TPQqCg5M/250.jpg' },
-                { id: 'lsd-2', name: 'Rainbow Drops (HQ)', description: 'Colorful acid, smooth ride', basePrice: 850, district: 'morjim', inStock: true, image: 'https://i.postimg.cc/bYSVNV2Z/image.jpg' }
-            ],
-            mdma: [
-                { id: 'mdma-1', name: 'Molly Crystals (VHQ)', description: 'Pure MDMA, euphoric roll', basePrice: 950, district: 'panaji', inStock: true, image: 'https://i.postimg.cc/pXhmS84b/image.jpg' },
-                { id: 'mdma-2', name: 'Pink Hearts (HQ)', description: 'Sweet MDMA pills, party vibe', basePrice: 900, district: 'arambol', inStock: true, image: 'https://i.postimg.cc/Z5y9Gt5t/image.jpg' }
-            ],
-            heroin: [
-                { id: 'heroin-1', name: 'Golden Silk (VHQ)', description: 'Smooth heroin, deep high', basePrice: 1500, district: 'anjuna', inStock: true, image: 'https://i.postimg.cc/QCF2XXZC/image.jpg' },
-                { id: 'heroin-2', name: 'Brown Sugar (HQ)', description: 'Heavy heroin, warm rush', basePrice: 1400, district: 'baga', inStock: false, image: 'https://i.postimg.cc/0Nx1pRDX/image.jpg' }
-            ]
-        };
+        <div class="group">
+          <h3>Цвет основы</h3>
+          <div class="hint"></div>
+          <div class="swatches">
+            ${CFG.colors.map(i => `
+              <button type="button"
+                class="sw ${i.id==='white'?'white':''} ${i.transparent?'transparent':''} ${this.state.color===i.id?'active':''}"
+                style="${i.transparent ? '' : `--sw:${i.hex}`}"
+                data-block="color"
+                data-value="${i.id}"
+                title="${i.label}"
+                aria-label="${i.label}"
+                ${this.colorAvailable(i.id) ? '' : 'disabled'}></button>
+            `).join('')}
+          </div>
+        </div>
 
-        function toggleSection(sectionId) {
-            const sections = document.querySelectorAll('.section');
-            const navItems = document.querySelectorAll('.nav-item');
-            const sidebar = document.getElementById('sidebar');
+        <div class="group">
+          <h3>Тираж</h3>
+          <div class="seg">${this.buttons(CFG.qty, this.state.qty, 'qty', i=>i+' шт.')}</div>
+        </div>
+        </div>
 
-            sections.forEach(section => section.classList.remove('active'));
-            navItems.forEach(item => item.classList.remove('active'));
+      <div class="sum">
 
-            const newSection = document.getElementById(sectionId);
-            newSection.classList.add('active');
-            document.querySelector(`.nav-item[onclick="toggleSection('${sectionId}')"]`).classList.add('active');
-            currentSection = sectionId;
+        <div class="card">
+          <div class="badges">
+            <div class="badge">${this.size?.label || '—'}</div>
+            <div class="badge">${this.color?.label || '—'}</div>
+            <div class="badge">${n0(this.state.qty)} шт.</div>
+          </div>
+        </div>
 
-            if (sectionId === 'catalog') {
-                sidebar.classList.add('open');
-                isSidebarOpen = true;
-            } else {
-                sidebar.classList.remove('open');
-                isSidebarOpen = false;
-            }
-        }
+        <div class="card">
+          <h3>Расчёт стоимости</h3>
+          <div class="row"><span>Цена за 1 шт.</span><strong>${money(c.unit)}</strong></div>
+          <div class="row" style="margin-top:8px"><span>Количество</span><strong>${n0(this.state.qty)} шт.</strong></div>
+          <div class="formula">${money(c.unit)} × ${n0(this.state.qty)} шт.</div>
+        </div>
 
-        function toggleTab(tabId) {
-    const tabs = document.querySelectorAll('.tab');
-    const catalogTabs = document.querySelectorAll('.catalog-tab');
-    const sidebar = document.getElementById('sidebar');
-
-    tabs.forEach(tab => tab.classList.remove('active'));
-    catalogTabs.forEach(tab => tab.classList.remove('active'));
-
-    document.querySelector(`.tab[onclick="toggleTab('${tabId}')"]`).classList.add('active');
-    document.getElementById(tabId).classList.add('active');
-    currentTab = tabId;
-
-    document.getElementById('placeholder').style.display = 'none';
-    initProducts();
-
-    // Скрываем сайдбар
-    sidebar.classList.remove('open');
-    isSidebarOpen = false;
-}
-
-        function selectDistrict(district) {
-            selectedDistrict = district;
-            updateFilters();
-            initProducts();
-            document.getElementById('district-options').style.display = 'none';
-        }
-
-        function selectStock(stock) {
-            selectedStock = stock;
-            updateFilters();
-            initProducts();
-            document.getElementById('stock-options').style.display = 'none';
-        }
-
-        function selectDiscount(discount) {
-            selectedDiscount = discount;
-            updateFilters();
-            initProducts();
-            document.getElementById('discount-options').style.display = 'none';
-        }
-
-        function initProducts() {
-    if (!currentTab) return;
-
-    const catalogTab = document.getElementById(currentTab);
-    catalogTab.innerHTML = '';
-    const filteredProducts = products[currentTab].filter(product => {
-        const matchesDistrict = selectedDistrict === 'all' || product.district === selectedDistrict;
-        const matchesStock = selectedStock === 'all' || (selectedStock === 'in-stock' && product.inStock) || (selectedStock === 'out-of-stock' && !product.inStock);
-        const matchesDiscount = selectedDiscount === 'all' || (selectedDiscount === 'with-discount' && Math.random() < 0.3) || (selectedDiscount === 'no-discount' && Math.random() >= 0.3);
-        return matchesDistrict && matchesStock && matchesDiscount;
+        <div class="card totalcard">
+          <h3>Итоговая стоимость</h3>
+          <div class="total">${money(c.total)}</div>
+          <div class="actions">
+            <button class="cta primary" type="button">Оставить заявку</button>
+            <button class="cta secondary" type="button">Запросить точный расчёт</button>
+          </div>
+        </div>
+      </div>`;
+    this.root.querySelectorAll('[data-block]').forEach(el => {
+      el.addEventListener('click', () => {
+        const b = el.dataset.block;
+        let v = el.dataset.value;
+        if (b === 'qty') v = Number(v);
+        this.set({[b]: v});
+      });
     });
-
-    const noProducts = document.getElementById('no-products');
-    if (filteredProducts.length === 0) {
-        noProducts.style.display = 'block';
-    } else {
-        noProducts.style.display = 'none';
-        filteredProducts.forEach(product => {
-            // Массив возможных скидок
-            const possibleDiscounts = [0, 5, 10, 15, 20];
-            // Случайный выбор скидки из массива (30% шанс на скидку, иначе 0%)
-            const discount = Math.random() < 0.3 ? possibleDiscounts[Math.floor(Math.random() * 4) + 1] : 0;
-            const finalPrice = discount ? product.basePrice * (1 - discount / 100) : product.basePrice;
-
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            card.innerHTML = `
-                <img src="${product.image}" alt="${product.name}" class="product-image">
-                <div class="product-info">
-                    <h3>${product.name}</h3>
-                    <p>${product.description}</p>
-                    ${discount ? `<p class="discount">${translations[currentLanguage].discount}: ${discount}%</p>` : ''}
-                    <div class="weights" id="weights-${product.id}"></div>
-                    <div class="reviews" id="reviews-${product.id}"></div>
-                </div>
-            `;
-            card.onclick = (e) => {
-                if (e.target.tagName !== 'BUTTON') toggleProductDetails(product.id);
-            };
-            catalogTab.appendChild(card);
-
-            const weightsDiv = document.getElementById(`weights-${product.id}`);
-            const weights = generateWeights(currentTab);
-            weights.forEach(weight => {
-                const price = finalPrice * weight;
-                const weightOption = document.createElement('div');
-                weightOption.className = 'weight-option';
-                weightOption.innerHTML = `
-                    <p>${weight}${currentTab === 'lsd' || currentTab === 'mdma' ? ' tabs' : 'g'} - ₹${price.toLocaleString()}</p>
-                    ${product.inStock ? `
-                        <button class="deal-button" onclick="checkAuthBeforeDeal('${product.id}', ${weight}, ${price}, false, event)">${translations[currentLanguage].buy}</button>
-                        <button class="delivery-button" onclick="checkAuthBeforeDeal('${product.id}', ${weight}, ${price * 1.2}, true, event)">${translations[currentLanguage].delivery}</button>
-                    ` : `<button class="deal-button" onclick="checkAuthBeforeDeal('${product.id}', ${weight}, ${price}, false, event)">${translations[currentLanguage]['pre-order']}</button>`}
-                `;
-                weightsDiv.appendChild(weightOption);
-            });
-
-            const reviewsDiv = document.getElementById(`reviews-${product.id}`);
-            const reviews = generateReviews(currentTab);
-            reviews.forEach(review => {
-                const reviewElement = document.createElement('div');
-                reviewElement.className = 'review';
-                reviewElement.innerHTML = `
-                    <p class="rating">★${'★'.repeat(review.rating - 1)}${'☆'.repeat(5 - review.rating)}</p>
-                    <p><strong>${review.user}</strong> (${review.lang}): ${review.text}</p>
-                `;
-                reviewsDiv.appendChild(reviewElement);
-            });
-        });
-    }
+  }
 }
-        function toggleProductDetails(productId) {
-            const weights = document.getElementById(`weights-${productId}`);
-            const reviews = document.getElementById(`reviews-${productId}`);
-            const isVisible = weights.style.display === 'block';
-            weights.style.display = isVisible ? 'none' : 'block';
-            reviews.style.display = isVisible ? 'none' : 'block';
-        }
-
-        function checkAuthBeforeDeal(productId, weight, price, isDelivery, event) {
-            event.stopPropagation();
-            if (!currentUser) {
-                showAuthModal();
-            } else {
-                createDeal(productId, weight, price, isDelivery);
-            }
-        }
-
-        function checkAuthBeforeApply(jobTitle) {
-            if (!currentUser) {
-                showAuthModal();
-            } else {
-                applyForJob(jobTitle);
-            }
-        }
-
-        function createDeal(productId, weight, price, isDelivery) {
-            showLoader();
-            setTimeout(() => {
-                const product = Object.values(products).flat().find(p => p.id === productId);
-                const dealMessage = `New Deal:\nUser: ${currentUser.username}\nProduct: ${product.name}\nWeight: ${weight}${currentTab === 'lsd' || currentTab === 'mdma' ? ' tabs' : 'g'}\nPrice: ₹${price.toLocaleString()}\nType: ${isDelivery ? 'Delivery' : 'Pickup'}\nDistrict: ${product.district}`;
-                sendTelegramNotification(dealMessage).then(() => {
-                    hideLoader();
-                    showConfirmModal(isDelivery ? 'Delivery deal created! Check Telegram for details.' : 'Deal created! Check Telegram for stash details.');
-                });
-            }, 1000);
-        }
-
-        function applyForJob(jobTitle) {
-            showLoader();
-            setTimeout(() => {
-                const jobMessage = `Job Application:\nUser: ${currentUser.username}\nJob: ${jobTitle}`;
-                sendTelegramNotification(jobMessage).then(() => {
-                    hideLoader();
-                    showConfirmModal('Application sent! Check Telegram for response.');
-                });
-            }, 1000);
-        }
-
-        function showLoader() {
-            document.getElementById('loader').style.display = 'block';
-        }
-
-        function hideLoader() {
-            document.getElementById('loader').style.display = 'none';
-        }
-
-        function showConfirmModal(message) {
-            document.getElementById('confirmMessage').innerText = message;
-            document.getElementById('confirmModal').style.display = 'block';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        function showAuthModal() {
-            document.getElementById('authModal').style.display = 'block';
-            showLoginForm();
-        }
-
-        function showLoginForm() {
-            document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('registerForm').style.display = 'none';
-        }
-
-        function showRegisterForm() {
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('registerForm').style.display = 'block';
-        }
-
-        function login() {
-            const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
-            if (username && password) {
-                showLoader();
-                setTimeout(() => {
-                    currentUser = { username, balance: 0, orders: [], referralBonus: 0, referralCode: btoa(username).slice(0, 8) };
-                    hideLoader();
-                    closeModal('authModal');
-                    updateProfile();
-                    sendTelegramNotification(`User logged in: ${username}`);
-                }, 1000);
-            }
-        }
-
-        function register() {
-            const username = document.getElementById('regUsername').value;
-            const password = document.getElementById('regPassword').value;
-            const confirmPassword = document.getElementById('regConfirmPassword').value;
-            const referralCode = document.getElementById('regReferralCode').value;
-            if (username && password && password === confirmPassword) {
-                showLoader();
-                setTimeout(() => {
-                    currentUser = { username, balance: 0, orders: [], referralBonus: 0, referralCode: btoa(username).slice(0, 8) };
-                    hideLoader();
-                    closeModal('authModal');
-                    updateProfile();
-                    sendTelegramNotification(`New user registered: ${username}${referralCode ? ` with referral code: ${referralCode}` : ''}`);
-                }, 1000);
-            }
-        }
-
-        function checkAuth() {
-            if (!currentUser) {
-                updateProfile();
-            }
-        }
-
-        function updateProfile() {
-            const profileContent = document.getElementById('profile-content');
-            if (currentUser) {
-                profileContent.innerHTML = `
-                    <h3>${translations[currentLanguage]['profile-title']}</h3>
-                    <div class="profile-ledger">
-                        <p>${translations[currentLanguage]['profile-name']}: ${currentUser.username}</p>
-                        <p>${translations[currentLanguage]['profile-balance']}: ₹${currentUser.balance.toLocaleString()} | ${((currentUser.balance * exchangeRates.USDT) || 0).toFixed(2)} ${translations[currentLanguage].usdt}</p>
-                        <p>${translations[currentLanguage]['profile-orders']}: ${currentUser.orders.length}</p>
-                        <p>${translations[currentLanguage]['profile-referral-bonus']}: ₹${currentUser.referralBonus.toLocaleString()}</p>
-                        <button class="login-button" onclick="showModal('depositModal')">${translations[currentLanguage]['profile-deposit']}</button>
-                        <button class="register-button" onclick="showModal('withdrawModal')">${translations[currentLanguage]['profile-withdraw']}</button>
-                        <button class="deal-button" onclick="logout()">${translations[currentLanguage]['profile-logout']}</button>
-                    </div>
-                    <div class="referral-section">
-                        <p>${translations[currentLanguage]['referral-link-text']}</p>
-                        <p class="referral-link">${window.location.origin}?ref=${currentUser.referralCode}</p>
-                        <p>${translations[currentLanguage]['referral-invite']}</p>
-                    </div>
-                `;
-            } else {
-                profileContent.innerHTML = `
-                    <h3>${translations[currentLanguage]['profile-title']}</h3>
-                    <button class="login-button" onclick="showAuthModal()">${translations[currentLanguage]['login-prompt']}</button>
-                    <button class="register-button" onclick="showAuthModal(); showRegisterForm()">${translations[currentLanguage]['register-prompt']}</button>
-                `;
-            }
-        }
-
-        function logout() {
-            currentUser = null;
-            updateProfile();
-            sendTelegramNotification('User logged out');
-        }
-
-        function showModal(modalId) {
-            if (!currentUser) {
-                showAuthModal();
-            } else {
-                document.getElementById(modalId).style.display = 'block';
-            }
-        }
-
-        function createDepositDeal() {
-            const crypto = document.getElementById('depositCrypto').value;
-            const amount = parseInt(document.getElementById('depositAmount').value);
-            if (amount >= 1000) {
-                showLoader();
-                setTimeout(() => {
-                    const cryptoAmount = (amount * exchangeRates[crypto]).toFixed(6);
-                    document.getElementById('depositInrAmount').innerText = `INR: ₹${amount.toLocaleString()}`;
-                    document.getElementById('depositCryptoAmount').innerText = `${crypto}: ${cryptoAmount}`;
-                    document.getElementById('depositAddress').innerText = `Address: ${cryptoAddresses[crypto]}`;
-                    document.getElementById('depositDetails').style.display = 'block';
-                    hideLoader();
-                    sendTelegramNotification(`Deposit Request:\nUser: ${currentUser.username}\nAmount: ₹${amount} (${cryptoAmount} ${crypto})\nAddress: ${cryptoAddresses[crypto]}`);
-                }, 1000);
-            }
-        }
-
-        function confirmDeposit() {
-            showLoader();
-            setTimeout(() => {
-                const amount = parseInt(document.getElementById('depositAmount').value);
-                currentUser.balance += amount;
-                hideLoader();
-                closeModal('depositModal');
-                updateProfile();
-                sendTelegramNotification(`Deposit Confirmed:\nUser: ${currentUser.username}\nAmount: ₹${amount}`);
-            }, 1000);
-        }
-
-        function createWithdrawDeal() {
-            const crypto = document.getElementById('withdrawCrypto').value;
-            const amount = parseInt(document.getElementById('withdrawAmount').value);
-            const address = document.getElementById('withdrawAddress').value;
-            if (amount >= 1000 && amount <= currentUser.balance && address) {
-                showLoader();
-                setTimeout(() => {
-                    currentUser.balance -= amount;
-                    document.getElementById('withdrawDetails').style.display = 'block';
-                    hideLoader();
-                    updateProfile();
-                    sendTelegramNotification(`Withdrawal Request:\nUser: ${currentUser.username}\nAmount: ₹${amount} (${(amount * exchangeRates[crypto]).toFixed(6)} ${crypto})\nAddress: ${address}`);
-                }, 1000);
-            }
-        }
-
-        document.querySelectorAll('.mandala-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const options = button.nextElementSibling;
-                options.style.display = options.style.display === 'block' ? 'none' : 'block';
-            });
-        });
-
-        window.onclick = function(event) {
-            if (!event.target.matches('.mandala-button')) {
-                document.querySelectorAll('.mandala-options').forEach(options => {
-                    options.style.display = 'none';
-                });
-            }
-        };
-
-        window.onload = async () => {
-            await fetchExchangeRates();
-            checkAuth();
-            setLanguage('en');
-        };
-    </script>
+new Calc(document.getElementById('packageCalculator'));
+</script>
 </body>
 </html>
