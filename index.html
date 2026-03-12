@@ -70,7 +70,7 @@ h1{margin:0 0 10px;font-size:42px;line-height:1.05;font-weight:800;letter-spacin
 <body>
 <section class="wrap">
   <div class="head">
-    <h1>Калькулятор стоимости пакетов</h1>
+    <h1>Калькулятор стоимости печати на пакетах</h1>
   </div>
   <div class="grid" id="packageCalculator"></div>
 </section>
@@ -80,10 +80,10 @@ const CFG = {
     {id:'s225340', label:'225 × 340'},
     {id:'s300400', label:'300 × 400'},
     {id:'s360450', label:'360 × 450'},
+    {id:'s390500', label:'390 × 500'},
     {id:'s450500', label:'450 × 500'},
     {id:'s600500', label:'600 × 500'},
     {id:'s700500', label:'700 × 500'},
-    {id:'s390500', label:'390 × 500'}
   ],
   colors: [
     {id:'white', label:'Белый', hex:'#ffffff'},
@@ -102,6 +102,8 @@ const CFG = {
   ],
   qty: [100,200,300,500,1000,2000,3000,5000],
   printColors: [1,2,3,4,5,6],
+  printSides: [1,2],
+  // Наличие и цены перепроверены по прайсу 05.11.2024 только для 70 мкм.
   prices: {
     s225340: {'white':4.7, 'black':4.6},
     s300400: {'white':6.7, 'black':7.15, 'darkblue':8.3, 'lightblue':8.1, 'blue':9, 'green':8.3, 'beige':7.55, 'red':8.15, 'orange':8.1, 'burgundy':8.2, 'yellow':7.4},
@@ -119,7 +121,7 @@ const n0 = v => new Intl.NumberFormat('ru-RU',{maximumFractionDigits:0}).format(
 class Calc{
   constructor(root){
     this.root = root;
-    this.state = {size:'s300400', color:'black', qty:1000, printColors:3};
+    this.state = {size:'s300400', color:'black', qty:1000, printColors:3, printSides:1};
     this.ensureValidColor();
     this.render();
   }
@@ -135,7 +137,8 @@ class Calc{
   }
   calc(){
     const unit = this.availableMap()[this.state.color] || 0;
-    return { unit, total: unit * this.state.qty };
+    const sidesMultiplier = this.state.printSides === 2 ? 2 : 1;
+    return { unit, sidesMultiplier, total: unit * this.state.qty * sidesMultiplier };
   }
   set(p){
     this.state = { ...this.state, ...p };
@@ -181,8 +184,10 @@ class Calc{
         </div>
 
         <div class="group">
-          <h3>Кол-во цветов печати</h3>
-          <div class="seg">${this.buttons(CFG.printColors, this.state.printColors, 'printColors', i=>i+' цв.')}</div>
+          <h3>Параметры печати</h3>
+          <div class="hint">Выберите количество цветов печати и количество сторон.</div>
+          <div class="seg">${this.buttons(CFG.printSides, this.state.printSides, 'printSides', i=>i === 1 ? '1 сторона' : '2 стороны')}</div>
+          <div class="seg" style="margin-bottom:10px;">${this.buttons(CFG.printColors, this.state.printColors, 'printColors', i=>i+' цв.')}</div>
         </div>
       </div>
 
@@ -193,15 +198,17 @@ class Calc{
             <div class="badge">${this.color?.label || '—'}</div>
             <div class="badge">${n0(this.state.qty)} шт.</div>
             <div class="badge">${this.state.printColors} цв. печати</div>
+            <div class="badge">${this.state.printSides === 1 ? '1 сторона' : '2 стороны'}</div>
           </div>
         </div>
 
         <div class="card">
           <h3>Расчёт стоимости</h3>
           <div class="row"><span>Цена за 1 шт.</span><strong>${money(c.unit)}</strong></div>
-          <div class="formula">Выбрано цветов печати: <strong>${this.state.printColors}</strong>.</div>
+          <div class="formula">Выбрано цветов печати: <strong>${this.state.printColors}</strong>. Выбрано сторон печати: <strong>${this.state.printSides}</strong>.</div>
           <div class="row" style="margin-top:8px"><span>Количество</span><strong>${n0(this.state.qty)} шт.</strong></div>
-          <div class="formula">${money(c.unit)} × ${n0(this.state.qty)} шт.</div>
+          <div class="row" style="margin-top:8px"><span>Печать</span><strong>${this.state.printSides === 1 ? '1 сторона' : '2 стороны'}</strong></div>
+          <div class="formula">${money(c.unit)} × ${n0(this.state.qty)} шт. × ${c.sidesMultiplier}</div>
         </div>
 
         <div class="card totalcard">
@@ -213,7 +220,7 @@ class Calc{
       el.addEventListener('click', () => {
         const b = el.dataset.block;
         let v = el.dataset.value;
-        if (b === 'qty' || b === 'printColors') v = Number(v);
+        if (b === 'qty' || b === 'printColors' || b === 'printSides') v = Number(v);
         this.set({[b]: v});
       });
     });
@@ -223,4 +230,3 @@ new Calc(document.getElementById('packageCalculator'));
 </script>
 </body>
 </html>
-
