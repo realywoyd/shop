@@ -103,7 +103,6 @@ const CFG = {
   qty: [100,200,300,500,1000,2000,3000,5000],
   printColors: [1,2,3,4,5,6],
   printSides: [1,2],
-  // Наличие и цены перепроверены по прайсу 05.11.2024 только для 70 мкм.
   prices: {
     s225340: {'white':4.7, 'black':4.6},
     s300400: {'white':6.7, 'black':7.15, 'darkblue':8.3, 'lightblue':8.1, 'blue':9, 'green':8.3, 'beige':7.55, 'red':8.15, 'orange':8.1, 'burgundy':8.2, 'yellow':7.4},
@@ -205,7 +204,6 @@ class Calc{
         <div class="card">
           <h3>Расчёт стоимости</h3>
           <div class="row"><span>Цена за 1 шт.</span><strong>${money(c.unit)}</strong></div>
-          <div class="formula">Выбрано цветов печати: <strong>${this.state.printColors}</strong>. Выбрано сторон печати: <strong>${this.state.printSides}</strong>.</div>
           <div class="row" style="margin-top:8px"><span>Количество</span><strong>${n0(this.state.qty)} шт.</strong></div>
           <div class="row" style="margin-top:8px"><span>Печать</span><strong>${this.state.printSides === 1 ? '1 сторона' : '2 стороны'}</strong></div>
           <div class="formula">${money(c.unit)} × ${n0(this.state.qty)} шт. × ${c.sidesMultiplier}</div>
