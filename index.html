@@ -185,8 +185,8 @@ class Calc{
 
         <div class="group">
           <h3>Параметры печати</h3>
-          <div class="hint">Выберите количество цветов печати и количество сторон.</div>
-          <div class="seg">${this.buttons(CFG.printSides, this.state.printSides, 'printSides', i=>i === 1 ? '1 сторона' : '2 стороны')}</div>
+          <div class="seg" style="margin-bottom:10px;">${this.buttons(CFG.printSides, this.state.printSides, 'printSides', i=>i === 1 ? '1 сторона' : '2 стороны')}</div>
+
           <div class="seg" style="margin-bottom:10px;">${this.buttons(CFG.printColors, this.state.printColors, 'printColors', i=>i+' цв.')}</div>
         </div>
       </div>
@@ -230,4 +230,3 @@ new Calc(document.getElementById('packageCalculator'));
 </script>
 </body>
 </html>
-
