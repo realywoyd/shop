@@ -1,239 +1,129 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Калькулятор пакетов</title>
 <style>
 :root{--bg:#f8f1f3;--surface:#fff;--text:#171717;--muted:#5e5e5e;--line:#d6e6da;--line-strong:#8fb89a;--accent:#3d8b57;--accent-dark:#2f6f45;--accent-soft:#eaf5ed;--shadow:0 10px 30px rgba(57,96,69,.10)}
-*{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text);padding:40px 16px}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text);padding:40px 16px}
 .wrap{max-width:1080px;margin:0 auto;background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.99));border:1px solid var(--line);border-radius:34px;box-shadow:var(--shadow);overflow:hidden;position:relative}
 .wrap:before{content:'';position:absolute;left:0;top:0;width:340px;height:340px;background:radial-gradient(circle,rgba(61,139,87,.11),transparent 68%)}
 .head{padding:42px 38px 20px;text-align:center;position:relative;z-index:1}
 h1{margin:0;font-size:42px;line-height:1.05;font-weight:800;letter-spacing:-.03em}
-.top-types{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 22px 12px;position:relative;z-index:1}
-.type-card{border:1.5px solid var(--line);border-radius:20px;background:#fff;padding:16px 14px;cursor:pointer;transition:.18s ease;text-align:left}
-.type-card:hover{transform:translateY(-1px);border-color:var(--line-strong);background:#fbfefc}
-.type-card.active{background:var(--accent-soft);color:var(--accent-dark);border-color:var(--accent)}
-.type-name{font-size:17px;font-weight:800;margin:0}
 .grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:22px;padding:12px 22px 22px;position:relative;z-index:1}
-.panel,.card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:22px;min-width:0}
-.panel{background:linear-gradient(180deg,#fcfffd,#f7fbf8)}
-.step + .step{margin-top:18px}
-.step.is-hidden{display:none}
-.step h3,.card h3{margin:0 0 12px;font-size:18px;font-weight:800}
-.seg,.dim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.panel,.card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:22px;min-width:0}.panel{background:linear-gradient(180deg,#fcfffd,#f7fbf8)}
+.step+.step{margin-top:18px}.step.is-hidden{display:none}.step h3,.card h3{margin:0 0 12px;font-size:18px;font-weight:800}
+.seg{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
 .btn{border:1.5px solid var(--line);background:#fff;border-radius:14px;min-height:54px;padding:10px 12px;cursor:pointer;transition:.18s ease;font-size:15px;font-weight:700;color:#333}
-.btn:hover{transform:translateY(-1px);border-color:var(--line-strong);background:#fbfefc}
-.btn.active{background:var(--accent-soft);color:var(--accent-dark);border-color:var(--accent)}
-.btn:disabled,.sw:disabled,.mini-btn:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none;background:#fafafa}
-.swatches{display:grid;grid-template-columns:repeat(auto-fit,52px);gap:12px}
-.sw{width:52px;height:52px;border-radius:50%;border:2px solid #d7d7d7;cursor:pointer;background:var(--sw);transition:.18s ease}
-.sw.white{box-shadow:inset 0 0 0 1px #d8d8d8}
-.sw.transparent{background:linear-gradient(45deg,#efefef 25%,#fff 25%,#fff 50%,#efefef 50%,#efefef 75%,#fff 75%,#fff 100%);background-size:12px 12px}
-.sw.active{border-color:var(--accent);box-shadow:0 0 0 4px rgba(61,139,87,.14)}
-.place-list{display:grid;gap:12px}
-.place-card{border:1px solid #dfece2;border-radius:18px;padding:14px;background:#fff}
-.place-card.is-on{background:#f9fdf9;border-color:#cce2d3}
-.place-top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px}
-.place-name{font-size:16px;font-weight:800}
-.toggle{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:9px 14px;font-size:13px;font-weight:800;cursor:pointer}
-.toggle.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-.colors-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
-.colors-label{font-size:14px;color:#4e4e4e}
-.color-buttons{display:grid;grid-template-columns:repeat(7,minmax(40px,1fr));gap:8px}
-.mini-btn{border:1.5px solid var(--line);background:#fff;border-radius:12px;min-height:42px;padding:6px 8px;cursor:pointer;font-size:13px;font-weight:800}
-.mini-btn.active{background:var(--accent-soft);color:var(--accent-dark);border-color:var(--accent)}
-.sum{display:grid;gap:14px;min-width:0}
-.badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;align-items:flex-start;min-width:0}
-.badge{border:1px solid #dfece2;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:700;color:#36523f;background:#fff;max-width:100%;white-space:normal;word-break:break-word}
-.row{display:flex;justify-content:space-between;gap:14px;padding-bottom:8px;border-bottom:1px dashed #e9efe9;font-size:15px;color:#444;min-width:0}
-.row:last-child{border-bottom:none;padding-bottom:0}.row strong{color:#191919}
-.formula{font-size:14px;color:var(--muted);line-height:1.55;margin-top:8px}
-.totalcard{background:linear-gradient(180deg,#f8fcf9,#eef7f1);border-color:#d8ebde}
-.total{font-size:40px;font-weight:900;color:var(--accent-dark);line-height:1;margin-top:6px}
-@media (max-width:980px){.top-types{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}h1{font-size:34px}}
-@media (max-width:560px){body{padding:10px 8px}.wrap{border-radius:22px}.head{padding:18px 14px 10px}.top-types{padding:0 10px 10px;gap:8px}.type-card{padding:12px 10px;border-radius:16px}.type-name{font-size:15px}h1{font-size:24px}.grid{padding:10px;gap:10px}.panel,.card{padding:14px;border-radius:18px}.seg,.dim-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.btn{min-height:46px;padding:8px 8px;font-size:13px;border-radius:12px}.swatches{grid-template-columns:repeat(4,52px);gap:10px}.sw{width:48px;height:48px}.place-top{align-items:flex-start;flex-direction:column}.colors-row{grid-template-columns:1fr}.color-buttons{grid-template-columns:repeat(4,minmax(38px,1fr))}.badges{gap:8px}.badge{font-size:12px;padding:7px 10px}.row{font-size:14px}.formula{font-size:12px}.total{font-size:28px}}
+.btn:hover{transform:translateY(-1px);border-color:var(--line-strong);background:#fbfefc}.btn.active{background:var(--accent-soft);color:var(--accent-dark);border-color:var(--accent)}
+.dropdown{position:relative}
+.drop-btn{width:100%;min-height:56px;padding:10px 14px;border:1.5px solid var(--line);border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;font-size:15px;font-weight:700;color:#333;transition:.18s ease}
+.drop-btn:hover{border-color:var(--line-strong);background:#fbfefc}
+.drop-btn.open{border-color:var(--accent);box-shadow:0 0 0 4px rgba(61,139,87,.10)}
+.drop-value{display:flex;align-items:center;gap:10px;min-width:0}
+.chev{font-size:12px;color:#6b6b6b}
+.drop-menu{position:absolute;left:0;right:0;top:calc(100% + 8px);background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 40px rgba(0,0,0,.08);padding:8px;z-index:20;display:grid;gap:6px;max-height:320px;overflow:auto}
+.drop-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:none;background:#fff;border-radius:12px;cursor:pointer;text-align:left;font-size:14px;font-weight:700;color:#333}
+.drop-item:hover{background:#f7fbf8}
+.drop-item.active{background:var(--accent-soft);color:var(--accent-dark)}
+.swatch{width:20px;height:20px;border-radius:50%;border:1.5px solid #d7d7d7;flex:0 0 auto;background:var(--sw)}
+.swatch.white{box-shadow:inset 0 0 0 1px #d8d8d8}
+.swatch.transparent{background:linear-gradient(45deg,#efefef 25%,#fff 25%,#fff 50%,#efefef 50%,#efefef 75%,#fff 75%,#fff 100%);background-size:8px 8px}
+.sum{display:grid;gap:14px;min-width:0}.badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}.badge{border:1px solid #dfece2;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:700;color:#36523f;background:#fff}
+.row{display:flex;justify-content:space-between;gap:14px;padding-bottom:8px;border-bottom:1px dashed #e9efe9;font-size:15px;color:#444}.row:last-child{border-bottom:none;padding-bottom:0}.row strong{color:#191919}
+.formula{font-size:14px;color:var(--muted);line-height:1.55;margin-top:8px}.totalcard{background:linear-gradient(180deg,#f8fcf9,#eef7f1);border-color:#d8ebde}.total{font-size:40px;font-weight:900;color:var(--accent-dark);line-height:1;margin-top:6px}
+@media (max-width:980px){.grid{grid-template-columns:1fr}h1{font-size:34px}}
+@media (max-width:560px){body{padding:10px 8px}.wrap{border-radius:22px}.head{padding:18px 14px 10px}h1{font-size:24px}.grid{padding:10px;gap:10px}.panel,.card{padding:14px;border-radius:18px}.seg{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.btn{min-height:46px;padding:8px;font-size:13px;border-radius:12px}.drop-btn{min-height:50px;font-size:14px}.badge{font-size:12px;padding:7px 10px}.row,.formula{font-size:12px}.total{font-size:28px}}
 </style>
 </head>
 <body>
 <section class="wrap">
-  <div class="head">
-    <h1>Калькулятор расчёта стоимости печати</h1>
-  </div>
-  <div class="top-types" id="typeSelector"></div>
-  <div class="grid" id="mainGrid"></div>
+  <div class="head"><h1>Калькулятор расчёта стоимости печати на пакетах</h1></div>
+  <div class="grid" id="app"></div>
 </section>
 <script>
 const APP={
-  productTypes:[
-    {id:'bags',label:'Пакеты'},
-    {id:'tshirts',label:'Футболки'},
-    {id:'sweatshirts',label:'Толстовки'},
-    {id:'hoodies',label:'Худи'}
-  ],
-  genders:[
-    {id:'male',label:'М'},
-    {id:'female',label:'Ж'}
-  ],
-  bag:{
-    sizes:[{id:'s225340',label:'225 × 340'},{id:'s300400',label:'300 × 400'},{id:'s360450',label:'360 × 450'},{id:'s390500',label:'390 × 500'},{id:'s450500',label:'450 × 500'},{id:'s600500',label:'600 × 500'},{id:'s700500',label:'700 × 500'}],
-    colors:[{id:'white',label:'Белый',hex:'#ffffff'},{id:'transparent',label:'Прозрачный',hex:'transparent',transparent:true},{id:'black',label:'Чёрный',hex:'#000000'},{id:'darkblue',label:'Т-синий',hex:'#0016b8'},{id:'lightblue',label:'Св.синий',hex:'#2020ff'},{id:'blue',label:'Голубой',hex:'#4e7dff'},{id:'green',label:'Зелёный',hex:'#009b00'},{id:'beige',label:'Бежевый',hex:'#f4d36c'},{id:'red',label:'Красный',hex:'#ff1a0f'},{id:'orange',label:'Оранжевый',hex:'#ff7f00'},{id:'silver',label:'Серебро',hex:'#bebebe'},{id:'burgundy',label:'Бордовый',hex:'#9b0000'},{id:'yellow',label:'Жёлтый',hex:'#ffd400'}],
-    qty:[100,200,300,500,1000,2000,3000,5000],
-    printColors:[1,2,3,4,5,6],
-    printSides:[1,2],
-    prices:{
-      s225340:{white:4.7,black:4.6},
-      s300400:{white:6.7,black:7.15,darkblue:8.3,lightblue:8.1,blue:9,green:8.3,beige:7.55,red:8.15,orange:8.1,burgundy:8.2,yellow:7.4},
-      s360450:{white:8.45,transparent:9.7},
-      s450500:{white:11.4},
-      s600500:{white:15.6},
-      s700500:{white:18.7},
-      s390500:{black:9.38,darkblue:11.6,lightblue:11.6,blue:12,green:11.5,beige:9.9,red:11,orange:11.2,silver:11.5,burgundy:11.9,yellow:10.4}
-    }
-  },
-  clothing:{
-    commonMaterials:[
-      {id:'cotton100',label:'100% хлопок',densities:[145,155,180,240,300]},
-      {id:'kulirka_lycra',label:'Кулирка с лайкрой 92/8',densities:[165,200,240]}
-    ],
-    quantities:[10,20,30,50,100,200,300,500],
-    printColors:[1,2,3,4,5,6,7],
-    places:[{id:'chest',label:'Грудь'},{id:'back',label:'Спина'},{id:'leftSleeve',label:'Левый рукав'},{id:'rightSleeve',label:'Правый рукав'}],
-    categoryModels:{
-      tshirts:[{id:'standard',label:'Стандартная',basePrice:650},{id:'oversize',label:'Оверсайз',basePrice:850}],
-      sweatshirts:[{id:'standard',label:'Стандартная',basePrice:1450},{id:'oversize',label:'Оверсайз',basePrice:1750}],
-      hoodies:[{id:'standard',label:'Стандартная',basePrice:1850},{id:'oversize',label:'Оверсайз',basePrice:2150}]
-    },
-    printPriceByPlace:{
-      chest:{1:90,2:130,3:170,4:210,5:250,6:290,7:330},
-      back:{1:120,2:170,3:220,4:270,5:320,6:370,7:420},
-      leftSleeve:{1:60,2:90,3:120,4:150,5:180,6:210,7:240},
-      rightSleeve:{1:60,2:90,3:120,4:150,5:180,6:210,7:240}
-    }
+  sizes:[{id:'s225340',label:'225 × 340'},{id:'s300400',label:'300 × 400'},{id:'s360450',label:'360 × 450'},{id:'s450500',label:'450 × 500'},{id:'s600500',label:'600 × 500'},{id:'s700500',label:'700 × 500'},{id:'s390500',label:'390 × 500'}],
+  colors:[{id:'white',label:'Белый',hex:'#ffffff'},{id:'transparent',label:'Прозрачный',hex:'transparent',transparent:true},{id:'black',label:'Чёрный',hex:'#000000'},{id:'darkblue',label:'Т-синий',hex:'#0016b8'},{id:'lightblue',label:'Св.синий',hex:'#2020ff'},{id:'blue',label:'Голубой',hex:'#4e7dff'},{id:'green',label:'Зелёный',hex:'#009b00'},{id:'beige',label:'Бежевый',hex:'#f4d36c'},{id:'red',label:'Красный',hex:'#ff1a0f'},{id:'orange',label:'Оранжевый',hex:'#ff7f00'},{id:'silver',label:'Серебро',hex:'#bebebe'},{id:'burgundy',label:'Бордовый',hex:'#9b0000'},{id:'yellow',label:'Жёлтый',hex:'#ffd400'}],
+  qty:[100,200,300,500,1000,2000,3000,5000],
+  printColors:[1,2,3,4,5,6],
+  printSides:[1,2],
+  prices:{
+    s225340:{white:4.7,black:4.6},
+    s300400:{white:6.7,black:7.15,darkblue:8.3,lightblue:8.1,blue:9,green:8.3,beige:7.55,red:8.15,orange:8.1,burgundy:8.2,yellow:7.4},
+    s360450:{white:8.45,transparent:9.7},
+    s450500:{white:11.4},
+    s600500:{white:15.6},
+    s700500:{white:18.7},
+    s390500:{black:9.38,darkblue:11.6,lightblue:11.6,blue:12,green:11.5,beige:9.9,red:11,orange:11.2,silver:11.5,burgundy:11.9,yellow:10.4}
   }
 };
 const money=v=>new Intl.NumberFormat('ru-RU',{maximumFractionDigits:2}).format(v)+' руб.';
 const n0=v=>new Intl.NumberFormat('ru-RU',{maximumFractionDigits:0}).format(v);
 
-class AppCalc{
-  constructor(typeRoot, mainRoot){
-    this.typeRoot = typeRoot;
-    this.mainRoot = mainRoot;
-    this.resetAll();
+class Calc{
+  constructor(root){
+    this.root=root;
+    this.s={size:'',color:'',qty:null,printColors:3,printSides:1};
+    this.isColorOpen=false;
     this.render();
+    document.addEventListener('click',(e)=>{
+      if(!e.target.closest('[data-color-dropdown]') && this.isColorOpen){
+        this.isColorOpen=false;
+        this.render();
+      }
+    });
   }
-  resetAll(){
-    this.state = {
-      productType:'bags',
-      bag:{size:'', color:'', qty:null, printColors:3, printSides:1},
-      tshirts:this.blankClothing(),
-      sweatshirts:this.blankClothing(),
-      hoodies:this.blankClothing()
-    };
-  }
-  blankClothing(){
-    return {gender:'', model:'', material:'', density:null, qty:null, chestEnabled:true, chestColors:2, backEnabled:false, backColors:1, leftSleeveEnabled:false, leftSleeveColors:1, rightSleeveEnabled:false, rightSleeveColors:1};
-  }
-  setType(type){
-    this.state.productType = type;
-    if (type === 'bags') this.state.bag = {size:'', color:'', qty:null, printColors:3, printSides:1};
-    if (type === 'tshirts') this.state.tshirts = this.blankClothing();
-    if (type === 'sweatshirts') this.state.sweatshirts = this.blankClothing();
-    if (type === 'hoodies') this.state.hoodies = this.blankClothing();
-    this.render();
-  }
-  btn(label, active, action, value){
-    return `<button type="button" class="btn ${active?'active':''}" data-action="${action}" data-value="${value}">${label}</button>`;
+  btn(label,active,a,v){return `<button type="button" class="btn ${active?'active':''}" data-a="${a}" data-v="${v}">${label}</button>`}
+  colorUI(availableColors){
+    const current = APP.colors.find(x=>x.id===this.s.color);
+    return `<div class="dropdown" data-color-dropdown>
+      <button type="button" class="drop-btn ${this.isColorOpen?'open':''}" data-a="toggleColor">
+        <span class="drop-value">
+          ${current ? `<span class="swatch ${current.id==='white'?'white':''} ${current.transparent?'transparent':''}" style="${current.transparent?'':`--sw:${current.hex}`}"></span><span>${current.label}</span>` : '<span>Выберите цвет</span>'}
+        </span>
+        <span class="chev">${this.isColorOpen?'▲':'▼'}</span>
+      </button>
+      ${this.isColorOpen ? `<div class="drop-menu">${availableColors.map(i=>`<button type="button" class="drop-item ${this.s.color===i.id?'active':''}" data-a="color" data-v="${i.id}"><span class="swatch ${i.id==='white'?'white':''} ${i.transparent?'transparent':''}" style="${i.transparent?'':`--sw:${i.hex}`}"></span><span>${i.label}</span></button>`).join('')}</div>` : ''}
+    </div>`;
   }
   render(){
-    this.typeRoot.innerHTML = APP.productTypes.map(i => `<button type="button" class="type-card ${this.state.productType===i.id?'active':''}" data-type="${i.id}"><div class="type-name">${i.label}</div></button>`).join('');
-    this.typeRoot.querySelectorAll('[data-type]').forEach(el => el.addEventListener('click', () => this.setType(el.dataset.type)));
-    if (this.state.productType === 'bags') this.renderBags(); else this.renderClothing(this.state.productType);
-  }
-  renderBags(){
-    const s = this.state.bag;
-    const availableMap = s.size ? (APP.bag.prices[s.size] || {}) : {};
-    const colorAvailable = id => Object.prototype.hasOwnProperty.call(availableMap, id);
-    if (s.size && s.color && !colorAvailable(s.color)) s.color = '';
-    const size = APP.bag.sizes.find(x => x.id === s.size);
-    const color = APP.bag.colors.find(x => x.id === s.color);
-    const unit = (s.size && s.color) ? ((APP.bag.prices[s.size] || {})[s.color] || 0) : 0;
-    const total = unit * (s.qty || 0) * s.printSides;
+    const s=this.s;
+    const m=s.size?(APP.prices[s.size]||{}):{};
+    const availableColors=APP.colors.filter(i=>Object.prototype.hasOwnProperty.call(m,i.id));
+    if(s.size && s.color && !availableColors.find(x=>x.id===s.color)) s.color='';
+    const size=APP.sizes.find(x=>x.id===s.size);
+    const color=APP.colors.find(x=>x.id===s.color);
+    const unit=(s.size&&s.color)?((APP.prices[s.size]||{})[s.color]||0):0;
+    const total=unit*(s.qty||0)*s.printSides;
 
-    this.mainRoot.innerHTML = `
-      <div class="panel">
-        <div class="step"><h3>Размер пакета</h3><div class="seg">${APP.bag.sizes.map(i => this.btn(i.label, s.size===i.id, 'bag-size', i.id)).join('')}</div></div>
-        <div class="step ${s.size ? '' : 'is-hidden'}"><h3>Цвет пакета</h3><div class="swatches">${APP.bag.colors.map(i => `<button type="button" class="sw ${i.id==='white'?'white':''} ${i.transparent?'transparent':''} ${s.color===i.id?'active':''}" style="${i.transparent?'':`--sw:${i.hex}`}" data-action="bag-color" data-value="${i.id}" ${colorAvailable(i.id)?'':'disabled'} title="${i.label}" aria-label="${i.label}"></button>`).join('')}</div></div>
-        <div class="step ${(s.size && s.color) ? '' : 'is-hidden'}"><h3>Тираж</h3><div class="seg">${APP.bag.qty.map(i => this.btn(i+' шт.', s.qty===i, 'bag-qty', i)).join('')}</div></div>
-        <div class="step ${(s.size && s.color && s.qty) ? '' : 'is-hidden'}"><h3>Параметры печати</h3><div class="seg" style="margin-bottom:10px">${APP.bag.printColors.map(i => this.btn(i+' цв.', s.printColors===i, 'bag-printColors', i)).join('')}</div><div class="seg">${APP.bag.printSides.map(i => this.btn(i===1?'1 сторона':'2 стороны', s.printSides===i, 'bag-printSides', i)).join('')}</div></div>
-      </div>
-      <div class="sum">
-        <div class="card">
-          <div class="badges">${size?`<div class="badge">${size.label}</div>`:''}${color?`<div class="badge">${color.label}</div>`:''}${s.qty?`<div class="badge">${n0(s.qty)} шт.</div>`:''}${s.qty?`<div class="badge">${s.printColors} цв. печати</div><div class="badge">${s.printSides===1?'1 сторона':'2 стороны'}</div>`:''}</div>
-        </div>
-        <div class="card"><h3>Расчёт стоимости</h3><div class="row"><span>Цена за 1 шт.</span><strong>${money(unit)}</strong></div><div class="row" style="margin-top:8px"><span>Количество</span><strong>${s.qty ? n0(s.qty)+' шт.' : '—'}</strong></div><div class="row" style="margin-top:8px"><span>Стороны печати</span><strong>${s.qty ? (s.printSides===1?'1 сторона':'2 стороны') : '—'}</strong></div><div class="formula">${money(unit)} × ${s.qty ? n0(s.qty) : 0} шт. × ${s.printSides}</div></div>
-        <div class="card totalcard"><h3>Итоговая стоимость</h3><div class="total">${money(total)}</div></div>
-      </div>`;
-    this.mainRoot.querySelectorAll('[data-action]').forEach(el => el.addEventListener('click', () => {
-      const a = el.dataset.action; let v = el.dataset.value;
-      if (['bag-qty','bag-printColors','bag-printSides'].includes(a)) v = Number(v);
-      if (a==='bag-size'){ s.size=v; s.color=''; s.qty=null; }
-      if (a==='bag-color'){ s.color=v; s.qty=null; }
-      if (a==='bag-qty') s.qty=v;
-      if (a==='bag-printColors') s.printColors=v;
-      if (a==='bag-printSides') s.printSides=v;
-      this.render();
-    }));
-  }
-  placeCard(category, place){
-    const s = this.state[category];
-    const enabled = !!s[place.id+'Enabled'];
-    const colors = s[place.id+'Colors'];
-    const unit = enabled ? (APP.clothing.printPriceByPlace[place.id][colors] || 0) : 0;
-    return `<div class="place-card ${enabled?'is-on':''}"><div class="place-top"><div class="place-name">${place.label}</div><button type="button" class="toggle ${enabled?'on':''}" data-action="cl-toggle" data-place="${place.id}" data-value="${enabled?'off':'on'}">${enabled?'Включено':'Не выбрано'}</button></div><div class="colors-row"><div class="colors-label">Количество цветов печати</div><div class="color-buttons">${APP.clothing.printColors.map(num => `<button type="button" class="mini-btn ${num===colors?'active':''}" data-action="cl-placeColors" data-place="${place.id}" data-value="${num}" ${enabled?'':'disabled'}>${num}</button>`).join('')}</div></div></div>`;
-  }
-  renderClothing(category){
-    const titleMap = {tshirts:'футболок', sweatshirts:'толстовок', hoodies:'худи'};
-    const s = this.state[category];
-    const models = APP.clothing.categoryModels[category];
-    const materialObj = APP.clothing.commonMaterials.find(x => x.id === s.material);
-    const densities = materialObj ? materialObj.densities : [];
-    const modelObj = models.find(x => x.id === s.model);
-    const base = modelObj ? modelObj.basePrice : 0;
-    const placePrice = id => s[id+'Enabled'] ? (APP.clothing.printPriceByPlace[id][s[id+'Colors']] || 0) : 0;
-    const chest = placePrice('chest'), back = placePrice('back'), leftSleeve = placePrice('leftSleeve'), rightSleeve = placePrice('rightSleeve');
-    const unit = base + chest + back + leftSleeve + rightSleeve;
-    const total = unit * (s.qty || 0);
+    this.root.innerHTML=`<div class="panel">
+      <div class="step"><h3>Размер пакета</h3><div class="seg">${APP.sizes.map(i=>this.btn(i.label,s.size===i.id,'size',i.id)).join('')}</div></div>
+      <div class="step ${s.size?'':'is-hidden'}"><h3>Цвет пакета</h3>${this.colorUI(availableColors)}</div>
+      <div class="step ${(s.size&&s.color)?'':'is-hidden'}"><h3>Тираж</h3><div class="seg">${APP.qty.map(i=>this.btn(i+' шт.',s.qty===i,'qty',i)).join('')}</div></div>
+      <div class="step ${(s.size&&s.color&&s.qty)?'':'is-hidden'}"><h3>Параметры печати</h3><div class="seg" style="margin-bottom:10px">${APP.printColors.map(i=>this.btn(i+' цв.',s.printColors===i,'pc',i)).join('')}</div><div class="seg">${APP.printSides.map(i=>this.btn(i===1?'1 сторона':'2 стороны',s.printSides===i,'ps',i)).join('')}</div></div>
+    </div>
+    <div class="sum">
+      <div class="card"><div class="badges">${size?`<div class="badge">${size.label}</div>`:''}${color?`<div class="badge">${color.label}</div>`:''}${s.qty?`<div class="badge">${n0(s.qty)} шт.</div>`:''}${s.qty?`<div class="badge">${s.printColors} цв. печати</div><div class="badge">${s.printSides===1?'1 сторона':'2 стороны'}</div>`:''}</div></div>
+      <div class="card"><h3>Расчёт стоимости</h3><div class="row"><span>Цена за 1 шт.</span><strong>${money(unit)}</strong></div><div class="row" style="margin-top:8px"><span>Количество</span><strong>${s.qty?n0(s.qty)+' шт.':'—'}</strong></div><div class="row" style="margin-top:8px"><span>Стороны печати</span><strong>${s.qty?(s.printSides===1?'1 сторона':'2 стороны'):'—'}</strong></div><div class="formula">${money(unit)} × ${s.qty?n0(s.qty):0} шт. × ${s.printSides}</div></div>
+      <div class="card totalcard"><h3>Итоговая стоимость</h3><div class="total">${money(total)}</div></div>
+    </div>`;
 
-    this.mainRoot.innerHTML = `
-      <div class="panel">
-        <div class="step"><h3>Пол</h3><div class="seg">${APP.genders.map(i => this.btn(i.label, s.gender===i.id, 'cl-gender', i.id)).join('')}</div></div>
-        <div class="step ${s.gender ? '' : 'is-hidden'}"><h3>Модель ${titleMap[category]}</h3><div class="seg">${models.map(i => this.btn(i.label, s.model===i.id, 'cl-model', i.id)).join('')}</div></div>
-        <div class="step ${(s.gender && s.model) ? '' : 'is-hidden'}"><h3>Материал</h3><div class="seg">${APP.clothing.commonMaterials.map(i => this.btn(i.label, s.material===i.id, 'cl-material', i.id)).join('')}</div></div>
-        <div class="step ${(s.gender && s.model && s.material) ? '' : 'is-hidden'}"><h3>Плотность</h3><div class="dim-grid">${densities.map(i => this.btn(i+' г/м²', s.density===i, 'cl-density', i)).join('')}</div></div>
-        <div class="step ${(s.gender && s.model && s.material && s.density) ? '' : 'is-hidden'}"><h3>Тираж</h3><div class="seg">${APP.clothing.quantities.map(i => this.btn(i+' шт.', s.qty===i, 'cl-qty', i)).join('')}</div></div>
-        <div class="step ${(s.gender && s.model && s.material && s.density && s.qty) ? '' : 'is-hidden'}"><h3>Места нанесения</h3><div class="place-list">${APP.clothing.places.map(place => this.placeCard(category, place)).join('')}</div></div>
-      </div>
-      <div class="sum">
-        <div class="card"><div class="badges">${s.gender?`<div class="badge">${s.gender==='male'?'М':'Ж'}</div>`:''}${modelObj?`<div class="badge">${modelObj.label}</div>`:''}${materialObj?`<div class="badge">${materialObj.label}</div>`:''}${s.density?`<div class="badge">${s.density} г/м²</div>`:''}${s.qty?`<div class="badge">${n0(s.qty)} шт.</div>`:''}${s.chestEnabled && s.qty?`<div class="badge">Грудь: ${s.chestColors} цв.</div>`:''}${s.backEnabled && s.qty?`<div class="badge">Спина: ${s.backColors} цв.</div>`:''}${s.leftSleeveEnabled && s.qty?`<div class="badge">Левый рукав: ${s.leftSleeveColors} цв.</div>`:''}${s.rightSleeveEnabled && s.qty?`<div class="badge">Правый рукав: ${s.rightSleeveColors} цв.</div>`:''}</div></div>
-        <div class="card"><h3>Расчёт стоимости</h3><div class="row"><span>База изделия</span><strong>${money(base)}</strong></div><div class="row"><span>Печать на груди</span><strong>${money(chest)}</strong></div><div class="row"><span>Печать на спине</span><strong>${money(back)}</strong></div><div class="row"><span>Печать на левом рукаве</span><strong>${money(leftSleeve)}</strong></div><div class="row"><span>Печать на правом рукаве</span><strong>${money(rightSleeve)}</strong></div><div class="formula">Цена за 1 шт.: ${money(unit)}</div><div class="formula">${money(unit)} × ${s.qty ? n0(s.qty) : 0} шт.</div></div>
-        <div class="card totalcard"><h3>Итоговая стоимость</h3><div class="total">${money(total)}</div></div>
-      </div>`;
-    this.mainRoot.querySelectorAll('[data-action]').forEach(el => el.addEventListener('click', () => {
-      const a = el.dataset.action; let v = el.dataset.value;
-      if (['cl-density','cl-qty','cl-placeColors'].includes(a)) v = Number(v);
-      if (a==='cl-gender'){ s.gender=v; s.model=''; s.material=''; s.density=null; s.qty=null; }
-      if (a==='cl-model'){ s.model=v; s.material=''; s.density=null; s.qty=null; }
-      if (a==='cl-material'){ s.material=v; s.density=null; s.qty=null; }
-      if (a==='cl-density'){ s.density=v; s.qty=null; }
-      if (a==='cl-qty') s.qty=v;
-      if (a==='cl-toggle'){ const p = el.dataset.place; s[p+'Enabled'] = v==='on'; }
-      if (a==='cl-placeColors'){ const p = el.dataset.place; s[p+'Colors'] = v; }
+    this.root.querySelectorAll('[data-a]').forEach(el=>el.addEventListener('click',(e)=>{
+      const a=el.dataset.a; let v=el.dataset.v;
+      if(['qty','pc','ps'].includes(a)) v=Number(v);
+      if(a==='toggleColor'){ e.stopPropagation(); this.isColorOpen=!this.isColorOpen; this.render(); return; }
+      if(a==='size'){s.size=v;s.color='';s.qty=null;this.isColorOpen=false;}
+      if(a==='color'){s.color=v;s.qty=null;this.isColorOpen=false;}
+      if(a==='qty') s.qty=v;
+      if(a==='pc') s.printColors=v;
+      if(a==='ps') s.printSides=v;
       this.render();
     }));
   }
 }
-new AppCalc(document.getElementById('typeSelector'), document.getElementById('mainGrid'));
+new Calc(document.getElementById('app'));
 </script>
 </body>
 </html>
